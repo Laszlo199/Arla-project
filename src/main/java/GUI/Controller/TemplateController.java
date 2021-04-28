@@ -15,7 +15,7 @@ import java.util.ResourceBundle;
 public class TemplateController implements Initializable {
     @FXML
     private BorderPane borderPane;
-    
+
     public TemplateController() {
 
     }
