@@ -1,5 +1,5 @@
 package GUI.Controller;
-import GUI.util.LoadWindows;
+import GUI.Command.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,15 +15,16 @@ import java.util.ResourceBundle;
 public class TemplateController implements Initializable {
     @FXML
     private BorderPane borderPane;
-    private LoadWindows loadWindows;
-
+    
     public TemplateController() {
 
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        loadWindows= new LoadWindows(borderPane);
+        CommandManager.getInstance().addCommand(new LoadScreens());
+        Command command = new LoadLogIn();
+        command.load(borderPane);
     }
 
     public void loadScreens(ActionEvent actionEvent) {
@@ -31,7 +32,8 @@ public class TemplateController implements Initializable {
     }
 
     public void loadUsers(ActionEvent actionEvent) {
-        loadWindows.loadWindow("test");
+        Command command = new LoadUsers();
+        command.load(borderPane);
     }
 
     public void loadTemplates(ActionEvent actionEvent) {
