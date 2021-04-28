@@ -4,6 +4,7 @@ GUI\Controller\Interfaces\ILogIn.class
 GUI\Command\LoadLogIn.class
 GUI\Command\CommandManager.class
 GUI\Controller\ScreenPreview.class
+GUI\Controller\UsersInAdminViewController.class
 GUI\Controller\TemplateController.class
 GUI\Command\LoadScreens.class
 GUI\Controller\LogInController.class
