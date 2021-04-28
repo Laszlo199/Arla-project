@@ -28,7 +28,8 @@ public class TemplateController implements Initializable {
     }
 
     public void loadScreens(ActionEvent actionEvent) {
-
+        Command command = new LoadScreens();
+        command.load(borderPane);
     }
 
     public void loadUsers(ActionEvent actionEvent) {

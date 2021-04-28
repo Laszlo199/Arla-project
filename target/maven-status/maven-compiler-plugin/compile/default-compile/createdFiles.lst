@@ -1,11 +1,12 @@
-GUI\Command\LoadTemplates.class
-GUI\Command\LoadUsers.class
 GUI\util\Animations.class
-GUI\Command\Command.class
 GUI\Main.class
 GUI\Controller\Interfaces\ILogIn.class
 GUI\Command\LoadLogIn.class
 GUI\Command\CommandManager.class
+GUI\Controller\ScreenPreview.class
 GUI\Controller\TemplateController.class
 GUI\Command\LoadScreens.class
 GUI\Controller\LogInController.class
+GUI\Command\LoadTemplates.class
+GUI\Command\LoadUsers.class
+GUI\Command\Command.class
