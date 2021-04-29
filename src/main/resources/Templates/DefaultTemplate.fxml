@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="405.0" prefWidth="769.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.TemplateItemController">
+   <children>
+      <AnchorPane layoutX="152.0" layoutY="68.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="80.0">
+         <effect>
+            <DropShadow color="#d7d2d2" />
+         </effect>
+         <children>
+            <HBox alignment="BOTTOM_CENTER" layoutY="252.0" prefHeight="69.0" prefWidth="645.0" spacing="15.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding>
+            </HBox>
+            <Separator layoutX="332.0" layoutY="5.0" orientation="VERTICAL" prefHeight="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.topAnchor="5.0" />
+            <Separator layoutX="339.0" layoutY="146.0" prefHeight="7.0" prefWidth="325.0" AnchorPane.leftAnchor="339.0" AnchorPane.rightAnchor="5.0" />
+            <Label layoutX="107.0" layoutY="100.0" text="PDF">
+               <font>
+                  <Font size="66.0" />
+               </font>
+            </Label>
+            <Label layoutX="413.0" layoutY="30.0" text="HTTP">
+               <font>
+                  <Font size="66.0" />
+               </font>
+            </Label>
+            <Label layoutX="437.0" layoutY="168.0" text="CVS">
+               <font>
+                  <Font size="66.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <Label layoutX="50.0" layoutY="30.0" text="Template 1">
+         <font>
+            <Font size="26.0" />
+         </font>
+      </Label>
+      <JFXButton onAction="#loadTemplate" layoutX="198.0" layoutY="30.0" prefHeight="38.0" prefWidth="141.0" style="-fx-background-color: #3de048;" text="Use it">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </JFXButton>
+   </children>
+</AnchorPane>

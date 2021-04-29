@@ -1,3 +1,4 @@
+GUI\Controller\TemplatesViewController.class
 GUI\util\Animations.class
 GUI\Main.class
 GUI\Controller\Interfaces\ILogIn.class
@@ -11,3 +12,4 @@ GUI\Controller\LogInController.class
 GUI\Command\LoadTemplates.class
 GUI\Command\LoadUsers.class
 GUI\Command\Command.class
+GUI\Controller\TemplateItemController.class

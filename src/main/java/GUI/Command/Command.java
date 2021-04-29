@@ -12,10 +12,10 @@ import java.io.IOException;
  */
 public abstract class Command {
      String chosenPath;
-     final static String FILE_PATH_USER = "test";
+     final static String FILE_PATH_USER = "UsersInAdminView";
      final static String FILE_PATH_SCREENS = "screensView";
      final static String FILE_PATH_LOG_IN = "log_in";
-     final static String FILE_PATH_TEMPLATES= "test";
+     final static String FILE_PATH_TEMPLATES= "templatesView";
 
     public void rollback(BorderPane borderPane){
        CommandManager.getInstance().getPrevious().load(borderPane);

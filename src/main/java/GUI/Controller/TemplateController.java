@@ -38,9 +38,12 @@ public class TemplateController implements Initializable {
     }
 
     public void loadTemplates(ActionEvent actionEvent) {
+        Command command = new LoadTemplates();
+        command.load(borderPane);
     }
 
     public void loadCreateNew(ActionEvent actionEvent) {
+
     }
 
     public void logOut(ActionEvent actionEvent) {
