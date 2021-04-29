@@ -54,4 +54,18 @@ public class CreateDefaultTemplateController implements Initializable {
      */
     public void cancel(ActionEvent actionEvent) {
     }
+
+    /**
+     * method will open file chooser,
+     * then we will create a pane and add pdf view with it
+     * @param actionEvent
+     */
+    public void loadPDF(ActionEvent actionEvent) {
+    }
+
+    public void loadWebsite(ActionEvent actionEvent) {
+    }
+
+    public void loadCSV(ActionEvent actionEvent) {
+    }
 }
