@@ -1,5 +1,5 @@
 package GUI.Controller;
-import GUI.Command.*;
+import GUI.util.Command.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

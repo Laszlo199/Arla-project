@@ -1,19 +1,39 @@
 package GUI.Controller;
 
+import GUI.Model.ScreenModel;
+import GUI.Model.exception.ModelException;
+import GUI.util.AlertDisplayer;
+import GUI.util.ChartCanvas;
+import GUI.util.ValidateExtension;
+import GUI.util.charts.CreateHistogramChart;
+import com.sun.javafx.scene.control.skin.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import org.apache.commons.io.FileUtils;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.fx.ChartViewer;
+import org.jfree.fx.FXGraphics2D;
 
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Base64;
 import java.util.ResourceBundle;
 
@@ -21,14 +41,19 @@ import java.util.ResourceBundle;
  *
  */
 public class CreateDefaultTemplateController implements Initializable {
+    public GridPane gridPane;
     @FXML
     private AnchorPane csvChart;
     @FXML
     private StackPane pdfSpace;
     @FXML
     private WebView webView;
-    WebEngine engine;
-
+    private WebEngine engine;
+    private FileChooser fileChooser = new FileChooser();
+    private ScreenModel screenModel = new ScreenModel();
+    private final static String DESTINATION_PATH_CSV = "src/../Data/CSVData/";
+    private final static String DESTINATION_PATH_PDF = "src/../Data/PDFData/";
+    private Path destinationPath;
 
     @Override
     public void initialize(URL url2, ResourceBundle resourceBundle) {
@@ -66,6 +91,57 @@ public class CreateDefaultTemplateController implements Initializable {
     public void loadWebsite(ActionEvent actionEvent) {
     }
 
+    /**
+     * we need file chooser, maybe i should save that file
+     * then we need double[] and then
+     * we can use CreateHistogramChart
+     * @param actionEvent
+     */
     public void loadCSV(ActionEvent actionEvent) {
+        Node n = (Node) actionEvent.getSource();
+        Stage stage = (Stage) n.getScene().getWindow();
+        fileChooser.setTitle("Choose csv file");
+        File selectedFile = fileChooser.showOpenDialog(stage);
+        if(ValidateExtension.validateCSV(selectedFile)){
+            destinationPath =Path.of(DESTINATION_PATH_CSV+selectedFile.
+                    getName());
+           saveFile(selectedFile, destinationPath);
+            CreateHistogramChart createHistogramChart =
+                    new CreateHistogramChart(getHistogramData(destinationPath));
+            //ChartViewer chartViewer = new ChartViewer(createHistogramChart.createChart());
+            ChartCanvas canvas = new ChartCanvas(createHistogramChart.createChart());
+            csvChart.getChildren().add(canvas);
+            canvas.widthProperty().bind( csvChart.widthProperty());
+            canvas.heightProperty().bind( csvChart.heightProperty());
+        }else {
+            //repeat operation
+        }
     }
+
+
+
+    private void saveFile(File selectedFile, Path destinationPath){
+        try {
+            screenModel.saveFile(Path.of(selectedFile.getAbsolutePath()),
+                    destinationPath);
+        } catch (ModelException e) {
+            e.printStackTrace();
+            AlertDisplayer.displayInformationAlert("saving",
+                    "couldn't save", "");
+        }
+    }
+        /**
+         * get data from selected file
+         * @return
+         */
+        private double[] getHistogramData(Path destinationPath){
+            try {
+                return screenModel.getHistogramData(destinationPath);
+            } catch (ModelException e) {
+                e.printStackTrace();
+                AlertDisplayer.displayInformationAlert("getting data..",
+                        "Couldnt get data", "");
+            }
+            return new double[0];
+        }
 }
