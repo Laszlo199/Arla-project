@@ -6,42 +6,35 @@ import GUI.util.AlertDisplayer;
 import GUI.util.ChartCanvas;
 import GUI.util.ValidateExtension;
 import GUI.util.charts.CreateHistogramChart;
-import com.sun.javafx.scene.control.skin.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.apache.commons.io.FileUtils;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.fx.ChartViewer;
-import org.jfree.fx.FXGraphics2D;
-
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Base64;
 import java.util.ResourceBundle;
 
 /**
  *
  */
 public class CreateDefaultTemplateController implements Initializable {
-    public GridPane gridPane;
+    @FXML
+    private Label attachment1;
+    @FXML
+    private Label attachment2;
+    @FXML
+    private Label attachment3;
+    @FXML
+    private GridPane gridPane;
     @FXML
     private AnchorPane csvChart;
     @FXML
@@ -98,26 +91,33 @@ public class CreateDefaultTemplateController implements Initializable {
      * @param actionEvent
      */
     public void loadCSV(ActionEvent actionEvent) {
-        Node n = (Node) actionEvent.getSource();
-        Stage stage = (Stage) n.getScene().getWindow();
-        fileChooser.setTitle("Choose csv file");
-        File selectedFile = fileChooser.showOpenDialog(stage);
+        File selectedFile = getSelectedFile(actionEvent);
         if(ValidateExtension.validateCSV(selectedFile)){
+            attachment1.setText(selectedFile.getName());
             destinationPath =Path.of(DESTINATION_PATH_CSV+selectedFile.
                     getName());
            saveFile(selectedFile, destinationPath);
-            CreateHistogramChart createHistogramChart =
-                    new CreateHistogramChart(getHistogramData(destinationPath));
-            //ChartViewer chartViewer = new ChartViewer(createHistogramChart.createChart());
-            ChartCanvas canvas = new ChartCanvas(createHistogramChart.createChart());
-            csvChart.getChildren().add(canvas);
-            canvas.widthProperty().bind( csvChart.widthProperty());
-            canvas.heightProperty().bind( csvChart.heightProperty());
+           drawCanvas(destinationPath);
         }else {
             //repeat operation
         }
     }
 
+    private void drawCanvas(Path destinationPath){
+        CreateHistogramChart createHistogramChart =
+                new CreateHistogramChart(getHistogramData(destinationPath));
+        ChartCanvas canvas = new ChartCanvas(createHistogramChart.createChart());
+        csvChart.getChildren().add(canvas);
+        canvas.widthProperty().bind( csvChart.widthProperty());
+        canvas.heightProperty().bind( csvChart.heightProperty());
+    }
+
+    private File getSelectedFile(ActionEvent actionEvent){
+        Node n = (Node) actionEvent.getSource();
+        Stage stage = (Stage) n.getScene().getWindow();
+        fileChooser.setTitle("Choose csv file");
+        return fileChooser.showOpenDialog(stage);
+    }
 
 
     private void saveFile(File selectedFile, Path destinationPath){
