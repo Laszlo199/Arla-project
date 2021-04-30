@@ -1,9 +1,8 @@
 package GUI.Controller;
 
-import GUI.Command.CommandManager;
+import GUI.util.Command.CommandManager;
 import GUI.Controller.Interfaces.ILogIn;
 import com.jfoenix.controls.JFXPasswordField;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;
 
