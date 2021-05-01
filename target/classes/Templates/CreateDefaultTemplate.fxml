@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="815.0" prefWidth="1321.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.CreateDefaultTemplateController">
    <children>
@@ -71,11 +71,6 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <StackPane alignment="BOTTOM_CENTER" prefHeight="150.0" prefWidth="200.0">
-                     <children>
-                        <Button mnemonicParsing="false" onAction="#loadPDF" text="load PDF" />
-                     </children>
-                  </StackPane>
                   <AnchorPane fx:id="websiteSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                      <children>
                         <Separator layoutY="7.0" orientation="VERTICAL" prefHeight="378.0" prefWidth="8.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="15.0" />
@@ -90,6 +85,7 @@
                         <Button layoutX="206.0" layoutY="178.0" mnemonicParsing="false" onAction="#loadCSV" text="load CSV" />
                      </children>
                   </AnchorPane>
+                  <WebView fx:id="pdfViewer" prefHeight="200.0" prefWidth="200.0" GridPane.rowSpan="2" />
                </children>
             </GridPane>
          </children>

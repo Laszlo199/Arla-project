@@ -8,10 +8,14 @@ import GUI.util.ValidateExtension;
 import GUI.util.charts.CreateHistogramChart;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -29,6 +33,8 @@ import java.util.ResourceBundle;
  */
 public class CreateDefaultTemplateController implements Initializable {
     @FXML
+    private WebView pdfViewer;
+    @FXML
     private AnchorPane websiteSpace;
     @FXML
     private JFXTextField websiteLink;
@@ -45,17 +51,41 @@ public class CreateDefaultTemplateController implements Initializable {
     @FXML
     private StackPane pdfSpace;
     private WebEngine webEngine ;
+    private WebEngine pdfViewerEngine;
     private FileChooser fileChooser = new FileChooser();
     private ScreenModel screenModel = new ScreenModel();
     private final static String DESTINATION_PATH_CSV = "src/../Data/CSVData/";
     private final static String DESTINATION_PATH_PDF = "src/../Data/PDFData/";
     private final static String GOOGLE = "http://www.google.com/search?q=";
     private final static String HOME = "https://www.google.com/webhp";
+    private final static String PDF_VIEWER = "https://www.docfly.com/pdf-viewer";
     private Path destinationPath;
 
     @Override
     public void initialize(URL url2, ResourceBundle resourceBundle) {
+        loadPDFViewer();
+    }
 
+    /**
+     * loads website which will handle
+     */
+    private void loadPDFViewer() {
+        pdfViewerEngine  = pdfViewer.getEngine();
+        pdfViewerEngine.load(PDF_VIEWER);
+        disableDrag();
+    }
+
+    /**
+     * provided our own implementation that does nothing when file
+     * is dropped
+     */
+    private void disableDrag() {
+        pdfViewer.setOnDragOver(new EventHandler<DragEvent>() {
+            public void handle(DragEvent event) {
+            }
+        });
+        pdfViewer.setOnDragDropped((DragEvent event) -> {
+        });
     }
 
 
@@ -78,16 +108,18 @@ public class CreateDefaultTemplateController implements Initializable {
     public void cancel(ActionEvent actionEvent) {
     }
 
+
     /**
-     * method will open file chooser,
-     * then we will create a pane and add pdf view with it
+     *
      * @param actionEvent
      */
+    /*
     public void loadPDF(ActionEvent actionEvent) {
 
-
-
     }
+
+     */
+
 
     /**
      * some actions to load website
