@@ -108,19 +108,6 @@ public class CreateDefaultTemplateController implements Initializable {
     public void cancel(ActionEvent actionEvent) {
     }
 
-
-    /**
-     *
-     * @param actionEvent
-     */
-    /*
-    public void loadPDF(ActionEvent actionEvent) {
-
-    }
-
-     */
-
-
     /**
      * some actions to load website
      * @param actionEvent

@@ -15,7 +15,6 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
        // FXMLLoader loader = new FXMLLoader(getClass().getResource("/main.fxml"));
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Templates/CreateDefaultTemplate.fxml"));
-
         Parent root = loader.load();
         stage.setTitle("Production");
         Scene scene = new Scene(root);
