@@ -3,6 +3,7 @@ GUI\util\Command\Command.class
 dal\IDALFacade.class
 GUI\util\Animations.class
 GUI\Model\ScreenModel.class
+GUI\Model\UserModel.class
 GUI\Model\exception\ModelException.class
 GUI\util\ChartCanvas.class
 GUI\Controller\ScreenPreview.class
