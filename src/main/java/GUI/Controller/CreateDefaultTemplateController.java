@@ -7,6 +7,8 @@ import GUI.util.ChartCanvas;
 import GUI.util.ValidateExtension;
 import GUI.util.charts.CreateHistogramChart;
 import com.jfoenix.controls.JFXTextField;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -20,10 +22,16 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebEvent;
 import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import java.io.File;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.fit.pdfdom.PDFDomTree;
+import org.w3c.dom.Document;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.*;
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.ResourceBundle;
@@ -32,8 +40,7 @@ import java.util.ResourceBundle;
  *
  */
 public class CreateDefaultTemplateController implements Initializable {
-    @FXML
-    private WebView pdfViewer;
+    public AnchorPane spacePDF;
     @FXML
     private AnchorPane websiteSpace;
     @FXML
@@ -48,8 +55,7 @@ public class CreateDefaultTemplateController implements Initializable {
     private GridPane gridPane;
     @FXML
     private AnchorPane csvChart;
-    @FXML
-    private StackPane pdfSpace;
+    private WebView pdfViewer;
     private WebEngine webEngine ;
     private WebEngine pdfViewerEngine;
     private FileChooser fileChooser = new FileChooser();
@@ -60,20 +66,17 @@ public class CreateDefaultTemplateController implements Initializable {
     private final static String HOME = "https://www.google.com/webhp";
     private final static String PDF_VIEWER = "https://www.docfly.com/pdf-viewer";
     private Path destinationPath;
+    private String insertedWebsite;
 
     @Override
     public void initialize(URL url2, ResourceBundle resourceBundle) {
-        loadPDFViewer();
+
     }
 
-    /**
-     * loads website which will handle
-     */
-    private void loadPDFViewer() {
-        pdfViewerEngine  = pdfViewer.getEngine();
-        pdfViewerEngine.load(PDF_VIEWER);
-        disableDrag();
+    private String getHTMLForPDF(Path pdfPath){
+        return screenModel.getHTML(pdfPath);
     }
+
 
     /**
      * provided our own implementation that does nothing when file
@@ -88,10 +91,6 @@ public class CreateDefaultTemplateController implements Initializable {
         });
     }
 
-
-    public void action(ActionEvent actionEvent) {
-
-    }
 
     /**
      * save pane to all screens. we need to save which file corresponds to which corner
@@ -118,8 +117,9 @@ public class CreateDefaultTemplateController implements Initializable {
     }
 
     private void executeQuery() {
-        String query = websiteLink.getText();
-        webEngine.load(GOOGLE+query);
+        insertedWebsite = websiteLink.getText();
+        webEngine.load(GOOGLE+insertedWebsite);
+        attachment2.setText(insertedWebsite);
     }
 
     private void addWebView() {
@@ -130,6 +130,37 @@ public class CreateDefaultTemplateController implements Initializable {
         webView.prefWidthProperty().bind(websiteSpace.widthProperty());
         websiteSpace.getChildren().add(webView);
     }
+    //pdfViewerEngine  = pdfViewer.getEngine();
+    // pdfViewerEngine.load(PDF_VIEWER);
+    //disableDrag();
+    /**
+     * loads website which will handle
+     */
+    private void loadPDFViewer(String htmlPath) {
+       WebView webView = new WebView();
+       pdfViewerEngine = webView.getEngine();
+       spacePDF.getChildren().add(webView);
+      File f = new File(htmlPath);
+      pdfViewerEngine.load(f.toURI().toString());
+    }
+
+    /**
+     * method at first opens file chooser then pdf is saved
+     * we get html and display it in newly created Web view
+     * that is dynamically added to the stage
+     * @param actionEvent
+     */
+    public void loadPDF(ActionEvent actionEvent) {
+        File selectedFile = getSelectedFile(actionEvent, "Choose PDF file");
+        if(ValidateExtension.validatePDF(selectedFile)){
+            attachment3.setText(selectedFile.getName());
+            Path destinationPath = Path.of(DESTINATION_PATH_PDF+selectedFile.getName());
+            saveFile(selectedFile, destinationPath);
+            String htmlPath = getHTMLForPDF(destinationPath);
+            loadPDFViewer(htmlPath);
+        }
+    }
+
 
     /**
      * we need file chooser, maybe i should save that file
@@ -138,7 +169,7 @@ public class CreateDefaultTemplateController implements Initializable {
      * @param actionEvent
      */
     public void loadCSV(ActionEvent actionEvent) {
-        File selectedFile = getSelectedFile(actionEvent);
+        File selectedFile = getSelectedFile(actionEvent, "Choose csv file");
         if(ValidateExtension.validateCSV(selectedFile)){
             attachment1.setText(selectedFile.getName());
             destinationPath =Path.of(DESTINATION_PATH_CSV+selectedFile.
@@ -159,10 +190,10 @@ public class CreateDefaultTemplateController implements Initializable {
         canvas.heightProperty().bind( csvChart.heightProperty());
     }
 
-    private File getSelectedFile(ActionEvent actionEvent){
+    private File getSelectedFile(ActionEvent actionEvent, String information){
         Node n = (Node) actionEvent.getSource();
         Stage stage = (Stage) n.getScene().getWindow();
-        fileChooser.setTitle("Choose csv file");
+        fileChooser.setTitle(information);
         return fileChooser.showOpenDialog(stage);
     }
 
@@ -191,4 +222,5 @@ public class CreateDefaultTemplateController implements Initializable {
             }
             return new double[0];
         }
+
 }

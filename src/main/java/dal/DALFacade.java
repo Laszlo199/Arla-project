@@ -3,9 +3,11 @@ package dal;
 import be.Users;
 import dal.Database.DBConnector;
 import dal.Database.dataAccess.UserDAO;
+import dal.File.PDFOperations;
 import dal.File.ScreenOperations;
 import dal.exception.DALexception;
 
+import java.net.URL;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -17,6 +19,8 @@ public class DALFacade implements IDALFacade{
     private DBConnector dbConnector = new DBConnector();
     private UserDAO userDAO = new UserDAO();
     private static DALFacade dalFacade;
+    private ScreenOperations screenOperations = new ScreenOperations();
+    private PDFOperations pdfOperations = new PDFOperations();
 
 
     public static DALFacade getInstance(){
@@ -25,7 +29,6 @@ public class DALFacade implements IDALFacade{
         return dalFacade;
     }
 
-    private ScreenOperations screenOperations = new ScreenOperations();
     @Override
     public void saveFile(Path originPath, Path destinationPath) throws DALexception {
         screenOperations.saveFile(originPath, destinationPath);
@@ -59,6 +62,8 @@ public class DALFacade implements IDALFacade{
     }
 
 
-
-
+    @Override
+    public String getHTML(Path pdfPath) throws DALexception {
+        return pdfOperations.getHTML(pdfPath);
+    }
 }

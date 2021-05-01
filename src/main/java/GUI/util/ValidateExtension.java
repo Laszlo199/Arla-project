@@ -40,6 +40,17 @@ public class ValidateExtension {
             return false;
     }
 
+    public static boolean validatePDF(File f){
+        String extension = getExtension(f);
+        if (extension != null) {
+            if(extension.equals(pdf))
+                return true;
+        } else {
+            return false;
+        }
+        return false;
+    }
+
 
 
 }

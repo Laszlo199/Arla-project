@@ -1,6 +1,7 @@
 dal\DALFacade.class
 GUI\util\Command\Command.class
 dal\IDALFacade.class
+dal\IPDF.class
 GUI\util\Animations.class
 GUI\Model\ScreenModel.class
 GUI\Model\UserModel.class
@@ -9,6 +10,7 @@ GUI\util\ChartCanvas.class
 GUI\Controller\ScreenPreview.class
 dal\File\ScreenOperations.class
 GUI\util\ValidateExtension.class
+dal\File\PDFOperations.class
 GUI\util\Command\LoadScreens.class
 bll\IFacade.class
 GUI\util\charts\CreateHistogramChart.class

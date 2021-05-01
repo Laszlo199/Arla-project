@@ -7,6 +7,7 @@ import dal.Database.dataAccess.UserDAO;
 import dal.IDALFacade;
 import dal.exception.DALexception;
 
+import java.net.URL;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -47,7 +48,16 @@ public class Facade implements IFacade{
         return diagramOperations.getArray(string);
     }
 
-        // Users add, delete and all
+    @Override
+    public String getHTML(Path pdfPath) throws BLLException {
+        try {
+            return facade.getHTML(pdfPath);
+        } catch (DALexception daLexception) {
+            throw new BLLException("couldnt convert pdf to html", daLexception);
+        }
+    }
+
+    // Users add, delete and all
     @Override
     public List<Users> getAllUser() throws BLLException {
         try {
