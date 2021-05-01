@@ -1,5 +1,7 @@
 package GUI.Controller;
 
+import GUI.Model.UserModel;
+import be.Users;
 import com.jfoenix.controls.JFXButton;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
@@ -8,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.Button;
 import javafx.util.Duration;
@@ -16,20 +19,34 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class UsersInAdminViewController implements Initializable {
-    @FXML private TableView<?> UserTableView;
+    @FXML private TableView<Users> userTableView;
     @FXML private TextField searchField;
-    @FXML private TableColumn<?, ?> UserColumn;
+    @FXML private TableColumn<Users, String> userColumn;
+    @FXML private TableColumn<Users, String> passwordColumn;
     @FXML private JFXButton edit;
     @FXML private AnchorPane editTable;
     @FXML private AnchorPane addNewUser;
     @FXML private JFXButton add;
 
+    private UserModel userModel;
+
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.userModel = new UserModel();
         editTable.setVisible(false);
         addNewUser.setVisible(false);
+        initUserTableView();
+    }
+
+    private void initUserTableView(){
+        userColumn.setCellValueFactory(new PropertyValueFactory<Users, String>("userName"));
+        passwordColumn.setCellValueFactory(new PropertyValueFactory<Users,String>("Password"));
+
+        userModel.loadUsers();
+        userTableView.setItems(userModel.getAllUser());
+
     }
 
 
@@ -46,7 +63,7 @@ public class UsersInAdminViewController implements Initializable {
         editTable.setVisible(false);
         add.setDisable(true);
         edit.setDisable(false);
-        
+
         edit.setOnMouseClicked(event ->{
             show.setNode(addNewUser);
             show.setToX(0);
@@ -106,5 +123,11 @@ public class UsersInAdminViewController implements Initializable {
         show.play();
         addNewUser.setTranslateX(0);
         addNewUser.setVisible(false);
+    }
+
+    public void btnUpdate(ActionEvent actionEvent) {
+    }
+
+    public void btnCreate(ActionEvent actionEvent) {
     }
 }

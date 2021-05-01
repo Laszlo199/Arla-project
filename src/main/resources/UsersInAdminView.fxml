@@ -28,10 +28,10 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="352.0" prefWidth="410.0">
                            <children>
-                              <TableView fx:id="UserTableView" layoutX="105.0" layoutY="62.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="364.0" prefWidth="415.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <TableView fx:id="userTableView" layoutX="105.0" layoutY="62.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="364.0" prefWidth="415.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
-                                  <TableColumn fx:id="UserColumn" prefWidth="355.999959230423" text="User Name" />
-                                    <TableColumn prefWidth="357.3334045410156" text="Passwords" />
+                                  <TableColumn fx:id="userColumn" prefWidth="355.999959230423" text="User Name" />
+                                    <TableColumn fx:id="passwordColumn" prefWidth="315.0" text="Passwords" />
                                 </columns>
                               </TableView>
                            </children>
@@ -53,8 +53,8 @@
                   <Label layoutX="5.0" layoutY="111.0" text="Password" />
                   <TextField layoutX="65.0" layoutY="107.0" prefHeight="25.0" prefWidth="127.0" />
                   <Label layoutX="85.0" layoutY="6.0" text="Edit User" />
-                  <Button layoutX="39.0" layoutY="140.0" mnemonicParsing="false" text="Update" />
-                  <Button layoutX="115.0" layoutY="140.0" mnemonicParsing="false" onAction="#btnCancleEdit" text="Cancle" />
+                  <Button layoutX="58.0" layoutY="140.0" mnemonicParsing="false" onAction="#btnUpdate" text="Update" />
+                  <Button layoutX="140.0" layoutY="140.0" mnemonicParsing="false" onAction="#btnCancleEdit" text="Cancel" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="addNewUser" prefHeight="167.0" prefWidth="218.0">
@@ -64,8 +64,8 @@
                   <Label layoutX="16.0" layoutY="67.0" text="Name" />
                   <Label layoutX="9.0" layoutY="106.0" text="Password" />
                   <Label layoutX="72.0" layoutY="9.0" text="Add new User" />
-                  <Button layoutX="21.0" layoutY="136.0" mnemonicParsing="false" text="Delete" />
-                  <Button fx:id="btnCancleAdd" layoutX="107.0" layoutY="135.0" mnemonicParsing="false" onAction="#btnCancleAdd" text="Cancle" />
+                  <Button layoutX="53.0" layoutY="135.0" mnemonicParsing="false" onAction="#btnCreate" text="Create" />
+                  <Button fx:id="btnCancleAdd" layoutX="134.0" layoutY="135.0" mnemonicParsing="false" onAction="#btnCancleAdd" text="Cancel" />
                </children>
             </AnchorPane>
             <Separator prefHeight="12.0" prefWidth="214.0" />

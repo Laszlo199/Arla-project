@@ -29,6 +29,7 @@ public class UserDAO {
                 int id = resultSet.getInt("ID");
                 String userName = resultSet.getString("userName");
                 String password = resultSet.getString("Password");
+                users.add(new Users(id, userName, password));
             }
         }catch (SQLException throwables){
             throwables.printStackTrace();
