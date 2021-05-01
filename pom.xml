@@ -42,11 +42,6 @@
             <artifactId>mssql-jdbc</artifactId>
             <version>9.2.1.jre15</version>
         </dependency>
-        <dependency>
-            <groupId>org.jfree</groupId>
-            <artifactId>jfreechart-fx</artifactId>
-            <version>1.0.1</version>
-        </dependency>
 
         <dependency>
             <groupId>org.jfree</groupId>

@@ -6,6 +6,7 @@ import GUI.util.AlertDisplayer;
 import GUI.util.ChartCanvas;
 import GUI.util.ValidateExtension;
 import GUI.util.charts.CreateHistogramChart;
+import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -28,6 +29,10 @@ import java.util.ResourceBundle;
  */
 public class CreateDefaultTemplateController implements Initializable {
     @FXML
+    private AnchorPane websiteSpace;
+    @FXML
+    private JFXTextField websiteLink;
+    @FXML
     private Label attachment1;
     @FXML
     private Label attachment2;
@@ -39,13 +44,13 @@ public class CreateDefaultTemplateController implements Initializable {
     private AnchorPane csvChart;
     @FXML
     private StackPane pdfSpace;
-    @FXML
-    private WebView webView;
-    private WebEngine engine;
+    private WebEngine webEngine ;
     private FileChooser fileChooser = new FileChooser();
     private ScreenModel screenModel = new ScreenModel();
     private final static String DESTINATION_PATH_CSV = "src/../Data/CSVData/";
     private final static String DESTINATION_PATH_PDF = "src/../Data/PDFData/";
+    private final static String GOOGLE = "http://www.google.com/search?q=";
+    private final static String HOME = "https://www.google.com/webhp";
     private Path destinationPath;
 
     @Override
@@ -79,9 +84,32 @@ public class CreateDefaultTemplateController implements Initializable {
      * @param actionEvent
      */
     public void loadPDF(ActionEvent actionEvent) {
+
+
+
     }
 
+    /**
+     * some actions to load website
+     * @param actionEvent
+     */
     public void loadWebsite(ActionEvent actionEvent) {
+        addWebView();
+        executeQuery();
+    }
+
+    private void executeQuery() {
+        String query = websiteLink.getText();
+        webEngine.load(GOOGLE+query);
+    }
+
+    private void addWebView() {
+        WebView webView = new WebView();
+        webEngine = webView.getEngine();
+        webView.setZoom(0.6);
+        webView.prefHeightProperty().bind(websiteSpace.heightProperty());
+        webView.prefWidthProperty().bind(websiteSpace.widthProperty());
+        websiteSpace.getChildren().add(webView);
     }
 
     /**
