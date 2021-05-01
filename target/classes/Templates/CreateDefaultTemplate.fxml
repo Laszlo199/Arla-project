@@ -76,10 +76,11 @@
                         <Button mnemonicParsing="false" onAction="#loadPDF" text="load PDF" />
                      </children>
                   </StackPane>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+                  <AnchorPane fx:id="websiteSpace" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                      <children>
                         <Separator layoutY="7.0" orientation="VERTICAL" prefHeight="378.0" prefWidth="8.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="15.0" />
-                        <Button layoutX="210.0" layoutY="184.0" mnemonicParsing="false" onAction="#loadWebsite" text="load Website" />
+                        <Button layoutX="371.0" layoutY="184.0" mnemonicParsing="false" onAction="#loadWebsite" text="load Website" />
+                        <JFXTextField fx:id="websiteLink" layoutX="41.0" layoutY="184.0" prefHeight="25.0" prefWidth="305.0" />
                      </children>
                   </AnchorPane>
                   <AnchorPane fx:id="csvChart" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
