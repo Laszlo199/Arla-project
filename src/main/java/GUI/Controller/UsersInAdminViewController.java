@@ -11,6 +11,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.Button;
 import javafx.util.Duration;
@@ -27,6 +28,13 @@ public class UsersInAdminViewController implements Initializable {
     @FXML private AnchorPane editTable;
     @FXML private AnchorPane addNewUser;
     @FXML private JFXButton add;
+    @FXML private TextField editNameField;
+    @FXML private TextField editPasswordField;
+    @FXML private TextField newNameField;
+    @FXML private TextField newPasswordField;
+    @FXML private Button editCancel;
+    @FXML private Button newCancel;
+
 
     private UserModel userModel;
 
@@ -55,7 +63,7 @@ public class UsersInAdminViewController implements Initializable {
         show.setDuration(Duration.seconds(0.4));
         show.setNode(addNewUser);
         show.setToX(0);
-        show.setByY(-100);
+        show.setToY(-100);
         show.play();
 
         addNewUser.setTranslateX(0);
@@ -67,7 +75,7 @@ public class UsersInAdminViewController implements Initializable {
         edit.setOnMouseClicked(event ->{
             show.setNode(addNewUser);
             show.setToX(0);
-            show.setByY(100);
+            show.setToY(100);
             show.play();
 
             addNewUser.setTranslateX(0);
@@ -79,7 +87,7 @@ public class UsersInAdminViewController implements Initializable {
         show.setDuration(Duration.seconds(0.4));
         show.setNode(editTable);
         show.setToX(0);
-        show.setByY(100);
+        show.setToY(100);
         show.play();
 
         editTable.setTranslateX(0);
@@ -91,43 +99,73 @@ public class UsersInAdminViewController implements Initializable {
        add.setOnMouseClicked(event ->{
            show.setNode(editTable);
            show.setToX(0);
-           show.setByY(-100);
+           show.setToY(-100);
            show.play();
 
            addNewUser.setTranslateX(0);
        });
     }
 
-    public void btnDeleteUser(ActionEvent actionEvent) {
-
-    }
-
-
-    public void btnCancleEdit(ActionEvent actionEvent) {
+    public void btnCancelEdit(ActionEvent actionEvent) {
         TranslateTransition show= new TranslateTransition();
-        show.setNode(editTable);
-        show.setToX(0);
-        show.setByY(-100);
-        show.play();
+        editCancel.setOnMouseClicked(event ->{
+            show.setNode(editTable);
+            show.setToX(0);
+            show.setToY(0);
+            show.play();
+
+            editTable.setTranslateX(0);
+        });
+
+
         editTable.setTranslateX(0);
         editTable.setVisible(false);
 
 
     }
 
-    public void btnCancleAdd(ActionEvent actionEvent) {
+    public void btnCancelAdd(ActionEvent actionEvent) {
         TranslateTransition show= new TranslateTransition();
-        show.setNode(addNewUser);
-        show.setToX(0);
-        show.setByY(100);
-        show.play();
+        newCancel.setOnMouseClicked(event ->{
+            show.setNode(addNewUser);
+            show.setToX(0);
+            show.setToY(0);
+            show.play();
+
+            addNewUser.setTranslateX(0);
+        });
+
         addNewUser.setTranslateX(0);
         addNewUser.setVisible(false);
     }
 
     public void btnUpdate(ActionEvent actionEvent) {
+        Users newUser = userTableView.getSelectionModel().getSelectedItem();
+        newUser.setUserName(editNameField.getText());
+        newUser.setPassword(editPasswordField.getText());
+
+        userModel.updateUser(userTableView.getSelectionModel().getSelectedItem(),newUser);
+
     }
 
     public void btnCreate(ActionEvent actionEvent) {
+        Users newUser = new Users(-1,
+                newNameField.getText(),
+                newPasswordField.getText());
+        userModel.saveUser(newUser);
+
+    }
+
+    public void btnDeleteUser(ActionEvent actionEvent) {
+        Users selectedUser = userTableView.getSelectionModel().getSelectedItem();
+        userModel.delete(selectedUser);
+        userModel.loadUsers();
+
+    }
+
+    public void readUser(MouseEvent event) {
+        editNameField.setText(userTableView.getSelectionModel().getSelectedItem().getUserName());
+        editPasswordField.setText(userTableView.getSelectionModel().getSelectedItem().getPassword());
+
     }
 }
