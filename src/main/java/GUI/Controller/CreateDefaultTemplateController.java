@@ -139,6 +139,8 @@ public class CreateDefaultTemplateController implements Initializable {
     private void loadPDFViewer(String htmlPath) {
        WebView webView = new WebView();
        pdfViewerEngine = webView.getEngine();
+        webView.prefHeightProperty().bind(spacePDF.heightProperty());
+        webView.prefWidthProperty().bind(spacePDF.widthProperty());
        spacePDF.getChildren().add(webView);
       File f = new File(htmlPath);
       pdfViewerEngine.load(f.toURI().toString());
@@ -160,7 +162,6 @@ public class CreateDefaultTemplateController implements Initializable {
             loadPDFViewer(htmlPath);
         }
     }
-
 
     /**
      * we need file chooser, maybe i should save that file
