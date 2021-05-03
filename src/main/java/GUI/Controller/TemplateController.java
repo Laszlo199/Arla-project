@@ -43,7 +43,8 @@ public class TemplateController implements Initializable {
     }
 
     public void loadCreateNew(ActionEvent actionEvent) {
-
+        Command command = new LoadCreateNew();
+        command.load(borderPane);
     }
 
     public void logOut(ActionEvent actionEvent) {

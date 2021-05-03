@@ -16,6 +16,7 @@ public abstract class Command {
      final static String FILE_PATH_SCREENS = "screensView";
      final static String FILE_PATH_LOG_IN = "log_in";
      final static String FILE_PATH_TEMPLATES= "templatesView";
+     final static String FILE_PATH_CREATE_NEW = "createNewView";
 
     public void rollback(BorderPane borderPane){
        CommandManager.getInstance().getPrevious().load(borderPane);
@@ -35,6 +36,10 @@ public abstract class Command {
 
     public static String getFilePathTemplates() {
         return FILE_PATH_TEMPLATES;
+    }
+
+    public static String getFilePathCreateNew() {
+        return FILE_PATH_CREATE_NEW;
     }
 
     protected void setChosenPath() {
