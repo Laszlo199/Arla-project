@@ -14,8 +14,7 @@ import java.nio.file.Path;
  *
  */
 public class PDFOperations {
-    private final static String HTML_DIRECTORY = "src/../Data/HTMLData/";
-    private final static String PDF_DIRECTORY = "src/../Data/PDFData/";
+
 
     /*
     being provided the path to pdf convert it to html

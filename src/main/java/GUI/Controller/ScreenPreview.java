@@ -6,7 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
 /**
- *
+ *   controller for the screen preview that will be shown in the screens
  */
 public class ScreenPreview {
     @FXML
@@ -34,5 +34,27 @@ public class ScreenPreview {
     public void openPreview(ActionEvent actionEvent) {
     }
 
+    public Label getScreenName() {
+        return ScreenName;
+    }
 
+    public Label getRefreshTime() {
+        return refreshTime;
+    }
+
+    public Label getAttachment1() {
+        return attachment1;
+    }
+
+    public Label getAttachment2() {
+        return attachment2;
+    }
+
+    public Label getAttachment3() {
+        return attachment3;
+    }
+
+    public Label getAttachment4() {
+        return attachment4;
+    }
 }

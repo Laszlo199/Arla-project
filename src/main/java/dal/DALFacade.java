@@ -1,6 +1,6 @@
 package dal;
 
-import be.DefaultTemplate;
+import be.DefaultScreen;
 import be.Users;
 import dal.Database.DBConnector;
 import dal.Database.dataAccess.ScreenDAO;
@@ -9,7 +9,6 @@ import dal.File.PDFOperations;
 import dal.File.ScreenOperations;
 import dal.exception.DALexception;
 
-import java.net.URL;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -81,7 +80,12 @@ public class DALFacade implements IDALFacade{
     }
 
     @Override
-    public void saveDefaultTemplate(DefaultTemplate defaultTemplate) throws DALexception {
+    public void saveDefaultTemplate(DefaultScreen defaultTemplate) throws DALexception {
         screenDAO.saveDefaultTemplate(defaultTemplate);
+    }
+
+    @Override
+    public List<DefaultScreen> getAllDefaultScreens() throws DALexception {
+        return screenDAO.getAllDefaultScreens();
     }
 }

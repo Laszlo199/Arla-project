@@ -5,14 +5,14 @@ import java.nio.file.Path;
 /**
  * Class encapsulated properties saved in default template
  */
-public class DefaultTemplate {
+public class DefaultScreen {
     private String name;
     private Path destinationPathCSV;
     private Path destinationPathPDF;
     private String insertedWebsite;
 
-    public DefaultTemplate(String name, Path destinationPathCSV,
-                           Path destinationPathPDF, String insertedWebsite) {
+    public DefaultScreen(String name, Path destinationPathCSV,
+                         Path destinationPathPDF, String insertedWebsite) {
         this.name = name;
         this.destinationPathCSV = destinationPathCSV;
         this.destinationPathPDF = destinationPathPDF;

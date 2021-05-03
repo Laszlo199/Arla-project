@@ -1,14 +1,12 @@
 package bll;
 
-import be.DefaultTemplate;
+import be.DefaultScreen;
 import be.Users;
 import bll.exception.BLLException;
 import dal.DALFacade;
-import dal.Database.dataAccess.UserDAO;
 import dal.IDALFacade;
 import dal.exception.DALexception;
 
-import java.net.URL;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -59,7 +57,7 @@ public class Facade implements IFacade{
     }
 
     @Override
-    public void saveDefaultTemplate(DefaultTemplate defaultTemplate) throws BLLException {
+    public void saveDefaultTemplate(DefaultScreen defaultTemplate) throws BLLException {
         try {
             facade.saveDefaultTemplate(defaultTemplate);
         } catch (DALexception daLexception) {
@@ -82,6 +80,15 @@ public class Facade implements IFacade{
             facade.deleteCSV(destinationPathCSV);
         } catch (DALexception daLexception) {
             throw new BLLException("Couldn't delete CSV file", daLexception);
+        }
+    }
+
+    @Override
+    public List<DefaultScreen> getAllDefaultScreens() throws BLLException {
+        try {
+            return facade.getAllDefaultScreens();
+        } catch (DALexception daLexception) {
+            throw new BLLException("Couldn't get all screens", daLexception);
         }
     }
 

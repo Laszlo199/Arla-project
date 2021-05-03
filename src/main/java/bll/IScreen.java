@@ -1,10 +1,10 @@
 package bll;
 
-import be.DefaultTemplate;
+import be.DefaultScreen;
 import bll.exception.BLLException;
 
-import java.net.URL;
 import java.nio.file.Path;
+import java.util.List;
 
 /**
  *
@@ -16,9 +16,11 @@ public interface IScreen {
 
     String getHTML(Path pdfPath) throws BLLException;
 
-    void saveDefaultTemplate(DefaultTemplate defaultTemplate) throws BLLException;
+    void saveDefaultTemplate(DefaultScreen defaultTemplate) throws BLLException;
 
     void deletePDFfiles(Path destinationPathPDF) throws BLLException;
 
     void deleteCSV(Path destinationPathCSV) throws BLLException;
+
+    List<DefaultScreen> getAllDefaultScreens() throws BLLException;
 }

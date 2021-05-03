@@ -6,7 +6,7 @@ import GUI.util.AlertDisplayer;
 import GUI.util.ChartCanvas;
 import GUI.util.ValidateExtension;
 import GUI.util.charts.CreateHistogramChart;
-import be.DefaultTemplate;
+import be.DefaultScreen;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -46,7 +46,7 @@ public class CreateDefaultTemplateController implements Initializable {
     private WebEngine webEngine;
     private WebEngine pdfViewerEngine;
     private FileChooser fileChooser = new FileChooser();
-    private ScreenModel screenModel = new ScreenModel();
+    private ScreenModel screenModel = ScreenModel.getInstance();
     private final static String DESTINATION_PATH_CSV = "src/../Data/CSVData/";
     private final static String DESTINATION_PATH_PDF = "src/../Data/PDFData/";
     private final static String GOOGLE = "http://www.google.com/search?q=";
@@ -80,7 +80,7 @@ public class CreateDefaultTemplateController implements Initializable {
         name = nameField.getText();
         if (name != null && destinationPathCSV != null &&
                 insertedWebsite != null && destinationPathPDF != null) {
-            screenModel.saveDefaultTemplate(new DefaultTemplate(name, destinationPathCSV,
+            screenModel.saveDefaultTemplate(new DefaultScreen(name, destinationPathCSV,
                     destinationPathPDF, insertedWebsite));
         }
     }

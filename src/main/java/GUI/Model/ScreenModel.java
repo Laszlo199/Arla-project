@@ -1,17 +1,30 @@
 package GUI.Model;
 
 import GUI.Model.exception.ModelException;
-import be.DefaultTemplate;
+import be.DefaultScreen;
 import bll.Facade;
 import bll.IFacade;
 import bll.exception.BLLException;
 import java.nio.file.Path;
+import java.util.List;
 
 /**
  *
  */
 public class ScreenModel {
     private IFacade logic = new Facade();
+    private static ScreenModel screenModel;
+
+    private ScreenModel() {
+    }
+
+    public static ScreenModel getInstance(){
+        if(screenModel==null)
+            screenModel = new ScreenModel();
+        return screenModel;
+    }
+
+
     public void saveFile(Path originPath, Path destinationPath) throws ModelException {
         try {
             logic.saveFile(originPath, destinationPath);
@@ -37,7 +50,7 @@ public class ScreenModel {
         return null;
     }
 
-    public void saveDefaultTemplate(DefaultTemplate defaultTemplate) {
+    public void saveDefaultTemplate(DefaultScreen defaultTemplate) {
         try {
             logic.saveDefaultTemplate(defaultTemplate);
         } catch (BLLException e) {
@@ -58,6 +71,14 @@ public class ScreenModel {
             logic.deleteCSV(destinationPathCSV);
         } catch (BLLException e) {
             e.printStackTrace();
+        }
+    }
+
+    public List<DefaultScreen> getAllDefaultScreens() throws ModelException {
+        try {
+            return logic.getAllDefaultScreens();
+        } catch (BLLException e) {
+            throw new ModelException("Couldnt get all default screens", e);
         }
     }
 }
