@@ -1,5 +1,6 @@
 package bll;
 
+import be.DefaultTemplate;
 import bll.exception.BLLException;
 
 import java.net.URL;
@@ -14,4 +15,10 @@ public interface IScreen {
     double[] getHistogramData(Path destinationPath) throws BLLException;
 
     String getHTML(Path pdfPath) throws BLLException;
+
+    void saveDefaultTemplate(DefaultTemplate defaultTemplate) throws BLLException;
+
+    void deletePDFfiles(Path destinationPathPDF) throws BLLException;
+
+    void deleteCSV(Path destinationPathCSV) throws BLLException;
 }

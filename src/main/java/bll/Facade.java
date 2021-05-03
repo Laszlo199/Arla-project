@@ -1,5 +1,6 @@
 package bll;
 
+import be.DefaultTemplate;
 import be.Users;
 import bll.exception.BLLException;
 import dal.DALFacade;
@@ -54,6 +55,33 @@ public class Facade implements IFacade{
             return facade.getHTML(pdfPath);
         } catch (DALexception daLexception) {
             throw new BLLException("couldnt convert pdf to html", daLexception);
+        }
+    }
+
+    @Override
+    public void saveDefaultTemplate(DefaultTemplate defaultTemplate) throws BLLException {
+        try {
+            facade.saveDefaultTemplate(defaultTemplate);
+        } catch (DALexception daLexception) {
+            throw new BLLException("Whoops...Couldn't save new default template", daLexception);
+        }
+    }
+
+    @Override
+    public void deletePDFfiles(Path destinationPathPDF) throws BLLException {
+        try {
+            facade.deletePDFfiles(destinationPathPDF);
+        } catch (DALexception daLexception) {
+            throw new BLLException("Couldn't delete PDF and HTML file", daLexception);
+        }
+    }
+
+    @Override
+    public void deleteCSV(Path destinationPathCSV) throws BLLException {
+        try {
+            facade.deleteCSV(destinationPathCSV);
+        } catch (DALexception daLexception) {
+            throw new BLLException("Couldn't delete CSV file", daLexception);
         }
     }
 

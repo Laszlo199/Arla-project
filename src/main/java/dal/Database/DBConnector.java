@@ -11,7 +11,7 @@ public class DBConnector {
     private SQLServerDataSource dataSource;
 
 
-/*
+
 //(Jakub Database) in my opinion we should use your Database when we creat the finale database. And one more database :D
 
     public DBConnector()
@@ -20,14 +20,15 @@ public class DBConnector {
         dataSource.setServerName("10.176.111.31");
         dataSource.setUser("CSe20B_8");
         dataSource.setPassword("potatoe2021");
-        dataSource.setDatabaseName("AttendanceProject");
+        dataSource.setDatabaseName("ArlaProject");
     }
 
- */
+
 
     /**
      * Test
      */
+/*
     public DBConnector()
     {
         dataSource = new SQLServerDataSource();
@@ -36,6 +37,8 @@ public class DBConnector {
         dataSource.setPassword("CSe20B_13");
         dataSource.setDatabaseName("ArlaMilk");
     }
+
+ */
 
     public Connection getConnection()throws SQLServerException
     {

@@ -28,7 +28,7 @@ public class PDFOperations {
     }
 
     private String getFileName(Path pdfPath) {
-        return String.valueOf(pdfPath).replaceAll(PDF_DIRECTORY, "").replaceAll(".pdf", ".html");
+        return String.valueOf(pdfPath).replaceAll("PDFData", "HTMLData").replaceAll(".pdf", ".html");
     }
 
     private void generateHTMLFromPDF(String filename, String pdfLocation) throws DALexception {
@@ -37,7 +37,6 @@ public class PDFOperations {
             PDDocument pdf = PDDocument.load(new File(pdfLocation));
             File file = new File(filename);
             file.createNewFile();
-           //Files.createFile(Path.of(HTML_DIRECTORY + filename));
             Writer output = new PrintWriter(filename, "utf-8");
             new PDFDomTree().writeText(pdf, output);
             output.close();

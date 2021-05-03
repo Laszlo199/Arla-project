@@ -5,6 +5,7 @@ D:\onedrive2\github\Arla-project\src\main\java\GUI\util\Command\LoadLogIn.java
 D:\onedrive2\github\Arla-project\src\main\java\dal\IDALFacade.java
 D:\onedrive2\github\Arla-project\src\main\java\bll\Facade.java
 D:\onedrive2\github\Arla-project\src\main\java\dal\IPDF.java
+D:\onedrive2\github\Arla-project\src\main\java\dal\IScreen.java
 D:\onedrive2\github\Arla-project\src\main\java\GUI\util\Command\CommandManager.java
 D:\onedrive2\github\Arla-project\src\main\java\GUI\util\Command\LoadUsers.java
 D:\onedrive2\github\Arla-project\src\main\java\dal\File\PDFOperations.java
@@ -15,6 +16,8 @@ D:\onedrive2\github\Arla-project\src\main\java\dal\Database\DBConnector.java
 D:\onedrive2\github\Arla-project\src\main\java\bll\IFacade.java
 D:\onedrive2\github\Arla-project\src\main\java\GUI\util\Command\Command.java
 D:\onedrive2\github\Arla-project\src\main\java\GUI\Controller\UsersInAdminViewController.java
+D:\onedrive2\github\Arla-project\src\main\java\be\DefaultTemplate.java
+D:\onedrive2\github\Arla-project\src\main\java\dal\Database\dataAccess\ScreenDAO.java
 D:\onedrive2\github\Arla-project\src\main\java\GUI\util\ChartCanvas.java
 D:\onedrive2\github\Arla-project\src\main\java\GUI\Controller\TemplateController.java
 D:\onedrive2\github\Arla-project\src\main\java\GUI\util\charts\IHistogramDataset.java

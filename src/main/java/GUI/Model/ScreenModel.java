@@ -1,11 +1,10 @@
 package GUI.Model;
 
 import GUI.Model.exception.ModelException;
+import be.DefaultTemplate;
 import bll.Facade;
 import bll.IFacade;
 import bll.exception.BLLException;
-
-import java.net.URL;
 import java.nio.file.Path;
 
 /**
@@ -36,5 +35,29 @@ public class ScreenModel {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void saveDefaultTemplate(DefaultTemplate defaultTemplate) {
+        try {
+            logic.saveDefaultTemplate(defaultTemplate);
+        } catch (BLLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deletePDFfiles(Path destinationPathPDF) {
+        try {
+            logic.deletePDFfiles(destinationPathPDF);
+        } catch (BLLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteCSV(Path destinationPathCSV) {
+        try {
+            logic.deleteCSV(destinationPathCSV);
+        } catch (BLLException e) {
+            e.printStackTrace();
+        }
     }
 }

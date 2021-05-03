@@ -29,4 +29,22 @@ public class ScreenOperations {
     }
 
 
+    public void deletePDFfiles(Path destinationPathPDF) throws DALexception {
+        String html = destinationPathPDF.toString().replaceFirst("PDFData","HTMLData").
+                replaceAll(".pdf", ".html");
+        try {
+            Files.delete(destinationPathPDF);
+            Files.delete(Path.of(html));
+        } catch (IOException e) {
+            throw new DALexception("Couldn't delete PDF and HTML file ", e);
+        }
+    }
+
+    public void deleteCSV(Path destinationPathCSV) throws DALexception {
+        try {
+            Files.delete(destinationPathCSV);
+        } catch (IOException e) {
+            throw new DALexception("Couldn't delete CSV file ", e);
+        }
+    }
 }

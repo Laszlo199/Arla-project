@@ -1,7 +1,9 @@
 package dal;
 
+import be.DefaultTemplate;
 import be.Users;
 import dal.Database.DBConnector;
+import dal.Database.dataAccess.ScreenDAO;
 import dal.Database.dataAccess.UserDAO;
 import dal.File.PDFOperations;
 import dal.File.ScreenOperations;
@@ -21,6 +23,7 @@ public class DALFacade implements IDALFacade{
     private static DALFacade dalFacade;
     private ScreenOperations screenOperations = new ScreenOperations();
     private PDFOperations pdfOperations = new PDFOperations();
+    private ScreenDAO screenDAO = new ScreenDAO();
 
 
     public static DALFacade getInstance(){
@@ -37,6 +40,16 @@ public class DALFacade implements IDALFacade{
     @Override
     public String getHistogramData(Path destinationPath) throws DALexception {
         return screenOperations.getHistogramData(destinationPath);
+    }
+
+    @Override
+    public void deletePDFfiles(Path destinationPathPDF) throws DALexception {
+        screenOperations.deletePDFfiles(destinationPathPDF);
+    }
+
+    @Override
+    public void deleteCSV(Path destinationPathCSV) throws DALexception {
+        screenOperations.deleteCSV(destinationPathCSV);
     }
 
 
@@ -65,5 +78,10 @@ public class DALFacade implements IDALFacade{
     @Override
     public String getHTML(Path pdfPath) throws DALexception {
         return pdfOperations.getHTML(pdfPath);
+    }
+
+    @Override
+    public void saveDefaultTemplate(DefaultTemplate defaultTemplate) throws DALexception {
+        screenDAO.saveDefaultTemplate(defaultTemplate);
     }
 }
