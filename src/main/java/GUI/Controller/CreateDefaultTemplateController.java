@@ -6,31 +6,19 @@ import GUI.util.AlertDisplayer;
 import GUI.util.ChartCanvas;
 import GUI.util.ValidateExtension;
 import GUI.util.charts.CreateHistogramChart;
+import be.DefaultTemplate;
 import com.jfoenix.controls.JFXTextField;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebEvent;
 import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.fit.pdfdom.PDFDomTree;
-import org.w3c.dom.Document;
-
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.net.URL;
 import java.nio.file.Path;
@@ -40,7 +28,10 @@ import java.util.ResourceBundle;
  *
  */
 public class CreateDefaultTemplateController implements Initializable {
-    public AnchorPane spacePDF;
+    @FXML
+    private AnchorPane spacePDF;
+    @FXML
+    private JFXTextField nameField;
     @FXML
     private AnchorPane websiteSpace;
     @FXML
@@ -52,10 +43,7 @@ public class CreateDefaultTemplateController implements Initializable {
     @FXML
     private Label attachment3;
     @FXML
-    private GridPane gridPane;
-    @FXML
     private AnchorPane csvChart;
-    private WebView pdfViewer;
     private WebEngine webEngine ;
     private WebEngine pdfViewerEngine;
     private FileChooser fileChooser = new FileChooser();
@@ -64,9 +52,12 @@ public class CreateDefaultTemplateController implements Initializable {
     private final static String DESTINATION_PATH_PDF = "src/../Data/PDFData/";
     private final static String GOOGLE = "http://www.google.com/search?q=";
     private final static String HOME = "https://www.google.com/webhp";
-    private final static String PDF_VIEWER = "https://www.docfly.com/pdf-viewer";
-    private Path destinationPath;
+
+    //fields to save
+    private Path destinationPathCSV;
     private String insertedWebsite;
+    private Path destinationPathPDF;
+    private String name;
 
     @Override
     public void initialize(URL url2, ResourceBundle resourceBundle) {
@@ -79,24 +70,19 @@ public class CreateDefaultTemplateController implements Initializable {
 
 
     /**
-     * provided our own implementation that does nothing when file
-     * is dropped
-     */
-    private void disableDrag() {
-        pdfViewer.setOnDragOver(new EventHandler<DragEvent>() {
-            public void handle(DragEvent event) {
-            }
-        });
-        pdfViewer.setOnDragDropped((DragEvent event) -> {
-        });
-    }
-
-
-    /**
-     * save pane to all screens. we need to save which file corresponds to which corner
+     * we need to save three paths:
+     * - one to website
+     * - one to csv
+     * - one to PDF
      * @param actionEvent
      */
     public void save(ActionEvent actionEvent) {
+        name = nameField.getText();
+        if(name !=null && destinationPathCSV !=null &&
+        insertedWebsite !=null && destinationPathPDF !=null){
+            screenModel.saveDefaultTemplate(new DefaultTemplate(name, destinationPathCSV,
+                    destinationPathPDF, insertedWebsite));
+        }
     }
 
     /**
@@ -130,9 +116,7 @@ public class CreateDefaultTemplateController implements Initializable {
         webView.prefWidthProperty().bind(websiteSpace.widthProperty());
         websiteSpace.getChildren().add(webView);
     }
-    //pdfViewerEngine  = pdfViewer.getEngine();
-    // pdfViewerEngine.load(PDF_VIEWER);
-    //disableDrag();
+
     /**
      * loads website which will handle
      */
@@ -156,9 +140,9 @@ public class CreateDefaultTemplateController implements Initializable {
         File selectedFile = getSelectedFile(actionEvent, "Choose PDF file");
         if(ValidateExtension.validatePDF(selectedFile)){
             attachment3.setText(selectedFile.getName());
-            Path destinationPath = Path.of(DESTINATION_PATH_PDF+selectedFile.getName());
-            saveFile(selectedFile, destinationPath);
-            String htmlPath = getHTMLForPDF(destinationPath);
+            destinationPathPDF = Path.of(DESTINATION_PATH_PDF+selectedFile.getName());
+            saveFile(selectedFile, destinationPathPDF);
+            String htmlPath = getHTMLForPDF(destinationPathPDF);
             loadPDFViewer(htmlPath);
         }
     }
@@ -173,10 +157,10 @@ public class CreateDefaultTemplateController implements Initializable {
         File selectedFile = getSelectedFile(actionEvent, "Choose csv file");
         if(ValidateExtension.validateCSV(selectedFile)){
             attachment1.setText(selectedFile.getName());
-            destinationPath =Path.of(DESTINATION_PATH_CSV+selectedFile.
+            destinationPathCSV =Path.of(DESTINATION_PATH_CSV+selectedFile.
                     getName());
-           saveFile(selectedFile, destinationPath);
-           drawCanvas(destinationPath);
+           saveFile(selectedFile, destinationPathCSV);
+           drawCanvas(destinationPathCSV);
         }else {
             //repeat operation
         }
