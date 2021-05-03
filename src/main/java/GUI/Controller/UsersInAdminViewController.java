@@ -4,6 +4,8 @@ import GUI.Model.UserModel;
 import be.Users;
 import com.jfoenix.controls.JFXButton;
 import javafx.animation.TranslateTransition;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,6 +19,7 @@ import javafx.scene.control.Button;
 import javafx.util.Duration;
 
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class UsersInAdminViewController implements Initializable {
@@ -46,6 +49,7 @@ public class UsersInAdminViewController implements Initializable {
         editTable.setVisible(false);
         addNewUser.setVisible(false);
         initUserTableView();
+        search();
     }
 
     private void initUserTableView(){
@@ -120,6 +124,7 @@ public class UsersInAdminViewController implements Initializable {
 
         editTable.setTranslateX(0);
         editTable.setVisible(false);
+        edit.setDisable(false);
 
 
     }
@@ -137,6 +142,7 @@ public class UsersInAdminViewController implements Initializable {
 
         addNewUser.setTranslateX(0);
         addNewUser.setVisible(false);
+        add.setDisable(false);
     }
 
     public void btnUpdate(ActionEvent actionEvent) {
@@ -166,6 +172,27 @@ public class UsersInAdminViewController implements Initializable {
     public void readUser(MouseEvent event) {
         editNameField.setText(userTableView.getSelectionModel().getSelectedItem().getUserName());
         editPasswordField.setText(userTableView.getSelectionModel().getSelectedItem().getPassword());
+
+    }
+
+    public void search(){
+
+        FilteredList<Users> filteredList = new FilteredList<>(userModel.getAllUser(),b->true);
+        searchField.textProperty().addListener((observableValue, oldValue, newValue) -> {
+            filteredList.setPredicate(users -> {
+                if (newValue == null || newValue.isEmpty()){
+                return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+            if (users.getUserName().toLowerCase().indexOf(lowerCaseFilter) != -1){
+                return true;
+            }else
+                return false;
+            });
+                });
+        SortedList<Users> sortedList = new SortedList<>(filteredList);
+        sortedList.comparatorProperty().bind(userTableView.comparatorProperty());
+        userTableView.setItems(sortedList);
 
     }
 }
