@@ -47,7 +47,7 @@ public class UserDAO {
 
         }catch (SQLException throwables){
             throwables.printStackTrace();
-            throw  new DALexception("Whoops...Couldn't delete a User");
+            throw  new DALexception("Whoops...Couldn't delete an User");
         }
     }
 
@@ -60,7 +60,7 @@ public class UserDAO {
             pStatement.setInt(3,oldUser.getID());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            throw new DALexception("Whoops..Couldn't update a User");
+            throw new DALexception("Whoops..Couldn't update an User");
         }
     }
 
@@ -73,7 +73,7 @@ public class UserDAO {
             pStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            throw new DALexception("Whoops...Couldn't create a User");
+            throw new DALexception("Whoops...Couldn't create an User");
         }
     }
 
