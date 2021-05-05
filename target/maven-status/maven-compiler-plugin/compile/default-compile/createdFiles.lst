@@ -1,8 +1,2 @@
-be\Section.class
-GUI\util\FileSaver.class
-GUI\util\WebsiteLoader.class
-GUI\util\CSVLoader.class
-GUI\util\PDFLoader.class
-GUI\util\Command\LoadCreateNew.class
-GUI\util\ChooseFile.class
-GUI\Controller\CreateNewController.class
+be/Screen.class
+be/ScreenFile.class

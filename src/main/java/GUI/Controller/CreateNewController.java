@@ -3,6 +3,7 @@ package GUI.Controller;
 import GUI.util.CSVLoader;
 import GUI.util.PDFLoader;
 import GUI.util.WebsiteLoader;
+import be.Screen;
 import be.Section;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
@@ -11,15 +12,11 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.web.WebEngine;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -31,6 +28,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class CreateNewController implements Initializable {
+    @FXML private Button saveNameBtn;
+    @FXML private TextField screenNameTextField;
     @FXML
     private GridPane gridPane;
     @FXML
@@ -42,17 +41,27 @@ public class CreateNewController implements Initializable {
     public Label http = new Label("HTTP");
     @FXML
     private Button saveBtn;
+    ContextMenu contextMenu = new ContextMenu();
+    MenuItem right = new MenuItem("connect with right");
+    MenuItem down = new MenuItem("connect with bottom");
     WebEngine webEngine = new WebEngine();
     WebEngine pdfViewerEngine = new WebEngine();
+    private Screen thisScreen;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        thisScreen = new Screen(0, null);
         fillVBox();
         gridPane.setGridLinesVisible(true);
         setOnDrags();
         gridPane.setOnDragDropped(event -> dragDropped(event));
         gridPane.setOnDragOver(event -> dragOver(event));
         saveBtn.setOnAction(event -> saveAction(event));
+        saveNameBtn.setOnAction(event -> saveName(event));
+        for(Node node : gridPane.getChildren()) {
+            node.setOnMousePressed(event -> showContextMenu(event, node));
+        }
+        contextMenu.getItems().addAll(right, down);
     }
 
     private void setOnDrags() {
@@ -61,33 +70,6 @@ public class CreateNewController implements Initializable {
         pdf.setOnDragDetected(event -> dragStart(event, pdf));
         csv.setOnDragDetected(event -> dragStart(event, csv));
         http.setOnDragDetected(event -> dragStart(event, http));
-    }
-
-    private void saveAction(ActionEvent event) {
-        if (!checkIfEmpty()) {
-
-            List<Node> nodes = gridPane.getChildren();
-            List<Section> sections = new ArrayList<>();
-
-            int i = 0;
-
-            for (Node node : nodes) {
-                Integer width = GridPane.getColumnSpan(node);
-                Integer height = GridPane.getRowSpan(node);
-
-                //here
-                if (width == null) width = 1;
-                if (height == null) height = 1;
-
-                Section section = new Section(i, width, height);
-                i++;
-                //here
-                if (i != gridPane.getChildren().size()) {
-                    sections.add(section);
-                    System.out.println(section);
-                }
-            }
-        }
     }
 
     //how do we know that this is empty. i dont get that method
@@ -121,15 +103,6 @@ public class CreateNewController implements Initializable {
         boolean success = false;
         Node node = event.getPickResult().getIntersectedNode();
         if (db.hasString()) {
-
-            /*
-            Integer col = GridPane.getColumnIndex(node);
-            Integer row = GridPane.getRowIndex(node);
-            System.out.println(row + ", " + col);
-            if(row == null) row = 0;
-            if(col == null) col = 0;
-            gridPane.add(lbl, col, row);
-             */
 
             AnchorPane anchorPane = (AnchorPane) node;
             String fileType = db.getString();
@@ -206,6 +179,67 @@ public class CreateNewController implements Initializable {
             anchorPane.getChildren().add(imageView);
             imageView.setFitHeight(anchorPane.getHeight());
             imageView.setFitWidth(anchorPane.getWidth());
+        }
+    }
+
+    private void saveName(ActionEvent event) {
+        thisScreen.setName(screenNameTextField.getText());
+    }
+
+    private void saveAction(ActionEvent event) {
+        if (!checkIfEmpty()) {
+
+            List<Node> nodes = gridPane.getChildren();
+            List<Section> sections = new ArrayList<>();
+
+            int i = 0;
+
+            for (Node node : nodes) {
+                Integer width = GridPane.getColumnSpan(node);
+                Integer height = GridPane.getRowSpan(node);
+
+                //here
+                if (width == null) width = 1;
+                if (height == null) height = 1;
+
+                Section section = new Section(thisScreen.getId(), i, width, height);
+                i++;
+                //here
+                if (i != gridPane.getChildren().size()) {
+                    sections.add(section);
+                    System.out.println(section);
+                }
+            }
+        }
+    }
+
+    private void showContextMenu(MouseEvent mouseEvent, Node node) {
+        if (mouseEvent.isSecondaryButtonDown()) {
+
+            right.setDisable(false);
+            down.setDisable(false);
+
+            if(GridPane.getRowIndex(node)!=null) {
+                if (GridPane.getRowIndex(node) == gridPane.getRowCount() - 1) down.setDisable(true);
+            }
+            if(GridPane.getColumnIndex(node)!=null) {
+                if (GridPane.getColumnIndex(node) == gridPane.getColumnCount() - 1) right.setDisable(true);
+            }
+            contextMenu.show(node, mouseEvent.getScreenX(), mouseEvent.getScreenY());
+
+            right.setOnAction((event) -> {
+                int span = 0;
+                if (GridPane.getColumnSpan(node) == null) span = 1;
+                GridPane.setColumnSpan(node, span + 1);
+                node.setStyle("-fx-background-color: GREEN"); //to check if worked
+            });
+
+            down.setOnAction((event) -> {
+                int span = 0;
+                if (GridPane.getRowSpan(node) == null) span = 1;
+                GridPane.setRowSpan(node, span + 1);
+                node.setStyle("-fx-background-color: BLUE"); //to check if worked
+            });
         }
     }
 }
