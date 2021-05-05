@@ -1,4 +1,7 @@
 be\Section.class
+GUI\util\FileSaver.class
 GUI\util\WebsiteLoader.class
+GUI\util\PDFLoader.class
 GUI\util\Command\LoadCreateNew.class
+GUI\util\ChooseFile.class
 GUI\Controller\CreateNewController.class

@@ -1,5 +1,6 @@
 package GUI.Controller;
 
+import GUI.util.PDFLoader;
 import GUI.util.WebsiteLoader;
 import be.Section;
 import com.jfoenix.controls.JFXTextField;
@@ -41,13 +42,13 @@ public class CreateNewController implements Initializable {
     @FXML
     private Button saveBtn;
     WebEngine webEngine = new WebEngine();
+    WebEngine pdfViewerEngine = new WebEngine();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         fillVBox();
         gridPane.setGridLinesVisible(true);
         setOnDrags();
-
         gridPane.setOnDragDropped(event -> dragDropped(event));
         gridPane.setOnDragOver(event -> dragOver(event));
         saveBtn.setOnAction(event -> saveAction(event));
@@ -137,8 +138,18 @@ public class CreateNewController implements Initializable {
                 Button btn = new Button("load");
                 btn.setOnAction(actionEvent -> loadWebsite(anchorPane, field.getText()));
                 loadNodes(anchorPane, lbl, field, btn);
-
-            }else {
+                success =true;
+            }
+            else if (fileType.equals("PDF")){
+                Button button = new Button("load file");
+                button.setOnAction(actionEvent ->{
+                    PDFLoader.loadPDF(actionEvent, new FileChooser());
+                    PDFLoader.loadPDFViewer(anchorPane);
+                });
+                loadNodes(anchorPane, lbl, button);
+                success = true;
+            }
+                else {
                 Button button = new Button("load file");
                 button.setOnAction(actionEvent -> loadFiles(actionEvent, anchorPane,
                         fileType));

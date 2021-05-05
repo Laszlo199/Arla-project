@@ -2,23 +2,18 @@ package GUI.Controller;
 
 import GUI.Model.ScreenModel;
 import GUI.Model.exception.ModelException;
-import GUI.util.AlertDisplayer;
-import GUI.util.ChartCanvas;
-import GUI.util.ValidateExtension;
-import GUI.util.WebsiteLoader;
+import GUI.util.*;
 import GUI.util.charts.CreateHistogramChart;
 import be.DefaultScreen;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
+
 import java.io.*;
 import java.net.URL;
 import java.nio.file.Path;
@@ -111,35 +106,11 @@ public class CreateDefaultTemplateController implements Initializable {
         websiteLoader.executeQuery(insertedWebsite);
         attachment2.setText(insertedWebsite);
     }
-    /**
-     * loads website which will handle
-     */
-    private void loadPDFViewer(String htmlPath) {
-        WebView webView = new WebView();
-        pdfViewerEngine = webView.getEngine();
-        webView.prefHeightProperty().bind(spacePDF.heightProperty());
-        webView.prefWidthProperty().bind(spacePDF.widthProperty());
-        spacePDF.getChildren().add(webView);
-        File f = new File(htmlPath);
-        pdfViewerEngine.load(f.toURI().toString());
-    }
 
-    /**
-     * method at first opens file chooser then pdf is saved
-     * we get html and display it in newly created Web view
-     * that is dynamically added to the stage
-     *
-     * @param actionEvent
-     */
+
     public void loadPDF(ActionEvent actionEvent) {
-        File selectedFile = getSelectedFile(actionEvent, "Choose PDF file");
-        if (ValidateExtension.validatePDF(selectedFile)) {
-            attachment3.setText(selectedFile.getName());
-            destinationPathPDF = Path.of(DESTINATION_PATH_PDF + selectedFile.getName());
-            saveFile(selectedFile, destinationPathPDF);
-            String htmlPath = getHTMLForPDF(destinationPathPDF);
-            loadPDFViewer(htmlPath);
-        }
+       attachment3.setText(PDFLoader.loadPDF(actionEvent, fileChooser));
+       PDFLoader.loadPDFViewer(spacePDF);
     }
 
     /**
@@ -150,12 +121,13 @@ public class CreateDefaultTemplateController implements Initializable {
      * @param actionEvent
      */
     public void loadCSV(ActionEvent actionEvent) {
-        File selectedFile = getSelectedFile(actionEvent, "Choose csv file");
+        File selectedFile = ChooseFile.getSelectedFile(actionEvent, "Choose csv file",
+                fileChooser);
         if (ValidateExtension.validateCSV(selectedFile)) {
             attachment1.setText(selectedFile.getName());
             destinationPathCSV = Path.of(DESTINATION_PATH_CSV + selectedFile.
                     getName());
-            saveFile(selectedFile, destinationPathCSV);
+            FileSaver.saveFile(selectedFile, destinationPathCSV);
             drawCanvas(destinationPathCSV);
         } else {
             //repeat operation
@@ -170,7 +142,7 @@ public class CreateDefaultTemplateController implements Initializable {
         canvas.widthProperty().bind(csvChart.widthProperty());
         canvas.heightProperty().bind(csvChart.heightProperty());
     }
-
+/*
     private File getSelectedFile(ActionEvent actionEvent, String information) {
         Node n = (Node) actionEvent.getSource();
         Stage stage = (Stage) n.getScene().getWindow();
@@ -178,7 +150,9 @@ public class CreateDefaultTemplateController implements Initializable {
         return fileChooser.showOpenDialog(stage);
     }
 
+ */
 
+/*
     private void saveFile(File selectedFile, Path destinationPath) {
         try {
             screenModel.saveFile(Path.of(selectedFile.getAbsolutePath()),
@@ -189,6 +163,8 @@ public class CreateDefaultTemplateController implements Initializable {
                     "couldn't save", "");
         }
     }
+
+ */
 
     /**
      * get data from selected file
