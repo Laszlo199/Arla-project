@@ -43,7 +43,6 @@ public class CreateDefaultTemplateController implements Initializable {
     private WebEngine pdfViewerEngine;
     private FileChooser fileChooser = new FileChooser();
     private ScreenModel screenModel = ScreenModel.getInstance();
-    private final static String DESTINATION_PATH_CSV = "src/../Data/CSVData/";
     private final static String DESTINATION_PATH_PDF = "src/../Data/PDFData/";
     private final static String HOME = "https://www.google.com/webhp";
 
@@ -56,10 +55,6 @@ public class CreateDefaultTemplateController implements Initializable {
     @Override
     public void initialize(URL url2, ResourceBundle resourceBundle) {
 
-    }
-
-    private String getHTMLForPDF(Path pdfPath) {
-        return screenModel.getHTML(pdfPath);
     }
 
 
@@ -113,6 +108,7 @@ public class CreateDefaultTemplateController implements Initializable {
        PDFLoader.loadPDFViewer(spacePDF);
     }
 
+
     /**
      * we need file chooser, maybe i should save that file
      * then we need double[] and then
@@ -120,28 +116,15 @@ public class CreateDefaultTemplateController implements Initializable {
      *
      * @param actionEvent
      */
+
     public void loadCSV(ActionEvent actionEvent) {
-        File selectedFile = ChooseFile.getSelectedFile(actionEvent, "Choose csv file",
-                fileChooser);
-        if (ValidateExtension.validateCSV(selectedFile)) {
-            attachment1.setText(selectedFile.getName());
-            destinationPathCSV = Path.of(DESTINATION_PATH_CSV + selectedFile.
-                    getName());
-            FileSaver.saveFile(selectedFile, destinationPathCSV);
-            drawCanvas(destinationPathCSV);
-        } else {
-            //repeat operation
-        }
+        attachment1.setText( CSVLoader.loadCSV(actionEvent, fileChooser, csvChart));
     }
 
-    private void drawCanvas(Path destinationPath) {
-        CreateHistogramChart createHistogramChart =
-                new CreateHistogramChart(getHistogramData(destinationPath));
-        ChartCanvas canvas = new ChartCanvas(createHistogramChart.createChart());
-        csvChart.getChildren().add(canvas);
-        canvas.widthProperty().bind(csvChart.widthProperty());
-        canvas.heightProperty().bind(csvChart.heightProperty());
-    }
+
+
+
+
 /*
     private File getSelectedFile(ActionEvent actionEvent, String information) {
         Node n = (Node) actionEvent.getSource();
@@ -166,20 +149,5 @@ public class CreateDefaultTemplateController implements Initializable {
 
  */
 
-    /**
-     * get data from selected file
-     *
-     * @return
-     */
-    private double[] getHistogramData(Path destinationPath) {
-        try {
-            return screenModel.getHistogramData(destinationPath);
-        } catch (ModelException e) {
-            e.printStackTrace();
-            AlertDisplayer.displayInformationAlert("getting data..",
-                    "Couldnt get data", "");
-        }
-        return new double[0];
-    }
 
 }

@@ -1,5 +1,6 @@
 package GUI.Controller;
 
+import GUI.util.CSVLoader;
 import GUI.util.PDFLoader;
 import GUI.util.WebsiteLoader;
 import be.Section;
@@ -149,6 +150,13 @@ public class CreateNewController implements Initializable {
                 loadNodes(anchorPane, lbl, button);
                 success = true;
             }
+            else if(fileType.equals("CSV")){
+                Button button = new Button("load file");
+                button.setOnAction(actionEvent -> CSVLoader.loadCSV(actionEvent,
+                        new FileChooser(), anchorPane));
+                loadNodes(anchorPane, lbl, button);
+                success = true;
+            }
                 else {
                 Button button = new Button("load file");
                 button.setOnAction(actionEvent -> loadFiles(actionEvent, anchorPane,
@@ -180,7 +188,6 @@ public class CreateNewController implements Initializable {
         vbox.setAlignment(Pos.CENTER);
         anchorPane.getChildren().addAll(vbox);
     }
-
 
     private void loadFiles(ActionEvent event, AnchorPane anchorPane, String fileType) {
         FileChooser fileChooser = new FileChooser();
