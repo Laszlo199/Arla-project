@@ -36,7 +36,7 @@ public class ScreensViewController implements Initializable {
      * get all screens from database, add them to the list,
      * loop through the list and load dynamically load to db
      */
-    private void loadAllScreens() {
+    private void loadAllScreens(){
         List<DefaultScreen> defaultScreens = loadListDeaultScreens();
         for(DefaultScreen ds: defaultScreens){
             FXMLLoader loader = new FXMLLoader(getClass().

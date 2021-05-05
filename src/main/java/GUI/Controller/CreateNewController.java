@@ -1,6 +1,8 @@
 package GUI.Controller;
 
+import GUI.util.WebsiteLoader;
 import be.Section;
+import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,7 +16,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.WebEngine;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -25,42 +29,58 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class CreateNewController implements Initializable {
-    @FXML private GridPane gridPane;
-    @FXML private VBox vBox;
+    @FXML
+    private GridPane gridPane;
+    @FXML
+    private VBox vBox;
     public Label jpgLbl = new Label("JPG");
     public Label pngLbl = new Label("PNG");
-    @FXML private Button saveBtn;
+    public Label pdf = new Label("PDF");
+    public Label csv = new Label("CSV");
+    public Label http = new Label("HTTP");
+    @FXML
+    private Button saveBtn;
+    WebEngine webEngine = new WebEngine();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         fillVBox();
         gridPane.setGridLinesVisible(true);
-        jpgLbl.setOnDragDetected(event -> dragStart(event, jpgLbl));
-        pngLbl.setOnDragDetected(event -> dragStart(event, pngLbl));
+        setOnDrags();
+
         gridPane.setOnDragDropped(event -> dragDropped(event));
         gridPane.setOnDragOver(event -> dragOver(event));
         saveBtn.setOnAction(event -> saveAction(event));
+    }
 
+    private void setOnDrags() {
+        jpgLbl.setOnDragDetected(event -> dragStart(event, jpgLbl));
+        pngLbl.setOnDragDetected(event -> dragStart(event, pngLbl));
+        pdf.setOnDragDetected(event -> dragStart(event, pdf));
+        csv.setOnDragDetected(event -> dragStart(event, csv));
+        http.setOnDragDetected(event -> dragStart(event, http));
     }
 
     private void saveAction(ActionEvent event) {
-        if(!checkIfEmpty()) {
+        if (!checkIfEmpty()) {
 
             List<Node> nodes = gridPane.getChildren();
             List<Section> sections = new ArrayList<>();
 
             int i = 0;
 
-            for(Node node : nodes) {
+            for (Node node : nodes) {
                 Integer width = GridPane.getColumnSpan(node);
                 Integer height = GridPane.getRowSpan(node);
 
-                if(width==null) width = 1;
-                if(height==null) height = 1;
+                //here
+                if (width == null) width = 1;
+                if (height == null) height = 1;
 
                 Section section = new Section(i, width, height);
                 i++;
-                if(i!=gridPane.getChildren().size()) {
+                //here
+                if (i != gridPane.getChildren().size()) {
                     sections.add(section);
                     System.out.println(section);
                 }
@@ -68,29 +88,28 @@ public class CreateNewController implements Initializable {
         }
     }
 
+    //how do we know that this is empty. i dont get that method
     private boolean checkIfEmpty() {
-        if(gridPane.getChildren().size()-1 != gridPane.getRowCount()*gridPane.getColumnCount())
+        if (gridPane.getChildren().size() - 1 != gridPane.getRowCount() * gridPane.getColumnCount())
             return true;
         else return false;
     }
 
     private void fillVBox() {
-        vBox.getChildren().addAll(jpgLbl, pngLbl);
+        vBox.getChildren().addAll(jpgLbl, pngLbl, pdf, csv, http);
         vBox.setSpacing(10);
     }
 
     public void dragStart(MouseEvent event, Label source) {
         Dragboard db = source.startDragAndDrop(TransferMode.ANY);
-
         ClipboardContent cb = new ClipboardContent();
         cb.putString(source.getText());
         db.setContent(cb);
-
         event.consume();
     }
 
     public void dragOver(DragEvent dragEvent) {
-        if(dragEvent.getDragboard().hasString()) {
+        if (dragEvent.getDragboard().hasString()) {
             dragEvent.acceptTransferModes(TransferMode.ANY);
         }
     }
@@ -99,7 +118,7 @@ public class CreateNewController implements Initializable {
         Dragboard db = event.getDragboard();
         boolean success = false;
         Node node = event.getPickResult().getIntersectedNode();
-        if(db.hasString()){
+        if (db.hasString()) {
 
             /*
             Integer col = GridPane.getColumnIndex(node);
@@ -111,29 +130,52 @@ public class CreateNewController implements Initializable {
              */
 
             AnchorPane anchorPane = (AnchorPane) node;
-            Label lbl = new Label(db.getString());
-            Button button = new Button("load file");
-            button.setOnAction(actionEvent -> loadFiles(actionEvent, anchorPane, db.getString()));
-            VBox vbox = new VBox();
-            vbox.getChildren().addAll(lbl, button);
-            vbox.setPrefWidth(anchorPane.getWidth());
-            vbox.setSpacing(20);
-            vbox.setPadding(new Insets(10, 10, 10, 10));
-            vbox.setAlignment(Pos.CENTER);
-            anchorPane.getChildren().addAll(vbox);
+            String fileType = db.getString();
+            Label lbl = new Label(fileType);
+            if(fileType.equals("HTTP")){
+                JFXTextField field = new JFXTextField();
+                Button btn = new Button("load");
+                btn.setOnAction(actionEvent -> loadWebsite(anchorPane, field.getText()));
+                loadNodes(anchorPane, lbl, field, btn);
 
-
-            success = true;
+            }else {
+                Button button = new Button("load file");
+                button.setOnAction(actionEvent -> loadFiles(actionEvent, anchorPane,
+                        fileType));
+                loadNodes(anchorPane, lbl, button);
+                success = true;
+            }
         }
         event.setDropCompleted(success);
         event.consume();
     }
 
+    /**
+     *
+     * @param anchorPane
+     */
+    private void loadWebsite(AnchorPane anchorPane, String query) {
+        WebsiteLoader websiteLoader = new WebsiteLoader(webEngine);
+        websiteLoader.addWebView(anchorPane);
+        websiteLoader.executeQuery(query);
+    }
+
+    private void loadNodes(AnchorPane anchorPane, Node... nodes){
+        VBox vbox = new VBox();
+        vbox.getChildren().addAll(nodes);
+        vbox.setPrefWidth(anchorPane.getWidth());
+        vbox.setSpacing(20);
+        vbox.setPadding(new Insets(10, 10, 10, 10));
+        vbox.setAlignment(Pos.CENTER);
+        anchorPane.getChildren().addAll(vbox);
+    }
+
+
     private void loadFiles(ActionEvent event, AnchorPane anchorPane, String fileType) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select image files");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Images",
-                "*."+fileType.toLowerCase()));
+                "*." + fileType.toLowerCase()));
         List<File> files = fileChooser.showOpenMultipleDialog(new Stage());
         Image image;
 

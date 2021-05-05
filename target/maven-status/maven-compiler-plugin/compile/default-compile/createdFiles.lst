@@ -1,3 +1,4 @@
-GUI/Controller/CreateNewController.class
-be/Section.class
-GUI/util/Command/LoadCreateNew.class
+be\Section.class
+GUI\util\WebsiteLoader.class
+GUI\util\Command\LoadCreateNew.class
+GUI\Controller\CreateNewController.class

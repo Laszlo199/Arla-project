@@ -5,6 +5,7 @@ import GUI.Model.exception.ModelException;
 import GUI.util.AlertDisplayer;
 import GUI.util.ChartCanvas;
 import GUI.util.ValidateExtension;
+import GUI.util.WebsiteLoader;
 import GUI.util.charts.CreateHistogramChart;
 import be.DefaultScreen;
 import com.jfoenix.controls.JFXTextField;
@@ -49,7 +50,6 @@ public class CreateDefaultTemplateController implements Initializable {
     private ScreenModel screenModel = ScreenModel.getInstance();
     private final static String DESTINATION_PATH_CSV = "src/../Data/CSVData/";
     private final static String DESTINATION_PATH_PDF = "src/../Data/PDFData/";
-    private final static String GOOGLE = "http://www.google.com/search?q=";
     private final static String HOME = "https://www.google.com/webhp";
 
     //fields to save
@@ -105,25 +105,12 @@ public class CreateDefaultTemplateController implements Initializable {
      * @param actionEvent
      */
     public void loadWebsite(ActionEvent actionEvent) {
-        addWebView();
-        executeQuery();
-    }
-
-    private void executeQuery() {
+        WebsiteLoader websiteLoader = new WebsiteLoader(webEngine);
+        websiteLoader.addWebView(websiteSpace);
         insertedWebsite = websiteLink.getText();
-        webEngine.load(GOOGLE + insertedWebsite);
+        websiteLoader.executeQuery(insertedWebsite);
         attachment2.setText(insertedWebsite);
     }
-
-    private void addWebView() {
-        WebView webView = new WebView();
-        webEngine = webView.getEngine();
-        webView.setZoom(0.6);
-        webView.prefHeightProperty().bind(websiteSpace.heightProperty());
-        webView.prefWidthProperty().bind(websiteSpace.widthProperty());
-        websiteSpace.getChildren().add(webView);
-    }
-
     /**
      * loads website which will handle
      */
