@@ -45,6 +45,9 @@ public class PDFLoader {
         File f = new File(htmlPath);
         pdfViewerEngine.load(f.toURI().toString());
     }
+    public static Path getDestinationPathPDF(){
+        return destinationPathPDF;
+    }
 
 
 }

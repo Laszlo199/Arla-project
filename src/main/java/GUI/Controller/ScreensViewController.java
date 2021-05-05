@@ -3,6 +3,7 @@ package GUI.Controller;
 import GUI.Model.ScreenModel;
 import GUI.Model.exception.ModelException;
 import GUI.util.AlertDisplayer;
+import GUI.util.Observator.IObserver;
 import be.DefaultScreen;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +20,7 @@ import java.util.ResourceBundle;
  * class should listen for changes and if there are new screens
  * it should show them too!
  */
-public class ScreensViewController implements Initializable {
+public class ScreensViewController implements Initializable, IObserver<DefaultScreen> {
     //private final static String HTML_DIRECTORY = "src/../Data/HTMLData/";
     private final static String PDF_DIRECTORY = "src/../Data/PDFData/";
     private final static String CVS_DIRECTORY = "src/../Data/CSVData/";
@@ -29,6 +30,7 @@ public class ScreensViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        ScreenModel.getInstance().attachObserver(this);
         loadAllScreens();
     }
 
@@ -37,7 +39,11 @@ public class ScreensViewController implements Initializable {
      * loop through the list and load dynamically load to db
      */
     private void loadAllScreens(){
-        List<DefaultScreen> defaultScreens = loadListDeaultScreens();
+        List<DefaultScreen> defaultScreens = getDefaultScreens();
+        addElements(defaultScreens.stream().toArray(DefaultScreen[]::new));
+
+    }
+    private void addElements(DefaultScreen... defaultScreens){
         for(DefaultScreen ds: defaultScreens){
             FXMLLoader loader = new FXMLLoader(getClass().
                     getResource("/ScreenPreview" +".fxml"));
@@ -55,10 +61,9 @@ public class ScreensViewController implements Initializable {
                 e.printStackTrace();
             }
         }
-
     }
 
-    private List<DefaultScreen> loadListDeaultScreens(){
+    private List<DefaultScreen> getDefaultScreens(){
         try {
             return ScreenModel.getInstance().getAllDefaultScreens();
         } catch (ModelException e) {
@@ -69,4 +74,8 @@ public class ScreensViewController implements Initializable {
         return null;
     }
 
+    @Override
+    public void update(DefaultScreen... addedScreens) {
+        addElements(addedScreens);
+    }
 }

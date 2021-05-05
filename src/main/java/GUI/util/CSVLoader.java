@@ -15,7 +15,7 @@ import java.nio.file.Path;
  */
 public class CSVLoader {
     private final static String DESTINATION_PATH_CSV = "src/../Data/CSVData/";
-    //private static Path destinationPathCSV;
+    private static Path destinationPathCSV;
 
     /**
      * we need file chooser, maybe i should save that file
@@ -29,8 +29,7 @@ public class CSVLoader {
         File selectedFile = ChooseFile.getSelectedFile(actionEvent, "Choose csv file",
                 fileChooser);
         if (ValidateExtension.validateCSV(selectedFile)) {
-           // attachment1.setText(selectedFile.getName());
-           Path destinationPathCSV = Path.of(DESTINATION_PATH_CSV + selectedFile.
+            destinationPathCSV = Path.of(DESTINATION_PATH_CSV + selectedFile.
                     getName());
             FileSaver.saveFile(selectedFile, destinationPathCSV);
             drawCanvas(destinationPathCSV, csvChart);
@@ -50,6 +49,10 @@ public class CSVLoader {
         csvChart.getChildren().add(canvas);
         canvas.widthProperty().bind(csvChart.widthProperty());
         canvas.heightProperty().bind(csvChart.heightProperty());
+    }
+
+    public static Path getDestinationPathCSV(){
+        return destinationPathCSV;
     }
 
     /**

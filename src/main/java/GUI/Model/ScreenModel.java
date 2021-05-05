@@ -1,21 +1,29 @@
 package GUI.Model;
 
 import GUI.Model.exception.ModelException;
+import GUI.util.Observator.IObserver;
+import GUI.util.Observator.Observable;
 import be.DefaultScreen;
 import bll.Facade;
 import bll.IFacade;
 import bll.exception.BLLException;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.nio.file.Path;
 import java.util.List;
 
 /**
  *
  */
-public class ScreenModel {
+public class ScreenModel extends Observable<DefaultScreen> {
     private IFacade logic = new Facade();
     private static ScreenModel screenModel;
+    private ObservableList<DefaultScreen> defaultScreens;
 
     private ScreenModel() {
+        defaultScreens = FXCollections.observableArrayList();
+        loadDefaultScreens();
     }
 
     public static ScreenModel getInstance(){
@@ -51,6 +59,7 @@ public class ScreenModel {
     }
 
     public void saveDefaultTemplate(DefaultScreen defaultTemplate) {
+        defaultScreens.add(defaultTemplate);
         try {
             logic.saveDefaultTemplate(defaultTemplate);
         } catch (BLLException e) {
@@ -75,10 +84,22 @@ public class ScreenModel {
     }
 
     public List<DefaultScreen> getAllDefaultScreens() throws ModelException {
+       return defaultScreens;
+    }
+
+    public void loadDefaultScreens(){
         try {
-            return logic.getAllDefaultScreens();
+            List<DefaultScreen> list = logic.getAllDefaultScreens();
+            defaultScreens.addAll(list);
         } catch (BLLException e) {
-            throw new ModelException("Couldnt get all default screens", e);
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void notifyObservers(DefaultScreen... added) {
+        for(IObserver o: super.observers){
+            o.update(added);
         }
     }
 }

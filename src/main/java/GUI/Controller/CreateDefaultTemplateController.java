@@ -70,6 +70,7 @@ public class CreateDefaultTemplateController implements Initializable {
         name = nameField.getText();
         if (name != null && destinationPathCSV != null &&
                 insertedWebsite != null && destinationPathPDF != null) {
+            System.out.println("we got there!");
             screenModel.saveDefaultTemplate(new DefaultScreen(name, destinationPathCSV,
                     destinationPathPDF, insertedWebsite));
         }
@@ -106,6 +107,7 @@ public class CreateDefaultTemplateController implements Initializable {
     public void loadPDF(ActionEvent actionEvent) {
        attachment3.setText(PDFLoader.loadPDF(actionEvent, fileChooser));
        PDFLoader.loadPDFViewer(spacePDF);
+       destinationPathPDF = PDFLoader.getDestinationPathPDF();
     }
 
 
@@ -119,35 +121,7 @@ public class CreateDefaultTemplateController implements Initializable {
 
     public void loadCSV(ActionEvent actionEvent) {
         attachment1.setText( CSVLoader.loadCSV(actionEvent, fileChooser, csvChart));
+        destinationPathCSV = CSVLoader.getDestinationPathCSV();
     }
-
-
-
-
-
-/*
-    private File getSelectedFile(ActionEvent actionEvent, String information) {
-        Node n = (Node) actionEvent.getSource();
-        Stage stage = (Stage) n.getScene().getWindow();
-        fileChooser.setTitle(information);
-        return fileChooser.showOpenDialog(stage);
-    }
-
- */
-
-/*
-    private void saveFile(File selectedFile, Path destinationPath) {
-        try {
-            screenModel.saveFile(Path.of(selectedFile.getAbsolutePath()),
-                    destinationPath);
-        } catch (ModelException e) {
-            e.printStackTrace();
-            AlertDisplayer.displayInformationAlert("saving",
-                    "couldn't save", "");
-        }
-    }
-
- */
-
 
 }

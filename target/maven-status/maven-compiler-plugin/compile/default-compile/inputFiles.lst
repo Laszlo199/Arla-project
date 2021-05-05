@@ -15,7 +15,6 @@ D:\onedrive2\github\Arla-project\src\main\java\GUI\util\ChartCanvas.java
 D:\onedrive2\github\Arla-project\src\main\java\GUI\Controller\TemplateController.java
 D:\onedrive2\github\Arla-project\src\main\java\GUI\util\charts\IHistogramDataset.java
 D:\onedrive2\github\Arla-project\src\main\java\GUI\Controller\Interfaces\ILogIn.java
-D:\onedrive2\github\Arla-project\src\main\java\GUI\Controller\Interfaces\Observable.java
 D:\onedrive2\github\Arla-project\src\main\java\GUI\Model\ScreenModel.java
 D:\onedrive2\github\Arla-project\src\main\java\bll\exception\BLLException.java
 D:\onedrive2\github\Arla-project\src\main\java\GUI\util\Animations.java
@@ -33,6 +32,7 @@ D:\onedrive2\github\Arla-project\src\main\java\GUI\Controller\TemplatesViewContr
 D:\onedrive2\github\Arla-project\src\main\java\GUI\util\Command\LoadLogIn.java
 D:\onedrive2\github\Arla-project\src\main\java\dal\IDALFacade.java
 D:\onedrive2\github\Arla-project\src\main\java\bll\Facade.java
+D:\onedrive2\github\Arla-project\src\main\java\GUI\util\Observator\IObserver.java
 D:\onedrive2\github\Arla-project\src\main\java\GUI\util\Command\CommandManager.java
 D:\onedrive2\github\Arla-project\src\main\java\dal\File\PDFOperations.java
 D:\onedrive2\github\Arla-project\src\main\java\dal\IFile.java
@@ -40,7 +40,6 @@ D:\onedrive2\github\Arla-project\src\main\java\dal\File\ScreenOperations.java
 D:\onedrive2\github\Arla-project\src\main\java\be\DefaultScreen.java
 D:\onedrive2\github\Arla-project\src\main\java\dal\Database\DBConnector.java
 D:\onedrive2\github\Arla-project\src\main\java\bll\IFacade.java
-D:\onedrive2\github\Arla-project\src\main\java\GUI\Controller\Interfaces\IObserver.java
 D:\onedrive2\github\Arla-project\src\main\java\GUI\util\Command\Command.java
 D:\onedrive2\github\Arla-project\src\main\java\GUI\Controller\UsersInAdminViewController.java
 D:\onedrive2\github\Arla-project\src\main\java\GUI\util\CSVLoader.java
@@ -53,3 +52,4 @@ D:\onedrive2\github\Arla-project\src\main\java\GUI\Controller\TemplateItemContro
 D:\onedrive2\github\Arla-project\src\main\java\testContr.java
 D:\onedrive2\github\Arla-project\src\main\java\bll\IScreen.java
 D:\onedrive2\github\Arla-project\src\main\java\GUI\util\Command\LoadTemplates.java
+D:\onedrive2\github\Arla-project\src\main\java\GUI\util\Observator\Observable.java
