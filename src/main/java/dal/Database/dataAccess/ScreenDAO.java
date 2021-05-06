@@ -96,7 +96,7 @@ public class ScreenDAO {
      */
     public void save(Screen screen, List<ScreenElement> screenElements) throws DALexception {
         int screenID = -1;
-        String query1 = "INSERT INTO Screens(?, ?, ?) Values(?, ?, ?);";
+        String query1 = "INSERT INTO Screens([name], refreshTime) Values(?, ?);";
         String query2 = "INSERT INTO Sections(screenID, colIndex, rowIndex" +
                 " , columnSpan, rowSpan, filepath) Values(?, ?, ?, ?, ?, ?);";
 
@@ -109,10 +109,13 @@ public class ScreenDAO {
             connection.setAutoCommit(false);
             connection.setTransactionIsolation(TRANSACTION_REPEATABLE_READ);
             preparedStat1.setString(1, screen.getName());
+            //change that
+            preparedStat1.setInt(2, 5);
             preparedStat1.executeUpdate();
+            //connection.commit();
 
             //set proper id for that movie
-            try(ResultSet generatedKey = preparedStatement.getGeneratedKeys()) {
+            try(ResultSet generatedKey = preparedStat1.getGeneratedKeys()) {
                 if(generatedKey.next())
                     screenID = generatedKey.getInt(1);
                 else

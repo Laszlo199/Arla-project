@@ -5,9 +5,11 @@ D:\onedrive2\github\Arla-project\src\main\java\GUI\util\ChooseFile.java
 D:\onedrive2\github\Arla-project\src\main\java\GUI\util\PDFLoader.java
 D:\onedrive2\github\Arla-project\src\main\java\dal\IScreen.java
 D:\onedrive2\github\Arla-project\src\main\java\GUI\util\Command\LoadCreateNew.java
+D:\onedrive2\github\Arla-project\src\main\java\dal\IDefaultScreen.java
 D:\onedrive2\github\Arla-project\src\main\java\GUI\util\Command\LoadUsers.java
 D:\onedrive2\github\Arla-project\src\main\java\be\Section.java
 D:\onedrive2\github\Arla-project\src\main\java\GUI\Controller\LogInController.java
+D:\onedrive2\github\Arla-project\src\main\java\be\ScreenElement.java
 D:\onedrive2\github\Arla-project\src\main\java\GUI\Controller\ScreensViewController.java
 D:\onedrive2\github\Arla-project\src\main\java\GUI\util\FileSaver.java
 D:\onedrive2\github\Arla-project\src\main\java\dal\Database\dataAccess\ScreenDAO.java
@@ -26,6 +28,7 @@ D:\onedrive2\github\Arla-project\src\main\java\GUI\Controller\CreateDefaultTempl
 D:\onedrive2\github\Arla-project\src\main\java\GUI\util\ValidateExtension.java
 D:\onedrive2\github\Arla-project\src\main\java\GUI\util\WebsiteLoader.java
 D:\onedrive2\github\Arla-project\src\main\java\dal\exception\DALexception.java
+D:\onedrive2\github\Arla-project\src\main\java\bll\IDefaultScreen.java
 D:\onedrive2\github\Arla-project\src\main\java\be\Users.java
 D:\onedrive2\github\Arla-project\src\main\java\GUI\util\charts\CreateHistogramChart.java
 D:\onedrive2\github\Arla-project\src\main\java\GUI\Controller\TemplatesViewController.java

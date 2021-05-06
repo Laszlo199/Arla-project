@@ -203,21 +203,33 @@ public class CreateNewController implements Initializable {
     private void saveAction(ActionEvent event) {
         if (!checkIfEmpty()) {
             List<Node> nodes = gridPane.getChildren();
-             String name = screenNameTextField.getText();
-             Screen screen = new Screen(name);
+            nodes.remove(nodes.size()-1);
+            String name = screenNameTextField.getText();
+            Screen screen = new Screen(name);
              //later here we will add userID and refresh rate
             List<ScreenElement> screenElements = new ArrayList<>();
 
+            for(Node node: nodes)
+                if(node==null)
+                    System.out.println("node is null");
+
             for (Node node : nodes) {
-                int colIndex = GridPane.getColumnIndex(node);
-                int rowIndex= GridPane.getRowIndex(node);
-                Integer columnSpan = GridPane.getColumnSpan(node);
-                Integer rowSpan = GridPane.getRowSpan(node);
-                if (columnSpan == null) columnSpan = 1;
-                if (rowSpan == null) rowSpan = 1;
-                //now we are missing file path
-                screenElements.add(new ScreenElement(colIndex, rowIndex,
-                        columnSpan, rowSpan, nodeMap.get(node)));
+                if(node!=null) {
+                    Integer colIndex = GridPane.getColumnIndex(node);
+                    System.out.println("col Idex:" + colIndex);
+                    Integer rowIndex = GridPane.getRowIndex(node);
+                    System.out.println("row Idex:" + rowIndex);
+                    Integer columnSpan = GridPane.getColumnSpan(node);
+                    Integer rowSpan = GridPane.getRowSpan(node);
+
+                    if (colIndex == null) colIndex = 0;
+                    if (rowIndex == null) rowIndex = 0;
+                    if (columnSpan == null) columnSpan = 1;
+                    if (rowSpan == null) rowSpan = 1;
+                    //now we are missing file path
+                    screenElements.add(new ScreenElement(colIndex, rowIndex,
+                            columnSpan, rowSpan, nodeMap.get(node)));
+                }
             }
             ScreenModel.getInstance().save(screen, screenElements);
         }

@@ -1,6 +1,7 @@
 GUI\util\Observator\IObserver.class
 be\Section.class
 GUI\util\FileSaver.class
+be\ScreenElement.class
 GUI\util\WebsiteLoader.class
 bll\IDefaultScreen.class
 GUI\util\CSVLoader.class

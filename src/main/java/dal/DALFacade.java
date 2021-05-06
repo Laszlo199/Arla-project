@@ -97,7 +97,7 @@ public class DALFacade implements IDALFacade{
     }
 
     @Override
-    public void save(Screen screen, List<ScreenElement> screenElements) {
+    public void save(Screen screen, List<ScreenElement> screenElements) throws DALexception {
         screenDAO.save(screen, screenElements);
     }
 }

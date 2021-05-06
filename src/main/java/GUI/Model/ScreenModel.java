@@ -117,6 +117,10 @@ public class ScreenModel extends Observable<DefaultScreen> {
      * @param screenElements
      */
     public void save(Screen screen, List<ScreenElement> screenElements) {
-        logic.save(screen, screenElements);
+        try {
+            logic.save(screen, screenElements);
+        } catch (BLLException e) {
+            e.printStackTrace();
+        }
     }
 }
