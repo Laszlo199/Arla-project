@@ -1,5 +1,7 @@
 package GUI.Controller;
 
+import GUI.Model.ScreenModel;
+import be.DefaultScreen;
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,6 +11,8 @@ import javafx.scene.control.Label;
  *   controller for the screen preview that will be shown in the screens
  */
 public class ScreenPreview {
+    private DefaultScreen ds;
+    private int id;
     @FXML
     private Label ScreenName;
     @FXML
@@ -25,7 +29,11 @@ public class ScreenPreview {
     public void refreshNow(ActionEvent actionEvent) {
     }
 
+    /*
+    method deletes the screen
+     */
     public void delete(ActionEvent actionEvent) {
+        ScreenModel.getInstance().deleteDefaultScreen(ds);
     }
 
     public void edit(ActionEvent actionEvent) {
@@ -34,27 +42,21 @@ public class ScreenPreview {
     public void openPreview(ActionEvent actionEvent) {
     }
 
-    public Label getScreenName() {
-        return ScreenName;
+    public void setDefaultScreen(DefaultScreen defaultScreen) {
+        this.ds = defaultScreen;
+        initFields();
     }
 
-    public Label getRefreshTime() {
-        return refreshTime;
+    private void initFields() {
+        id = ds.getId();
+        String csv = ds.getDestinationPathCSV().toString();
+        String pdf = ds.getDestinationPathPDF().toString();
+        attachment1.setText(csv.substring(csv.lastIndexOf("/")+1));
+        attachment2.setText(pdf.substring(csv.lastIndexOf("/")+1));
+        attachment3.setText(ds.getInsertedWebsite());
+        ScreenName.setText(ds.getName());
     }
 
-    public Label getAttachment1() {
-        return attachment1;
-    }
 
-    public Label getAttachment2() {
-        return attachment2;
-    }
 
-    public Label getAttachment3() {
-        return attachment3;
-    }
-
-    public Label getAttachment4() {
-        return attachment4;
-    }
 }

@@ -132,4 +132,9 @@ public class Facade implements IFacade{
             throw new BLLException("Whoops..Couldn't create User");
         }
     }
+
+    @Override
+    public void deleteDefaultScreen(DefaultScreen defaultScreen) {
+        facade.deleteDefaultScreen(defaultScreen);
+    }
 }

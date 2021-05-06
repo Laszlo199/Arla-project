@@ -8,7 +8,7 @@ import java.util.List;
 /**
  *
  */
-public interface IDALFacade extends IFile , IPDF, IScreen{
+public interface IDALFacade extends IFile , IPDF, IScreen, IDefaultScreen{
 
 
 

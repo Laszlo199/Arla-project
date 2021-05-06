@@ -4,6 +4,7 @@ import GUI.util.Observator.IObserver;
 import be.DefaultScreen;
 
 import java.util.HashSet;
+import java.util.List;
 
 /**
  *
@@ -18,5 +19,5 @@ public abstract class Observable<TUpdateType>{
         observers.remove(observer);
     }
 
-    public abstract void notifyObservers(TUpdateType... added);
+    public abstract void notifyObservers(TUpdateType added, TUpdateType deleted, TUpdateType modified);
 }

@@ -6,5 +6,5 @@ import be.DefaultScreen;
  *
  */
 public interface IObserver<TUpdateType> {
-    void update(TUpdateType... addedScreens);
+    void update(TUpdateType added, TUpdateType deleted, TUpdateType modified);
 }

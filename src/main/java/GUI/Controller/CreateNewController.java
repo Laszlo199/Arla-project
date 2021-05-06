@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -46,11 +47,9 @@ public class CreateNewController implements Initializable {
     MenuItem down = new MenuItem("connect with bottom");
     WebEngine webEngine = new WebEngine();
     WebEngine pdfViewerEngine = new WebEngine();
-    private Screen thisScreen;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        thisScreen = new Screen(0, null);
         fillVBox();
         gridPane.setGridLinesVisible(true);
         setOnDrags();
@@ -87,6 +86,7 @@ public class CreateNewController implements Initializable {
     public void dragStart(MouseEvent event, Label source) {
         Dragboard db = source.startDragAndDrop(TransferMode.ANY);
         ClipboardContent cb = new ClipboardContent();
+        source.setCursor(Cursor.CLOSED_HAND);
         cb.putString(source.getText());
         db.setContent(cb);
         event.consume();
@@ -183,7 +183,8 @@ public class CreateNewController implements Initializable {
     }
 
     private void saveName(ActionEvent event) {
-        thisScreen.setName(screenNameTextField.getText());
+
+        //thisScreen.setName(screenNameTextField.getText());
     }
 
     private void saveAction(ActionEvent event) {
@@ -202,7 +203,7 @@ public class CreateNewController implements Initializable {
                 if (width == null) width = 1;
                 if (height == null) height = 1;
 
-                Section section = new Section(thisScreen.getId(), i, width, height);
+               // Section section = new Section(thisScreen.getId(), i, width, height);
                 i++;
                 //here
                 if (i != gridPane.getChildren().size()) {
