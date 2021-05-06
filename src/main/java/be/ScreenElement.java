@@ -17,4 +17,24 @@ public class ScreenElement {
         this.rowSpan = rowSpan;
         this.filepath = filepath;
     }
+
+    public int getColIndex() {
+        return colIndex;
+    }
+
+    public int getRowIndex() {
+        return rowIndex;
+    }
+
+    public int getColSpan() {
+        return colSpan;
+    }
+
+    public int getRowSpan() {
+        return rowSpan;
+    }
+
+    public String getFilepath() {
+        return filepath;
+    }
 }

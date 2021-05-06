@@ -1,5 +1,6 @@
 package dal.Database.dataAccess;
 
+import GUI.util.Command.Command;
 import be.DefaultScreen;
 import be.Screen;
 import be.ScreenElement;
@@ -11,6 +12,9 @@ import java.nio.file.Path;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.sql.Connection.TRANSACTION_NONE;
+import static java.sql.Connection.TRANSACTION_REPEATABLE_READ;
 
 /**
  *
@@ -90,7 +94,47 @@ public class ScreenDAO {
      * @param screen
      * @param screenElements
      */
-    public void save(Screen screen, List<ScreenElement> screenElements) {
-        
+    public void save(Screen screen, List<ScreenElement> screenElements) throws DALexception {
+        int screenID = -1;
+        String query1 = "INSERT INTO Screens(?, ?, ?) Values(?, ?, ?);";
+        String query2 = "INSERT INTO Sections(screenID, colIndex, rowIndex" +
+                " , columnSpan, rowSpan, filepath) Values(?, ?, ?, ?, ?, ?);";
+
+        try(Connection connection = dbConnector.getConnection();
+            PreparedStatement preparedStat1 = connection.prepareStatement(query1,
+                    Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement preparedStatement = connection.prepareStatement(query2,
+                    Statement.RETURN_GENERATED_KEYS))
+        {
+            connection.setAutoCommit(false);
+            connection.setTransactionIsolation(TRANSACTION_REPEATABLE_READ);
+            preparedStat1.setString(1, screen.getName());
+            preparedStat1.executeUpdate();
+
+            //set proper id for that movie
+            try(ResultSet generatedKey = preparedStatement.getGeneratedKeys()) {
+                if(generatedKey.next())
+                    screenID = generatedKey.getInt(1);
+                else
+                    throw new DALexception("Couldn't get generated key");
+            }
+
+            for(ScreenElement element: screenElements){
+                preparedStatement.setInt(1, screenID);
+                preparedStatement.setInt(2, element.getColIndex());
+                preparedStatement.setInt(3, element.getRowIndex());
+                preparedStatement.setInt(4, element.getColSpan());
+                preparedStatement.setInt(5, element.getRowSpan());
+                preparedStatement.setString(6, element.getFilepath());
+                preparedStatement.executeUpdate();
+            }
+            connection.commit();
+            connection.setAutoCommit(true);
+            connection.setTransactionIsolation(TRANSACTION_NONE);
+        } catch (SQLServerException throwables) {
+            throw new DALexception("Couldn't insert to db added screen ", throwables);
+        } catch (SQLException throwables) {
+            throw new DALexception("Couldn't insert to db added screen ", throwables);
+        }
     }
 }
