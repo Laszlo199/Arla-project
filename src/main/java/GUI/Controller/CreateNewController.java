@@ -4,6 +4,7 @@ import GUI.util.CSVLoader;
 import GUI.util.PDFLoader;
 import GUI.util.WebsiteLoader;
 import be.Screen;
+import be.ScreenElement;
 import be.Section;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
@@ -24,9 +25,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class CreateNewController implements Initializable {
     @FXML private Button saveNameBtn;
@@ -47,6 +46,7 @@ public class CreateNewController implements Initializable {
     MenuItem down = new MenuItem("connect with bottom");
     WebEngine webEngine = new WebEngine();
     WebEngine pdfViewerEngine = new WebEngine();
+    Map<Node, String> nodeMap = new HashMap<>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -110,7 +110,11 @@ public class CreateNewController implements Initializable {
             if(fileType.equals("HTTP")){
                 JFXTextField field = new JFXTextField();
                 Button btn = new Button("load");
-                btn.setOnAction(actionEvent -> loadWebsite(anchorPane, field.getText()));
+                btn.setOnAction(actionEvent -> {
+                        String que = field.getText();
+                        nodeMap.put(node, que);
+                        loadWebsite(anchorPane, que);
+                        });
                 loadNodes(anchorPane, lbl, field, btn);
                 success =true;
             }
@@ -119,21 +123,26 @@ public class CreateNewController implements Initializable {
                 button.setOnAction(actionEvent ->{
                     PDFLoader.loadPDF(actionEvent, new FileChooser());
                     PDFLoader.loadPDFViewer(anchorPane);
+                    nodeMap.put(node, PDFLoader.getDestinationPathPDF().toString());
                 });
                 loadNodes(anchorPane, lbl, button);
                 success = true;
             }
             else if(fileType.equals("CSV")){
                 Button button = new Button("load file");
-                button.setOnAction(actionEvent -> CSVLoader.loadCSV(actionEvent,
-                        new FileChooser(), anchorPane));
+                button.setOnAction(actionEvent -> {
+                    CSVLoader.loadCSV(actionEvent, new FileChooser(), anchorPane);
+                    nodeMap.put(node, CSVLoader.getDestinationPathCSV().toString());
+                });
                 loadNodes(anchorPane, lbl, button);
                 success = true;
             }
                 else {
                 Button button = new Button("load file");
-                button.setOnAction(actionEvent -> loadFiles(actionEvent, anchorPane,
-                        fileType));
+                button.setOnAction(actionEvent -> {
+                   String path=  loadFiles(actionEvent, anchorPane, fileType);
+                   nodeMap.put(node, path);
+                });
                 loadNodes(anchorPane, lbl, button);
                 success = true;
             }
@@ -162,7 +171,7 @@ public class CreateNewController implements Initializable {
         anchorPane.getChildren().addAll(vbox);
     }
 
-    private void loadFiles(ActionEvent event, AnchorPane anchorPane, String fileType) {
+    private String loadFiles(ActionEvent event, AnchorPane anchorPane, String fileType) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select image files");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Images",
@@ -171,7 +180,8 @@ public class CreateNewController implements Initializable {
         Image image;
 
         if (!files.isEmpty()) {
-            image = new Image(files.get(0).toURI().toString());
+            String fileP = files.get(0).toURI().toString();
+            image = new Image(fileP);
 
             anchorPane.getChildren().removeAll();
             ImageView imageView = new ImageView();
@@ -179,7 +189,9 @@ public class CreateNewController implements Initializable {
             anchorPane.getChildren().add(imageView);
             imageView.setFitHeight(anchorPane.getHeight());
             imageView.setFitWidth(anchorPane.getWidth());
+            return fileP;
         }
+        return new String("");
     }
 
     private void saveName(ActionEvent event) {
@@ -189,28 +201,24 @@ public class CreateNewController implements Initializable {
 
     private void saveAction(ActionEvent event) {
         if (!checkIfEmpty()) {
-
             List<Node> nodes = gridPane.getChildren();
-            List<Section> sections = new ArrayList<>();
-
-            int i = 0;
+             String name = screenNameTextField.getText();
+             Screen screen = new Screen(name);
+             //later here we will add userID and refresh rate
+            List<ScreenElement> screenElements = new ArrayList<>();
 
             for (Node node : nodes) {
-                Integer width = GridPane.getColumnSpan(node);
-                Integer height = GridPane.getRowSpan(node);
-
-                //here
-                if (width == null) width = 1;
-                if (height == null) height = 1;
-
-               // Section section = new Section(thisScreen.getId(), i, width, height);
-                i++;
-                //here
-                if (i != gridPane.getChildren().size()) {
-                    sections.add(section);
-                    System.out.println(section);
-                }
+                int colIndex = GridPane.getColumnIndex(node);
+                int rowIndex= GridPane.getRowIndex(node);
+                Integer columnSpan = GridPane.getColumnSpan(node);
+                Integer rowSpan = GridPane.getRowSpan(node);
+                if (columnSpan == null) columnSpan = 1;
+                if (rowSpan == null) rowSpan = 1;
+                //now we are missing file path
+                screenElements.add(new ScreenElement(colIndex, rowIndex,
+                        columnSpan, rowSpan, nodeMap.get(node)));
             }
+            
         }
     }
 
