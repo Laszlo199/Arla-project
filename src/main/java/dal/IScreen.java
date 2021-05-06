@@ -1,6 +1,8 @@
 package dal;
 
 import be.DefaultScreen;
+import be.Screen;
+import be.ScreenElement;
 import dal.exception.DALexception;
 
 import java.util.List;
@@ -9,7 +11,5 @@ import java.util.List;
  *
  */
 public interface IScreen {
-    void saveDefaultTemplate(DefaultScreen defaultTemplate) throws DALexception;
-
-    List<DefaultScreen> getAllDefaultScreens() throws DALexception;
+    void save(Screen screen, List<ScreenElement> screenElements);
 }

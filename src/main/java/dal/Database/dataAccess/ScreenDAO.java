@@ -1,6 +1,8 @@
 package dal.Database.dataAccess;
 
 import be.DefaultScreen;
+import be.Screen;
+import be.ScreenElement;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dal.Database.DBConnector;
 import dal.exception.DALexception;
@@ -80,5 +82,15 @@ public class ScreenDAO {
         } catch (SQLException throwables) {
             throw new DALexception("Whoops...Couldn't get all screens");
         }
+    }
+
+    /**
+     * here will happen all the magic. At first we save the screen, get its id and
+     * then save sections adding screen ids
+     * @param screen
+     * @param screenElements
+     */
+    public void save(Screen screen, List<ScreenElement> screenElements) {
+        
     }
 }

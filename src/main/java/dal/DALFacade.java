@@ -1,6 +1,8 @@
 package dal;
 
 import be.DefaultScreen;
+import be.Screen;
+import be.ScreenElement;
 import be.Users;
 import dal.Database.DBConnector;
 import dal.Database.dataAccess.ScreenDAO;
@@ -92,5 +94,10 @@ public class DALFacade implements IDALFacade{
     @Override
     public void deleteDefaultScreen(DefaultScreen defaultScreen) {
       //  screenDAO.deleteDefaultScreen
+    }
+
+    @Override
+    public void save(Screen screen, List<ScreenElement> screenElements) {
+        screenDAO.save(screen, screenElements);
     }
 }

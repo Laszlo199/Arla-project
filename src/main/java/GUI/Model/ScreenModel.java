@@ -4,6 +4,8 @@ import GUI.Model.exception.ModelException;
 import GUI.util.Observator.IObserver;
 import GUI.util.Observator.Observable;
 import be.DefaultScreen;
+import be.Screen;
+import be.ScreenElement;
 import bll.Facade;
 import bll.IFacade;
 import bll.exception.BLLException;
@@ -106,5 +108,15 @@ public class ScreenModel extends Observable<DefaultScreen> {
         for(IObserver o: super.observers){
             o.update(added, deleted, modified);
         }
+    }
+
+    /**
+     * method passes the data needed to save screen there are encapsulated daata for each section and
+     * general info about screen
+     * @param screen
+     * @param screenElements
+     */
+    public void save(Screen screen, List<ScreenElement> screenElements) {
+        logic.save(screen, screenElements);
     }
 }

@@ -1,5 +1,6 @@
 package GUI.Controller;
 
+import GUI.Model.ScreenModel;
 import GUI.util.CSVLoader;
 import GUI.util.PDFLoader;
 import GUI.util.WebsiteLoader;
@@ -218,7 +219,7 @@ public class CreateNewController implements Initializable {
                 screenElements.add(new ScreenElement(colIndex, rowIndex,
                         columnSpan, rowSpan, nodeMap.get(node)));
             }
-            
+            ScreenModel.getInstance().save(screen, screenElements);
         }
     }
 

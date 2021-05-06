@@ -1,6 +1,8 @@
 package bll;
 
 import be.DefaultScreen;
+import be.Screen;
+import be.ScreenElement;
 import be.Users;
 import bll.exception.BLLException;
 import dal.DALFacade;
@@ -81,6 +83,11 @@ public class Facade implements IFacade{
         } catch (DALexception daLexception) {
             throw new BLLException("Couldn't delete CSV file", daLexception);
         }
+    }
+
+    @Override
+    public void save(Screen screen, List<ScreenElement> screenElements) {
+        facade.save(screen, screenElements);
     }
 
     @Override

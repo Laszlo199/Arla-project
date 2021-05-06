@@ -1,6 +1,8 @@
 package bll;
 
 import be.DefaultScreen;
+import be.Screen;
+import be.ScreenElement;
 import bll.exception.BLLException;
 
 import java.nio.file.Path;
@@ -22,4 +24,5 @@ public interface IScreen {
 
     void deleteCSV(Path destinationPathCSV) throws BLLException;
 
+    void save(Screen screen, List<ScreenElement> screenElements);
 }
