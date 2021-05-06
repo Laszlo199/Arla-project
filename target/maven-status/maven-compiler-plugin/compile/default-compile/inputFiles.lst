@@ -37,6 +37,7 @@ D:\onedrive2\github\Arla-project\src\main\java\dal\IDALFacade.java
 D:\onedrive2\github\Arla-project\src\main\java\bll\Facade.java
 D:\onedrive2\github\Arla-project\src\main\java\GUI\util\Observator\IObserver.java
 D:\onedrive2\github\Arla-project\src\main\java\GUI\util\Command\CommandManager.java
+D:\onedrive2\github\Arla-project\src\main\java\GUI\Controller\PreviewController.java
 D:\onedrive2\github\Arla-project\src\main\java\dal\File\PDFOperations.java
 D:\onedrive2\github\Arla-project\src\main\java\dal\IFile.java
 D:\onedrive2\github\Arla-project\src\main\java\dal\File\ScreenOperations.java

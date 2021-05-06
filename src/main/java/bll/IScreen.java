@@ -23,15 +23,6 @@ public interface IScreen {
     void deletePDFfiles(Path destinationPathPDF) throws BLLException;
 
     void deleteCSV(Path destinationPathCSV) throws BLLException;
-
-
     void save(Screen screen, List<ScreenElement> screenElements) throws BLLException;
-
-    //didnt i move it??
-    List<DefaultScreen> getAllDefaultScreens() throws BLLException;
-
-    void deleteScreen(DefaultScreen currentScreen) throws BLLException;
-
-    void updateScreen(int id, DefaultScreen screen) throws BLLException;
 
 }
