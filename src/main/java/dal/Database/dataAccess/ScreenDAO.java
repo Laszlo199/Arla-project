@@ -88,6 +88,7 @@ public class ScreenDAO {
         }
     }
 
+
     /**
      * here will happen all the magic. At first we save the screen, get its id and
      * then save sections adding screen ids
@@ -138,6 +139,37 @@ public class ScreenDAO {
             throw new DALexception("Couldn't insert to db added screen ", throwables);
         } catch (SQLException throwables) {
             throw new DALexception("Couldn't insert to db added screen ", throwables);
+    }
+    }
+    
+    public void deleteScreen(DefaultScreen screen) throws DALexception {
+        String sql = "DELETE FROM DefaultTemplates WHERE id=?";
+        try(Connection con = dbConnector.getConnection()) {
+            PreparedStatement pstat = con.prepareStatement(sql);
+            pstat.setInt(1, screen.getId());
+            pstat.executeUpdate();
+        } catch (SQLServerException throwables) {
+            throw new DALexception("Whoops...Couldn't delete screen");
+        } catch (SQLException throwables) {
+            throw new DALexception("Whoops...Couldn't delete screen");
+        }
+    }
+
+    public void updateScreen(int id, DefaultScreen screen) throws DALexception {
+        String sql = "UPDATE DefaultTemplates SET [name]=?, destinationPathCSV=?, " +
+                "destinationPathPDF=?, insertedWebsite=? WHERE id=?";
+        try(Connection con = dbConnector.getConnection()) {
+            PreparedStatement pstat = con.prepareStatement(sql);
+            pstat.setString(1, screen.getName());
+            pstat.setString(2, screen.getDestinationPathCSV().toString());
+            pstat.setString(3, screen.getDestinationPathPDF().toString());
+            pstat.setString(4, screen.getInsertedWebsite());
+            pstat.setInt(5, id);
+            pstat.executeUpdate();
+        } catch (SQLServerException throwables) {
+            throw new DALexception("Whoops...Couldn't update screen");
+        } catch (SQLException throwables) {
+            throw new DALexception("Whoops...Couldn't update screen");
         }
     }
 }

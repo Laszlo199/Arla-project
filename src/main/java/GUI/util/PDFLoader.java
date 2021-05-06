@@ -35,6 +35,11 @@ public class PDFLoader {
         }
         return new String("");
     }
+
+    public static void loadPDFPreview() {
+        File selectedFile ;
+
+    }
     public static void loadPDFViewer(Pane spacePDF){
         String htmlPath = ScreenModel.getInstance().getHTML(destinationPathPDF);
         WebView webView = new WebView();
@@ -47,6 +52,10 @@ public class PDFLoader {
     }
     public static Path getDestinationPathPDF(){
         return destinationPathPDF;
+    }
+
+    public static void setDestinationPathPDF(Path path) {
+        destinationPathPDF = path;
     }
 
 

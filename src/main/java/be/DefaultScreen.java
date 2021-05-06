@@ -12,6 +12,15 @@ public class DefaultScreen {
     private Path destinationPathPDF;
     private String insertedWebsite;
 
+    public DefaultScreen(int id, String name, Path destinationPathCSV,
+                         Path destinationPathPDF, String insertedWebsite) {
+        this.id = id;
+        this.name = name;
+        this.destinationPathCSV = destinationPathCSV;
+        this.destinationPathPDF = destinationPathPDF;
+        this.insertedWebsite = insertedWebsite;
+    }
+
     public DefaultScreen(String name, Path destinationPathCSV,
                          Path destinationPathPDF, String insertedWebsite) {
         this.name = name;
@@ -20,12 +29,14 @@ public class DefaultScreen {
         this.insertedWebsite = insertedWebsite;
     }
 
-    public DefaultScreen(int id, String name, Path destinationPathCSV, Path destinationPathPDF, String insertedWebsite) {
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
         this.id = id;
-        this.name = name;
-        this.destinationPathCSV = destinationPathCSV;
-        this.destinationPathPDF = destinationPathPDF;
-        this.insertedWebsite = insertedWebsite;
+
     }
 
     public String getName() {
@@ -44,10 +55,7 @@ public class DefaultScreen {
         return insertedWebsite;
     }
 
-    public int getId() {
-        return id;
-    }
-
+   
     /**
      * Id will be retrived from db and set using this setter method
      * @param id

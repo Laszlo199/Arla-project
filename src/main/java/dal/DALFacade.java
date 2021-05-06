@@ -100,4 +100,13 @@ public class DALFacade implements IDALFacade{
     public void save(Screen screen, List<ScreenElement> screenElements) throws DALexception {
         screenDAO.save(screen, screenElements);
     }
+    public void deleteScreen(DefaultScreen screen) throws DALexception {
+        screenDAO.deleteScreen(screen);
+    }
+
+    @Override
+    public void updateScreen(int id, DefaultScreen screen) throws DALexception {
+        screenDAO.updateScreen(id, screen);
+
+    }
 }

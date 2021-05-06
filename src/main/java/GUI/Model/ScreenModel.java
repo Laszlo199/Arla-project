@@ -123,4 +123,21 @@ public class ScreenModel extends Observable<DefaultScreen> {
             e.printStackTrace();
         }
     }
+
+    public void deleteScreen(DefaultScreen currentScreen) {
+        try {
+            defaultScreens.remove(currentScreen);
+            logic.deleteScreen(currentScreen);
+        } catch (BLLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateScreen(int id, DefaultScreen screen) {
+        try {
+            logic.updateScreen(id, screen);
+        } catch (BLLException e) {
+            e.printStackTrace();
+        }
+    }
 }

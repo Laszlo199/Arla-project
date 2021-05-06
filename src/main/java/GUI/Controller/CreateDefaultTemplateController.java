@@ -46,6 +46,9 @@ public class CreateDefaultTemplateController implements Initializable {
     private final static String DESTINATION_PATH_PDF = "src/../Data/PDFData/";
     private final static String HOME = "https://www.google.com/webhp";
 
+    private boolean isEditMode = false;
+    private DefaultScreen editScreen;
+
     //fields to save
     private Path destinationPathCSV;
     private String insertedWebsite;
@@ -55,6 +58,18 @@ public class CreateDefaultTemplateController implements Initializable {
     @Override
     public void initialize(URL url2, ResourceBundle resourceBundle) {
 
+    }
+
+    public void setEditMode(DefaultScreen screen) {
+        nameField.setText(screen.getName());
+        destinationPathCSV = screen.getDestinationPathCSV();
+        insertedWebsite = screen.getInsertedWebsite();
+        destinationPathPDF = screen.getDestinationPathPDF();
+        attachment1.setText(String.valueOf(screen.getDestinationPathCSV()));
+        attachment2.setText(screen.getInsertedWebsite());
+        attachment3.setText(String.valueOf(screen.getDestinationPathPDF()));
+        isEditMode = true;
+        editScreen = screen;
     }
 
 
@@ -68,11 +83,14 @@ public class CreateDefaultTemplateController implements Initializable {
      */
     public void save(ActionEvent actionEvent) {
         name = nameField.getText();
-        if (name != null && destinationPathCSV != null &&
-                insertedWebsite != null && destinationPathPDF != null) {
-            System.out.println("we got there!");
-            screenModel.saveDefaultTemplate(new DefaultScreen(name, destinationPathCSV,
-                    destinationPathPDF, insertedWebsite));
+        if (name != null && destinationPathCSV != null && insertedWebsite != null && destinationPathPDF != null) {
+            if(isEditMode) {
+                screenModel.updateScreen(editScreen.getId(), new DefaultScreen(name, destinationPathCSV,
+                        destinationPathPDF, insertedWebsite));
+            } else {
+                System.out.println("we got there!");
+                screenModel.saveDefaultTemplate(new DefaultScreen(name, destinationPathCSV, destinationPathPDF, insertedWebsite));
+            }
         }
     }
 

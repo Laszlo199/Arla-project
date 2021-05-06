@@ -42,7 +42,7 @@ public class CSVLoader {
 
 
 
-    private static void drawCanvas( Path destinationPath, Pane csvChart) {
+    public static void drawCanvas( Path destinationPath, Pane csvChart) {
         CreateHistogramChart createHistogramChart =
                 new CreateHistogramChart(getHistogramData(destinationPath));
         ChartCanvas canvas = new ChartCanvas(createHistogramChart.createChart());
@@ -69,6 +69,10 @@ public class CSVLoader {
                     "Couldnt get data", "");
         }
         return new double[0];
+    }
+
+    public static void setDestinationPathCsv(Path path) {
+        destinationPathCSV = path;
     }
 
 }
