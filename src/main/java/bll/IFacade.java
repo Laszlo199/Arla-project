@@ -15,4 +15,5 @@ public interface IFacade extends IScreen, IDefaultScreen{
     void deleteUser(Users user)throws BLLException;
     void updateUser(Users oldUser, Users newUser) throws BLLException;
     void createUser(Users user) throws BLLException;
+    boolean validate(String password) throws BLLException;
 }

@@ -1,10 +1,14 @@
 package GUI.Controller;
 
+
+import GUI.Model.LoginModel;
 import GUI.util.Command.CommandManager;
 import GUI.Controller.Interfaces.ILogIn;
 import com.jfoenix.controls.JFXPasswordField;
 import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;
+
+import javax.swing.*;
 
 /**
  *
@@ -29,7 +33,13 @@ public class LogInController implements ILogIn {
      * @param
      */
     public void confirm() {
-        if(passwordIsCorrect())
+        String pw = passwordField.getText();
+        LoginModel loginModel = new LoginModel();
+        boolean flag = loginModel.validate(pw);
+        if(!flag)
+            JOptionPane.showMessageDialog(null,"Wrong Password");
+        else
             CommandManager.getInstance().getPrevious().rollback(borderPane);
+
     }
 }

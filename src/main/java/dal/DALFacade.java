@@ -5,6 +5,7 @@ import be.Screen;
 import be.ScreenElement;
 import be.Users;
 import dal.Database.DBConnector;
+import dal.Database.dataAccess.AdminsDAO;
 import dal.Database.dataAccess.ScreenDAO;
 import dal.Database.dataAccess.UserDAO;
 import dal.File.PDFOperations;
@@ -21,6 +22,7 @@ public class DALFacade implements IDALFacade{
 
     private DBConnector dbConnector = new DBConnector();
     private UserDAO userDAO = new UserDAO();
+    private AdminsDAO adminsDAO = new AdminsDAO();
     private static DALFacade dalFacade;
     private ScreenOperations screenOperations = new ScreenOperations();
     private PDFOperations pdfOperations = new PDFOperations();
@@ -73,6 +75,11 @@ public class DALFacade implements IDALFacade{
     @Override
     public void createUser(Users user) throws DALexception {
         userDAO.create(user);
+    }
+
+    @Override
+    public boolean validate(String password) throws DALexception {
+        return adminsDAO.validate(password);
     }
 
 
