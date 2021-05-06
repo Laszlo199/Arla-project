@@ -66,4 +66,20 @@ public class ScreenDAO {
             throw new DALexception("Whoops...Couldn't get all screens");
         }
     }
+
+    public void deleteScreen(DefaultScreen screen) throws DALexception {
+        String sql = "DELETE FROM DefaultTemplates WHERE [name]=? AND [destinationPathCSV]=? AND [destinationPathPDF]=?" +
+                " AND [insertedWebsite]=?";
+        try(Connection con = dbConnector.getConnection()) {
+            PreparedStatement pstat = con.prepareStatement(sql);
+            pstat.setString(1, screen.getName());
+            pstat.setString(2, screen.getDestinationPathCSV().toString());
+            pstat.setString(3, screen.getDestinationPathPDF().toString());
+            pstat.setString(4, screen.getInsertedWebsite());
+        } catch (SQLServerException throwables) {
+            throw new DALexception("Whoops...Couldn't delete screen");
+        } catch (SQLException throwables) {
+            throw new DALexception("Whoops...Couldn't delete screen");
+        }
+    }
 }

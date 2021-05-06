@@ -12,4 +12,6 @@ public interface IScreen {
     void saveDefaultTemplate(DefaultScreen defaultTemplate) throws DALexception;
 
     List<DefaultScreen> getAllDefaultScreens() throws DALexception;
+
+    void deleteScreen(DefaultScreen screen) throws DALexception;
 }

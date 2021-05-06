@@ -88,4 +88,9 @@ public class DALFacade implements IDALFacade{
     public List<DefaultScreen> getAllDefaultScreens() throws DALexception {
         return screenDAO.getAllDefaultScreens();
     }
+
+    @Override
+    public void deleteScreen(DefaultScreen screen) throws DALexception {
+        screenDAO.deleteScreen(screen);
+    }
 }

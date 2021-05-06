@@ -24,8 +24,7 @@ public class ScreensViewController implements Initializable, IObserver<DefaultSc
     //private final static String HTML_DIRECTORY = "src/../Data/HTMLData/";
     private final static String PDF_DIRECTORY = "src/../Data/PDFData/";
     private final static String CVS_DIRECTORY = "src/../Data/CSVData/";
-    @FXML
-    private VBox vBox;
+    @FXML private VBox vBox;
 
 
     @Override
@@ -50,7 +49,8 @@ public class ScreensViewController implements Initializable, IObserver<DefaultSc
             try{
                 AnchorPane screen = (AnchorPane) loader.load();
                 ScreenPreview screenPreview = loader.getController();
-                screenPreview.getScreenName().setText(ds.getName());
+                screenPreview.setCurrentScreen(ds);
+                screenPreview.getScreenNameLbl().setText(ds.getName());
                 screenPreview.getAttachment1().setText(ds.getDestinationPathCSV().
                         toString().replaceAll(CVS_DIRECTORY, ""));
                 screenPreview.getAttachment2().setText(ds.getDestinationPathPDF().toString().

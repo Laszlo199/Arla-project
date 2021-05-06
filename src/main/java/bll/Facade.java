@@ -92,6 +92,15 @@ public class Facade implements IFacade{
         }
     }
 
+    @Override
+    public void deleteScreen(DefaultScreen screen) throws BLLException {
+        try {
+            facade.deleteScreen(screen);
+        } catch (DALexception daLexception) {
+            throw new BLLException("Couldn't delete screen", daLexception);
+        }
+    }
+
     // Users add, delete and all
     @Override
     public List<Users> getAllUser() throws BLLException {
