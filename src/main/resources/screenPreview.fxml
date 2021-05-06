@@ -86,22 +86,22 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="attachment1" layoutX="150.0" layoutY="144.0" text="report.pdf">
+            <Label fx:id="attachment1" layoutX="395.0" layoutY="144.0" text="report.pdf">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <Label fx:id="attachment2" layoutX="150.0" layoutY="192.0" text="chart.xls">
+            <Label fx:id="attachment2" layoutX="395.0" layoutY="192.0" text="chart.xls">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <Label fx:id="attachment3" layoutX="385.0" layoutY="144.0" text="opera.com">
+            <Label fx:id="attachment3" layoutX="147.0" layoutY="144.0" text="opera.com">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <Label fx:id="attachment4" layoutX="385.0" layoutY="192.0" text="howTo.com">
+            <Label fx:id="attachment4" layoutX="144.0" layoutY="192.0" text="howTo.com">
                <font>
                   <Font size="16.0" />
                </font>
