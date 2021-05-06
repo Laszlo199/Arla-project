@@ -5,7 +5,13 @@ import be.DefaultScreen;
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 /**
  *   controller for the screen preview that will be shown in the screens
@@ -39,6 +45,20 @@ public class ScreenPreview {
     }
 
     public void edit(ActionEvent actionEvent) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Templates/CreateDefaultTemplate.fxml"));
+        Parent root = null;
+        try {
+            root = loader.load();
+            CreateDefaultTemplateController controller = loader.getController();
+            controller.setEditMode(currentScreen);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Stage stage = new Stage();
+        stage.setTitle("Production");
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     public void openPreview(ActionEvent actionEvent) {

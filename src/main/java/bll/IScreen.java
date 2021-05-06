@@ -25,4 +25,6 @@ public interface IScreen {
     List<DefaultScreen> getAllDefaultScreens() throws BLLException;
 
     void deleteScreen(DefaultScreen currentScreen) throws BLLException;
+
+    void updateScreen(int id, DefaultScreen screen) throws BLLException;
 }

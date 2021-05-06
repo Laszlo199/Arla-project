@@ -14,4 +14,6 @@ public interface IScreen {
     List<DefaultScreen> getAllDefaultScreens() throws DALexception;
 
     void deleteScreen(DefaultScreen screen) throws DALexception;
+
+    void updateScreen(int id, DefaultScreen screen) throws DALexception;
 }
