@@ -62,6 +62,20 @@ public class ScreenPreview {
     }
 
     public void openPreview(ActionEvent actionEvent) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/preview.fxml"));
+        Parent root = null;
+        try {
+            root = loader.load();
+            PreviewController controller = loader.getController();
+            controller.setScreen(currentScreen);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Stage stage = new Stage();
+        stage.setTitle("Preview");
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     public Label getScreenNameLbl() {
