@@ -52,11 +52,12 @@ public class ScreenDAO {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()){
+                int id = resultSet.getInt(1);
                 String name = resultSet.getString(2);
                 String destinationPathCSV = resultSet.getString(3);
                 String destinationPathPDF = resultSet.getString(4);
                 String insertedWebsite = resultSet.getString(5);
-                defaultScreens.add(new DefaultScreen(name, Path.of(destinationPathCSV),
+                defaultScreens.add(new DefaultScreen(id, name, Path.of(destinationPathCSV),
                         Path.of(destinationPathPDF), insertedWebsite));
             }
             return defaultScreens;
@@ -68,14 +69,12 @@ public class ScreenDAO {
     }
 
     public void deleteScreen(DefaultScreen screen) throws DALexception {
-        String sql = "DELETE FROM DefaultTemplates WHERE [name]=? AND [destinationPathCSV]=? AND [destinationPathPDF]=?" +
-                " AND [insertedWebsite]=?";
+        String sql = "DELETE FROM DefaultTemplates WHERE id=?";
+        System.out.println("im here"+screen.getId());
         try(Connection con = dbConnector.getConnection()) {
             PreparedStatement pstat = con.prepareStatement(sql);
-            pstat.setString(1, screen.getName());
-            pstat.setString(2, screen.getDestinationPathCSV().toString());
-            pstat.setString(3, screen.getDestinationPathPDF().toString());
-            pstat.setString(4, screen.getInsertedWebsite());
+            pstat.setInt(1, screen.getId());
+            pstat.executeUpdate();
         } catch (SQLServerException throwables) {
             throw new DALexception("Whoops...Couldn't delete screen");
         } catch (SQLException throwables) {

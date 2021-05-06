@@ -104,8 +104,8 @@ public class ScreenModel extends Observable<DefaultScreen> {
     }
 
     public void deleteScreen(DefaultScreen currentScreen) {
-        defaultScreens.remove(currentScreen);
         try {
+            defaultScreens.remove(currentScreen);
             logic.deleteScreen(currentScreen);
         } catch (BLLException e) {
             e.printStackTrace();
