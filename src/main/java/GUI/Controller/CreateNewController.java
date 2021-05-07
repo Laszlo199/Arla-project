@@ -10,21 +10,27 @@ import be.Section;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.web.WebEngine;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
@@ -196,7 +202,6 @@ public class CreateNewController implements Initializable {
     }
 
     private void saveName(ActionEvent event) {
-
         //thisScreen.setName(screenNameTextField.getText());
     }
 
@@ -262,6 +267,23 @@ public class CreateNewController implements Initializable {
                 GridPane.setRowSpan(node, span + 1);
                 node.setStyle("-fx-background-color: BLUE"); //to check if worked
             });
+        }
+    }
+
+
+    public void btnAssignUser(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/assignUsersView.fxml"));
+            Parent root1 = (Parent) loader.load();
+            Stage stage = new Stage();
+            stage.getIcons().add(new Image("/Icons/arla.png"));
+            stage.setTitle("Assign user");
+            //stage.initStyle(StageStyle.TRANSPARENT);
+            Scene scene = new Scene(root1);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

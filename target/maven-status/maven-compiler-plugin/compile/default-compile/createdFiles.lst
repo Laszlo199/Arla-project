@@ -1,3 +1,4 @@
+GUI\Controller\AssignUsersViewController.class
 GUI\util\Observator\IObserver.class
 be\Section.class
 GUI\util\FileSaver.class

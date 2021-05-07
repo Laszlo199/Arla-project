@@ -23,6 +23,8 @@
             <Label text="Screen name:" />
             <TextField fx:id="screenNameTextField" text="enter the screen name" />
             <Button fx:id="saveNameBtn" mnemonicParsing="false" text="save" />
+            <HBox prefHeight="25.0" prefWidth="345.0" />
+            <Button mnemonicParsing="false" onAction="#btnAssignUser" text="Assign user" />
          </children>
       </HBox>
       <HBox alignment="CENTER" prefHeight="345.0" prefWidth="506.0" spacing="50.0">
