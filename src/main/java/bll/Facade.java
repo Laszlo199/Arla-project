@@ -95,11 +95,21 @@ public class Facade implements IFacade{
     }
 
     @Override
+    public List<Screen> getMainScreens() throws BLLException {
+        try {
+            return facade.getMainScreens();
+        } catch (DALexception daLexception) {
+            throw new BLLException("Couldn't get all main screens", daLexception);
+
+        }
+    }
+
+    @Override
     public List<DefaultScreen> getAllDefaultScreens() throws BLLException {
         try {
             return facade.getAllDefaultScreens();
         } catch (DALexception daLexception) {
-            throw new BLLException("Couldn't get all screens", daLexception);
+            throw new BLLException("Couldn't get all  default screens", daLexception);
         }
     }
 
@@ -173,7 +183,19 @@ public class Facade implements IFacade{
     }
 
     @Override
+    public List<ScreenElement> getScreenForUser(int userId) throws BLLException {
+        try {
+            return facade.getScreenForUser(userId);
+        } catch (DALexception daLexception) {
+            daLexception.printStackTrace();
+            throw new BLLException("Couldnt get a screen for user");
+        }
+    }
+
+    @Override
     public void deleteDefaultScreen(DefaultScreen defaultScreen) {
         facade.deleteDefaultScreen(defaultScreen);
     }
+
+
 }

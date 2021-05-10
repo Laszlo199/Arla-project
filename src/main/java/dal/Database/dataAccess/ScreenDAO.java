@@ -11,7 +11,9 @@ import dal.exception.DALexception;
 import java.nio.file.Path;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static java.sql.Connection.TRANSACTION_NONE;
 import static java.sql.Connection.TRANSACTION_REPEATABLE_READ;
@@ -87,6 +89,56 @@ public class ScreenDAO {
             throw new DALexception("Whoops...Couldn't get all screens");
         }
     }
+
+    public List<Screen> getAllScreens() throws DALexception {
+        Map<Integer, Screen> screens = new HashMap<>();
+        String queScreens  ="SELECT * from Screens;";
+        String queSections = "SELECT screenID, colIndex, rowIndex, columnSpan," +
+                " rowSpan, filepath from Sections;";
+
+        try(Connection connection = dbConnector.getConnection()) {
+            Statement statement = connection.createStatement();
+
+            ResultSet resultSet = statement.executeQuery(queScreens);
+            while(resultSet.next()){
+                int id = resultSet.getInt(1);
+                String name = resultSet.getString(2);
+                int refreshTime = resultSet.getInt(3);
+                if(refreshTime==0)
+                    refreshTime = 5;
+                int userID = resultSet.getInt(4);
+                if(userID==0)
+                    screens.put(id, new Screen(id, name, refreshTime));
+                else
+                    screens.put(id, new Screen(id, name, refreshTime, userID));
+            }
+
+            resultSet = statement.executeQuery(queSections);
+            while(resultSet.next()){
+                int screenID = resultSet.getInt(1);
+                int colIndex = resultSet.getInt(2);
+                int rowIndex = resultSet.getInt(3);
+                int columnSpan = resultSet.getInt(4);
+                int rowSpan = resultSet.getInt(5);
+                String filepath = resultSet.getString(6);
+                if(resultSet.wasNull()) {
+                    //do nothing
+                }
+                else {
+                    screens.get(screenID).addListElement(new ScreenElement(
+                            colIndex, rowIndex, columnSpan, rowSpan, filepath));
+                }
+
+            }
+            return screens.values().stream().toList();
+        } catch (SQLServerException throwables) {
+            throw new DALexception("Couldn't get all screens", throwables);
+        } catch (SQLException throwables) {
+            throw new DALexception("Couldn't get all screens", throwables);
+        }
+
+    }
+
 
 
     /**

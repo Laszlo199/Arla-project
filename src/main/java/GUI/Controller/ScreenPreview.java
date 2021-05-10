@@ -2,6 +2,7 @@ package GUI.Controller;
 
 import GUI.Model.ScreenModel;
 import be.DefaultScreen;
+import be.Screen;
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -34,6 +35,7 @@ public class ScreenPreview {
     private Label attachment3;
     @FXML
     private Label attachment4;
+    private Screen screen;
 
     public void setCurrentScreen(DefaultScreen ds) {
         this.currentScreen = ds;
@@ -104,5 +106,7 @@ public class ScreenPreview {
     }
 
 
-
+    public void setMainScreen(Screen sc) {
+        this.screen = sc;
+    }
 }

@@ -22,10 +22,30 @@ public class ScreenModel extends Observable<DefaultScreen> {
     private IFacade logic = new Facade();
     private static ScreenModel screenModel;
     private ObservableList<DefaultScreen> defaultScreens;
+    private ObservableList<Screen> mainScreens;
+
+    public ObservableList<Screen> getMainScreens() {
+        return mainScreens;
+    }
+
 
     private ScreenModel() {
         defaultScreens = FXCollections.observableArrayList();
+        mainScreens = FXCollections.observableArrayList();
         loadDefaultScreens();
+        loadMainScreens();
+    }
+
+    public ObservableList<DefaultScreen> getDefaultScreens() {
+        return defaultScreens;
+    }
+
+    private void loadMainScreens() {
+        try {
+            mainScreens.addAll(logic.getMainScreens());
+        } catch (BLLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static ScreenModel getInstance(){
@@ -100,14 +120,14 @@ public class ScreenModel extends Observable<DefaultScreen> {
 
     public void deleteDefaultScreen(DefaultScreen defaultScreen) {
         notifyObservers(null, defaultScreen, null);
-        observers.remove(defaultScreen);
+        observersDefault.remove(defaultScreen);
         logic.deleteDefaultScreen(defaultScreen);
         //notifyObservers(null, defaultScreen, null);
     }
 
     @Override
     public void notifyObservers(DefaultScreen added, DefaultScreen deleted, DefaultScreen modified) {
-        for(IObserver o: super.observers){
+        for(IObserver o: super.observersDefault){
             o.update(added, deleted, modified);
         }
     }
@@ -147,5 +167,10 @@ public class ScreenModel extends Observable<DefaultScreen> {
         } catch (BLLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void notifyObservers(Screen added, Screen deleted, Screen modified) {
+
     }
 }

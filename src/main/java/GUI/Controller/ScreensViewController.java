@@ -5,6 +5,7 @@ import GUI.Model.exception.ModelException;
 import GUI.util.AlertDisplayer;
 import GUI.util.Observator.IObserver;
 import be.DefaultScreen;
+import be.Screen;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -31,7 +32,7 @@ public class ScreensViewController implements Initializable, IObserver<DefaultSc
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ScreenModel.getInstance().attachObserver(this);
+        ScreenModel.getInstance().attachObserverDefault(this);
         loadAllScreens();
     }
 
@@ -40,13 +41,28 @@ public class ScreensViewController implements Initializable, IObserver<DefaultSc
      * loop through the list and load dynamically load to db
      */
     private void loadAllScreens(){
-        List<DefaultScreen> defaultScreens = getDefaultScreens();
-        addElements(defaultScreens.stream().toArray(DefaultScreen[]::new));
+        ///List<DefaultScreen> defaultScreens = getDefaultScreens();
+        addElements(ScreenModel.getInstance().getDefaultScreens().stream().toArray(DefaultScreen[]::new));
+        loadMainScreens(ScreenModel.getInstance().getMainScreens().stream().toArray(Screen[]::new));
+    }
 
+    private void loadMainScreens(Screen... screens){
+        for (Screen sc : screens) {
+            FXMLLoader loader = new FXMLLoader(getClass().
+                    getResource("/ScreenPreview" + ".fxml"));
+            try {
+                AnchorPane screen = (AnchorPane) loader.load();
+                ScreenPreview screenPreview = loader.getController();
+                screenPreview.setMainScreen(sc);
+                vBox.getChildren().add(screen);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
-     *
+     * It shows elements created from default template
      * @param defaultScreens
      */
     private void addElements(DefaultScreen... defaultScreens){
@@ -63,6 +79,8 @@ public class ScreensViewController implements Initializable, IObserver<DefaultSc
                 }
             }
     }
+
+
 
     private List<DefaultScreen> getDefaultScreens(){
         try {
@@ -87,7 +105,6 @@ public class ScreensViewController implements Initializable, IObserver<DefaultSc
                 System.out.println("we shouldnt get there now");
             }
     }
-
     /**
      * now we work here
      * we may go through all nodes and check which contains our Default screen
