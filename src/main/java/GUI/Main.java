@@ -25,7 +25,10 @@ public class Main extends Application {
         stage.show();
     }
 
-     /*
+
+
+    /*
+
     @Override
     public void start(Stage stage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ClientView.fxml"));
@@ -38,5 +41,5 @@ public class Main extends Application {
         stage.show();
     }
 
-      */
+*/
 }

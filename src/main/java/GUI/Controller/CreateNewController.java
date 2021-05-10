@@ -36,6 +36,10 @@ import java.net.URL;
 import java.util.*;
 
 public class CreateNewController implements Initializable {
+    @FXML private Button bTop;
+    @FXML private Button bLeft;
+    @FXML private Button bBottom;
+    @FXML private Button bRight;
     @FXML private Button saveNameBtn;
     @FXML private TextField screenNameTextField;
     @FXML
@@ -55,6 +59,8 @@ public class CreateNewController implements Initializable {
     WebEngine webEngine = new WebEngine();
     WebEngine pdfViewerEngine = new WebEngine();
     Map<Node, String> nodeMap = new HashMap<>();
+    Button addColButton = new Button("add col");
+    Button addRowButton = new Button("add row");
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -69,7 +75,70 @@ public class CreateNewController implements Initializable {
             node.setOnMousePressed(event -> showContextMenu(event, node));
         }
         contextMenu.getItems().addAll(right, down);
+
+        borderListeners();
     }
+
+    private void borderListeners() {
+        bBottom.setVisible(false);
+        bTop.setVisible(false);
+        bRight.setVisible(false);
+        bLeft.setVisible(false);
+        gridPane.setOnMouseMoved(mouseEvent -> {
+            if(mouseEvent.getX() >= gridPane.getWidth()-50){
+                bRight.setVisible(true);
+                System.out.println("right line");
+            }
+
+
+            if(mouseEvent.getX() <= 50)
+                System.out.println("left line");
+
+            if(mouseEvent.getY()>=gridPane.getHeight()-50)
+                System.out.println("bottom line");
+
+            if(mouseEvent.getY() <= 50)
+                System.out.println("top line");
+
+            if(mouseEvent.getY()>50 && mouseEvent.getY()< gridPane.getHeight()-50
+                    && mouseEvent.getY()>50 && mouseEvent.getX()< gridPane.getWidth()-50){
+                bRight.setVisible(false);
+                // gridPane.getChildren().remove(addColButton);
+                // gridPane.getChildren().remove(addRowButton);
+            }
+        });
+/*
+        gridPane.setOnMouseMoved(mouseEvent -> {
+            if(mouseEvent.getY()>50 && mouseEvent.getY()< gridPane.getHeight()-50
+            && mouseEvent.getY()>50 && mouseEvent.getX()< gridPane.getWidth()-50){
+                bRight.setVisible(false);
+               // gridPane.getChildren().remove(addColButton);
+               // gridPane.getChildren().remove(addRowButton);
+            }
+
+        });
+
+ */
+    }
+
+    enum HORIZONTAL{
+        TOP,
+        BOTTOM
+    }
+    enum VERTICAL{
+        LEFT,
+        RIGHT
+    }
+
+
+    /**
+     * add button with functionality for adding column
+     * @param vertical
+     */
+    private void colButton( VERTICAL vertical){
+
+    }
+
 
     private void setOnDrags() {
         jpgLbl.setOnDragDetected(event -> dragStart(event, jpgLbl));
