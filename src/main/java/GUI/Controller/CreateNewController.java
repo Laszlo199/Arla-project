@@ -85,40 +85,39 @@ public class CreateNewController implements Initializable {
         bRight.setVisible(false);
         bLeft.setVisible(false);
         gridPane.setOnMouseMoved(mouseEvent -> {
-            if(mouseEvent.getX() >= gridPane.getWidth()-50){
+            if(mouseEvent.getX() >= gridPane.getWidth()-15){
                 bRight.setVisible(true);
                 System.out.println("right line");
             }
 
 
-            if(mouseEvent.getX() <= 50)
+            if(mouseEvent.getX() <= 15){
+                bLeft.setVisible(true);
                 System.out.println("left line");
+            }
 
-            if(mouseEvent.getY()>=gridPane.getHeight()-50)
+
+            if(mouseEvent.getY()>=gridPane.getHeight()-15){
+                bBottom.setVisible(true);
                 System.out.println("bottom line");
+            }
 
-            if(mouseEvent.getY() <= 50)
+
+            if(mouseEvent.getY() <= 15){
+                bTop.setVisible(true);
                 System.out.println("top line");
-
-            if(mouseEvent.getY()>50 && mouseEvent.getY()< gridPane.getHeight()-50
-                    && mouseEvent.getY()>50 && mouseEvent.getX()< gridPane.getWidth()-50){
-                bRight.setVisible(false);
-                // gridPane.getChildren().remove(addColButton);
-                // gridPane.getChildren().remove(addRowButton);
-            }
-        });
-/*
-        gridPane.setOnMouseMoved(mouseEvent -> {
-            if(mouseEvent.getY()>50 && mouseEvent.getY()< gridPane.getHeight()-50
-            && mouseEvent.getY()>50 && mouseEvent.getX()< gridPane.getWidth()-50){
-                bRight.setVisible(false);
-               // gridPane.getChildren().remove(addColButton);
-               // gridPane.getChildren().remove(addRowButton);
             }
 
+
+            if(mouseEvent.getY()>15 && mouseEvent.getY()< gridPane.getHeight()-15
+                    && mouseEvent.getX()>15 && mouseEvent.getX()< gridPane.getWidth()-15){
+                bRight.setVisible(false);
+                bTop.setVisible(false);
+                bLeft.setVisible(false);
+                bBottom.setVisible(false);
+            }
         });
 
- */
     }
 
     enum HORIZONTAL{
