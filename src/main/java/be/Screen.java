@@ -1,14 +1,29 @@
 package be;
 
+import java.util.List;
+
 public class Screen {
 
     private int id;
     private String name;
     private int refreshTime;
     private int userID;
+    private List<ScreenElement> screenElementList;
 
     public Screen(String name) {
         this.name = name;
+    }
+
+    /**
+     * initially this constructor will be used.
+     * @param id
+     * @param name
+     * @param screenElementList
+     */
+    public Screen(int id, String name, List<ScreenElement> screenElementList) {
+        this.id = id;
+        this.name = name;
+        this.screenElementList = screenElementList;
     }
 
     public Screen(String name, int userID) {

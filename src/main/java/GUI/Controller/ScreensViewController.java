@@ -31,7 +31,7 @@ public class ScreensViewController implements Initializable, IObserver<DefaultSc
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ScreenModel.getInstance().attachObserver(this);
+        ScreenModel.getInstance().attachObserverDefault(this);
         loadAllScreens();
     }
 
@@ -42,11 +42,10 @@ public class ScreensViewController implements Initializable, IObserver<DefaultSc
     private void loadAllScreens(){
         List<DefaultScreen> defaultScreens = getDefaultScreens();
         addElements(defaultScreens.stream().toArray(DefaultScreen[]::new));
-
     }
 
     /**
-     *
+     * It shows elements created from default template
      * @param defaultScreens
      */
     private void addElements(DefaultScreen... defaultScreens){
@@ -63,6 +62,8 @@ public class ScreensViewController implements Initializable, IObserver<DefaultSc
                 }
             }
     }
+
+
 
     private List<DefaultScreen> getDefaultScreens(){
         try {
@@ -87,7 +88,6 @@ public class ScreensViewController implements Initializable, IObserver<DefaultSc
                 System.out.println("we shouldnt get there now");
             }
     }
-
     /**
      * now we work here
      * we may go through all nodes and check which contains our Default screen

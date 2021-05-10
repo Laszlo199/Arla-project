@@ -2,6 +2,7 @@ package GUI.util.Observator;
 
 import GUI.util.Observator.IObserver;
 import be.DefaultScreen;
+import be.Screen;
 
 import java.util.HashSet;
 import java.util.List;
@@ -9,15 +10,17 @@ import java.util.List;
 /**
  *
  */
-public abstract class Observable<TUpdateType>{
-    protected HashSet<IObserver<TUpdateType>> observers = new HashSet<>();
+public abstract class Observable<TUpdateType> implements IObservableDefault,
+IObservableScreen
+{
 
-    public void attachObserver(IObserver observer) {
-        observers.add(observer);
-    }
-    public void detachObserver(IObserver observer) {
-        observers.remove(observer);
+    @Override
+    public void notifyObservers(DefaultScreen added, DefaultScreen deleted, DefaultScreen modified) {
+
     }
 
-    public abstract void notifyObservers(TUpdateType added, TUpdateType deleted, TUpdateType modified);
+    @Override
+    public void notifyObservers(Screen added, Screen deleted, Screen modified) {
+
+    }
 }
