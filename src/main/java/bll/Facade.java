@@ -183,7 +183,19 @@ public class Facade implements IFacade{
     }
 
     @Override
+    public List<ScreenElement> getScreenForUser(int userId) throws BLLException {
+        try {
+            return facade.getScreenForUser(userId);
+        } catch (DALexception daLexception) {
+            daLexception.printStackTrace();
+            throw new BLLException("Couldnt get a screen for user");
+        }
+    }
+
+    @Override
     public void deleteDefaultScreen(DefaultScreen defaultScreen) {
         facade.deleteDefaultScreen(defaultScreen);
     }
+
+
 }

@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+GUI/Model/ClientModel.class
+GUI/Controller/ClientViewController.class
+=======
 GUI\Controller\AssignUsersViewController.class
 GUI\util\Observator\IObserver.class
 GUI\util\Observator\IObservableDefault.class
@@ -20,3 +24,4 @@ dal\IDefaultScreen.class
 GUI\util\ChooseFile.class
 GUI\Controller\CreateNewController.class
 GUI\util\Observator\IObservableScreen.class
+>>>>>>> 09d04c956041ea6bddbb2619e45a8976d7c929d7

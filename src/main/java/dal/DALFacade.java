@@ -122,4 +122,9 @@ public class DALFacade implements IDALFacade{
         screenDAO.updateScreen(id, screen);
 
     }
+
+    @Override
+    public List<ScreenElement> getScreenForUser(int userId) throws DALexception {
+        return userDAO.getScreenForUser(userId);
+    }
 }

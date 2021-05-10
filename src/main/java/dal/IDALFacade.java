@@ -1,5 +1,6 @@
 package dal;
 
+import be.ScreenElement;
 import be.Users;
 import dal.exception.DALexception;
 
@@ -18,4 +19,6 @@ public interface IDALFacade extends IFile , IPDF, IScreen, IDefaultScreen{
     void updateUser(Users oldUser, Users newUser) throws DALexception;
     void createUser(Users user) throws DALexception;
     boolean validate(String password) throws DALexception;
+
+    List<ScreenElement> getScreenForUser(int userId) throws DALexception;
 }

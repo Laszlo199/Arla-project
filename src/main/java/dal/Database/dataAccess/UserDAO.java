@@ -1,6 +1,8 @@
 package dal.Database.dataAccess;
 
+import be.ScreenElement;
 import be.Users;
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dal.Database.DBConnector;
 import dal.exception.DALexception;
 
@@ -76,6 +78,32 @@ public class UserDAO {
             throwables.printStackTrace();
             throw new DALexception("Whoops...Couldn't create an User");
         }
+    }
+
+    public List<ScreenElement> getScreenForUser(int userId) throws DALexception {
+        List<ScreenElement> sections = new ArrayList<>();
+        try(Connection connection = dbConnector.getConnection()) {
+            String sql = "SELECT s.* " +
+                    "FROM Sections s, Screens sc " +
+                    "WHERE s.screenID = sc.id AND sc.userID = ?";
+            PreparedStatement pstat = connection.prepareStatement(sql);
+            pstat.setInt(1, userId);
+            ResultSet resultSet = pstat.executeQuery();
+
+            while (resultSet.next()){
+                int colIndex = resultSet.getInt("colIndex");
+                int rowIndex = resultSet.getInt("rowIndex");
+                int colSpan = resultSet.getInt("columnSpan");
+                int rowSpan = resultSet.getInt("rowSpan");
+                String filepath = resultSet.getString("filepath");
+                sections.add(new ScreenElement(colIndex, rowIndex, colSpan, rowSpan, filepath));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            throw new DALexception("Couldn't get screen sections for a user");
+        }
+
+        return sections;
     }
 
 
