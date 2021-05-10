@@ -8,11 +8,13 @@ import be.DefaultScreen;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -44,7 +46,7 @@ public class ScreensViewController implements Initializable, IObserver<DefaultSc
     }
 
     /**
-     * 
+     *
      * @param defaultScreens
      */
     private void addElements(DefaultScreen... defaultScreens){
@@ -86,9 +88,26 @@ public class ScreensViewController implements Initializable, IObserver<DefaultSc
             }
     }
 
+    /**
+     * now we work here
+     * we may go through all nodes and check which contains our Default screen
+     * @param deleted
+     */
     private void removeElements(DefaultScreen... deleted) {
             for (DefaultScreen defaultScreen : deleted) {
                 System.out.println("we got to the method remove elements");
+                List<Node> nodes = vBox.getChildren();
+                //we need to use iterator cause we will get CurrentModificationException
+                Iterator<Node> it = nodes.iterator();
+                while (it.hasNext()){
+                    Node currectN = it.next();
+                    if(currectN!=null){
+                    ScreenPreview screenPreview = (ScreenPreview) currectN.getUserData();
+                    if(screenPreview.getCurrentScreen().equals(defaultScreen))
+                        it.remove();
+                        vBox.getChildren().remove(currectN);
+                    }
+                }
             }
     }
 

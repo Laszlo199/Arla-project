@@ -102,7 +102,7 @@ public class ScreenModel extends Observable<DefaultScreen> {
         notifyObservers(null, defaultScreen, null);
         observers.remove(defaultScreen);
         logic.deleteDefaultScreen(defaultScreen);
-
+        //notifyObservers(null, defaultScreen, null);
     }
 
     @Override
@@ -126,10 +126,16 @@ public class ScreenModel extends Observable<DefaultScreen> {
         }
     }
 
+    /**
+     * this method is not called now cause we have two this same methods and
+     * other one is called
+     * @param currentScreen
+     */
     public void deleteScreen(DefaultScreen currentScreen) {
         try {
             defaultScreens.remove(currentScreen);
             logic.deleteScreen(currentScreen);
+            notifyObservers(null, currentScreen, null);
         } catch (BLLException e) {
             e.printStackTrace();
         }

@@ -12,6 +12,10 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="381.0" prefWidth="725.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.ScreenPreview">
+   <!-- store controller as userData property -->
+   <userData>
+      <fx:reference source="controller" />
+   </userData>
    <children>
       <AnchorPane layoutX="152.0" layoutY="68.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="30.0">
          <effect>

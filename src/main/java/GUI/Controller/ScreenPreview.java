@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -39,6 +40,10 @@ public class ScreenPreview {
         initFields();
     }
 
+    public DefaultScreen getCurrentScreen() {
+        return currentScreen;
+    }
+
     public void refreshNow(ActionEvent actionEvent) {
     }
 
@@ -46,8 +51,8 @@ public class ScreenPreview {
     method deletes the screen
      */
     public void delete(ActionEvent actionEvent) {
-        ScreenModel.getInstance().deleteDefaultScreen(currentScreen);
-        //model.deleteScreen(currentScreen);
+      //  ScreenModel.getInstance().deleteDefaultScreen(currentScreen);
+        model.deleteScreen(currentScreen);
     }
 
     public void edit(ActionEvent actionEvent) {
