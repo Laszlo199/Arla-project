@@ -14,6 +14,10 @@ public class Screen {
         this.name = name;
     }
 
+    public void addListElement(ScreenElement screenElement){
+        screenElementList.add(screenElement);
+    }
+
     /**
      * initially this constructor will be used.
      * @param id
@@ -31,7 +35,20 @@ public class Screen {
         this.userID = userID;
     }
 
+    public Screen(int id, String name, int refreshTime) {
+        this.id = id;
+        this.name = name;
+        this.refreshTime = refreshTime;
+    }
+
     public Screen(String name, int refreshTime, int userID) {
+        this.name = name;
+        this.refreshTime = refreshTime;
+        this.userID = userID;
+    }
+
+    public Screen(int id, String name, int refreshTime, int userID) {
+        this.id = id;
         this.name = name;
         this.refreshTime = refreshTime;
         this.userID = userID;
