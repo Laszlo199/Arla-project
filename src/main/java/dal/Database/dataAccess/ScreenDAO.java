@@ -106,11 +106,7 @@ public class ScreenDAO {
                 int refreshTime = resultSet.getInt(3);
                 if(refreshTime==0)
                     refreshTime = 5;
-                int userID = resultSet.getInt(4);
-                if(userID==0)
                     screens.put(id, new Screen(id, name, refreshTime));
-                else
-                    screens.put(id, new Screen(id, name, refreshTime, userID));
             }
 
             resultSet = statement.executeQuery(queSections);

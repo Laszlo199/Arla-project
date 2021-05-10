@@ -7,6 +7,7 @@ D:\onedrive2\github\Arla-project\src\main\java\dal\IScreen.java
 D:\onedrive2\github\Arla-project\src\main\java\GUI\util\Command\LoadCreateNew.java
 D:\onedrive2\github\Arla-project\src\main\java\dal\IDefaultScreen.java
 D:\onedrive2\github\Arla-project\src\main\java\GUI\util\Command\LoadUsers.java
+D:\onedrive2\github\Arla-project\src\main\java\GUI\util\Observator\IObservableDefault.java
 D:\onedrive2\github\Arla-project\src\main\java\be\Section.java
 D:\onedrive2\github\Arla-project\src\main\java\dal\Database\dataAccess\AdminsDAO.java
 D:\onedrive2\github\Arla-project\src\main\java\GUI\Controller\LogInController.java
@@ -65,3 +66,4 @@ D:\onedrive2\github\Arla-project\src\main\java\be\Admin.java
 D:\onedrive2\github\Arla-project\src\main\java\be\Screen.java
 D:\onedrive2\github\Arla-project\src\main\java\be\ScreenFile.java
 D:\onedrive2\github\Arla-project\src\main\java\GUI\Controller\AssignUsersViewController.java
+D:\onedrive2\github\Arla-project\src\main\java\GUI\util\Observator\IObservableScreen.java
