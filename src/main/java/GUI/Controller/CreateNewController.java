@@ -2,6 +2,7 @@ package GUI.Controller;
 
 import GUI.Model.ScreenModel;
 import GUI.util.CSVLoader;
+import GUI.util.ImageLoader;
 import GUI.util.PDFLoader;
 import GUI.util.WebsiteLoader;
 import be.Screen;
@@ -147,8 +148,8 @@ public class CreateNewController implements Initializable {
                 else {
                 Button button = new Button("load file");
                 button.setOnAction(actionEvent -> {
-                   String path=  loadFiles(actionEvent, anchorPane, fileType);
-                   nodeMap.put(node, path);
+                   ImageLoader.loadImage(anchorPane);
+                   nodeMap.put(node, ImageLoader.getDestinationPath().toString());
                 });
                 loadNodes(anchorPane, lbl, button);
                 success = true;

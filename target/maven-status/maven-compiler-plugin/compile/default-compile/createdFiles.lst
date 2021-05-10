@@ -1,27 +1,3 @@
-<<<<<<< HEAD
 GUI/Model/ClientModel.class
+GUI/util/ImageLoader.class
 GUI/Controller/ClientViewController.class
-=======
-GUI\Controller\AssignUsersViewController.class
-GUI\util\Observator\IObserver.class
-GUI\util\Observator\IObservableDefault.class
-be\Section.class
-GUI\util\FileSaver.class
-dal\Database\ObjectPool\ObjectFactory.class
-dal\Database\ObjectPool\IPool$Validator.class
-be\Admin.class
-be\ScreenElement.class
-GUI\util\WebsiteLoader.class
-dal\Database\dataAccess\AdminsDAO.class
-bll\IDefaultScreen.class
-GUI\util\CSVLoader.class
-GUI\util\PDFLoader.class
-dal\Database\ObjectPool\IPool.class
-GUI\util\Command\LoadCreateNew.class
-GUI\util\Observator\Observable.class
-GUI\Model\LoginModel.class
-dal\IDefaultScreen.class
-GUI\util\ChooseFile.class
-GUI\Controller\CreateNewController.class
-GUI\util\Observator\IObservableScreen.class
->>>>>>> 09d04c956041ea6bddbb2619e45a8976d7c929d7
