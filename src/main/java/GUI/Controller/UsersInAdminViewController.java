@@ -151,6 +151,7 @@ public class UsersInAdminViewController implements Initializable {
         newUser.setPassword(editPasswordField.getText());
 
         userModel.updateUser(userTableView.getSelectionModel().getSelectedItem(),newUser);
+        userModel.loadUsers();
 
     }
 

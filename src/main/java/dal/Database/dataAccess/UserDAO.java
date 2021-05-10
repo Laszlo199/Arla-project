@@ -58,6 +58,7 @@ public class UserDAO {
             pStatement.setString(1,newUser.getUserName());
             pStatement.setString(2,newUser.getPassword());
             pStatement.setInt(3,oldUser.getID());
+            pStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             throw new DALexception("Whoops..Couldn't update an User");
