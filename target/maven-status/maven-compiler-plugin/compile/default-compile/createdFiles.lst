@@ -1,5 +1,6 @@
 GUI\Controller\AssignUsersViewController.class
 GUI\util\Observator\IObserver.class
+GUI\util\Observator\IObservableDefault.class
 be\Section.class
 GUI\util\FileSaver.class
 dal\Database\ObjectPool\ObjectFactory.class
@@ -18,3 +19,4 @@ GUI\Model\LoginModel.class
 dal\IDefaultScreen.class
 GUI\util\ChooseFile.class
 GUI\Controller\CreateNewController.class
+GUI\util\Observator\IObservableScreen.class
