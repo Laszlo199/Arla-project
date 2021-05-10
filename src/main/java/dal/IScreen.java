@@ -13,4 +13,5 @@ import java.util.List;
 public interface IScreen {
     void save(Screen screen, List<ScreenElement> screenElements) throws DALexception;
 
+    List<Screen> getMainScreens() throws DALexception;
 }

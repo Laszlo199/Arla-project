@@ -22,10 +22,26 @@ public class ScreenModel extends Observable<DefaultScreen> {
     private IFacade logic = new Facade();
     private static ScreenModel screenModel;
     private ObservableList<DefaultScreen> defaultScreens;
+    private ObservableList<Screen> mainScreens;
+
+    public ObservableList<Screen> getMainScreens() {
+        return mainScreens;
+    }
+
 
     private ScreenModel() {
         defaultScreens = FXCollections.observableArrayList();
+        mainScreens = FXCollections.observableArrayList();
         loadDefaultScreens();
+        loadMainScreens();
+    }
+
+    private void loadMainScreens() {
+        try {
+            mainScreens.addAll(logic.getMainScreens());
+        } catch (BLLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static ScreenModel getInstance(){

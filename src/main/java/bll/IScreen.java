@@ -25,4 +25,5 @@ public interface IScreen {
     void deleteCSV(Path destinationPathCSV) throws BLLException;
     void save(Screen screen, List<ScreenElement> screenElements) throws BLLException;
 
+    List<Screen> getMainScreens() throws BLLException;
 }
