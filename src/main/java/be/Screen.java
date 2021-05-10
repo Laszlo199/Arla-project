@@ -1,5 +1,6 @@
 package be;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Screen {
@@ -8,7 +9,7 @@ public class Screen {
     private String name;
     private int refreshTime;
     private int userID;
-    private List<ScreenElement> screenElementList;
+    private List<ScreenElement> screenElementList = new ArrayList<>();
 
     public Screen(String name) {
         this.name = name;

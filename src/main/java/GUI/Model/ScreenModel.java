@@ -36,6 +36,10 @@ public class ScreenModel extends Observable<DefaultScreen> {
         loadMainScreens();
     }
 
+    public ObservableList<DefaultScreen> getDefaultScreens() {
+        return defaultScreens;
+    }
+
     private void loadMainScreens() {
         try {
             mainScreens.addAll(logic.getMainScreens());
