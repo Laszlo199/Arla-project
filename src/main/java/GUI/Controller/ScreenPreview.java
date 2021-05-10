@@ -14,6 +14,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 
 /**
  *   controller for the screen preview that will be shown in the screens
@@ -39,7 +40,7 @@ public class ScreenPreview {
 
     public void setCurrentScreen(DefaultScreen ds) {
         this.currentScreen = ds;
-        initFields();
+        initFieldsDefault();
     }
 
     public DefaultScreen getCurrentScreen() {
@@ -95,12 +96,12 @@ public class ScreenPreview {
         return ScreenName;
     }
 
-    private void initFields() {
+    private void initFieldsDefault() {
         id = currentScreen.getId();
         String csv = currentScreen.getDestinationPathCSV().toString();
         String pdf = currentScreen.getDestinationPathPDF().toString();
         attachment1.setText(csv.substring(csv.lastIndexOf("/")+1));
-        attachment2.setText(pdf.substring(csv.lastIndexOf("/")+1));
+        attachment2.setText(pdf.substring(pdf.lastIndexOf("/")+1));
         attachment3.setText(currentScreen.getInsertedWebsite());
         ScreenName.setText(currentScreen.getName());
     }
@@ -108,5 +109,18 @@ public class ScreenPreview {
 
     public void setMainScreen(Screen sc) {
         this.screen = sc;
+        initMainFields();
+    }
+
+    private void initMainFields() {
+        System.out.println(screen.getScreenElementList().size());
+        ScreenName.setText(screen.getName());
+        Label[] array =  {attachment1, attachment2, attachment3, attachment4};
+        for (int i = 0; i < 3; i++) {
+            if(screen.getScreenElementList().size()!=0) {
+                String str = screen.getScreenElementList().get(i).getFilepath();
+                array[i].setText(str.substring(str.lastIndexOf("/") + 1));
+            }
+        }
     }
 }
