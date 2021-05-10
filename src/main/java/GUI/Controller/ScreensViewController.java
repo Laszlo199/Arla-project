@@ -42,32 +42,24 @@ public class ScreensViewController implements Initializable, IObserver<DefaultSc
         addElements(defaultScreens.stream().toArray(DefaultScreen[]::new));
 
     }
+
+    /**
+     * 
+     * @param defaultScreens
+     */
     private void addElements(DefaultScreen... defaultScreens){
-        for(DefaultScreen ds: defaultScreens){
-            FXMLLoader loader = new FXMLLoader(getClass().
-                    getResource("/ScreenPreview" +".fxml"));
-            try{
-                AnchorPane screen = (AnchorPane) loader.load();
-                ScreenPreview screenPreview = loader.getController();
-
-                screenPreview.setDefaultScreen(ds);
-
-                screenPreview.setCurrentScreen(ds);
-                /*
-                not sure
-                screenPreview.getScreenNameLbl().setText(ds.getName());
-                screenPreview.getAttachment1().setText(ds.getDestinationPathCSV().
-                        toString().replaceAll(CVS_DIRECTORY, ""));
-                screenPreview.getAttachment2().setText(ds.getDestinationPathPDF().toString().
-                        replaceAll(PDF_DIRECTORY, ""));
-                screenPreview.getAttachment3().setText(ds.getInsertedWebsite());
-                */
-
-                vBox.getChildren().add(screen);
-            } catch (IOException e) {
-                e.printStackTrace();
+            for (DefaultScreen ds : defaultScreens) {
+                FXMLLoader loader = new FXMLLoader(getClass().
+                        getResource("/ScreenPreview" + ".fxml"));
+                try {
+                    AnchorPane screen = (AnchorPane) loader.load();
+                    ScreenPreview screenPreview = loader.getController();
+                    screenPreview.setCurrentScreen(ds);
+                    vBox.getChildren().add(screen);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-        }
     }
 
     private List<DefaultScreen> getDefaultScreens(){
@@ -83,28 +75,21 @@ public class ScreensViewController implements Initializable, IObserver<DefaultSc
 
     @Override
     public void update(DefaultScreen added, DefaultScreen deleted, DefaultScreen modified) {
-        addElements(added);
-        removeElements(deleted);
-        modifyElements(modified);
+       if(added!=null) addElements(added);
+       if(deleted!=null) removeElements(deleted);
+       if(modified!=null) modifyElements(modified);
     }
 
     private void modifyElements(DefaultScreen... modified) {
-        for(DefaultScreen ds: modified){
-           // vBox.getChildren().remove();
-            //vBox.getChildren().add(ds);
-        }
+            for (DefaultScreen ds : modified) {
+                System.out.println("we shouldnt get there now");
+            }
     }
 
     private void removeElements(DefaultScreen... deleted) {
-        for(DefaultScreen defaultScreen: deleted){
-            //vBox.getChildren().remove(defaultScreen);
-        }
-    }
-/*
-    @Override
-    public void update(DefaultScreen... addedScreens) {
-        addElements(addedScreens);
+            for (DefaultScreen defaultScreen : deleted) {
+                System.out.println("we got to the method remove elements");
+            }
     }
 
- */
 }

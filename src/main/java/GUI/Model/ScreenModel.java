@@ -99,8 +99,10 @@ public class ScreenModel extends Observable<DefaultScreen> {
     }
 
     public void deleteDefaultScreen(DefaultScreen defaultScreen) {
+        notifyObservers(null, defaultScreen, null);
         observers.remove(defaultScreen);
         logic.deleteDefaultScreen(defaultScreen);
+
     }
 
     @Override

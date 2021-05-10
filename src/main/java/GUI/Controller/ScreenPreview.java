@@ -18,7 +18,6 @@ import java.io.IOException;
  */
 public class ScreenPreview {
 
-    private DefaultScreen ds;
     private int id;
     private ScreenModel model = ScreenModel.getInstance();
     private DefaultScreen currentScreen;
@@ -37,6 +36,7 @@ public class ScreenPreview {
 
     public void setCurrentScreen(DefaultScreen ds) {
         this.currentScreen = ds;
+        initFields();
     }
 
     public void refreshNow(ActionEvent actionEvent) {
@@ -46,11 +46,8 @@ public class ScreenPreview {
     method deletes the screen
      */
     public void delete(ActionEvent actionEvent) {
-
-        ScreenModel.getInstance().deleteDefaultScreen(ds);
-
-        model.deleteScreen(currentScreen);
-
+        ScreenModel.getInstance().deleteDefaultScreen(currentScreen);
+        //model.deleteScreen(currentScreen);
     }
 
     public void edit(ActionEvent actionEvent) {
@@ -87,23 +84,18 @@ public class ScreenPreview {
         stage.show();
     }
 
-
-    public void setDefaultScreen(DefaultScreen defaultScreen) {
-        this.ds = defaultScreen;
-        initFields();
-    }
     public Label getScreenNameLbl() {
         return ScreenName;
     }
 
     private void initFields() {
-        id = ds.getId();
-        String csv = ds.getDestinationPathCSV().toString();
-        String pdf = ds.getDestinationPathPDF().toString();
+        id = currentScreen.getId();
+        String csv = currentScreen.getDestinationPathCSV().toString();
+        String pdf = currentScreen.getDestinationPathPDF().toString();
         attachment1.setText(csv.substring(csv.lastIndexOf("/")+1));
         attachment2.setText(pdf.substring(csv.lastIndexOf("/")+1));
-        attachment3.setText(ds.getInsertedWebsite());
-        ScreenName.setText(ds.getName());
+        attachment3.setText(currentScreen.getInsertedWebsite());
+        ScreenName.setText(currentScreen.getName());
     }
 
 

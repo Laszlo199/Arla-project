@@ -2,6 +2,8 @@ GUI\Controller\AssignUsersViewController.class
 GUI\util\Observator\IObserver.class
 be\Section.class
 GUI\util\FileSaver.class
+dal\Database\ObjectPool\ObjectFactory.class
+dal\Database\ObjectPool\IPool$Validator.class
 be\Admin.class
 be\ScreenElement.class
 GUI\util\WebsiteLoader.class
@@ -9,6 +11,7 @@ dal\Database\dataAccess\AdminsDAO.class
 bll\IDefaultScreen.class
 GUI\util\CSVLoader.class
 GUI\util\PDFLoader.class
+dal\Database\ObjectPool\IPool.class
 GUI\util\Command\LoadCreateNew.class
 GUI\util\Observator\Observable.class
 GUI\Model\LoginModel.class
