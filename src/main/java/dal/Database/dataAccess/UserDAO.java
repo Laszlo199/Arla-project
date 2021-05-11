@@ -84,8 +84,8 @@ public class UserDAO {
         List<ScreenElement> sections = new ArrayList<>();
         try(Connection connection = dbConnector.getConnection()) {
             String sql = "SELECT s.* " +
-                    "FROM Sections s, Screens sc " +
-                    "WHERE s.screenID = sc.id AND sc.userID = ?";
+                    "FROM Sections s, Users u " +
+                    "WHERE s.screenID = u.screenID AND u.ID = ?";
             PreparedStatement pstat = connection.prepareStatement(sql);
             pstat.setInt(1, userId);
             ResultSet resultSet = pstat.executeQuery();
