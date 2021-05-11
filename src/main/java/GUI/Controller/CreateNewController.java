@@ -59,8 +59,7 @@ public class CreateNewController implements Initializable {
     WebEngine webEngine = new WebEngine();
     WebEngine pdfViewerEngine = new WebEngine();
     Map<Node, String> nodeMap = new HashMap<>();
-    Button addColButton = new Button("add col");
-    Button addRowButton = new Button("add row");
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -120,23 +119,8 @@ public class CreateNewController implements Initializable {
 
     }
 
-    enum HORIZONTAL{
-        TOP,
-        BOTTOM
-    }
-    enum VERTICAL{
-        LEFT,
-        RIGHT
-    }
 
 
-    /**
-     * add button with functionality for adding column
-     * @param vertical
-     */
-    private void colButton( VERTICAL vertical){
-
-    }
 
 
     private void setOnDrags() {
@@ -354,5 +338,26 @@ public class CreateNewController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * add row at the top
+     * @param actionEvent
+     */
+    public void topButtonClicked(ActionEvent actionEvent) {
+
+    }
+
+    /**
+     * add col on the left
+     * @param actionEvent
+     */
+    public void leftButtonClicked(ActionEvent actionEvent) {
+    }
+
+    public void bottomButtonClicked(ActionEvent actionEvent) {
+    }
+
+    public void rightButtonClicked(ActionEvent actionEvent) {
     }
 }

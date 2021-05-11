@@ -42,16 +42,16 @@
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" />
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                      <children>
-                        <Button fx:id="bTop" layoutX="-20.0" layoutY="-12.0" mnemonicParsing="false" text="Button" />
+                        <Button fx:id="bTop" layoutX="-20.0" layoutY="-12.0" mnemonicParsing="false" onAction="#topButtonClicked" text="Button" />
                      </children></AnchorPane>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                      <children>
-                        <Button fx:id="bLeft" layoutX="-12.0" layoutY="-12.0" mnemonicParsing="false" text="Button" />
+                        <Button fx:id="bLeft" layoutX="-12.0" layoutY="-12.0" mnemonicParsing="false" onAction="#leftButtonClicked" text="Button" />
                      </children></AnchorPane>
                   <AnchorPane prefHeight="261.0" prefWidth="417.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <Button fx:id="bBottom" layoutX="-28.0" layoutY="263.0" mnemonicParsing="false" text="Button" />
-                        <Button fx:id="bRight" layoutX="338.0" layoutY="-13.0" mnemonicParsing="false" text="Button" />
+                        <Button fx:id="bBottom" layoutX="-28.0" layoutY="263.0" mnemonicParsing="false" onAction="#bottomButtonClicked" text="Button" />
+                        <Button fx:id="bRight" layoutX="338.0" layoutY="-13.0" mnemonicParsing="false" onAction="#rightButtonClicked" text="Button" />
                      </children></AnchorPane>
                </children>
             </GridPane>
