@@ -294,6 +294,7 @@ public class CreateNewController implements Initializable {
             Screen screen = new Screen(name);
              //later here we will add userID and refresh rate
             List<ScreenElement> screenElements = new ArrayList<>();
+            List<Users> usersList = userTableView.getSelectionModel().getSelectedItems();
 
             for(Node node: nodes)
                 if(node==null)
@@ -317,7 +318,7 @@ public class CreateNewController implements Initializable {
                             columnSpan, rowSpan, nodeMap.get(node)));
                 }
             }
-            ScreenModel.getInstance().save(screen, screenElements);
+            ScreenModel.getInstance().save(screen, screenElements, usersList);
         }
     }
 

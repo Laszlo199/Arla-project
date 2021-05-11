@@ -86,9 +86,9 @@ public class Facade implements IFacade{
     }
 
     @Override
-    public void save(Screen screen, List<ScreenElement> screenElements) throws BLLException {
+    public void save(Screen screen, List<ScreenElement> screenElements, List<Users> usersList) throws BLLException {
         try {
-            facade.save(screen, screenElements);
+            facade.save(screen, screenElements, usersList);
         } catch (DALexception daLexception) {
             throw new BLLException("Couldn't save added screen", daLexception);
         }

@@ -4,6 +4,7 @@ import GUI.util.Command.Command;
 import be.DefaultScreen;
 import be.Screen;
 import be.ScreenElement;
+import be.Users;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dal.Database.DBConnector;
 import dal.exception.DALexception;
@@ -143,17 +144,21 @@ public class ScreenDAO {
      * @param screen
      * @param screenElements
      */
-    public void save(Screen screen, List<ScreenElement> screenElements) throws DALexception {
+    public void save(Screen screen, List<ScreenElement> screenElements, List<Users> usersList) throws DALexception {
         int screenID = -1;
         String query1 = "INSERT INTO Screens([name], refreshTime) Values(?, ?);";
         String query2 = "INSERT INTO Sections(screenID, colIndex, rowIndex" +
                 " , columnSpan, rowSpan, filepath) Values(?, ?, ?, ?, ?, ?);";
+        String query3 = "UPDATE Users SET screenID = ? WHERE ID = ?";
 
         try(Connection connection = dbConnector.getConnection();
             PreparedStatement preparedStat1 = connection.prepareStatement(query1,
                     Statement.RETURN_GENERATED_KEYS);
             PreparedStatement preparedStatement = connection.prepareStatement(query2,
-                    Statement.RETURN_GENERATED_KEYS))
+                    Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement preparedStatement2 = connection.prepareStatement(query3,
+                    Statement.RETURN_GENERATED_KEYS)
+        )
         {
             connection.setAutoCommit(false);
             connection.setTransactionIsolation(TRANSACTION_REPEATABLE_READ);
@@ -179,6 +184,12 @@ public class ScreenDAO {
                 preparedStatement.setInt(5, element.getRowSpan());
                 preparedStatement.setString(6, element.getFilepath());
                 preparedStatement.executeUpdate();
+            }
+
+            for (Users user : usersList) {
+                preparedStatement2.setInt(1, screenID);
+                preparedStatement2.setInt(2, user.getID());
+                preparedStatement2.executeUpdate();
             }
             connection.commit();
             connection.setAutoCommit(true);
