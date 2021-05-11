@@ -87,6 +87,7 @@ public class CreateNewController implements Initializable {
 
         borderListeners();
         initUserTableView();
+        search();
 
     }
 
