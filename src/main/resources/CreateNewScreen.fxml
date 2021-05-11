@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1043.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.CreateNewScreenController">
+   <children>
+      <AnchorPane layoutX="373.0" layoutY="103.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white; -fx-background-radius: 15;" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="60.0">
+         <children>
+            <AnchorPane fx:id="space" layoutX="150.0" layoutY="47.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+         </children>
+      </AnchorPane>
+      <JFXTextField layoutX="95.0" layoutY="23.0" prefHeight="25.0" prefWidth="181.0" />
+      <Label layoutX="52.0" layoutY="35.0" prefHeight="16.0" prefWidth="68.0" text="Name:" />
+      <JFXButton layoutX="936.0" layoutY="25.0" style="-fx-background-color: #4287f5;" text="Select user" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="25.0" />
+      <Label layoutX="304.0" layoutY="17.0" prefHeight="25.0" prefWidth="81.0" text="CSV" textFill="#4287f5">
+         <font>
+            <Font size="26.0" />
+         </font>
+      </Label>
+      <Label layoutX="392.0" layoutY="17.0" prefHeight="25.0" prefWidth="81.0" text="PDF" textFill="#4287f5">
+         <font>
+            <Font size="26.0" />
+         </font>
+      </Label>
+      <Label layoutX="492.0" layoutY="16.0" prefHeight="25.0" prefWidth="81.0" text="PNG" textFill="#4287f5">
+         <font>
+            <Font size="26.0" />
+         </font>
+      </Label>
+      <Label layoutX="586.0" layoutY="17.0" prefHeight="38.0" prefWidth="47.0" text="JPG" textFill="#4287f5">
+         <font>
+            <Font size="26.0" />
+         </font>
+      </Label>
+      <Label layoutX="654.0" layoutY="18.0" prefHeight="38.0" prefWidth="68.0" text="HTTP" textFill="#4287f5">
+         <font>
+            <Font size="26.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER" layoutX="26.0" layoutY="631.0" spacing="15.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+         <children>
+            <JFXButton maxWidth="1.7976931348623157E308" prefHeight="31.0" prefWidth="501.0" style="-fx-background-color: #3d424a;" text="DISCARD" textFill="WHITE" HBox.hgrow="ALWAYS" />
+            <JFXButton maxWidth="1.7976931348623157E308" prefHeight="31.0" prefWidth="476.0" style="-fx-background-color: #0c63ed;" text="SAVE" textFill="WHITE" HBox.hgrow="ALWAYS">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </JFXButton>
+         </children>
+      </HBox>
+      <TextField fx:id="rowsFiled" layoutX="738.0" layoutY="25.0" prefHeight="25.0" prefWidth="58.0" promptText="rows" />
+      <TextField fx:id="colsField" layoutX="810.0" layoutY="25.0" prefHeight="25.0" prefWidth="58.0" promptText="cols" />
+      <JFXButton layoutX="878.0" layoutY="25.0" onAction="#setGrid" prefHeight="25.0" prefWidth="47.0" style="-fx-background-color: #4287f5;" text="SET" />
+   </children>
+</AnchorPane>
