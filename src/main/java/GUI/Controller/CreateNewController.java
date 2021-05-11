@@ -1,37 +1,35 @@
 package GUI.Controller;
 
 import GUI.Model.ScreenModel;
+import GUI.Model.UserModel;
 import GUI.util.CSVLoader;
 import GUI.util.ImageLoader;
 import GUI.util.PDFLoader;
 import GUI.util.WebsiteLoader;
 import be.Screen;
 import be.ScreenElement;
-import be.Section;
+import be.User;
 import com.jfoenix.controls.JFXTextField;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.web.WebEngine;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
@@ -42,10 +40,12 @@ public class CreateNewController implements Initializable {
     @FXML private Button bRight;
     @FXML private Button saveNameBtn;
     @FXML private TextField screenNameTextField;
-    @FXML
-    private GridPane gridPane;
-    @FXML
-    private VBox vBox;
+    @FXML private GridPane gridPane;
+    @FXML private VBox vBox;
+    @FXML private TextField searchField;
+    @FXML private TableView<User> userTableView;
+    @FXML private TableColumn<User, String> usersNames;
+
     public Label jpgLbl = new Label("JPG");
     public Label pngLbl = new Label("PNG");
     public Label pdf = new Label("PDF");
@@ -63,6 +63,7 @@ public class CreateNewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.userModel = new UserModel();
         fillVBox();
         gridPane.setGridLinesVisible(true);
         setOnDrags();
@@ -76,6 +77,9 @@ public class CreateNewController implements Initializable {
         contextMenu.getItems().addAll(right, down);
 
         borderListeners();
+        initUserTableView();
+        search();
+
     }
 
     private void borderListeners() {
@@ -266,6 +270,7 @@ public class CreateNewController implements Initializable {
             Screen screen = new Screen(name);
              //later here we will add userID and refresh rate
             List<ScreenElement> screenElements = new ArrayList<>();
+            List<User> usersList = userTableView.getSelectionModel().getSelectedItems();
 
             for(Node node: nodes)
                 if(node==null)
@@ -289,7 +294,7 @@ public class CreateNewController implements Initializable {
                             columnSpan, rowSpan, nodeMap.get(node)));
                 }
             }
-            ScreenModel.getInstance().save(screen, screenElements);
+            ScreenModel.getInstance().save(screen, screenElements, usersList);
         }
     }
 
@@ -324,20 +329,40 @@ public class CreateNewController implements Initializable {
     }
 
 
-    public void btnAssignUser(ActionEvent actionEvent) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/assignUsersView.fxml"));
-            Parent root1 = (Parent) loader.load();
-            Stage stage = new Stage();
-            stage.getIcons().add(new Image("/Icons/arla.png"));
-            stage.setTitle("Assign user");
-            //stage.initStyle(StageStyle.TRANSPARENT);
-            Scene scene = new Scene(root1);
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+    private void initUserTableView(){
+        usersNames.setCellValueFactory(new PropertyValueFactory<User, String>("userName"));
+        userModel.loadUsers();
+        userTableView.setItems(userModel.getAllUser());
+
+
+    }
+    public void search(){
+
+        FilteredList<User> filteredList = new FilteredList<>(userModel.getAllUser(), b->true);
+        searchField.textProperty().addListener((observableValue, oldValue, newValue) -> {
+            filteredList.setPredicate(users -> {
+                if (newValue == null || newValue.isEmpty()){
+                    return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+                if (users.getUserName().toLowerCase().indexOf(lowerCaseFilter) != -1){
+                    return true;
+                }else
+                    return false;
+            });
+        });
+        SortedList<User> sortedList = new SortedList<>(filteredList);
+        sortedList.comparatorProperty().bind(userTableView.comparatorProperty());
+        userTableView.setItems(sortedList);
+
+    }
+
+    public void selectUser(MouseEvent event) {
+        userTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        //lblUserName.setText("Selected User: "+(userTableView.getSelectionModel().getSelectedItem().getUserName()));
+
+
     }
 
     /**

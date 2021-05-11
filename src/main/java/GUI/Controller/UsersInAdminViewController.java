@@ -1,7 +1,7 @@
 package GUI.Controller;
 
 import GUI.Model.UserModel;
-import be.Users;
+import be.User;
 import com.jfoenix.controls.JFXButton;
 import javafx.animation.TranslateTransition;
 import javafx.collections.transformation.FilteredList;
@@ -19,14 +19,13 @@ import javafx.scene.control.Button;
 import javafx.util.Duration;
 
 import java.net.URL;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class UsersInAdminViewController implements Initializable {
-    @FXML private TableView<Users> userTableView;
+    @FXML private TableView<User> userTableView;
     @FXML private TextField searchField;
-    @FXML private TableColumn<Users, String> userColumn;
-    @FXML private TableColumn<Users, String> passwordColumn;
+    @FXML private TableColumn<User, String> userColumn;
+    @FXML private TableColumn<User, String> passwordColumn;
     @FXML private JFXButton edit;
     @FXML private AnchorPane editTable;
     @FXML private AnchorPane addNewUser;
@@ -53,8 +52,8 @@ public class UsersInAdminViewController implements Initializable {
     }
 
     private void initUserTableView(){
-        userColumn.setCellValueFactory(new PropertyValueFactory<Users, String>("userName"));
-        passwordColumn.setCellValueFactory(new PropertyValueFactory<Users,String>("Password"));
+        userColumn.setCellValueFactory(new PropertyValueFactory<User, String>("userName"));
+        passwordColumn.setCellValueFactory(new PropertyValueFactory<User,String>("Password"));
 
         userModel.loadUsers();
         userTableView.setItems(userModel.getAllUser());
@@ -146,7 +145,7 @@ public class UsersInAdminViewController implements Initializable {
     }
 
     public void btnUpdate(ActionEvent actionEvent) {
-        Users newUser = userTableView.getSelectionModel().getSelectedItem();
+        User newUser = userTableView.getSelectionModel().getSelectedItem();
         newUser.setUserName(editNameField.getText());
         newUser.setPassword(editPasswordField.getText());
 
@@ -155,16 +154,17 @@ public class UsersInAdminViewController implements Initializable {
 
     }
 
+    //NEEDS UPDATING
     public void btnCreate(ActionEvent actionEvent) {
-        Users newUser = new Users(-1,
+        User newUser = new User(-1,
                 newNameField.getText(),
-                newPasswordField.getText());
+                newPasswordField.getText(), 0, false);
         userModel.saveUser(newUser);
 
     }
 
     public void btnDeleteUser(ActionEvent actionEvent) {
-        Users selectedUser = userTableView.getSelectionModel().getSelectedItem();
+        User selectedUser = userTableView.getSelectionModel().getSelectedItem();
         userModel.delete(selectedUser);
         userModel.loadUsers();
 
@@ -178,7 +178,7 @@ public class UsersInAdminViewController implements Initializable {
 
     public void search(){
 
-        FilteredList<Users> filteredList = new FilteredList<>(userModel.getAllUser(),b->true);
+        FilteredList<User> filteredList = new FilteredList<>(userModel.getAllUser(), b->true);
         searchField.textProperty().addListener((observableValue, oldValue, newValue) -> {
             filteredList.setPredicate(users -> {
                 if (newValue == null || newValue.isEmpty()){
@@ -191,7 +191,7 @@ public class UsersInAdminViewController implements Initializable {
                 return false;
             });
                 });
-        SortedList<Users> sortedList = new SortedList<>(filteredList);
+        SortedList<User> sortedList = new SortedList<>(filteredList);
         sortedList.comparatorProperty().bind(userTableView.comparatorProperty());
         userTableView.setItems(sortedList);
 

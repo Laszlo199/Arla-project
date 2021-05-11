@@ -6,6 +6,7 @@ import GUI.util.Observator.Observable;
 import be.DefaultScreen;
 import be.Screen;
 import be.ScreenElement;
+import be.User;
 import bll.Facade;
 import bll.IFacade;
 import bll.exception.BLLException;
@@ -138,9 +139,9 @@ public class ScreenModel extends Observable<DefaultScreen> {
      * @param screen
      * @param screenElements
      */
-    public void save(Screen screen, List<ScreenElement> screenElements) {
+    public void save(Screen screen, List<ScreenElement> screenElements, List<User> usersList) {
         try {
-            logic.save(screen, screenElements);
+            logic.save(screen, screenElements, usersList);
         } catch (BLLException e) {
             e.printStackTrace();
         }

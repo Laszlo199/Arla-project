@@ -3,6 +3,7 @@ package bll;
 import be.DefaultScreen;
 import be.Screen;
 import be.ScreenElement;
+import be.User;
 import bll.exception.BLLException;
 
 import java.nio.file.Path;
@@ -23,7 +24,7 @@ public interface IScreen {
     void deletePDFfiles(Path destinationPathPDF) throws BLLException;
 
     void deleteCSV(Path destinationPathCSV) throws BLLException;
-    void save(Screen screen, List<ScreenElement> screenElements) throws BLLException;
+    void save(Screen screen, List<ScreenElement> screenElements, List<User> usersList) throws BLLException;
 
     List<Screen> getMainScreens() throws BLLException;
 }

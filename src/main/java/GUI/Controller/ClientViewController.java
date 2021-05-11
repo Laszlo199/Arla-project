@@ -5,30 +5,28 @@ import GUI.util.CSVLoader;
 import GUI.util.PDFLoader;
 import GUI.util.WebsiteLoader;
 import be.ScreenElement;
-import be.Users;
-import javafx.fxml.Initializable;
+import be.User;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.text.Text;
 import javafx.scene.web.WebEngine;
 import javafx.stage.Stage;
 
-import java.net.URL;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 public class ClientViewController {
 
     public AnchorPane pane;
     private List<ScreenElement> sections;
     private ClientModel model;
-    private Users user;
+    private User user;
     private GridPane gridPane = new GridPane();
     private WebEngine webEngine;
 
-    public void setUser(Users user) {
+    public void setUser(User user, Stage stage) {
         this.user = user;
         model = ClientModel.getInstance();
         //sections = model.getSections(user.getID());
@@ -41,27 +39,26 @@ public class ClientViewController {
         sections.add(s2);
         sections.add(s3);
 
-        loadScreen();
+        loadScreen(stage);
     }
 
-    private void loadScreen() {
-        gridPane.setHgap(10);
-        gridPane.setVgap(10);
-
+    private void loadScreen(Stage stage) {
         for(ScreenElement section : sections) {
 
             String filePath = section.getFilepath();
             AnchorPane anchorPane = null;
-            if(section.getFilepath()!=null) {
-                String fileType = filePath.substring(filePath.length() - 3);
+            if(filePath!=null) {
+                String fileType = "";
+                if(filePath.length() > 4) fileType = filePath.substring(filePath.length() - 4);
+                else fileType = filePath;
                 switch (fileType) {
-                    case "png", "jpg":
+                    case ".png", ".jpg":
                         anchorPane = loadImage(filePath);
                         break;
-                    case "pdf":
+                    case ".pdf":
                         anchorPane = loadPDF(filePath);
                         break;
-                    case "csv":
+                    case ".csv":
                         anchorPane = loadCSV(filePath);
                         break;
                     default:
@@ -72,30 +69,15 @@ public class ClientViewController {
 
             gridPane.add(anchorPane, section.getColIndex(),
                     section.getRowIndex(), section.getColSpan(), section.getRowSpan());
-
+            GridPane.setHgrow(anchorPane, Priority.SOMETIMES);
+            GridPane.setVgrow(anchorPane, Priority.SOMETIMES);
         }
 
-        //gridPane.setPrefHeight(pane.getHeight());
-        //gridPane.setPrefWidth(pane.getWidth());
-
-        //gridPane.setPrefSize(pane.getWidth(), pane.getHeight());
-        //gridPane.setMinSize(pane.getWidth(), pane.getHeight());
-
-        /*
-        ColumnConstraints column1 = new ColumnConstraints();
-        column1.setPercentWidth(50);
-        column1.setHgrow(Priority.ALWAYS);
-        gridPane.getColumnConstraints().add(column1);
-        RowConstraints row1 = new RowConstraints();
-        row1.setPercentHeight(50);
-        gridPane.getRowConstraints().add(row1);
-
-         */
-
-
-
         gridPane.setGridLinesVisible(true);
-        pane.getChildren().add(gridPane);
+
+        Scene scene = new Scene(gridPane);
+        stage.setScene(scene);
+        stage.show();
 
     }
 
@@ -131,6 +113,13 @@ public class ClientViewController {
 
     private AnchorPane loadImage(String filepath) {
         AnchorPane anchorPane = new AnchorPane();
+        anchorPane.setPrefSize(300, 300);
+        Image image = new Image(filepath);
+        ImageView imageView = new ImageView();
+        imageView.setImage(image);
+        anchorPane.getChildren().add(imageView);
+        imageView.setFitHeight(anchorPane.getHeight());
+        imageView.setFitWidth(anchorPane.getWidth());
         System.out.println("loaded image");
         return anchorPane;
     }
