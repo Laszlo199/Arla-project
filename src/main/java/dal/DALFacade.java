@@ -3,7 +3,7 @@ package dal;
 import be.DefaultScreen;
 import be.Screen;
 import be.ScreenElement;
-import be.Users;
+import be.User;
 import dal.Database.DBConnector;
 import dal.Database.dataAccess.AdminsDAO;
 import dal.Database.dataAccess.ScreenDAO;
@@ -58,22 +58,22 @@ public class DALFacade implements IDALFacade{
 
     //Users Delete, Add, Edit, all
     @Override
-    public List<Users> getAllUser() throws DALexception {
+    public List<User> getAllUser() throws DALexception {
         return userDAO.getAll();
     }
 
     @Override
-    public void deleteUser(Users user) throws DALexception {
+    public void deleteUser(User user) throws DALexception {
         userDAO.delete(user);
     }
 
     @Override
-    public void updateUser(Users oldUser, Users newUser) throws DALexception {
+    public void updateUser(User oldUser, User newUser) throws DALexception {
         userDAO.update(oldUser,newUser);
     }
 
     @Override
-    public void createUser(Users user) throws DALexception {
+    public void createUser(User user) throws DALexception {
         userDAO.create(user);
     }
 
@@ -104,7 +104,7 @@ public class DALFacade implements IDALFacade{
     }
 
     @Override
-    public void save(Screen screen, List<ScreenElement> screenElements, List<Users> usersList) throws DALexception {
+    public void save(Screen screen, List<ScreenElement> screenElements, List<User> usersList) throws DALexception {
         screenDAO.save(screen, screenElements,usersList);
     }
 
@@ -126,5 +126,10 @@ public class DALFacade implements IDALFacade{
     @Override
     public List<ScreenElement> getScreenForUser(int userId) throws DALexception {
         return userDAO.getScreenForUser(userId);
+    }
+
+    @Override
+    public User getUser(String username) throws DALexception {
+        return userDAO.getUser(username);
     }
 }

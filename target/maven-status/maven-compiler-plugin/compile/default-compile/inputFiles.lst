@@ -30,7 +30,6 @@
 /Users/kamila/Documents/GitHub/Arla-project/src/main/java/GUI/Model/ClientModel.java
 /Users/kamila/Documents/GitHub/Arla-project/src/main/java/GUI/util/Command/LoadTemplates.java
 /Users/kamila/Documents/GitHub/Arla-project/src/main/java/GUI/Controller/TemplatesViewController.java
-/Users/kamila/Documents/GitHub/Arla-project/src/main/java/be/Users.java
 /Users/kamila/Documents/GitHub/Arla-project/src/main/java/bll/exception/BLLException.java
 /Users/kamila/Documents/GitHub/Arla-project/src/main/java/GUI/Model/ScreenModel.java
 /Users/kamila/Documents/GitHub/Arla-project/src/main/java/dal/Database/DBConnector.java
@@ -56,11 +55,11 @@
 /Users/kamila/Documents/GitHub/Arla-project/src/main/java/be/Admin.java
 /Users/kamila/Documents/GitHub/Arla-project/src/main/java/GUI/Model/exception/ModelException.java
 /Users/kamila/Documents/GitHub/Arla-project/src/main/java/GUI/Model/UserModel.java
+/Users/kamila/Documents/GitHub/Arla-project/src/main/java/be/User.java
 /Users/kamila/Documents/GitHub/Arla-project/src/main/java/be/DefaultScreen.java
 /Users/kamila/Documents/GitHub/Arla-project/src/main/java/bll/IDefaultScreen.java
 /Users/kamila/Documents/GitHub/Arla-project/src/main/java/GUI/util/ValidateExtension.java
 /Users/kamila/Documents/GitHub/Arla-project/src/main/java/dal/Database/dataAccess/AdminsDAO.java
-/Users/kamila/Documents/GitHub/Arla-project/src/main/java/GUI/Controller/AssignUsersViewController.java
 /Users/kamila/Documents/GitHub/Arla-project/src/main/java/GUI/util/FileSaver.java
 /Users/kamila/Documents/GitHub/Arla-project/src/main/java/GUI/util/ChartCanvas.java
 /Users/kamila/Documents/GitHub/Arla-project/src/main/java/GUI/Model/LoginModel.java

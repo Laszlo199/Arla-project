@@ -3,7 +3,7 @@ package bll;
 import be.DefaultScreen;
 import be.Screen;
 import be.ScreenElement;
-import be.Users;
+import be.User;
 import bll.exception.BLLException;
 import dal.DALFacade;
 import dal.IDALFacade;
@@ -86,7 +86,7 @@ public class Facade implements IFacade{
     }
 
     @Override
-    public void save(Screen screen, List<ScreenElement> screenElements, List<Users> usersList) throws BLLException {
+    public void save(Screen screen, List<ScreenElement> screenElements, List<User> usersList) throws BLLException {
         try {
             facade.save(screen, screenElements, usersList);
         } catch (DALexception daLexception) {
@@ -133,7 +133,7 @@ public class Facade implements IFacade{
 
     // Users add, delete and all
     @Override
-    public List<Users> getAllUser() throws BLLException {
+    public List<User> getAllUser() throws BLLException {
         try {
             return facade.getAllUser();
         }catch (DALexception daLexception){
@@ -143,7 +143,7 @@ public class Facade implements IFacade{
     }
 
     @Override
-    public void deleteUser(Users user) throws BLLException {
+    public void deleteUser(User user) throws BLLException {
         try {
             facade.deleteUser(user);
         }catch (DALexception daLexception){
@@ -153,7 +153,7 @@ public class Facade implements IFacade{
     }
 
     @Override
-    public void updateUser(Users oldUser, Users newUser) throws BLLException {
+    public void updateUser(User oldUser, User newUser) throws BLLException {
         try {
             facade.updateUser(oldUser,newUser);
         }catch (DALexception daLexception){
@@ -163,7 +163,7 @@ public class Facade implements IFacade{
     }
 
     @Override
-    public void createUser(Users user) throws BLLException {
+    public void createUser(User user) throws BLLException {
         try {
             facade.createUser(user);
         }catch (DALexception daLexception){
@@ -189,6 +189,16 @@ public class Facade implements IFacade{
         } catch (DALexception daLexception) {
             daLexception.printStackTrace();
             throw new BLLException("Couldnt get a screen for user");
+        }
+    }
+
+    @Override
+    public User getUser(String username) throws BLLException {
+        try {
+            return facade.getUser(username);
+        } catch (DALexception e) {
+            e.printStackTrace();
+            throw new BLLException("Couldn't check the login");
         }
     }
 

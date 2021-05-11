@@ -5,33 +5,28 @@ import GUI.util.CSVLoader;
 import GUI.util.PDFLoader;
 import GUI.util.WebsiteLoader;
 import be.ScreenElement;
-import be.Users;
-import javafx.fxml.Initializable;
-import javafx.geometry.HPos;
+import be.User;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.text.Text;
 import javafx.scene.web.WebEngine;
 import javafx.stage.Stage;
 
-import java.net.URL;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 public class ClientViewController {
 
     public AnchorPane pane;
     private List<ScreenElement> sections;
     private ClientModel model;
-    private Users user;
+    private User user;
     private GridPane gridPane = new GridPane();
     private WebEngine webEngine;
 
-    public void setUser(Users user, Stage stage) {
+    public void setUser(User user, Stage stage) {
         this.user = user;
         model = ClientModel.getInstance();
         //sections = model.getSections(user.getID());

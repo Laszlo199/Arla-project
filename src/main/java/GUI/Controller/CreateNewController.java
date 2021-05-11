@@ -8,35 +8,28 @@ import GUI.util.PDFLoader;
 import GUI.util.WebsiteLoader;
 import be.Screen;
 import be.ScreenElement;
-import be.Section;
-import be.Users;
+import be.User;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.web.WebEngine;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
@@ -50,8 +43,8 @@ public class CreateNewController implements Initializable {
     @FXML private GridPane gridPane;
     @FXML private VBox vBox;
     @FXML private TextField searchField;
-    @FXML private TableView<Users> userTableView;
-    @FXML private TableColumn<Users, String> usersNames;
+    @FXML private TableView<User> userTableView;
+    @FXML private TableColumn<User, String> usersNames;
 
     public Label jpgLbl = new Label("JPG");
     public Label pngLbl = new Label("PNG");
@@ -294,7 +287,7 @@ public class CreateNewController implements Initializable {
             Screen screen = new Screen(name);
              //later here we will add userID and refresh rate
             List<ScreenElement> screenElements = new ArrayList<>();
-            List<Users> usersList = userTableView.getSelectionModel().getSelectedItems();
+            List<User> usersList = userTableView.getSelectionModel().getSelectedItems();
 
             for(Node node: nodes)
                 if(node==null)
@@ -355,7 +348,7 @@ public class CreateNewController implements Initializable {
 
 
     private void initUserTableView(){
-        usersNames.setCellValueFactory(new PropertyValueFactory<Users, String>("userName"));
+        usersNames.setCellValueFactory(new PropertyValueFactory<User, String>("userName"));
         userModel.loadUsers();
         userTableView.setItems(userModel.getAllUser());
 
@@ -363,7 +356,7 @@ public class CreateNewController implements Initializable {
     }
     public void search(){
 
-        FilteredList<Users> filteredList = new FilteredList<>(userModel.getAllUser(), b->true);
+        FilteredList<User> filteredList = new FilteredList<>(userModel.getAllUser(), b->true);
         searchField.textProperty().addListener((observableValue, oldValue, newValue) -> {
             filteredList.setPredicate(users -> {
                 if (newValue == null || newValue.isEmpty()){
@@ -376,7 +369,7 @@ public class CreateNewController implements Initializable {
                     return false;
             });
         });
-        SortedList<Users> sortedList = new SortedList<>(filteredList);
+        SortedList<User> sortedList = new SortedList<>(filteredList);
         sortedList.comparatorProperty().bind(userTableView.comparatorProperty());
         userTableView.setItems(sortedList);
 

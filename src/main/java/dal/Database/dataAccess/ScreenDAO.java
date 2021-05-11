@@ -1,10 +1,9 @@
 package dal.Database.dataAccess;
 
-import GUI.util.Command.Command;
 import be.DefaultScreen;
 import be.Screen;
 import be.ScreenElement;
-import be.Users;
+import be.User;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dal.Database.DBConnector;
 import dal.exception.DALexception;
@@ -144,7 +143,7 @@ public class ScreenDAO {
      * @param screen
      * @param screenElements
      */
-    public void save(Screen screen, List<ScreenElement> screenElements, List<Users> usersList) throws DALexception {
+    public void save(Screen screen, List<ScreenElement> screenElements, List<User> usersList) throws DALexception {
         int screenID = -1;
         String query1 = "INSERT INTO Screens([name], refreshTime) Values(?, ?);";
         String query2 = "INSERT INTO Sections(screenID, colIndex, rowIndex" +
@@ -186,7 +185,7 @@ public class ScreenDAO {
                 preparedStatement.executeUpdate();
             }
 
-            for (Users user : usersList) {
+            for (User user : usersList) {
                 preparedStatement2.setInt(1, screenID);
                 preparedStatement2.setInt(2, user.getID());
                 preparedStatement2.executeUpdate();

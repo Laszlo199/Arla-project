@@ -1,6 +1,6 @@
 package GUI.Model;
 
-import be.Users;
+import be.User;
 import bll.Facade;
 import bll.IFacade;
 import bll.exception.BLLException;
@@ -10,7 +10,7 @@ import javafx.collections.ObservableList;
 public class UserModel {
 
     private IFacade iFacade;
-    private ObservableList<Users> obsUsers;
+    private ObservableList<User> obsUsers;
 
 
     public UserModel() {
@@ -18,7 +18,7 @@ public class UserModel {
        this.iFacade = Facade.getInstance();
     }
 
-    public ObservableList<Users> getAllUser(){
+    public ObservableList<User> getAllUser(){
         return obsUsers;
     }
 
@@ -31,7 +31,7 @@ public class UserModel {
         }
     }
 
-    public void delete(Users selectedUser){
+    public void delete(User selectedUser){
         try{
             iFacade.deleteUser(selectedUser);
         }catch (BLLException blLexception){
@@ -40,7 +40,7 @@ public class UserModel {
         obsUsers.remove(selectedUser);
     }
 
-    public void saveUser(Users user){
+    public void saveUser(User user){
         try{
             iFacade.createUser(user);
         }catch (BLLException blLexception){
@@ -49,7 +49,7 @@ public class UserModel {
         obsUsers.add(user);
     }
 
-    public void updateUser(Users oldUser, Users newUser){
+    public void updateUser(User oldUser, User newUser){
         try{
             iFacade.updateUser(oldUser,newUser);
         }catch (BLLException blLexception){
