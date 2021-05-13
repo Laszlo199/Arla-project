@@ -23,18 +23,30 @@ import java.util.stream.Collectors;
  *
  */
 public class CreateNewScreenController implements Initializable {
-    @FXML private JFXTextField nameField;
-    @FXML private Label csvL;
-    @FXML private Label pdfL;
-    @FXML private Label pngL;
-    @FXML private Label jpgL;
-    @FXML private Label httpL;
-    @FXML private JFXButton setButton;
-    @FXML private TextField rowsFiled;
-    @FXML private TextField colsField;
-    @FXML private AnchorPane space;
+    @FXML
+    private JFXTextField nameField;
+    @FXML
+    private Label csvL;
+    @FXML
+    private Label pdfL;
+    @FXML
+    private Label pngL;
+    @FXML
+    private Label jpgL;
+    @FXML
+    private Label httpL;
+    @FXML
+    private JFXButton setButton;
+    @FXML
+    private TextField rowsFiled;
+    @FXML
+    private TextField colsField;
+    @FXML
+    private AnchorPane space;
     private GridPane gridPane;
     ContextMenu contextMenu = new ContextMenu();
+    private int[][] array;
+    private int incrementedValue =1;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -63,10 +75,11 @@ public class CreateNewScreenController implements Initializable {
      * - cols
      * and then based on that builds grid and adds that to
      * AnchorPane called space
+     *
      * @param actionEvent
      */
     public void setGrid(ActionEvent actionEvent) {
-        if(!colsField.getText().isEmpty() && !rowsFiled.getText().isEmpty()){
+        if (!colsField.getText().isEmpty() && !rowsFiled.getText().isEmpty()) {
             int cols = Integer.parseInt(colsField.getText());
             int rows = Integer.parseInt(rowsFiled.getText());
             gridPane = new GridPane();
@@ -90,10 +103,11 @@ public class CreateNewScreenController implements Initializable {
                 gridPane.getColumnConstraints().add(colConst);
 
             }
-            for(Node node: gridPane.getChildren()){
-                System.out.println("setting constraint for node");
+            for (Node node : gridPane.getChildren()) {
                 node.setOnMousePressed(event -> showContextMenu(event, node));
             }
+            //set array
+            array = new int[rows][cols];
             space.getChildren().add(gridPane);
             colsField.setDisable(true);
             rowsFiled.setDisable(true);
@@ -104,6 +118,7 @@ public class CreateNewScreenController implements Initializable {
     /**
      * we will provide functionality to connect two or more available spots.
      * We need to ensure that grid is set first before checking that stuff
+     *
      * @param event
      * @param node
      */
@@ -111,19 +126,26 @@ public class CreateNewScreenController implements Initializable {
         contextMenu.getItems().clear();
 
         if (event.isSecondaryButtonDown()) {
-           //down
-            if(GridPane.getRowIndex(node) !=gridPane.getRowCount()-1){
+            //down
+            if (GridPane.getRowIndex(node) != gridPane.getRowCount() - 1) {
                 List<MenuItem> menuItems = new ArrayList<>();
                 int noToConnect = gridPane.getRowCount() - 1 - GridPane.getRowIndex(node);
-                for(int i=1; i<=noToConnect; i++){
-                    System.out.println("in the loooop...:"+ i);
-                    MenuItem menuItem = new MenuItem("connect with: "+ i+" bottom");
+                for (int i = 1; i <= noToConnect; i++) {
+                    System.out.println("in the loooop...:" + i);
+                    MenuItem menuItem = new MenuItem("connect with: " + i + " bottom");
                     int finalI = i;
                     menuItem.setOnAction(actionEvent -> {
-                        int span =0;
-                       if (GridPane.getRowSpan(node) == null) span = 1;
-                       else span = GridPane.getRowSpan(node);
+                        int span = 0;
+                        if (GridPane.getRowSpan(node) == null) span = 1;
+                        else span = GridPane.getRowSpan(node);
                         GridPane.setRowSpan(node, span + finalI);
+                        //that numeration
+                        int columnIndex = GridPane.getColumnIndex(node);
+                        for(int j= GridPane.getRowIndex(node); j< GridPane.getRowIndex(node) +
+                                span + finalI; j++)
+                            array[j][columnIndex] = incrementedValue;
+
+                        incrementedValue++;
                         node.setStyle("-fx-background-color: GREEN");
                     });
                     menuItems.add(menuItem);
@@ -133,23 +155,32 @@ public class CreateNewScreenController implements Initializable {
 
             }
             //up
-            if(GridPane.getRowIndex(node)!=0){
+            if (GridPane.getRowIndex(node) != 0) {
                 Map<Integer, MenuItem> menuItems = new HashMap<>();
-                for(int i=1; i<=GridPane.getRowIndex(node); i++){
+                for (int i = 1; i <= GridPane.getRowIndex(node); i++) {
                     MenuItem menuItem = new MenuItem("connect with: " + i + " top");
                     int finalI = i;
                     menuItem.setOnAction(actionEvent -> {
                         int goalRow = GridPane.getRowIndex(node) - finalI;
-                        int goalCol = GridPane.getColumnIndex(node);
-                        //int span = GridPane.getRowSpan(node) +finalI;
                         int span = 0;
-                        if(GridPane.getRowSpan(node)==null) span =1 + finalI;
+                        if (GridPane.getRowSpan(node) == null) span = 1 + finalI;
                         else span = GridPane.getRowSpan(node) + finalI;
                         GridPane.setRowIndex(node, goalRow);
+                        System.out.println("Row index in question: " +GridPane.getRowIndex(node));
                         GridPane.setRowSpan(node, span);
                         node.setStyle("-fx-background-color: orange");
+                        //go down it will appear only in some cases
+                        for(int j = GridPane.getRowIndex(node)+1; j<GridPane.getRowIndex(node) +
+                        GridPane.getRowSpan(node); j++)
+                            array[j][GridPane.getColumnIndex(node)] = incrementedValue;
+
+                        //go up
+                        for(int j= GridPane.getRowIndex(node) - finalI; j< GridPane.getRowIndex(node); j++)
+                            array[j][GridPane.getColumnIndex(node)] = incrementedValue;
+
+                        incrementedValue++;
                     });
-                    menuItems.put(i, menuItem );
+                    menuItems.put(i, menuItem);
                 }
                 contextMenu.getItems().addAll(menuItems.values().
                         stream().collect(Collectors.toList()));
@@ -160,7 +191,6 @@ public class CreateNewScreenController implements Initializable {
         }
 
     }
-
 
 
     public void saveButton(ActionEvent actionEvent) {
