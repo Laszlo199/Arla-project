@@ -139,7 +139,8 @@ public class CreateNewScreenController implements Initializable {
 
                     for(int k = GridPane.getRowIndex(node); k<= GridPane.getRowIndex(node)+i; k++) {
                         System.out.println("row index: "+ k);
-                        if (array[k][GridPane.getColumnIndex(node)] != 0)
+                        if (array[k][GridPane.getColumnIndex(node)] != 0 && array[k][GridPane.getColumnIndex(node)]
+                                !=array[GridPane.getRowIndex(node)][GridPane.getColumnIndex(node)])
                             check = false;
                     }
 
@@ -234,6 +235,7 @@ public class CreateNewScreenController implements Initializable {
                         if (GridPane.getColumnSpan(node) == null) span = 1;
                         else span = GridPane.getColumnSpan(node);
                         GridPane.setColumnSpan(node, span + finalI);
+                        System.out.println("column starts here: ..."+ GridPane.getColumnIndex(node));
                         //that numeration
                         int rowIndex = GridPane.getRowIndex(node);
                         for(int j= GridPane.getColumnIndex(node); j< GridPane.getColumnIndex(node) +
