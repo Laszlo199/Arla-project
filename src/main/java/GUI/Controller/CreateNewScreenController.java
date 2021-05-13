@@ -173,6 +173,20 @@ public class CreateNewScreenController implements Initializable {
             if (GridPane.getRowIndex(node) != 0) {
                 Map<Integer, MenuItem> menuItems = new HashMap<>();
                 for (int i = 1; i <= GridPane.getRowIndex(node); i++) {
+                    //check if it is not occupied all along the way
+                    boolean check= true;
+                    int spann = 0;
+                    if(GridPane.getRowSpan(node) ==null) spann =1;
+                    else  spann = GridPane.getRowSpan(node);
+
+                    for(int k = GridPane.getRowIndex(node)-i; k<= GridPane.getRowIndex(node); k++) {
+                        System.out.println("row index: "+ k);
+                        if (array[k][GridPane.getColumnIndex(node)] != 0 && array[k][GridPane.getColumnIndex(node)]
+                                !=array[GridPane.getRowIndex(node)][GridPane.getColumnIndex(node)])
+                            check = false;
+                    }
+
+
                     MenuItem menuItem = new MenuItem("connect with: " + i + " top");
                     int finalI = i;
                     menuItem.setOnAction(actionEvent -> {
@@ -205,7 +219,8 @@ public class CreateNewScreenController implements Initializable {
 
                         incrementedValue++;
                     });
-                    menuItems.put(i, menuItem);
+                    if(check)
+                        menuItems.put(i, menuItem);
                 }
                 contextMenu.getItems().addAll(menuItems.values().
                         stream().collect(Collectors.toList()));
