@@ -211,6 +211,49 @@ public class CreateNewScreenController implements Initializable {
                 contextMenu.show(node, event.getScreenX(), event.getScreenY());
             }
 
+            //right
+            if(GridPane.getColumnIndex(node) != gridPane.getColumnCount()-1){
+                List<MenuItem> menuItems = new ArrayList<>();
+                int noToConnect = gridPane.getColumnCount() - 1 - GridPane.getColumnIndex(node);
+                for (int i = 1; i <= noToConnect; i++) {
+                    //check if it is not occupied all along the way
+                    boolean check= true;
+                    int spann = 0;
+                    if(GridPane.getColumnSpan(node) ==null) spann =1;
+                    else  spann = GridPane.getColumnSpan(node);
+                    for(int k = GridPane.getColumnIndex(node); k<= GridPane.getColumnIndex(node)+i; k++) {
+                        System.out.println("col index: "+ k);
+                        if (array[GridPane.getRowIndex(node)][k] != 0)
+                            check = false;
+                    }
+
+                    MenuItem menuItem = new MenuItem("connect with: " + i + " right");
+                    int finalI = i;
+                    menuItem.setOnAction(actionEvent -> {
+                        int span = 0;
+                        if (GridPane.getColumnSpan(node) == null) span = 1;
+                        else span = GridPane.getColumnSpan(node);
+                        GridPane.setColumnSpan(node, span + finalI);
+                        //that numeration
+                        int rowIndex = GridPane.getRowIndex(node);
+                        for(int j= GridPane.getColumnIndex(node); j< GridPane.getColumnIndex(node) +
+                                span + finalI; j++){
+                            System.out.println("we marked col: " + j +"with "+ incrementedValue);
+                            array[rowIndex][j] = incrementedValue;
+                        }
+
+                        incrementedValue++;
+                        node.setStyle("-fx-background-color: #641d97");
+                    });
+                    if(check) {
+                        menuItems.add(menuItem);
+                    }
+
+                }
+                contextMenu.getItems().addAll(menuItems);
+                contextMenu.show(node, event.getScreenX(), event.getScreenY());
+            }
+
 
         }
 
