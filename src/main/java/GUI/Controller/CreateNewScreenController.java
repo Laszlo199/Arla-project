@@ -131,7 +131,18 @@ public class CreateNewScreenController implements Initializable {
                 List<MenuItem> menuItems = new ArrayList<>();
                 int noToConnect = gridPane.getRowCount() - 1 - GridPane.getRowIndex(node);
                 for (int i = 1; i <= noToConnect; i++) {
-                    System.out.println("in the loooop...:" + i);
+                    //check if it is not occupied all along the way
+                    boolean check= true;
+                    int spann = 0;
+                    if(GridPane.getRowSpan(node) ==null) spann =1;
+                    else  spann = GridPane.getRowSpan(node);
+
+                    for(int k = GridPane.getRowIndex(node); k<= GridPane.getRowIndex(node)+i; k++) {
+                        System.out.println("row index: "+ k);
+                        if (array[k][GridPane.getColumnIndex(node)] != 0)
+                            check = false;
+                    }
+
                     MenuItem menuItem = new MenuItem("connect with: " + i + " bottom");
                     int finalI = i;
                     menuItem.setOnAction(actionEvent -> {
@@ -142,17 +153,20 @@ public class CreateNewScreenController implements Initializable {
                         //that numeration
                         int columnIndex = GridPane.getColumnIndex(node);
                         for(int j= GridPane.getRowIndex(node); j< GridPane.getRowIndex(node) +
-                                span + finalI; j++)
+                                span + finalI; j++){
+                            System.out.println("we marked row: " + j +"with "+ incrementedValue);
                             array[j][columnIndex] = incrementedValue;
+                        }
 
                         incrementedValue++;
                         node.setStyle("-fx-background-color: GREEN");
                     });
+                    if(check){
                     menuItems.add(menuItem);
-                }
+                }}
                 contextMenu.getItems().addAll(menuItems);
                 contextMenu.show(node, event.getScreenX(), event.getScreenY());
-
+            }
             }
             //up
             if (GridPane.getRowIndex(node) != 0) {
@@ -169,14 +183,24 @@ public class CreateNewScreenController implements Initializable {
                         System.out.println("Row index in question: " +GridPane.getRowIndex(node));
                         GridPane.setRowSpan(node, span);
                         node.setStyle("-fx-background-color: orange");
+
+                        //reevaluate that marking part
+
                         //go down it will appear only in some cases
-                        for(int j = GridPane.getRowIndex(node)+1; j<GridPane.getRowIndex(node) +
-                        GridPane.getRowSpan(node); j++)
+                        for(int j = GridPane.getRowIndex(node); j<GridPane.getRowIndex(node) +
+                        GridPane.getRowSpan(node); j++){
+                            System.out.println("marking up idex: "+j);
                             array[j][GridPane.getColumnIndex(node)] = incrementedValue;
+                        }
 
                         //go up
-                        for(int j= GridPane.getRowIndex(node) - finalI; j< GridPane.getRowIndex(node); j++)
+                        /*
+                        for(int j= GridPane.getRowIndex(node) - finalI; j< GridPane.getRowIndex(node); j++) {
+                            System.out.println("marking up idex (here??): "+j);
                             array[j][GridPane.getColumnIndex(node)] = incrementedValue;
+                        }
+
+                         */
 
                         incrementedValue++;
                     });
@@ -190,7 +214,7 @@ public class CreateNewScreenController implements Initializable {
 
         }
 
-    }
+
 
 
     public void saveButton(ActionEvent actionEvent) {
