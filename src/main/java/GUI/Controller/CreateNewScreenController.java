@@ -2,6 +2,7 @@ package GUI.Controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -72,9 +73,9 @@ public class CreateNewScreenController implements Initializable {
             gridPane.setGridLinesVisible(true);
             gridPane.prefHeightProperty().bind(space.heightProperty());
             gridPane.prefWidthProperty().bind(space.widthProperty());
-            for (int i = 0; i <= cols; i++) {
-                for (int j = 0; j <= rows; j++) {
-                    gridPane.add(new AnchorPane(), i, j);
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    gridPane.add(new AnchorPane(), j, i);
                 }
             }
             for (int i = 0; i < rows; i++) {
@@ -107,36 +108,59 @@ public class CreateNewScreenController implements Initializable {
      * @param node
      */
     private void showContextMenu(MouseEvent event, Node node) {
-        System.out.println("got into method");
-        int cols = Integer.parseInt(colsField.getText());
-        int rows = Integer.parseInt(rowsFiled.getText());
+        contextMenu.getItems().clear();
+
         if (event.isSecondaryButtonDown()) {
            //down
-            System.out.println(GridPane.getRowIndex(node));
-            if(GridPane.getRowIndex(node) !=rows-1){
-                Map<Integer, MenuItem> menuItems = new HashMap<>();
-                int noToConnect = rows - GridPane.getRowIndex(node);
-                for(int i=1; i<noToConnect; i++){
+            if(GridPane.getRowIndex(node) !=gridPane.getRowCount()-1){
+                List<MenuItem> menuItems = new ArrayList<>();
+                int noToConnect = gridPane.getRowCount() - 1 - GridPane.getRowIndex(node);
+                for(int i=1; i<=noToConnect; i++){
+                    System.out.println("in the loooop...:"+ i);
                     MenuItem menuItem = new MenuItem("connect with: "+ i+" bottom");
                     int finalI = i;
                     menuItem.setOnAction(actionEvent -> {
-                        int span = 0;
-                        if (GridPane.getRowSpan(node) == null) span = 1;
+                        int span =0;
+                       if (GridPane.getRowSpan(node) == null) span = 1;
+                       else span = GridPane.getRowSpan(node);
                         GridPane.setRowSpan(node, span + finalI);
                         node.setStyle("-fx-background-color: GREEN");
                     });
-                    menuItems.put(i, menuItem );
+                    menuItems.add(menuItem);
                 }
-                contextMenu.getItems().clear();
-                contextMenu.getItems().addAll(menuItems.values().
-                        stream().collect(Collectors.toList()));
+                contextMenu.getItems().addAll(menuItems);
                 contextMenu.show(node, event.getScreenX(), event.getScreenY());
 
             }
+            //up
+            if(GridPane.getRowIndex(node)!=0){
+                Map<Integer, MenuItem> menuItems = new HashMap<>();
+                for(int i=1; i<=GridPane.getRowIndex(node); i++){
+                    MenuItem menuItem = new MenuItem("connect with: " + i + " top");
+                    int finalI = i;
+                    menuItem.setOnAction(actionEvent -> {
+                        int goalRow = GridPane.getRowIndex(node) - finalI;
+                        int goalCol = GridPane.getColumnIndex(node);
+                        //int span = GridPane.getRowSpan(node) +finalI;
+                        int span = 0;
+                        if(GridPane.getRowSpan(node)==null) span =1 + finalI;
+                        else span = GridPane.getRowSpan(node) + finalI;
+                        GridPane.setRowIndex(node, goalRow);
+                        GridPane.setRowSpan(node, span);
+                        node.setStyle("-fx-background-color: orange");
+                    });
+                    menuItems.put(i, menuItem );
+                }
+                contextMenu.getItems().addAll(menuItems.values().
+                        stream().collect(Collectors.toList()));
+                contextMenu.show(node, event.getScreenX(), event.getScreenY());
+            }
+
 
         }
 
     }
+
 
 
     public void saveButton(ActionEvent actionEvent) {
