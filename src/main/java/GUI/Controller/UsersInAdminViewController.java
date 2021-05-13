@@ -3,23 +3,33 @@ package GUI.Controller;
 import GUI.Model.UserModel;
 import be.User;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
+import com.jfoenix.controls.JFXComboBox;
 import javafx.animation.TranslateTransition;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TableColumn;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.control.Button;
 import javafx.util.Duration;
 
+
+import javax.swing.*;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+
+import static java.sql.Types.NULL;
 
 public class UsersInAdminViewController implements Initializable {
     @FXML private TableView<User> userTableView;
@@ -36,11 +46,13 @@ public class UsersInAdminViewController implements Initializable {
     @FXML private TextField newPasswordField;
     @FXML private Button editCancel;
     @FXML private Button newCancel;
-
+    @FXML private JFXCheckBox createAdmin;
+    @FXML private JFXCheckBox editAdmin;
+    @FXML private JFXComboBox<String> allTableView;
 
     private UserModel userModel;
 
-
+    private ObservableList<String> usersAndAdmins = FXCollections.observableArrayList("All","Users", "Admins");
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -49,14 +61,49 @@ public class UsersInAdminViewController implements Initializable {
         addNewUser.setVisible(false);
         initUserTableView();
         search();
+        initComboBox();
+
     }
 
     private void initUserTableView(){
         userColumn.setCellValueFactory(new PropertyValueFactory<User, String>("userName"));
-        passwordColumn.setCellValueFactory(new PropertyValueFactory<User,String>("Password"));
+        passwordColumn.setCellValueFactory(new PropertyValueFactory<User, String>("Password"));
 
         userModel.loadUsers();
         userTableView.setItems(userModel.getAllUser());
+    }
+
+    private ObservableList<User> returnSelectedUsers(String selection) {
+        ObservableList<User> listOfUsers = userModel.getAllUser();
+
+        if (selection == "Admins"){
+            ObservableList<User> admins = FXCollections.observableArrayList();
+            for (int i = 0; i<listOfUsers.size(); i++){
+                if (listOfUsers.get(i).isAdmin()){
+                    admins.add(listOfUsers.get(i));
+                }
+            }
+            return admins;
+        }
+        else if (selection == "Users")
+        {
+            ObservableList<User> users = FXCollections.observableArrayList();
+            for (int i = 0; i<listOfUsers.size(); i++){
+                if (!listOfUsers.get(i).isAdmin()){
+                    users.add(listOfUsers.get(i));
+                }
+            }
+            return users;
+        }
+        return listOfUsers;
+    }
+
+
+
+
+
+    private void initComboBox() {
+        allTableView.getItems().addAll(usersAndAdmins);
 
     }
 
@@ -143,23 +190,39 @@ public class UsersInAdminViewController implements Initializable {
         addNewUser.setVisible(false);
         add.setDisable(false);
     }
-
-    public void btnUpdate(ActionEvent actionEvent) {
+    
+    public void setCreateAdmin(boolean isAdmin) {
         User newUser = userTableView.getSelectionModel().getSelectedItem();
         newUser.setUserName(editNameField.getText());
         newUser.setPassword(editPasswordField.getText());
+        newUser.setAdmin(isAdmin);
 
         userModel.updateUser(userTableView.getSelectionModel().getSelectedItem(),newUser);
         userModel.loadUsers();
+    }
 
+    public void btnUpdate(ActionEvent actionEvent) {
+       boolean isAdmin = true;
+       if (editAdmin.isSelected() == false)
+           isAdmin = false;
+       setCreateAdmin(isAdmin);
+    }
+
+    public void setCreateAdminOrUser(boolean isAdmin) {
+        User newUser = new User(-1,
+                newNameField.getText(),
+                newPasswordField.getText(),
+                NULL,
+                isAdmin);
+        userModel.saveUser(newUser);
     }
 
     //NEEDS UPDATING
     public void btnCreate(ActionEvent actionEvent) {
-        User newUser = new User(-1,
-                newNameField.getText(),
-                newPasswordField.getText(), 0, false);
-        userModel.saveUser(newUser);
+       boolean isAdmin = false;
+       if (createAdmin.isSelected())
+           isAdmin = true;
+       setCreateAdminOrUser(isAdmin);
 
     }
 
@@ -173,6 +236,7 @@ public class UsersInAdminViewController implements Initializable {
     public void readUser(MouseEvent event) {
         editNameField.setText(userTableView.getSelectionModel().getSelectedItem().getUserName());
         editPasswordField.setText(userTableView.getSelectionModel().getSelectedItem().getPassword());
+        editAdmin.setSelected(userTableView.getSelectionModel().getSelectedItem().isAdmin());
 
     }
 
@@ -194,6 +258,14 @@ public class UsersInAdminViewController implements Initializable {
         SortedList<User> sortedList = new SortedList<>(filteredList);
         sortedList.comparatorProperty().bind(userTableView.comparatorProperty());
         userTableView.setItems(sortedList);
+
+    }
+
+    public void comboBoxSelect(ActionEvent actionEvent) {
+        JFXComboBox comboBox = (JFXComboBox) actionEvent.getSource();
+        String selectedItem = (String) comboBox.getSelectionModel().getSelectedItem();
+        ObservableList<User> selectedType = returnSelectedUsers(selectedItem);
+        userTableView.setItems(selectedType);
 
     }
 }

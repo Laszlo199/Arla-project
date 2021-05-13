@@ -56,13 +56,13 @@ public class UserDAO {
 
     public void update(User oldUser, User newUser) throws DALexception {
         try (Connection connection = dbConnector.getConnection()) {
-            String sql = "UPDATE Users SET userName=?,Password=?,screenId=?, isAdmin=? WHERE ID=?";
+            String sql = "UPDATE Users SET userName=?,Password=?, isAdmin=? WHERE ID=?";
             PreparedStatement pStatement = connection.prepareStatement(sql);
             pStatement.setString(1, newUser.getUserName());
             pStatement.setString(2, newUser.getPassword());
-            pStatement.setInt(3, newUser.getScreenId());
-            pStatement.setBoolean(4, newUser.isAdmin());
-            pStatement.setInt(5, oldUser.getID());
+            //pStatement.setInt(3, newUser.getScreenId());
+            pStatement.setBoolean(3, newUser.isAdmin());
+            pStatement.setInt(4, oldUser.getID());
             pStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -72,12 +72,11 @@ public class UserDAO {
 
     public void create(User user) throws DALexception {
         try (Connection connection = dbConnector.getConnection()) {
-            String sql = "INSERT INTO Users(userName,Password,screenId,isAdmin) VALUES(?,?,?,?)";
+            String sql = "INSERT INTO Users(userName, Password, isAdmin) VALUES(?,?,?)";
             PreparedStatement pStatement = connection.prepareStatement(sql);
             pStatement.setString(1, user.getUserName());
             pStatement.setString(2, user.getPassword());
-            pStatement.setInt(3, user.getScreenId());
-            pStatement.setBoolean(4, user.isAdmin());
+            pStatement.setBoolean(3, user.isAdmin());
             pStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();

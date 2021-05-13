@@ -59,6 +59,7 @@ public class CreateNewController implements Initializable {
     WebEngine webEngine = new WebEngine();
     WebEngine pdfViewerEngine = new WebEngine();
     Map<Node, String> nodeMap = new HashMap<>();
+    private UserModel userModel;
 
 
     @Override
