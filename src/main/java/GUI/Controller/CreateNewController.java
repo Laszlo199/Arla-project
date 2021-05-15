@@ -45,6 +45,7 @@ public class CreateNewController implements Initializable {
     @FXML private TextField searchField;
     @FXML private TableView<User> userTableView;
     @FXML private TableColumn<User, String> usersNames;
+    private UserModel userModel = new UserModel(); // does it have to be a singleton?
 
     public Label jpgLbl = new Label("JPG");
     public Label pngLbl = new Label("PNG");
