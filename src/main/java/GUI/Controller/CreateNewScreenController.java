@@ -211,14 +211,30 @@ public class CreateNewScreenController implements Initializable {
                 if (GridPane.getRowSpan(node) == null) spann = 1;
                 else spann = GridPane.getRowSpan(node);
 
+                //span col
+                int columnSpan1 = 0;
+                if (GridPane.getColumnSpan(node) == null) columnSpan1 = 1;
+                else columnSpan1 = GridPane.getColumnSpan(node);
+/*
                 for (int k = GridPane.getRowIndex(node) - i; k <= GridPane.getRowIndex(node); k++) {
-                    System.out.println("row index: " + k);
+                    //System.out.println("row index: " + k);
                     if (array[k][GridPane.getColumnIndex(node)] != 0 && array[k][GridPane.getColumnIndex(node)]
                             != array[GridPane.getRowIndex(node)][GridPane.getColumnIndex(node)]){
                         check = false;
                         break;
                     }
 
+                }
+
+ */
+                for (int k = GridPane.getRowIndex(node) - i; k <= GridPane.getRowIndex(node); k++) {
+                    for (int l = GridPane.getColumnIndex(node); l <= GridPane.getColumnIndex(node) + columnSpan1 - 1; l++) {
+                        if (array[k][l] != 0 && array[k][l]
+                                != array[GridPane.getRowIndex(node)][GridPane.getColumnIndex(node)]) {
+                            check = false;
+                            break;
+                        }
+                    }
                 }
 
 
@@ -340,6 +356,7 @@ public class CreateNewScreenController implements Initializable {
                         System.out.println("marking up idex: " + j);
                         array[GridPane.getRowIndex(node)][j] = incrementedValue;
                     }
+                    incrementedValue++;
 
                     node.setStyle("-fx-background-color: #e01c81");
                 });
