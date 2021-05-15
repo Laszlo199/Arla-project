@@ -46,7 +46,7 @@ public class CreateNewScreenController implements Initializable {
     private GridPane gridPane;
     ContextMenu contextMenu = new ContextMenu();
     private int[][] array;
-    private int incrementedValue =1;
+    private int incrementedValue = 1;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -132,26 +132,45 @@ public class CreateNewScreenController implements Initializable {
                 int noToConnect = gridPane.getRowCount() - 1 - GridPane.getRowIndex(node);
                 for (int i = 1; i <= noToConnect; i++) {
                     //check if it is not occupied all along the way
-                    boolean check= true;
+                    boolean check = true;
                     int spann = 0;
-                    if(GridPane.getRowSpan(node) ==null) spann =1;
-                    else  spann = GridPane.getRowSpan(node);
+                    if (GridPane.getRowSpan(node) == null) spann = 1;
+                    else spann = GridPane.getRowSpan(node);
 
-                    for(int k = GridPane.getRowIndex(node); k<= GridPane.getRowIndex(node)+i; k++) {
-                        System.out.println("row index: "+ k);
+                    //span col
+                    int columnSpan1 = 0;
+                    if (GridPane.getColumnSpan(node) == null) columnSpan1 = 1;
+                    else columnSpan1 = GridPane.getColumnSpan(node);
+
+                    /*
+                    for (int k = GridPane.getRowIndex(node); k <= GridPane.getRowIndex(node) + i; k++) {
+                        System.out.println("row index: " + k);
                         if (array[k][GridPane.getColumnIndex(node)] != 0 && array[k][GridPane.getColumnIndex(node)]
-                                !=array[GridPane.getRowIndex(node)][GridPane.getColumnIndex(node)])
+                                != array[GridPane.getRowIndex(node)][GridPane.getColumnIndex(node)])
                             check = false;
+                    }
+
+                     */
+                    for (int k = GridPane.getRowIndex(node); k <= GridPane.getRowIndex(node) + i; k++) {
+                        for (int l = GridPane.getColumnIndex(node); l <= GridPane.getColumnIndex(node) + columnSpan1 - 1; l++) {
+                            if (array[k][l] != 0 && array[k][l] != array[GridPane.getRowIndex(node)][GridPane.getColumnIndex(node)]) {
+                               //we dont get here
+                                check = false;
+                                break;
+                            }
+                        }
                     }
 
                     MenuItem menuItem = new MenuItem("connect with: " + i + " bottom");
                     int finalI = i;
+                    int finalColumnSpan = columnSpan1;
                     menuItem.setOnAction(actionEvent -> {
                         int span = 0;
                         if (GridPane.getRowSpan(node) == null) span = 1;
                         else span = GridPane.getRowSpan(node);
                         GridPane.setRowSpan(node, span + finalI);
                         //that numeration
+                        /*
                         int columnIndex = GridPane.getColumnIndex(node);
                         for(int j= GridPane.getRowIndex(node); j< GridPane.getRowIndex(node) +
                                 span + finalI; j++){
@@ -159,56 +178,72 @@ public class CreateNewScreenController implements Initializable {
                             array[j][columnIndex] = incrementedValue;
                         }
 
+                         */
+                        int columnIndex = GridPane.getColumnIndex(node);
+                        //span is known above
+                        for (int j = GridPane.getRowIndex(node); j < GridPane.getRowIndex(node) +
+                                span + finalI; j++) {
+                            for (int k = columnIndex; k <= columnIndex + finalColumnSpan - 1; k++) {
+                                System.out.println("marked row: " + j + " and column: " + k +
+                                        " with value " + incrementedValue);
+                                array[j][k] = incrementedValue;
+                            }
+                        }
+
                         incrementedValue++;
                         node.setStyle("-fx-background-color: GREEN");
                     });
-                    if(check){
-                    menuItems.add(menuItem);
-                }}
+                    if (check)
+                        menuItems.add(menuItem);
+
+                }
                 contextMenu.getItems().addAll(menuItems);
                 contextMenu.show(node, event.getScreenX(), event.getScreenY());
             }
-            }
-            //up
-            if (GridPane.getRowIndex(node) != 0) {
-                Map<Integer, MenuItem> menuItems = new HashMap<>();
-                for (int i = 1; i <= GridPane.getRowIndex(node); i++) {
-                    //check if it is not occupied all along the way
-                    boolean check= true;
-                    int spann = 0;
-                    if(GridPane.getRowSpan(node) ==null) spann =1;
-                    else  spann = GridPane.getRowSpan(node);
+        }
+        //up
+        if (GridPane.getRowIndex(node) != 0) {
+            Map<Integer, MenuItem> menuItems = new HashMap<>();
+            for (int i = 1; i <= GridPane.getRowIndex(node); i++) {
+                //check if it is not occupied all along the way
+                boolean check = true;
+                int spann = 0;
+                if (GridPane.getRowSpan(node) == null) spann = 1;
+                else spann = GridPane.getRowSpan(node);
 
-                    for(int k = GridPane.getRowIndex(node)-i; k<= GridPane.getRowIndex(node); k++) {
-                        System.out.println("row index: "+ k);
-                        if (array[k][GridPane.getColumnIndex(node)] != 0 && array[k][GridPane.getColumnIndex(node)]
-                                !=array[GridPane.getRowIndex(node)][GridPane.getColumnIndex(node)])
-                            check = false;
+                for (int k = GridPane.getRowIndex(node) - i; k <= GridPane.getRowIndex(node); k++) {
+                    System.out.println("row index: " + k);
+                    if (array[k][GridPane.getColumnIndex(node)] != 0 && array[k][GridPane.getColumnIndex(node)]
+                            != array[GridPane.getRowIndex(node)][GridPane.getColumnIndex(node)]){
+                        check = false;
+                        break;
                     }
 
+                }
 
-                    MenuItem menuItem = new MenuItem("connect with: " + i + " top");
-                    int finalI = i;
-                    menuItem.setOnAction(actionEvent -> {
-                        int goalRow = GridPane.getRowIndex(node) - finalI;
-                        int span = 0;
-                        if (GridPane.getRowSpan(node) == null) span = 1 + finalI;
-                        else span = GridPane.getRowSpan(node) + finalI;
-                        GridPane.setRowIndex(node, goalRow);
-                        System.out.println("Row index in question: " +GridPane.getRowIndex(node));
-                        GridPane.setRowSpan(node, span);
-                        node.setStyle("-fx-background-color: orange");
 
-                        //reevaluate that marking part
+                MenuItem menuItem = new MenuItem("connect with: " + i + " top");
+                int finalI = i;
+                menuItem.setOnAction(actionEvent -> {
+                    int goalRow = GridPane.getRowIndex(node) - finalI;
+                    int span = 0;
+                    if (GridPane.getRowSpan(node) == null) span = 1 + finalI;
+                    else span = GridPane.getRowSpan(node) + finalI;
+                    GridPane.setRowIndex(node, goalRow);
+                    System.out.println("Row index in question: " + GridPane.getRowIndex(node));
+                    GridPane.setRowSpan(node, span);
+                    node.setStyle("-fx-background-color: orange");
 
-                        //go down it will appear only in some cases
-                        for(int j = GridPane.getRowIndex(node); j<GridPane.getRowIndex(node) +
-                        GridPane.getRowSpan(node); j++){
-                            System.out.println("marking up idex: "+j);
-                            array[j][GridPane.getColumnIndex(node)] = incrementedValue;
-                        }
+                    //reevaluate that marking part
 
-                        //go up
+                    //go down it will appear only in some cases
+                    for (int j = GridPane.getRowIndex(node); j < GridPane.getRowIndex(node) +
+                            GridPane.getRowSpan(node); j++) {
+                        System.out.println("marking up idex: " + j);
+                        array[j][GridPane.getColumnIndex(node)] = incrementedValue;
+                    }
+
+                    //go up
                         /*
                         for(int j= GridPane.getRowIndex(node) - finalI; j< GridPane.getRowIndex(node); j++) {
                             System.out.println("marking up idex (here??): "+j);
@@ -217,101 +252,107 @@ public class CreateNewScreenController implements Initializable {
 
                          */
 
-                        incrementedValue++;
-                    });
-                    if(check)
-                        menuItems.put(i, menuItem);
-                }
-                contextMenu.getItems().addAll(menuItems.values().
-                        stream().collect(Collectors.toList()));
-                contextMenu.show(node, event.getScreenX(), event.getScreenY());
+                    incrementedValue++;
+                });
+                if (check)
+                    menuItems.put(i, menuItem);
             }
+            contextMenu.getItems().addAll(menuItems.values().
+                    stream().collect(Collectors.toList()));
+            contextMenu.show(node, event.getScreenX(), event.getScreenY());
+        }
 
-            //right
-            if(GridPane.getColumnIndex(node) != gridPane.getColumnCount()-1){
-                List<MenuItem> menuItems = new ArrayList<>();
-                int noToConnect = gridPane.getColumnCount() - 1 - GridPane.getColumnIndex(node);
-                for (int i = 1; i <= noToConnect; i++) {
-                    //check if it is not occupied all along the way
-                    boolean check= true;
-                    int spann = 0;
-                    if(GridPane.getColumnSpan(node) ==null) spann =1;
-                    else  spann = GridPane.getColumnSpan(node);
-                    for(int k = GridPane.getColumnIndex(node); k<= GridPane.getColumnIndex(node)+i; k++) {
-                        System.out.println("col index: "+ k);
-                        if (array[GridPane.getRowIndex(node)][k] != 0)
-                            check = false;
-                    }
-
-                    MenuItem menuItem = new MenuItem("connect with: " + i + " right");
-                    int finalI = i;
-                    menuItem.setOnAction(actionEvent -> {
-                        int span = 0;
-                        if (GridPane.getColumnSpan(node) == null) span = 1;
-                        else span = GridPane.getColumnSpan(node);
-                        GridPane.setColumnSpan(node, span + finalI);
-                        System.out.println("column starts here: ..."+ GridPane.getColumnIndex(node));
-                        //that numeration
-                        int rowIndex = GridPane.getRowIndex(node);
-                        for(int j= GridPane.getColumnIndex(node); j< GridPane.getColumnIndex(node) +
-                                span + finalI; j++){
-                            System.out.println("we marked col: " + j +"with "+ incrementedValue);
-                            array[rowIndex][j] = incrementedValue;
-                        }
-
-                        incrementedValue++;
-                        node.setStyle("-fx-background-color: #641d97");
-                    });
-                    if(check) {
-                        menuItems.add(menuItem);
-                    }
-
+        //right
+        if (GridPane.getColumnIndex(node) != gridPane.getColumnCount() - 1) {
+            List<MenuItem> menuItems = new ArrayList<>();
+            int noToConnect = gridPane.getColumnCount() - 1 - GridPane.getColumnIndex(node);
+            for (int i = 1; i <= noToConnect; i++) {
+                //check if it is not occupied all along the way
+                boolean check = true;
+                int spann = 0;
+                if (GridPane.getColumnSpan(node) == null) spann = 1;
+                else spann = GridPane.getColumnSpan(node);
+                for (int k = GridPane.getColumnIndex(node); k <= GridPane.getColumnIndex(node) + i; k++) {
+                    System.out.println("col index: " + k);
+                    if (array[GridPane.getRowIndex(node)][k] != 0)
+                        check = false;
                 }
-                contextMenu.getItems().addAll(menuItems);
-                contextMenu.show(node, event.getScreenX(), event.getScreenY());
-            }
 
-            //left
-            if(GridPane.getColumnIndex(node)!=0){
-                List<MenuItem> menuItems = new ArrayList<>();
-                for (int i = 1; i <= GridPane.getColumnIndex(node); i++) {
-                    //check if it is not occupied all along the way
-                    boolean check= true;
-                    int spann = 0;
-                    if(GridPane.getColumnSpan(node) ==null) spann =1;
-                    else  spann = GridPane.getColumnSpan(node);
-
-                    for(int k = GridPane.getColumnIndex(node)-i; k<= GridPane.getColumnIndex(node); k++) {
-                        System.out.println("row index: "+ k);
-                        if (array[GridPane.getRowIndex(node)][k] != 0 && array[GridPane.getRowIndex(node)][k]
-                                !=array[GridPane.getRowIndex(node)][GridPane.getColumnIndex(node)])
-                            check = false;
+                MenuItem menuItem = new MenuItem("connect with: " + i + " right");
+                int finalI = i;
+                menuItem.setOnAction(actionEvent -> {
+                    int span = 0;
+                    if (GridPane.getColumnSpan(node) == null) span = 1;
+                    else span = GridPane.getColumnSpan(node);
+                    GridPane.setColumnSpan(node, span + finalI);
+                    System.out.println("column starts here: ..." + GridPane.getColumnIndex(node));
+                    //that numeration
+                    int rowIndex = GridPane.getRowIndex(node);
+                    for (int j = GridPane.getColumnIndex(node); j < GridPane.getColumnIndex(node) +
+                            span + finalI; j++) {
+                        System.out.println("we marked col: " + j + "with " + incrementedValue);
+                        array[rowIndex][j] = incrementedValue;
                     }
 
-                    MenuItem menuItem = new MenuItem("connect with: " + i + " left");
-                    int finalI = i;
-                    menuItem.setOnAction(actionEvent -> {
-                        int goalCol = GridPane.getColumnIndex(node) - finalI;
-                        int span = 0;
-                        if (GridPane.getColumnSpan(node) == null) span = 1 + finalI;
-                        else span = GridPane.getColumnSpan(node) + finalI;
-                        GridPane.setColumnIndex(node, goalCol);
-                        System.out.println("Column and index in question: " +GridPane.getColumnIndex(node));
-                        GridPane.setColumnSpan(node, span);
-                        node.setStyle("-fx-background-color: #e01c81");
-                    });
-                    if(check) {
-                        menuItems.add(menuItem);
-                    }
+                    incrementedValue++;
+                    node.setStyle("-fx-background-color: #641d97");
+                });
+                if (check) {
+                    menuItems.add(menuItem);
                 }
-                contextMenu.getItems().addAll(menuItems);
-                contextMenu.show(node, event.getScreenX(), event.getScreenY());
+
             }
+            contextMenu.getItems().addAll(menuItems);
+            contextMenu.show(node, event.getScreenX(), event.getScreenY());
+        }
 
+        //left
+        if (GridPane.getColumnIndex(node) != 0) {
+            List<MenuItem> menuItems = new ArrayList<>();
+            for (int i = 1; i <= GridPane.getColumnIndex(node); i++) {
+                //check if it is not occupied all along the way
+                boolean check = true;
+                int spann = 0;
+                if (GridPane.getColumnSpan(node) == null) spann = 1;
+                else spann = GridPane.getColumnSpan(node);
 
+                for (int k = GridPane.getColumnIndex(node) - i; k <= GridPane.getColumnIndex(node); k++) {
+                    System.out.println("row index: " + k);
+                    if (array[GridPane.getRowIndex(node)][k] != 0 && array[GridPane.getRowIndex(node)][k]
+                            != array[GridPane.getRowIndex(node)][GridPane.getColumnIndex(node)])
+                        check = false;
+                }
+
+                MenuItem menuItem = new MenuItem("connect with: " + i + " left");
+                int finalI = i;
+                menuItem.setOnAction(actionEvent -> {
+                    int goalCol = GridPane.getColumnIndex(node) - finalI;
+                    int span = 0;
+                    if (GridPane.getColumnSpan(node) == null) span = 1 + finalI;
+                    else span = GridPane.getColumnSpan(node) + finalI;
+                    GridPane.setColumnIndex(node, goalCol);
+                    System.out.println("Column and index in question: " + GridPane.getColumnIndex(node));
+                    GridPane.setColumnSpan(node, span);
+
+                    //numeration
+                    for (int j = GridPane.getColumnIndex(node); j < GridPane.getColumnIndex(node) +
+                            GridPane.getColumnSpan(node); j++) {
+                        System.out.println("marking up idex: " + j);
+                        array[GridPane.getRowIndex(node)][j] = incrementedValue;
+                    }
+
+                    node.setStyle("-fx-background-color: #e01c81");
+                });
+                if (check) {
+                    menuItems.add(menuItem);
+                }
+            }
+            contextMenu.getItems().addAll(menuItems);
+            contextMenu.show(node, event.getScreenX(), event.getScreenY());
         }
 
 
+    }
 
 
     public void saveButton(ActionEvent actionEvent) {
