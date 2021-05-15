@@ -271,6 +271,43 @@ public class CreateNewScreenController implements Initializable {
                 contextMenu.show(node, event.getScreenX(), event.getScreenY());
             }
 
+            //left
+            if(GridPane.getColumnIndex(node)!=0){
+                List<MenuItem> menuItems = new ArrayList<>();
+                for (int i = 1; i <= GridPane.getColumnIndex(node); i++) {
+                    //check if it is not occupied all along the way
+                    boolean check= true;
+                    int spann = 0;
+                    if(GridPane.getColumnSpan(node) ==null) spann =1;
+                    else  spann = GridPane.getColumnSpan(node);
+
+                    for(int k = GridPane.getColumnIndex(node)-i; k<= GridPane.getColumnIndex(node); k++) {
+                        System.out.println("row index: "+ k);
+                        if (array[GridPane.getRowIndex(node)][k] != 0 && array[GridPane.getRowIndex(node)][k]
+                                !=array[GridPane.getRowIndex(node)][GridPane.getColumnIndex(node)])
+                            check = false;
+                    }
+
+                    MenuItem menuItem = new MenuItem("connect with: " + i + " left");
+                    int finalI = i;
+                    menuItem.setOnAction(actionEvent -> {
+                        int goalCol = GridPane.getColumnIndex(node) - finalI;
+                        int span = 0;
+                        if (GridPane.getColumnSpan(node) == null) span = 1 + finalI;
+                        else span = GridPane.getColumnSpan(node) + finalI;
+                        GridPane.setColumnIndex(node, goalCol);
+                        System.out.println("Column and index in question: " +GridPane.getColumnIndex(node));
+                        GridPane.setColumnSpan(node, span);
+                        node.setStyle("-fx-background-color: #e01c81");
+                    });
+                    if(check) {
+                        menuItems.add(menuItem);
+                    }
+                }
+                contextMenu.getItems().addAll(menuItems);
+                contextMenu.show(node, event.getScreenX(), event.getScreenY());
+            }
+
 
         }
 
