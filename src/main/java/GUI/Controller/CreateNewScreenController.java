@@ -223,18 +223,29 @@ public class CreateNewScreenController implements Initializable {
         if (db.hasString()) {
             switch(db.getString()){
                 case "HTTP" -> loadHTTP(node);
-                case "PNG" ->   loadImage(node, event);
+                case "PNG" ->  loadImage(node, event);
                 case "JPG" -> loadImage(node, event);
                 case "PDF" ->  loadPDF(node);
+                case "CSV" -> loadCSV(node);
             }
         }
+
+    }
+
+    private void loadCSV(Node node) {
+        AnchorPane anchorPane = (AnchorPane) node;
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select CSV file");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV files (.csv)",
+                "*.csv"));
+        CSVLoader.loadCSV(fileChooser, anchorPane);
 
     }
 
     private void loadPDF(Node node) {
         AnchorPane anchorPane = (AnchorPane) node;
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Select image files");
+        fileChooser.setTitle("Select PDF file");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF files (.pdf)",
                 "*.pdf"));
         PDFLoader.loadPDF(fileChooser);

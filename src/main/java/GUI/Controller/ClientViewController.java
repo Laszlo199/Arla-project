@@ -106,7 +106,7 @@ public class ClientViewController {
         AnchorPane anchorPane = new AnchorPane();
         anchorPane.setPrefSize(300, 300);
         CSVLoader.setDestinationPathCsv(Path.of(filepath));
-        CSVLoader.drawCanvas(Path.of(filepath), anchorPane);
+        CSVLoader.createTable(false, anchorPane);
         System.out.println("loaded csv");
         return anchorPane;
     }
