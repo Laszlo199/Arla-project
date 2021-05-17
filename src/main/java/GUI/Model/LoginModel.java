@@ -30,4 +30,12 @@ public class LoginModel {
             return null;
         }
     }
+
+    public void updatePassword(User oldUser,String newPassword){
+        try {
+            iFacade.updatePassword(oldUser, newPassword);
+        } catch (BLLException e) {
+            e.printStackTrace();
+        }
+    }
 }

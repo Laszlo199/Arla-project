@@ -7,14 +7,15 @@ public class User {
     private String password;
     private int screenId;
     private boolean isAdmin;
+    private boolean isReset;
 
-
-    public User(int id, String userName, String password, int screenId, boolean isAdmin ){
+    public User(int id, String userName, String password, int screenId, boolean isAdmin, boolean isReset ){
         this.id = id;
         this.userName = userName;
         this.password = password;
         this.screenId = screenId;
         this.isAdmin = isAdmin;
+        this.isReset = isReset;
     }
 
     public int getID() {
@@ -55,5 +56,13 @@ public class User {
 
     public void setAdmin(boolean admin) {
         isAdmin = admin;
+    }
+
+    public void setReset(boolean reset) {
+        isReset = reset;
+    }
+
+    public boolean isReset() {
+        return isReset;
     }
 }

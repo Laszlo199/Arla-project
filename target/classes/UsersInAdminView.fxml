@@ -53,12 +53,11 @@
                <children>
                   <Label layoutX="14.0" layoutY="44.0" text="Name" />
                   <TextField fx:id="editNameField" layoutX="66.0" layoutY="40.0" prefHeight="25.0" prefWidth="126.0" />
-                  <Label layoutX="5.0" layoutY="80.0" text="Password" />
-                  <TextField fx:id="editPasswordField" layoutX="66.0" layoutY="76.0" prefHeight="25.0" prefWidth="127.0" />
                   <Label layoutX="101.0" layoutY="6.0" text="Edit " />
-                  <Button layoutX="55.0" layoutY="144.0" mnemonicParsing="false" onAction="#btnUpdate" text="Update" />
-                  <Button fx:id="editCancel" layoutX="140.0" layoutY="144.0" mnemonicParsing="false" onAction="#btnCancelEdit" text="Cancel" />
-                  <JFXCheckBox fx:id="editAdmin" layoutX="136.0" layoutY="111.0" text="Admin" />
+                  <Button layoutX="26.0" layoutY="107.0" mnemonicParsing="false" onAction="#btnUpdate" text="Update" />
+                  <Button fx:id="editCancel" layoutX="140.0" layoutY="107.0" mnemonicParsing="false" onAction="#btnCancelEdit" text="Cancel" />
+                  <JFXCheckBox fx:id="editAdmin" layoutX="83.0" layoutY="77.0" text="Admin" />
+                  <Button layoutX="60.0" layoutY="145.0" mnemonicParsing="false" onAction="#btnResetPassword" text="Reset Password" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="addNewUser" prefHeight="166.0" prefWidth="221.0">

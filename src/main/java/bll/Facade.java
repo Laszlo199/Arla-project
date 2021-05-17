@@ -193,6 +193,25 @@ public class Facade implements IFacade{
     }
 
     @Override
+    public void resetPassword(User oldUser,User reset) throws BLLException {
+        try {
+            facade.resetPassword(oldUser, reset);
+        }catch (DALexception daLexception){
+            daLexception.printStackTrace();
+            throw new BLLException("Whoops..Couldn't reset Password");
+        }
+    }
+
+    @Override
+    public void updatePassword(User oldUSer,String newPassword) throws BLLException {
+        try {
+            facade.updatePassword(oldUSer, newPassword);
+        }catch (DALexception daLexception){
+            daLexception.printStackTrace();
+            throw new BLLException("Whoops..Couldn't add new Password");
+        }
+    }
+    @Override
     public User getUser(String username) throws BLLException {
         try {
             return facade.getUser(username);
