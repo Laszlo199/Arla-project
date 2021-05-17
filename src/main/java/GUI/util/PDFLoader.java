@@ -6,9 +6,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.List;
 
 /**
  *
@@ -24,14 +26,17 @@ public class PDFLoader {
      *
      * @param actionEvent
      */
-    public static String loadPDF(ActionEvent actionEvent, FileChooser fileChooser){
-        File selectedFile = ChooseFile.getSelectedFile(actionEvent, "Choose PDF file",
-                fileChooser);
-        if (ValidateExtension.validatePDF(selectedFile)) {
-           //attachment3.setText(selectedFile.getName());
-            destinationPathPDF = Path.of(DESTINATION_PATH_PDF + selectedFile.getName());
-            FileSaver.saveFile(selectedFile, destinationPathPDF);
-            return selectedFile.getName();
+    public static String loadPDF(FileChooser fileChooser){
+      //  File selectedFile = ChooseFile.getSelectedFile(actionEvent, "Choose PDF file",
+           //     fileChooser);
+        List<File> files = fileChooser.showOpenMultipleDialog(new Stage());
+        if(!files.isEmpty()) {
+            if (ValidateExtension.validatePDF(files.get(0))) {
+                //attachment3.setText(selectedFile.getName());
+                destinationPathPDF = Path.of(DESTINATION_PATH_PDF + files.get(0).getName());
+                FileSaver.saveFile(files.get(0), destinationPathPDF);
+                return files.get(0).getName();
+            }
         }
         return new String("");
     }

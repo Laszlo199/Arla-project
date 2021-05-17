@@ -1,18 +1,27 @@
 package GUI.Controller;
 
+import GUI.Model.UserModel;
+import GUI.util.CSVLoader;
+import GUI.util.ImageLoader;
+import GUI.util.PDFLoader;
+import GUI.util.WebsiteLoader;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
+import javafx.scene.image.Image;
+import javafx.scene.input.*;
+import javafx.scene.layout.*;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+import javafx.stage.FileChooser;
 
 import java.net.URL;
 import java.util.*;
@@ -23,6 +32,8 @@ import java.util.stream.Collectors;
  *
  */
 public class CreateNewScreenController implements Initializable {
+    @FXML
+    private Label xlxsL;
     @FXML
     private JFXTextField nameField;
     @FXML
@@ -43,14 +54,57 @@ public class CreateNewScreenController implements Initializable {
     private TextField colsField;
     @FXML
     private AnchorPane space;
-    private GridPane gridPane;
+    private GridPane gridPane= new GridPane();
     ContextMenu contextMenu = new ContextMenu();
     private int[][] array;
     private int incrementedValue = 1;
 
+    Map<Node, String> nodeMap = new HashMap<>();
+    private UserModel userModel;
+    WebEngine webEngine = new WebEngine();
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        disableLabels();
+        this.userModel = new UserModel();
+        setOnDrags();
+        gridPane.setOnDragOver(event -> dragOver(event));
+        gridPane.setOnDragDropped(event -> dragDropped(event));
         makeFieldsNumeric();
+    }
+
+    private void disableLabels() {
+        jpgL.setDisable(true);
+        pngL.setDisable(true);
+        pdfL.setDisable(true);
+        csvL.setDisable(true);
+        httpL.setDisable(true);
+        xlxsL.setDisable(true);
+    }
+
+    private void dragOver(DragEvent dragEvent) {
+        if (dragEvent.getDragboard().hasString()) {
+            dragEvent.acceptTransferModes(TransferMode.ANY);
+        }
+    }
+
+    private void setOnDrags() {
+        jpgL.setOnDragDetected(event -> dragStart(event, jpgL));
+        pngL.setOnDragDetected(event -> dragStart(event, pngL));
+        pdfL.setOnDragDetected(event -> dragStart(event, pdfL));
+        csvL.setOnDragDetected(event -> dragStart(event, csvL));
+        httpL.setOnDragDetected(event -> dragStart(event, httpL));
+        xlxsL.setOnDragDetected(event -> dragStart(event, xlxsL));
+    }
+
+    private void dragStart(MouseEvent event, Label source) {
+        Dragboard db = source.startDragAndDrop(TransferMode.ANY);
+        db.setDragView(source.snapshot(null, null));
+        ClipboardContent cb = new ClipboardContent();
+       // source.setCursor(Cursor.DEFAULT);
+        cb.putString(source.getText());
+        db.setContent(cb);
+        event.consume();
     }
 
     private void makeFieldsNumeric() {
@@ -93,10 +147,20 @@ public class CreateNewScreenController implements Initializable {
     }
 
     private void setupGrid() {
-        gridPane = new GridPane();
+        //gridPane = new GridPane();
         gridPane.setGridLinesVisible(true);
         gridPane.prefHeightProperty().bind(space.heightProperty());
         gridPane.prefWidthProperty().bind(space.widthProperty());
+        enableLabels();
+    }
+
+    private void enableLabels() {
+        jpgL.setDisable(false);
+        pngL.setDisable(false);
+        pdfL.setDisable(false);
+        csvL.setDisable(false);
+        httpL.setDisable(false);
+        xlxsL.setDisable(false);
     }
 
     private void disableFields() {
@@ -143,13 +207,80 @@ public class CreateNewScreenController implements Initializable {
      */
     private void showContextMenu(MouseEvent event, Node node) {
         contextMenu.getItems().clear();
-
         if (event.isSecondaryButtonDown()) {
             checkDown(node, event);
             checkUp(node, event);
             checkRight(node, event);
             checkLeft(node, event);
         }
+    }
+
+    private void dragDropped(DragEvent event) {
+        Dragboard db = event.getDragboard();
+        boolean success = false;
+        Node node = event.getPickResult().getIntersectedNode();
+        //db.getDragView().cancel();
+        if (db.hasString()) {
+            switch(db.getString()){
+                case "HTTP" -> loadHTTP(node, success);
+                case "PNG" ->   loadImage(node, event);
+                case "JPG" -> loadImage(node, event);
+                case "PDF" ->  loadPDF(node);
+            }
+        }
+
+    }
+
+    private void loadPDF(Node node) {
+        AnchorPane anchorPane = (AnchorPane) node;
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select image files");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF files (.pdf)",
+                "*.pdf"));
+        PDFLoader.loadPDF(fileChooser);
+        PDFLoader.loadPDFViewer(anchorPane);
+        nodeMap.put(node, PDFLoader.getDestinationPathPDF().toString());
+    }
+
+    private void loadImage(Node node,DragEvent dragEvent) {
+        dragEvent.setDropCompleted(true);
+        dragEvent.consume();
+        AnchorPane anchorPane = (AnchorPane) node;
+        ImageLoader.loadImage(anchorPane);
+        nodeMap.put(node, ImageLoader.getDestinationPath().toString());
+    }
+
+    /**
+     * method is used within switch statement
+     */
+    private void loadHTTP(Node node, boolean success) {
+        AnchorPane anchorPane = (AnchorPane) node;
+        Label lbl = new Label("HTTP");
+        JFXTextField field = new JFXTextField();
+        Button btn = new Button("load");
+        btn.setOnAction(actionEvent -> {
+            String que = field.getText();
+            nodeMap.put(node, que);
+            loadWebsite(anchorPane, que);
+        });
+        loadNodes(anchorPane, lbl, field, btn);
+        success =true;
+    }
+
+    private void loadWebsite(AnchorPane anchorPane, String query) {
+       WebsiteLoader websiteLoader = new WebsiteLoader(webEngine);
+       websiteLoader.addWebView(anchorPane);
+       websiteLoader.executeQuery(query);
+    }
+
+    private void loadNodes(AnchorPane anchorPane, Node... nodes){
+        VBox vbox = new VBox();
+        vbox.getChildren().addAll(nodes);
+        vbox.setPrefWidth(anchorPane.getWidth());
+        vbox.setSpacing(20);
+        vbox.setPadding(new Insets(10, 10, 10, 10));
+        vbox.setAlignment(Pos.CENTER);
+        anchorPane.getChildren().addAll(vbox);
     }
 
     private void checkLeft(Node node, MouseEvent event) {

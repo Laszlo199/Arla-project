@@ -45,7 +45,7 @@ public class CreateNewController implements Initializable {
     @FXML private TextField searchField;
     @FXML private TableView<User> userTableView;
     @FXML private TableColumn<User, String> usersNames;
-    private UserModel userModel = new UserModel(); // does it have to be a singleton?
+   // private UserModel userModel = new UserModel(); // does it have to be a singleton?
 
     public Label jpgLbl = new Label("JPG");
     public Label pngLbl = new Label("PNG");
@@ -187,7 +187,7 @@ public class CreateNewController implements Initializable {
             else if (fileType.equals("PDF")){
                 Button button = new Button("load file");
                 button.setOnAction(actionEvent ->{
-                    PDFLoader.loadPDF(actionEvent, new FileChooser());
+                    PDFLoader.loadPDF( new FileChooser());
                     PDFLoader.loadPDFViewer(anchorPane);
                     nodeMap.put(node, PDFLoader.getDestinationPathPDF().toString());
                 });
