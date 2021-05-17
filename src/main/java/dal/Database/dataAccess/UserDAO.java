@@ -32,7 +32,8 @@ public class UserDAO {
                 String password = resultSet.getString("Password");
                 int screenId = resultSet.getInt("screenID");
                 boolean isAdmin = resultSet.getBoolean("isAdmin");
-                users.add(new User(id, userName, password, screenId, isAdmin));
+                boolean isReset = resultSet.getBoolean("isReset");
+                users.add(new User(id, userName, password, screenId, isAdmin,isReset));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -56,13 +57,12 @@ public class UserDAO {
 
     public void update(User oldUser, User newUser) throws DALexception {
         try (Connection connection = dbConnector.getConnection()) {
-            String sql = "UPDATE Users SET userName=?,Password=?, isAdmin=? WHERE ID=?";
+            String sql = "UPDATE Users SET userName=?, isAdmin=? WHERE ID=?";
             PreparedStatement pStatement = connection.prepareStatement(sql);
             pStatement.setString(1, newUser.getUserName());
-            pStatement.setString(2, newUser.getPassword());
-            //pStatement.setInt(3, newUser.getScreenId());
-            pStatement.setBoolean(3, newUser.isAdmin());
-            pStatement.setInt(4, oldUser.getID());
+            //pStatement.setString(2, newUser.getPassword());
+            pStatement.setBoolean(2, newUser.isAdmin());
+            pStatement.setInt(3, oldUser.getID());
             pStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -72,11 +72,12 @@ public class UserDAO {
 
     public void create(User user) throws DALexception {
         try (Connection connection = dbConnector.getConnection()) {
-            String sql = "INSERT INTO Users(userName, Password, isAdmin) VALUES(?,?,?)";
+            String sql = "INSERT INTO Users(userName, isAdmin, isReset) VALUES(?,?,?)";
             PreparedStatement pStatement = connection.prepareStatement(sql);
             pStatement.setString(1, user.getUserName());
-            pStatement.setString(2, user.getPassword());
-            pStatement.setBoolean(3, user.isAdmin());
+            //pStatement.setString(2, user.getPassword());
+            pStatement.setBoolean(2, user.isAdmin());
+            pStatement.setBoolean(3,user.isReset());
             pStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -124,7 +125,8 @@ public class UserDAO {
                 String password = resultSet.getString("Password");
                 int screenId = resultSet.getInt("screenID");
                 boolean isAdmin = resultSet.getBoolean("isAdmin");
-                user = new User(id, userName, password, screenId, isAdmin);
+                boolean isReset = resultSet.getBoolean("isReset");
+                user = new User(id, userName, password, screenId, isAdmin,isReset);
             }
         } catch (SQLServerException throwables) {
             throwables.printStackTrace();
@@ -132,5 +134,34 @@ public class UserDAO {
             throwables.printStackTrace();
         }
         return user;
+    }
+
+
+    public void resetPassword(User oldUser,User reset) throws DALexception {
+        try (Connection connection = dbConnector.getConnection()) {
+            String sql = "UPDATE Users SET Password =?, isReset = ? WHERE ID=?";
+            PreparedStatement pStatement = connection.prepareStatement(sql);
+            pStatement.setString(1, reset.getPassword());
+            pStatement.setBoolean(2, reset.isReset());
+            pStatement.setInt(3, oldUser.getID());
+            pStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            throw new DALexception("Whoops..Couldn't reset an User");
+        }
+    }
+
+    public void updatePassword(User oldUser,String newPassword) throws DALexception{
+        try (Connection connection = dbConnector.getConnection()) {
+            String sql = "UPDATE Users SET Password=?, isReset=? WHERE ID=?";
+            PreparedStatement pStatement = connection.prepareStatement(sql);
+            pStatement.setString(1, newPassword);
+            pStatement.setBoolean(2, false);
+            pStatement.setInt(3, oldUser.getID());
+            pStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            throw new DALexception("Whoops..Couldn't reset an User");
+        }
     }
 }

@@ -59,4 +59,15 @@ public class UserModel {
         obsUsers.addAll();
     }
 
+    public void resetPassword(User oldUser,User reset){
+        try{
+            iFacade.resetPassword(oldUser, reset);
+        }catch (BLLException blLexception){
+            blLexception.printStackTrace();
+        }
+        obsUsers.clear();
+        obsUsers.addAll();
+    }
+
+
 }

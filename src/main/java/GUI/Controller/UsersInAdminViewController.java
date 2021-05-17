@@ -194,7 +194,7 @@ public class UsersInAdminViewController implements Initializable {
     public void setCreateAdmin(boolean isAdmin) {
         User newUser = userTableView.getSelectionModel().getSelectedItem();
         newUser.setUserName(editNameField.getText());
-        newUser.setPassword(editPasswordField.getText());
+        //newUser.setPassword(editPasswordField.getText());
         newUser.setAdmin(isAdmin);
 
         userModel.updateUser(userTableView.getSelectionModel().getSelectedItem(),newUser);
@@ -213,7 +213,8 @@ public class UsersInAdminViewController implements Initializable {
                 newNameField.getText(),
                 newPasswordField.getText(),
                 NULL,
-                isAdmin);
+                isAdmin,
+                true);
         userModel.saveUser(newUser);
     }
 
@@ -235,7 +236,7 @@ public class UsersInAdminViewController implements Initializable {
 
     public void readUser(MouseEvent event) {
         editNameField.setText(userTableView.getSelectionModel().getSelectedItem().getUserName());
-        editPasswordField.setText(userTableView.getSelectionModel().getSelectedItem().getPassword());
+        //editPasswordField.setText(userTableView.getSelectionModel().getSelectedItem().getPassword());
         editAdmin.setSelected(userTableView.getSelectionModel().getSelectedItem().isAdmin());
 
     }
@@ -267,5 +268,13 @@ public class UsersInAdminViewController implements Initializable {
         ObservableList<User> selectedType = returnSelectedUsers(selectedItem);
         userTableView.setItems(selectedType);
 
+    }
+
+    public void btnResetPassword(ActionEvent actionEvent) {
+        User reset = userTableView.getSelectionModel().getSelectedItem();
+        reset.setReset(true);
+        reset.setPassword(null);
+        userModel.resetPassword(userTableView.getSelectionModel().getSelectedItem(),reset);
+        userModel.loadUsers();
     }
 }

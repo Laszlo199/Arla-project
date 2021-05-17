@@ -129,6 +129,16 @@ public class DALFacade implements IDALFacade{
     }
 
     @Override
+    public void resetPassword(User oldUser,User reset) throws DALexception {
+        userDAO.resetPassword(oldUser, reset);
+    }
+
+    @Override
+    public void updatePassword(User oldUser, String newPassword) throws DALexception {
+        userDAO.updatePassword(oldUser, newPassword);
+    }
+
+    @Override
     public User getUser(String username) throws DALexception {
         return userDAO.getUser(username);
     }
