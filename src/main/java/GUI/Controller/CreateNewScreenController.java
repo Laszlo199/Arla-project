@@ -222,7 +222,7 @@ public class CreateNewScreenController implements Initializable {
         //db.getDragView().cancel();
         if (db.hasString()) {
             switch(db.getString()){
-                case "HTTP" -> loadHTTP(node, success);
+                case "HTTP" -> loadHTTP(node);
                 case "PNG" ->   loadImage(node, event);
                 case "JPG" -> loadImage(node, event);
                 case "PDF" ->  loadPDF(node);
@@ -253,7 +253,7 @@ public class CreateNewScreenController implements Initializable {
     /**
      * method is used within switch statement
      */
-    private void loadHTTP(Node node, boolean success) {
+    private void loadHTTP(Node node) {
         AnchorPane anchorPane = (AnchorPane) node;
         Label lbl = new Label("HTTP");
         JFXTextField field = new JFXTextField();
@@ -264,7 +264,6 @@ public class CreateNewScreenController implements Initializable {
             loadWebsite(anchorPane, que);
         });
         loadNodes(anchorPane, lbl, field, btn);
-        success =true;
     }
 
     private void loadWebsite(AnchorPane anchorPane, String query) {
@@ -511,5 +510,14 @@ public class CreateNewScreenController implements Initializable {
 
     public void saveButton(ActionEvent actionEvent) {
 
+    }
+
+    /**
+     * check if any of the nodes is not filled in
+     * We need to implement it after meeting with jeppe
+     * @return
+     */
+    private boolean checkIfAnyEmpty() {
+        return false;
     }
 }

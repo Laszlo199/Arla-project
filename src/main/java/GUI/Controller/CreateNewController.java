@@ -125,10 +125,6 @@ public class CreateNewController implements Initializable {
 
     }
 
-
-
-
-
     private void setOnDrags() {
         jpgLbl.setOnDragDetected(event -> dragStart(event, jpgLbl));
         pngLbl.setOnDragDetected(event -> dragStart(event, pngLbl));

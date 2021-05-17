@@ -123,7 +123,7 @@ public class CreateDefaultTemplateController implements Initializable {
 
 
     public void loadPDF(ActionEvent actionEvent) {
-       attachment3.setText(PDFLoader.loadPDF(actionEvent, fileChooser));
+       attachment3.setText(PDFLoader.loadPDF(fileChooser));
        PDFLoader.loadPDFViewer(spacePDF);
        destinationPathPDF = PDFLoader.getDestinationPathPDF();
     }
