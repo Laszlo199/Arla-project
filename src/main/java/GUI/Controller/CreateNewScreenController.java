@@ -1,10 +1,7 @@
 package GUI.Controller;
 
 import GUI.Model.UserModel;
-import GUI.util.CSVLoader;
-import GUI.util.ImageLoader;
-import GUI.util.PDFLoader;
-import GUI.util.WebsiteLoader;
+import GUI.util.*;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.ObservableList;
@@ -46,6 +43,7 @@ public class CreateNewScreenController implements Initializable {
     private Label jpgL;
     @FXML
     private Label httpL;
+
     @FXML
     private JFXButton setButton;
     @FXML
@@ -227,9 +225,19 @@ public class CreateNewScreenController implements Initializable {
                 case "JPG" -> loadImage(node, event);
                 case "PDF" ->  loadPDF(node);
                 case "CSV" -> loadCSV(node);
+                case "XLSX" -> loadExcel(node);
             }
         }
 
+    }
+
+    private void loadExcel(Node node) {
+        AnchorPane anchorPane = (AnchorPane) node;
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select XLSX file");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel files (.xlsx)",
+                "*.xlsx"));
+        ExcelLoader.loadXLSX(fileChooser, anchorPane);
     }
 
     private void loadCSV(Node node) {

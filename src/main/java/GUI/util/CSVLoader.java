@@ -243,7 +243,6 @@ public class CSVLoader {
     }
 
     public static void createTable(boolean isHeader, Pane pane) {
-        System.out.println(isHeader);
         String[] columnNames;
         CSVReader CSVFileReader;
         DefaultTableModel tableModel = null;

@@ -31,6 +31,7 @@
 /Users/kamila/Documents/GitHub/Arla-project/src/main/java/GUI/util/Command/LoadTemplates.java
 /Users/kamila/Documents/GitHub/Arla-project/src/main/java/GUI/Controller/TemplatesViewController.java
 /Users/kamila/Documents/GitHub/Arla-project/src/main/java/bll/exception/BLLException.java
+/Users/kamila/Documents/GitHub/Arla-project/src/main/java/GUI/util/ExcelLoader.java
 /Users/kamila/Documents/GitHub/Arla-project/src/main/java/GUI/Model/ScreenModel.java
 /Users/kamila/Documents/GitHub/Arla-project/src/main/java/dal/Database/DBConnector.java
 /Users/kamila/Documents/GitHub/Arla-project/src/main/java/GUI/util/charts/CreateHistogramChart.java
