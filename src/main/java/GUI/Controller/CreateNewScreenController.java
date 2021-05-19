@@ -381,9 +381,6 @@ public class CreateNewScreenController implements Initializable {
                 int finalI = i;
                 menuItem.setOnAction(actionEvent -> {
                     int goalRow = GridPane.getRowIndex(usedNode) - finalI;
-                    //int span = finalI + getRowSpan(usedNode);
-                   // GridPane.setRowIndex(usedNode, goalRow);
-                   // GridPane.setRowSpan(usedNode, span);
                     Node useThisNow = getNodeByCoordinate(goalRow, GridPane.getColumnIndex(usedNode));
                     gridPane.getChildren().remove(usedNode);
                     for(int m  = GridPane.getRowIndex(usedNode); m < GridPane.getRowIndex(usedNode) + getRowSpan(usedNode); m++)
@@ -411,21 +408,7 @@ public class CreateNewScreenController implements Initializable {
             contextMenu.show(usedNode, event.getScreenX(), event.getScreenY());
         }
     }
-
-    /*
-        private void setUpNumeration(Node node) {
-            for (int j = GridPane.getRowIndex(node); j < GridPane.getRowIndex(node) +
-                    GridPane.getRowSpan(node); j++) {
-                System.out.println("marking up idex: " + j);
-                array[j][GridPane.getColumnIndex(node)] = incrementedValue;
-                setParentNode(j, k, node);
-            }
-            incrementedValue++;
-        }
-
-     */
-
-
+    
     private void checkDown(Node node, MouseEvent event) {
         Node parentNode = getNodeToUse(node);
         if (GridPane.getRowIndex(parentNode) != gridPane.getRowCount() - 1) {
@@ -435,8 +418,8 @@ public class CreateNewScreenController implements Initializable {
                 int columnSpan = getColSpan(parentNode);
                 boolean check = checkDownIsOccupied(parentNode, i, columnSpan);
                 if (check == false)
-                    System.out.println("it is occupied");
-                else System.out.println("it isnt occupied");
+                    System.out.println("bottom is occupied");
+                else System.out.println("bottom isnt occupied");
                 MenuItem menuItem = new MenuItem("connect with: " + i + " bottom");
                 setDownOnAction(parentNode, i, columnSpan, menuItem);
                 if (check)
