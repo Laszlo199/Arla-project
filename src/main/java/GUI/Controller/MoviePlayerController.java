@@ -1,6 +1,7 @@
 package gui.Controller;
 
 import com.jfoenix.controls.JFXSlider;
+import gui.util.FileSaver;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.value.ChangeListener;
@@ -13,17 +14,22 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.File;
 import java.net.URL;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
  *
  */
 public class MoviePlayerController implements Initializable {
+    private final static String DESTINATION_PATH_VIDEO = "src/../Data/VideoData/";
     @FXML
     private StackPane stackPane;
     @FXML
@@ -36,25 +42,27 @@ public class MoviePlayerController implements Initializable {
     private Media media;
     private MediaPlayer mediaPlayer;
     private Boolean isLooping;
-    private String filePath;
+    private Path path;
 
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public MoviePlayerController(String filePath) {
-        this.filePath = filePath;
+    public void passFileChooser(FileChooser fileChooser) {
+        List<File> files = fileChooser.showOpenMultipleDialog(new Stage());
+        Path destinationPathVideo = Path.of(DESTINATION_PATH_VIDEO +
+                files.get(0).getName());
+        FileSaver.saveFile(files.get(0), destinationPathVideo);
+        path = destinationPathVideo;
         initMovie();
     }
 
+
     private void initMovie() {
-        Path path  = FileSystems.getDefault().getPath(getFilePath());
+        //Path path  = FileSystems.getDefault().getPath(getFilePath());
         media = new Media(path.toUri().toString());
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setAutoPlay(false);
         mediaView.setMediaPlayer(mediaPlayer);
         progressSlider.setMax(mediaPlayer.getTotalDuration().toSeconds());
-        titleL.setText(filePath.substring(filePath.lastIndexOf("/")+1));
+        titleL.setText(path.toString().substring(path.toString().lastIndexOf("/")+1));
+        setTimeProgressListener();
     }
 
     /**
@@ -77,7 +85,7 @@ public class MoviePlayerController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setProperties();
-        setTimeProgressListener();
+        //setTimeProgressListener();
     }
 
     private void setTimeProgressListener() {
@@ -93,4 +101,5 @@ public class MoviePlayerController implements Initializable {
       mediaView.fitWidthProperty().bind(stackPane.widthProperty());
       mediaView.setPreserveRatio(true);
     }
+
 }

@@ -1,25 +1,26 @@
-package GUI.Controller;
+package gui.Controller;
 
-import GUI.Model.UserModel;
-import GUI.util.*;
+import gui.Model.UserModel;
+import gui.util.*;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.util.function.UnaryOperator;
@@ -29,6 +30,8 @@ import java.util.stream.Collectors;
  *
  */
 public class CreateNewScreenController implements Initializable {
+    @FXML
+    private Label videoL;
     @FXML
     private Label xlxsL;
     @FXML
@@ -43,7 +46,6 @@ public class CreateNewScreenController implements Initializable {
     private Label jpgL;
     @FXML
     private Label httpL;
-
     @FXML
     private JFXButton setButton;
     @FXML
@@ -52,19 +54,27 @@ public class CreateNewScreenController implements Initializable {
     private TextField colsField;
     @FXML
     private AnchorPane space;
-    private GridPane gridPane = new GridPane();
-    ContextMenu contextMenu = new ContextMenu();
+
+    private GridPane gridPane;
+    ContextMenu contextMenu;
     private int[][] array;
     private int incrementedValue = 1;
 
-    Map<Node, String> nodeMap = new HashMap<>();
+    Map<Node, String> nodeMap;
     private UserModel userModel;
-    WebEngine webEngine = new WebEngine();
+    WebEngine webEngine;
+
+    public CreateNewScreenController() {
+        gridPane = new GridPane();
+        contextMenu = new ContextMenu();
+        nodeMap = new HashMap<>();
+        webEngine = new WebEngine();
+        this.userModel = new UserModel();
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         disableLabels();
-        this.userModel = new UserModel();
         setOnDrags();
         gridPane.setOnDragOver(event -> dragOver(event));
         gridPane.setOnDragDropped(event -> dragDropped(event));
@@ -78,6 +88,7 @@ public class CreateNewScreenController implements Initializable {
         csvL.setDisable(true);
         httpL.setDisable(true);
         xlxsL.setDisable(true);
+        videoL.setDisable(true);
     }
 
     private void dragOver(DragEvent dragEvent) {
@@ -93,6 +104,7 @@ public class CreateNewScreenController implements Initializable {
         csvL.setOnDragDetected(event -> dragStart(event, csvL));
         httpL.setOnDragDetected(event -> dragStart(event, httpL));
         xlxsL.setOnDragDetected(event -> dragStart(event, xlxsL));
+        videoL.setOnDragDetected(event -> dragStart(event, videoL));
     }
 
     private void dragStart(MouseEvent event, Label source) {
@@ -157,6 +169,7 @@ public class CreateNewScreenController implements Initializable {
         csvL.setDisable(false);
         httpL.setDisable(false);
         xlxsL.setDisable(false);
+        videoL.setDisable(false);
     }
 
     private void disableFields() {
@@ -223,11 +236,13 @@ public class CreateNewScreenController implements Initializable {
                 case "PDF" ->  loadPDF(node);
                 case "CSV" -> loadCSV(node);
                 case "XLSX" -> loadExcel(node);
+                case "VIDEO" -> loadVideo(node);
 
             }
         }
 
     }
+
 
 
     private Node getNodeByCoordinate(Integer row, Integer column) {
@@ -239,6 +254,33 @@ public class CreateNewScreenController implements Initializable {
         }
         return null;
 	}
+
+    /**
+     * at first we need to select video then copy it
+     * and run inside a program
+     * @param node
+     */
+    private void loadVideo(Node node) {
+        AnchorPane anchorPane = (AnchorPane) node;
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select XLSX file");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Video files",
+                "*.mp4", "*.WEBM"));
+        FXMLLoader loader = new FXMLLoader(getClass().
+                getResource("/"+ "MoviePlayer" +".fxml"));
+        try {
+            AnchorPane view = (AnchorPane) loader.load();
+            MoviePlayerController controller = loader.getController();
+            controller.passFileChooser(fileChooser);
+            //MoviePlayerController controller = new MoviePlayerController(fileChooser);
+            anchorPane.getChildren().add(view);
+            view.prefHeightProperty().bind(anchorPane.heightProperty());
+            view.prefWidthProperty().bind(anchorPane.widthProperty());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void loadExcel(Node node) {
         AnchorPane anchorPane = (AnchorPane) node;
         FileChooser fileChooser = new FileChooser();
