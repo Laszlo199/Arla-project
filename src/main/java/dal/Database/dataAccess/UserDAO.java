@@ -30,10 +30,9 @@ public class UserDAO {
                 int id = resultSet.getInt("ID");
                 String userName = resultSet.getString("userName");
                 String password = resultSet.getString("Password");
-                int screenId = resultSet.getInt("screenID");
                 boolean isAdmin = resultSet.getBoolean("isAdmin");
                 boolean isReset = resultSet.getBoolean("isReset");
-                users.add(new User(id, userName, password, screenId, isAdmin,isReset));
+                users.add(new User(id, userName, password,isAdmin,isReset));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -85,6 +84,8 @@ public class UserDAO {
         }
     }
 
+
+    // WE HAVE TO Update.
     public List<ScreenElement> getScreenForUser(int userId) throws DALexception {
         List<ScreenElement> sections = new ArrayList<>();
         try (Connection connection = dbConnector.getConnection()) {
@@ -111,6 +112,8 @@ public class UserDAO {
         return sections;
     }
 
+    //Had to update, database has changed
+    //updated: removed screenID and added a method to get all screens for userID. getUSer works the same.
     public User getUser(String username) throws DALexception {
         User user = null;
         try (Connection connection = dbConnector.getConnection()) {
@@ -123,10 +126,10 @@ public class UserDAO {
                 int id = resultSet.getInt("ID");
                 String userName = resultSet.getString("userName");
                 String password = resultSet.getString("Password");
-                int screenId = resultSet.getInt("screenID");
                 boolean isAdmin = resultSet.getBoolean("isAdmin");
                 boolean isReset = resultSet.getBoolean("isReset");
-                user = new User(id, userName, password, screenId, isAdmin,isReset);
+                user = new User(id, userName, password, isAdmin, isReset);
+
             }
         } catch (SQLServerException throwables) {
             throwables.printStackTrace();
@@ -134,6 +137,27 @@ public class UserDAO {
             throwables.printStackTrace();
         }
         return user;
+    }
+
+
+    public List<Integer> screensOfUser(int userID) throws DALexception{
+        List<Integer> screens = new ArrayList<Integer>();
+
+        try (Connection connection = dbConnector.getConnection()) {
+            String sql = "SELECT screenID FROM UsersAndScreens WHERE userID=?";
+            PreparedStatement pstat = connection.prepareStatement(sql);
+            pstat.setInt(1, userID);
+            ResultSet resultSet = pstat.executeQuery();
+
+            while (resultSet.next()) {
+                screens.add(resultSet.getInt("screenID"));
+            }
+        } catch (SQLServerException throwables) {
+            throwables.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return screens;
     }
 
 

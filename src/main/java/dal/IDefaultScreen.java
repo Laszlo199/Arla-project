@@ -1,6 +1,7 @@
 package dal;
 
 import be.DefaultScreen;
+import be.Screen;
 import dal.exception.DALexception;
 
 import java.util.List;

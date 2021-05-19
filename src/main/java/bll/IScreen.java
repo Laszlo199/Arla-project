@@ -5,6 +5,7 @@ import be.Screen;
 import be.ScreenElement;
 import be.User;
 import bll.exception.BLLException;
+import dal.exception.DALexception;
 
 import java.nio.file.Path;
 import java.util.List;
@@ -27,4 +28,5 @@ public interface IScreen {
     void save(Screen screen, List<ScreenElement> screenElements, List<User> usersList) throws BLLException;
 
     List<Screen> getMainScreens() throws BLLException;
+    Screen getScreenByID(int id) throws BLLException;
 }

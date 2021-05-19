@@ -1,9 +1,13 @@
 package GUI.Model;
 
+import be.Screen;
 import be.User;
 import bll.Facade;
 import bll.IFacade;
 import bll.exception.BLLException;
+import dal.exception.DALexception;
+
+import java.util.List;
 
 public class LoginModel {
     private IFacade iFacade;
@@ -38,4 +42,25 @@ public class LoginModel {
             e.printStackTrace();
         }
     }
+
+    public Screen getScreenByID(int id){
+        try {
+            return iFacade.getScreenByID(id);
+        } catch (BLLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+    public List<Integer> screensOfUser(int userID){
+        try {
+            return iFacade.screensOfUser(userID);
+        } catch (BLLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
 }

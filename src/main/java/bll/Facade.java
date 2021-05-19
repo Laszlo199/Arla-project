@@ -105,6 +105,15 @@ public class Facade implements IFacade{
     }
 
     @Override
+    public Screen getScreenByID(int id) throws BLLException {
+        try {
+            return facade.getScreenByID(id);
+        } catch (DALexception daLexception) {
+            throw new BLLException("Couldn't get all screens by ID", daLexception);
+        }
+    }
+
+    @Override
     public List<DefaultScreen> getAllDefaultScreens() throws BLLException {
         try {
             return facade.getAllDefaultScreens();
@@ -211,6 +220,17 @@ public class Facade implements IFacade{
             throw new BLLException("Whoops..Couldn't add new Password");
         }
     }
+
+    @Override
+    public List<Integer> screensOfUser(int userID) throws BLLException {
+        try {
+            return facade.screensOfUser(userID);
+        } catch (DALexception daLexception) {
+            daLexception.printStackTrace();
+            throw new BLLException("Couldnt get a screen for user");
+        }
+    }
+
     @Override
     public User getUser(String username) throws BLLException {
         try {
