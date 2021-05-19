@@ -310,13 +310,26 @@ public class CreateNewScreenController implements Initializable {
     private void setLeftMenuItemOnAction(Node node, final int finalI, MenuItem menuItem) {
         menuItem.setOnAction(actionEvent -> {
             int goalCol = GridPane.getColumnIndex(node) - finalI;
-            int span = 0;
-            if (GridPane.getColumnSpan(node) == null) span = 1 + finalI;
-            else span = GridPane.getColumnSpan(node) + finalI;
-            GridPane.setColumnIndex(node, goalCol);
-            GridPane.setColumnSpan(node, span);
-            numerateLeft(node);
-            node.setStyle("-fx-background-color: #e01c81");
+           // int span = 0;
+           // if (GridPane.getColumnSpan(node) == null) span = 1 + finalI;
+          //  else span = GridPane.getColumnSpan(node) + finalI;
+           // GridPane.setColumnIndex(node, goalCol);
+          //  GridPane.setColumnSpan(node, span);
+            Node useThisNode = getNodeByCoordinate(GridPane.getRowIndex(node), goalCol);
+            gridPane.getChildren().remove(node);
+            for(int m  = GridPane.getRowIndex(node); m < GridPane.getRowIndex(node) + getRowSpan(node); m++)
+                for (int n = GridPane.getColumnIndex(node); n<GridPane.getColumnIndex(node) + getColSpan(node); n++ ){
+                    Node node1 = new AnchorPane();
+                    node1.setOnMousePressed(event1 -> showContextMenu(event1, node1));
+                    node1.setUserData(useThisNode);
+                    gridPane.add(node1, n, m);
+                }
+            GridPane.setRowSpan(useThisNode, getRowSpan(node));
+            GridPane.setColumnSpan(useThisNode, getColSpan(node)+ finalI);
+
+
+            numerateLeft(useThisNode);
+            useThisNode.setStyle("-fx-background-color: #e01c81");
         });
     }
 
@@ -380,7 +393,7 @@ public class CreateNewScreenController implements Initializable {
                             node1.setUserData(useThisNow);
                             gridPane.add(node1, n, m);
                         }
-                    
+
                     GridPane.setColumnSpan(useThisNow, getColSpan(usedNode));
                     GridPane.setRowSpan(useThisNow, getRowSpan(usedNode) + finalI); // it shoudlt work but who knows haah
 
