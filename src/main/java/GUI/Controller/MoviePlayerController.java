@@ -2,6 +2,7 @@ package gui.Controller;
 
 import com.jfoenix.controls.JFXSlider;
 import gui.util.FileSaver;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.value.ChangeListener;
@@ -10,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -24,6 +26,8 @@ import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  *
@@ -37,7 +41,7 @@ public class MoviePlayerController implements Initializable {
     @FXML
     private MediaView mediaView;
     @FXML
-    private JFXSlider progressSlider;
+    private Slider progressSlider;
 
     private Media media;
     private MediaPlayer mediaPlayer;
@@ -55,12 +59,10 @@ public class MoviePlayerController implements Initializable {
 
 
     private void initMovie() {
-        //Path path  = FileSystems.getDefault().getPath(getFilePath());
         media = new Media(path.toUri().toString());
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setAutoPlay(false);
         mediaView.setMediaPlayer(mediaPlayer);
-        progressSlider.setMax(mediaPlayer.getTotalDuration().toSeconds());
         titleL.setText(path.toString().substring(path.toString().lastIndexOf("/")+1));
         setTimeProgressListener();
     }
@@ -70,6 +72,7 @@ public class MoviePlayerController implements Initializable {
      * @param actionEvent
      */
     public void playButtonAction(ActionEvent actionEvent) {
+        //setTimeProgressListener();
         if(mediaPlayer.getStatus().equals(MediaPlayer.Status.PLAYING))
             mediaPlayer.pause();
         else
@@ -77,23 +80,34 @@ public class MoviePlayerController implements Initializable {
     }
 
     public void backButtonAction(ActionEvent actionEvent) {
+        mediaPlayer.seek(Duration.ZERO);
     }
 
     public void forwardButtonAction(ActionEvent actionEvent) {
+        mediaPlayer.seek(media.getDuration());
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setProperties();
-        //setTimeProgressListener();
     }
 
     private void setTimeProgressListener() {
-      Runnable runnable = () -> {
-       mediaPlayer.currentTimeProperty().addListener((observableValue, duration, t1) ->
-               progressSlider.setValue(t1.toSeconds()));};
-      Thread thread = new Thread(runnable);
-      thread.start();
+        mediaPlayer.setOnReady(() -> {
+            javafx.util.Duration total = media.getDuration();
+            progressSlider.setMax(total.toSeconds());
+        });
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(() -> progressSlider.setValue(mediaPlayer.getCurrentTime().toSeconds()));
+            }
+        }, 0, 10);
+        progressSlider.setOnMousePressed(event -> mediaPlayer.seek(javafx.util.Duration.
+                seconds(progressSlider.getValue())));
+        progressSlider.setOnMouseDragged(event ->  mediaPlayer.seek(javafx.util.Duration.
+                seconds(progressSlider.getValue())));
     }
 
     private void setProperties() {
