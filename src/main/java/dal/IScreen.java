@@ -14,4 +14,5 @@ public interface IScreen {
     void save(Screen screen, List<ScreenElement> screenElements, List<User> usersList) throws DALexception;
 
     List<Screen> getMainScreens() throws DALexception;
+    Screen getScreenByID(int id) throws DALexception;
 }

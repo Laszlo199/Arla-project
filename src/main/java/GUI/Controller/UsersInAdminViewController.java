@@ -212,13 +212,12 @@ public class UsersInAdminViewController implements Initializable {
         User newUser = new User(-1,
                 newNameField.getText(),
                 newPasswordField.getText(),
-                NULL,
                 isAdmin,
                 true);
         userModel.saveUser(newUser);
     }
 
-    //NEEDS UPDATING
+
     public void btnCreate(ActionEvent actionEvent) {
        boolean isAdmin = false;
        if (createAdmin.isSelected())

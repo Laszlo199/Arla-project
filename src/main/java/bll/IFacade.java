@@ -20,6 +20,7 @@ public interface IFacade extends IScreen, IDefaultScreen{
     List<ScreenElement> getScreenForUser(int userId) throws BLLException;
     void resetPassword(User oldUser,User reset) throws BLLException;
     void updatePassword(User oldUser,String newPassword) throws BLLException;
+    List<Integer> screensOfUser(int userID) throws BLLException;
 
 
     User getUser(String username) throws BLLException;

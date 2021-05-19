@@ -135,6 +135,30 @@ public class ScreenDAO {
 
     }
 
+    public Screen getScreenByID(int id) throws DALexception {
+        Screen temp = new Screen();
+        String sql = "SELECT * FROM Screens WHERE id=?";
+
+        try (Connection connection = dbConnector.getConnection()) {
+            PreparedStatement pstat = connection.prepareStatement(sql);
+            pstat.setInt(1, id);
+
+            ResultSet resultSet = pstat.executeQuery();
+
+            while (resultSet.next()) {
+               temp.setId(resultSet.getInt("id"));
+               temp.setName(resultSet.getString("name"));
+               temp.setRefreshTime(resultSet.getInt("refreshTime"));
+
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            throw new DALexception("Whoops");
+        }
+        return temp;
+
+    }
+
 
 
     /**
@@ -143,6 +167,8 @@ public class ScreenDAO {
      * @param screen
      * @param screenElements
      */
+
+    // WE HAVE TO UPDATE!!!!
     public void save(Screen screen, List<ScreenElement> screenElements, List<User> usersList) throws DALexception {
         int screenID = -1;
         String query1 = "INSERT INTO Screens([name], refreshTime) Values(?, ?);";

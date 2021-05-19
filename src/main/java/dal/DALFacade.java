@@ -139,6 +139,16 @@ public class DALFacade implements IDALFacade{
     }
 
     @Override
+    public List<Integer> screensOfUser(int userID) throws DALexception {
+        return userDAO.screensOfUser(userID);
+    }
+
+    @Override
+    public Screen getScreenByID(int id) throws DALexception {
+        return screenDAO.getScreenByID(id);
+    }
+
+    @Override
     public User getUser(String username) throws DALexception {
         return userDAO.getUser(username);
     }
