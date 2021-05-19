@@ -90,6 +90,11 @@
             <artifactId>slf4j-api</artifactId>
             <version>1.7.5</version>
         </dependency>
+        <dependency>
+            <groupId>com.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>5.4</version>
+        </dependency>
 
     </dependencies>
 

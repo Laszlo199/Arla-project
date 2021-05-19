@@ -138,7 +138,7 @@ public class CreateDefaultTemplateController implements Initializable {
      */
 
     public void loadCSV(ActionEvent actionEvent) {
-        attachment1.setText( CSVLoader.loadCSV(actionEvent, fileChooser, csvChart));
+        attachment1.setText( CSVLoader.loadCSV(fileChooser, csvChart));
         destinationPathCSV = CSVLoader.getDestinationPathCSV();
     }
 

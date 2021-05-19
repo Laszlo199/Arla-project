@@ -193,7 +193,7 @@ public class CreateNewController implements Initializable {
             else if(fileType.equals("CSV")){
                 Button button = new Button("load file");
                 button.setOnAction(actionEvent -> {
-                    CSVLoader.loadCSV(actionEvent, new FileChooser(), anchorPane);
+                    CSVLoader.loadCSV(new FileChooser(), anchorPane);
                     nodeMap.put(node, CSVLoader.getDestinationPathCSV().toString());
                 });
                 loadNodes(anchorPane, lbl, button);

@@ -14,6 +14,7 @@ public class ValidateExtension {
     private final static String png = "png";
     private final static String pdf = "pdf";
     private final static String csv = "csv";
+    private final static String xlsx = "xlsx";
 
     /*
      * Get the extension of a file.
@@ -47,6 +48,15 @@ public class ValidateExtension {
                 return true;
         } else {
             return false;
+        }
+        return false;
+    }
+
+    public static boolean validateXLSX(File f){
+        String extension = getExtension(f);
+        if (extension != null) {
+            if(extension.equals(xlsx))
+                return true;
         }
         return false;
     }
