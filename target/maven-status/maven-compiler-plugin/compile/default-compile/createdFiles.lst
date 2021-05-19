@@ -1,2 +1,3 @@
 be\UsersAndScreens.class
+GUI\Controller\MoviePlayerController.class
 GUI\util\ExcelLoader.class

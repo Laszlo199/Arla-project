@@ -1,4 +1,4 @@
-package GUI.util;
+package gui.util;
 
 import javafx.scene.canvas.Canvas;
 import org.jfree.chart.JFreeChart;

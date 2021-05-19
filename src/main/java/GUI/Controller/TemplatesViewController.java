@@ -1,6 +1,5 @@
-package GUI.Controller;
+package gui.Controller;
 
-import GUI.util.Animations;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;

@@ -1,14 +1,12 @@
-package GUI.Controller;
+package gui.Controller;
 
-import GUI.util.CSVLoader;
-import GUI.util.PDFLoader;
-import GUI.util.WebsiteLoader;
+import gui.util.CSVLoader;
+import gui.util.PDFLoader;
+import gui.util.WebsiteLoader;
 import be.DefaultScreen;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
-import org.jfree.data.io.CSV;
 
 public class PreviewController {
     @FXML private AnchorPane websiteSpace;

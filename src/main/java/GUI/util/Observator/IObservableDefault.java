@@ -1,4 +1,4 @@
-package GUI.util.Observator;
+package gui.util.Observator;
 
 import be.DefaultScreen;
 

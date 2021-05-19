@@ -1,15 +1,12 @@
-package GUI.Controller;
+package gui.Controller;
 
-import GUI.Model.UserModel;
+import gui.Model.UserModel;
 import be.User;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import javafx.animation.TranslateTransition;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -23,10 +20,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 
 
-import javax.swing.*;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import static java.sql.Types.NULL;

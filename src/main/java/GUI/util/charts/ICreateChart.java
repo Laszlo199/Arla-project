@@ -1,4 +1,4 @@
-package GUI.util.charts;
+package gui.util.charts;
 
 import org.jfree.chart.JFreeChart;
 

@@ -1,9 +1,7 @@
-package GUI.Controller;
+package gui.Controller;
 
-import GUI.Model.ScreenModel;
-import GUI.Model.exception.ModelException;
-import GUI.util.*;
-import GUI.util.charts.CreateHistogramChart;
+import gui.Model.ScreenModel;
+import gui.util.*;
 import be.DefaultScreen;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
@@ -14,7 +12,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
 import javafx.stage.FileChooser;
 
-import java.io.*;
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.ResourceBundle;

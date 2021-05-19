@@ -1,12 +1,9 @@
-package GUI.Model;
+package gui.Model;
 
-import be.DefaultScreen;
 import be.ScreenElement;
 import bll.Facade;
 import bll.IFacade;
 import bll.exception.BLLException;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 import java.util.List;
 

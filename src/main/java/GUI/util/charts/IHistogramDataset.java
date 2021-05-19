@@ -1,7 +1,4 @@
-package GUI.util.charts;
-
-import org.jfree.chart.JFreeChart;
-import org.jfree.data.statistics.HistogramDataset;
+package gui.util.charts;
 
 /**
  *

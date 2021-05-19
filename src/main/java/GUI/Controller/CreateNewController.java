@@ -1,11 +1,11 @@
-package GUI.Controller;
+package gui.Controller;
 
-import GUI.Model.ScreenModel;
-import GUI.Model.UserModel;
-import GUI.util.CSVLoader;
-import GUI.util.ImageLoader;
-import GUI.util.PDFLoader;
-import GUI.util.WebsiteLoader;
+import gui.Model.ScreenModel;
+import gui.Model.UserModel;
+import gui.util.CSVLoader;
+import gui.util.ImageLoader;
+import gui.util.PDFLoader;
+import gui.util.WebsiteLoader;
 import be.Screen;
 import be.ScreenElement;
 import be.User;

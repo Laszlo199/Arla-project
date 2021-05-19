@@ -1,7 +1,6 @@
-package GUI.util;
+package gui.util;
 
 import javafx.scene.control.Alert;
-import javafx.scene.layout.TilePane;
 
 /**
  *

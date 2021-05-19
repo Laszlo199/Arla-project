@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1043.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.CreateNewScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1043.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Controller.CreateNewScreenController">
    <children>
       <AnchorPane layoutX="373.0" layoutY="103.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white; -fx-background-radius: 15;" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="90.0" AnchorPane.topAnchor="60.0">
          <children>
@@ -58,6 +58,11 @@
       <TextField fx:id="colsField" layoutX="810.0" layoutY="25.0" prefHeight="25.0" prefWidth="58.0" promptText="cols" />
       <JFXButton fx:id="setButton" layoutX="878.0" layoutY="25.0" onAction="#setGrid" prefHeight="25.0" prefWidth="47.0" style="-fx-background-color: #4287f5;" text="SET" />
       <Label layoutX="963.0" layoutY="270.0" prefHeight="38.0" prefWidth="68.0" text="XLSX" textFill="#4287f5" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="270.0" fx:id="xlxsL">
+         <font>
+            <Font size="26.0" />
+         </font>
+      </Label>
+      <Label fx:id="videoL" layoutX="957.0" layoutY="316.0" prefHeight="38.0" prefWidth="80.0" text="VIDEO" textFill="#4287f5" AnchorPane.bottomAnchor="316.0" AnchorPane.rightAnchor="6.0">
          <font>
             <Font size="26.0" />
          </font>

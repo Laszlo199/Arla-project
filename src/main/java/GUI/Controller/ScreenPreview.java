@@ -1,20 +1,17 @@
-package GUI.Controller;
+package gui.Controller;
 
-import GUI.Model.ScreenModel;
+import gui.Model.ScreenModel;
 import be.DefaultScreen;
 import be.Screen;
-import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 
 /**
  *   controller for the screen preview that will be shown in the screens

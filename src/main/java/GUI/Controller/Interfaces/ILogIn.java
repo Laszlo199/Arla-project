@@ -1,4 +1,4 @@
-package GUI.Controller.Interfaces;
+package gui.Controller.Interfaces;
 
 /**
  *

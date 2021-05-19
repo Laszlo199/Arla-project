@@ -1,7 +1,7 @@
-package GUI.util.Command;
+package gui.util.Command;
 
-import GUI.Controller.LogInController;
-import GUI.util.Animations;
+import gui.Controller.LogInController;
+import gui.util.Animations;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;

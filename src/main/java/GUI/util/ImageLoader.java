@@ -1,6 +1,5 @@
-package GUI.util;
+package gui.util;
 
-import javafx.event.ActionEvent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;

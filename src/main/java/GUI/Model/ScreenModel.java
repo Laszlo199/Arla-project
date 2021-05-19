@@ -1,8 +1,8 @@
-package GUI.Model;
+package gui.Model;
 
-import GUI.Model.exception.ModelException;
-import GUI.util.Observator.IObserver;
-import GUI.util.Observator.Observable;
+import gui.Model.exception.ModelException;
+import gui.util.Observator.IObserver;
+import gui.util.Observator.Observable;
 import be.DefaultScreen;
 import be.Screen;
 import be.ScreenElement;

@@ -1,7 +1,7 @@
-package GUI.util;
+package gui.util;
 
-import GUI.Model.ScreenModel;
-import GUI.Model.exception.ModelException;
+import gui.Model.ScreenModel;
+import gui.Model.exception.ModelException;
 
 import java.io.File;
 import java.nio.file.Path;

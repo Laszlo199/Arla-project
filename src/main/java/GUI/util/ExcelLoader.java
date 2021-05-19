@@ -1,4 +1,4 @@
-package GUI.util;
+package gui.util;
 
 import javafx.embed.swing.SwingNode;
 import javafx.scene.control.ScrollPane;

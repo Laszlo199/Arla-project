@@ -1,10 +1,8 @@
-package GUI.Controller;
+package gui.Controller;
 
 
-import GUI.Model.LoginModel;
-import GUI.Model.UserModel;
-import GUI.util.Command.CommandManager;
-import GUI.Controller.Interfaces.ILogIn;
+import gui.Model.LoginModel;
+import gui.util.Command.CommandManager;
 import be.User;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;

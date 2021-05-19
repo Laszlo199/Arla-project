@@ -1,7 +1,6 @@
-package GUI.util;
+package gui.util;
 
-import GUI.Model.ScreenModel;
-import javafx.event.ActionEvent;
+import gui.Model.ScreenModel;
 import javafx.scene.layout.Pane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -24,7 +23,7 @@ public class PDFLoader {
      * we get html and display it in newly created Web view
      * that is dynamically added to the stage
      *
-     * @param actionEvent
+     * @param
      */
     public static String loadPDF(FileChooser fileChooser){
       //  File selectedFile = ChooseFile.getSelectedFile(actionEvent, "Choose PDF file",

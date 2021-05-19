@@ -1,4 +1,4 @@
-package GUI.Model.exception;
+package gui.Model.exception;
 
 /**
  *

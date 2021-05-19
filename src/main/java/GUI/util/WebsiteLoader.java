@@ -1,4 +1,4 @@
-package GUI.util;
+package gui.util;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.web.WebEngine;

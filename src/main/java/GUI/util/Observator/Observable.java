@@ -1,11 +1,7 @@
-package GUI.util.Observator;
+package gui.util.Observator;
 
-import GUI.util.Observator.IObserver;
 import be.DefaultScreen;
 import be.Screen;
-
-import java.util.HashSet;
-import java.util.List;
 
 /**
  *

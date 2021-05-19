@@ -1,9 +1,9 @@
-package GUI.Controller;
+package gui.Controller;
 
-import GUI.Model.ScreenModel;
-import GUI.Model.exception.ModelException;
-import GUI.util.AlertDisplayer;
-import GUI.util.Observator.IObserver;
+import gui.Model.ScreenModel;
+import gui.Model.exception.ModelException;
+import gui.util.AlertDisplayer;
+import gui.util.Observator.IObserver;
 import be.DefaultScreen;
 import be.Screen;
 import javafx.fxml.FXML;

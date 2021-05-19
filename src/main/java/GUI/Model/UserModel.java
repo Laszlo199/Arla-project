@@ -1,4 +1,4 @@
-package GUI.Model;
+package gui.Model;
 
 import be.User;
 import bll.Facade;

@@ -1,9 +1,9 @@
-package GUI.Controller;
+package gui.Controller;
 
-import GUI.Model.ClientModel;
-import GUI.util.CSVLoader;
-import GUI.util.PDFLoader;
-import GUI.util.WebsiteLoader;
+import gui.Model.ClientModel;
+import gui.util.CSVLoader;
+import gui.util.PDFLoader;
+import gui.util.WebsiteLoader;
 import be.ScreenElement;
 import be.User;
 import javafx.scene.Scene;

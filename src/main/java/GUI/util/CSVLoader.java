@@ -1,15 +1,14 @@
-package GUI.util;
+package gui.util;
 
-import GUI.Model.ScreenModel;
-import GUI.Model.exception.ModelException;
-import GUI.util.charts.CreateHistogramChart;
+import gui.Model.ScreenModel;
+import gui.Model.exception.ModelException;
+import gui.util.charts.CreateHistogramChart;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 import javafx.collections.FXCollections;
 import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
 import javafx.scene.control.*;
