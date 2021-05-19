@@ -52,7 +52,7 @@ public class CreateNewScreenController implements Initializable {
     private TextField colsField;
     @FXML
     private AnchorPane space;
-    private GridPane gridPane= new GridPane();
+    private GridPane gridPane = new GridPane();
     ContextMenu contextMenu = new ContextMenu();
     private int[][] array;
     private int incrementedValue = 1;
@@ -99,7 +99,6 @@ public class CreateNewScreenController implements Initializable {
         Dragboard db = source.startDragAndDrop(TransferMode.ANY);
         db.setDragView(source.snapshot(null, null));
         ClipboardContent cb = new ClipboardContent();
-       // source.setCursor(Cursor.DEFAULT);
         cb.putString(source.getText());
         db.setContent(cb);
         event.consume();
@@ -145,7 +144,6 @@ public class CreateNewScreenController implements Initializable {
     }
 
     private void setupGrid() {
-        //gridPane = new GridPane();
         gridPane.setGridLinesVisible(true);
         gridPane.prefHeightProperty().bind(space.heightProperty());
         gridPane.prefWidthProperty().bind(space.widthProperty());
@@ -217,20 +215,30 @@ public class CreateNewScreenController implements Initializable {
         Dragboard db = event.getDragboard();
         boolean success = false;
         Node node = event.getPickResult().getIntersectedNode();
-        //db.getDragView().cancel();
         if (db.hasString()) {
-            switch(db.getString()){
+            switch (db.getString()) {
                 case "HTTP" -> loadHTTP(node);
                 case "PNG" ->  loadImage(node, event);
                 case "JPG" -> loadImage(node, event);
                 case "PDF" ->  loadPDF(node);
                 case "CSV" -> loadCSV(node);
                 case "XLSX" -> loadExcel(node);
+
             }
         }
 
     }
 
+
+    private Node getNodeByCoordinate(Integer row, Integer column) {
+        ObservableList<Node> childrens = gridPane.getChildren();
+        for (Node node : childrens) {
+            if (GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == column) {
+                return node;
+            }
+        }
+        return null;
+	}
     private void loadExcel(Node node) {
         AnchorPane anchorPane = (AnchorPane) node;
         FileChooser fileChooser = new FileChooser();
@@ -248,7 +256,8 @@ public class CreateNewScreenController implements Initializable {
                 "*.csv"));
         CSVLoader.loadCSV(fileChooser, anchorPane);
 
-    }
+	}
+    
 
     private void loadPDF(Node node) {
         AnchorPane anchorPane = (AnchorPane) node;
@@ -261,7 +270,7 @@ public class CreateNewScreenController implements Initializable {
         nodeMap.put(node, PDFLoader.getDestinationPathPDF().toString());
     }
 
-    private void loadImage(Node node,DragEvent dragEvent) {
+    private void loadImage(Node node, DragEvent dragEvent) {
         dragEvent.setDropCompleted(true);
         dragEvent.consume();
         AnchorPane anchorPane = (AnchorPane) node;
@@ -286,12 +295,12 @@ public class CreateNewScreenController implements Initializable {
     }
 
     private void loadWebsite(AnchorPane anchorPane, String query) {
-       WebsiteLoader websiteLoader = new WebsiteLoader(webEngine);
-       websiteLoader.addWebView(anchorPane);
-       websiteLoader.executeQuery(query);
+        WebsiteLoader websiteLoader = new WebsiteLoader(webEngine);
+        websiteLoader.addWebView(anchorPane);
+        websiteLoader.executeQuery(query);
     }
 
-    private void loadNodes(AnchorPane anchorPane, Node... nodes){
+    private void loadNodes(AnchorPane anchorPane, Node... nodes) {
         VBox vbox = new VBox();
         vbox.getChildren().addAll(nodes);
         vbox.setPrefWidth(anchorPane.getWidth());
@@ -302,12 +311,13 @@ public class CreateNewScreenController implements Initializable {
     }
 
     private void checkLeft(Node node, MouseEvent event) {
-        if (GridPane.getColumnIndex(node) != 0) {
+        Node parentNode = getNodeToUse(node);
+        if (GridPane.getColumnIndex(parentNode) != 0) {
             List<MenuItem> menuItems = new ArrayList<>();
-            for (int i = 1; i <= GridPane.getColumnIndex(node); i++) {
-                boolean check = getLeftOccupiedCheck(node, i);
+            for (int i = 1; i <= GridPane.getColumnIndex(parentNode); i++) {
+                boolean check = getLeftOccupiedCheck(parentNode, i);
                 MenuItem menuItem = new MenuItem("connect with: " + i + " left");
-                setLeftMenuItemOnAction(node, i, menuItem);
+                setLeftMenuItemOnAction(parentNode, i, menuItem);
                 if (check) {
                     menuItems.add(menuItem);
                 }
@@ -321,61 +331,45 @@ public class CreateNewScreenController implements Initializable {
     private void setLeftMenuItemOnAction(Node node, final int finalI, MenuItem menuItem) {
         menuItem.setOnAction(actionEvent -> {
             int goalCol = GridPane.getColumnIndex(node) - finalI;
-            int span = 0;
-            if (GridPane.getColumnSpan(node) == null) span = 1 + finalI;
-            else span = GridPane.getColumnSpan(node) + finalI;
-            GridPane.setColumnIndex(node, goalCol);
-            GridPane.setColumnSpan(node, span);
-            numerateLeft(node);
-            node.setStyle("-fx-background-color: #e01c81");
+           // int span = 0;
+           // if (GridPane.getColumnSpan(node) == null) span = 1 + finalI;
+          //  else span = GridPane.getColumnSpan(node) + finalI;
+           // GridPane.setColumnIndex(node, goalCol);
+          //  GridPane.setColumnSpan(node, span);
+            Node useThisNode = getNodeByCoordinate(GridPane.getRowIndex(node), goalCol);
+            gridPane.getChildren().remove(node);
+            for(int m  = GridPane.getRowIndex(node); m < GridPane.getRowIndex(node) + getRowSpan(node); m++)
+                for (int n = GridPane.getColumnIndex(node); n<GridPane.getColumnIndex(node) + getColSpan(node); n++ ){
+                    Node node1 = new AnchorPane();
+                    node1.setOnMousePressed(event1 -> showContextMenu(event1, node1));
+                    node1.setUserData(useThisNode);
+                    gridPane.add(node1, n, m);
+                }
+            GridPane.setRowSpan(useThisNode, getRowSpan(node));
+            GridPane.setColumnSpan(useThisNode, getColSpan(node)+ finalI);
+
+
+            numerateLeft(useThisNode);
+            useThisNode.setStyle("-fx-background-color: #e01c81");
         });
     }
 
-    /**
-     * Numeration will be needed when checking if field is occupied
-     *
-     * @param node
-     */
-    private void numerateLeft(Node node) {
-        for (int j = GridPane.getColumnIndex(node); j < GridPane.getColumnIndex(node) +
-                GridPane.getColumnSpan(node); j++) {
-            array[GridPane.getRowIndex(node)][j] = incrementedValue;
-        }
-        incrementedValue++;
-    }
-
-    /**
-     * if we return false it is occupied.
-     * we check along the way if there is an item somewhere where we could add need one
-     * we want to exclude that items
-     *
-     * @param node
-     * @param i
-     * @return
-     */
-    private boolean getLeftOccupiedCheck(Node node, int i) {
-        for (int k = GridPane.getColumnIndex(node) - i; k <= GridPane.getColumnIndex(node); k++) {
-            if (array[GridPane.getRowIndex(node)][k] != 0 && array[GridPane.getRowIndex(node)][k]
-                    != array[GridPane.getRowIndex(node)][GridPane.getColumnIndex(node)])
-                return false;
-        }
-        return true;
-    }
 
     private void checkRight(Node node, MouseEvent event) {
-        if (GridPane.getColumnIndex(node) != gridPane.getColumnCount() - 1) {
+        Node parentNode = getNodeToUse(node);
+        if (GridPane.getColumnIndex(parentNode) != gridPane.getColumnCount() - 1) {
             List<MenuItem> menuItems = new ArrayList<>();
-            int noToConnect = gridPane.getColumnCount() - 1 - GridPane.getColumnIndex(node);
+            int noToConnect = gridPane.getColumnCount() - 1 - GridPane.getColumnIndex(parentNode) - getColSpan(parentNode) + 1; //now we are testing
             for (int i = 1; i <= noToConnect; i++) {
-                boolean check = checkRightIsOccupied(node, i);
+                boolean check = checkRightIsOccupied(parentNode, i);
                 MenuItem menuItem = new MenuItem("connect with: " + i + " right");
-                setRightOnAction(node, i, menuItem);
+                setRightOnAction(parentNode, i, menuItem);
                 if (check) {
                     menuItems.add(menuItem);
                 }
             }
             contextMenu.getItems().addAll(menuItems);
-            contextMenu.show(node, event.getScreenX(), event.getScreenY());
+            contextMenu.show(parentNode, event.getScreenX(), event.getScreenY());
         }
     }
 
@@ -390,90 +384,70 @@ public class CreateNewScreenController implements Initializable {
         });
     }
 
-    private void setRightNumeration(Node node, int finalI, int span) {
-        int rowIndex = GridPane.getRowIndex(node);
-        for (int j = GridPane.getColumnIndex(node); j < GridPane.getColumnIndex(node) +
-                span + finalI; j++) {
-            System.out.println("we marked col: " + j + "with " + incrementedValue);
-            array[rowIndex][j] = incrementedValue;
-        }
-        incrementedValue++;
+
+    private Node getNodeToUse(Node node) {
+       if (node.getUserData() != null )
+           return (Node) node.getUserData();
+        else
+            return node;
     }
 
-    private boolean checkRightIsOccupied(Node node, int i) {
-        for (int k = GridPane.getColumnIndex(node); k <= GridPane.getColumnIndex(node) + i; k++) {
-            System.out.println("col index: " + k);
-            if (array[GridPane.getRowIndex(node)][k] != 0)
-                return false;
-        }
-        return true;
-    }
-
-    private void checkUp(Node node, MouseEvent event) {
-        if (GridPane.getRowIndex(node) != 0) {
+    private void checkUp(final Node node, MouseEvent event) {
+        Node usedNode = getNodeToUse(node);
+        if (GridPane.getRowIndex(usedNode) != 0) {
             Map<Integer, MenuItem> menuItems = new HashMap<>();
-            for (int i = 1; i <= GridPane.getRowIndex(node); i++) {
-                boolean check = checkUpOccupied(node, i);
+            for (int i = 1; i <= GridPane.getRowIndex(usedNode); i++) {
+                boolean check = checkUpOccupied(usedNode, i);
                 MenuItem menuItem = new MenuItem("connect with: " + i + " top");
                 int finalI = i;
                 menuItem.setOnAction(actionEvent -> {
-                    int goalRow = GridPane.getRowIndex(node) - finalI;
-                    int span = 0;
-                    if (GridPane.getRowSpan(node) == null) span = 1 + finalI;
-                    else span = GridPane.getRowSpan(node) + finalI;
-                    GridPane.setRowIndex(node, goalRow);
-                    GridPane.setRowSpan(node, span);
-                    node.setStyle("-fx-background-color: orange");
-                    setUpNumeration(node);
+                    int goalRow = GridPane.getRowIndex(usedNode) - finalI;
+                    Node useThisNow = getNodeByCoordinate(goalRow, GridPane.getColumnIndex(usedNode));
+                    gridPane.getChildren().remove(usedNode);
+                    for(int m  = GridPane.getRowIndex(usedNode); m < GridPane.getRowIndex(usedNode) + getRowSpan(usedNode); m++)
+                        for (int n = GridPane.getColumnIndex(usedNode); n<GridPane.getColumnIndex(usedNode) + getColSpan(usedNode); n++ ){
+                            Node node1 = new AnchorPane();
+                            node1.setOnMousePressed(event1 -> showContextMenu(event1, node1));
+                            node1.setUserData(useThisNow);
+                            gridPane.add(node1, n, m);
+                        }
+
+                    GridPane.setColumnSpan(useThisNow, getColSpan(usedNode));
+                    GridPane.setRowSpan(useThisNow, getRowSpan(usedNode) + finalI); // it shoudlt work but who knows haah
+
+                    //souty
+                    System.out.println("Checkup mat row:" + GridPane.getRowIndex(useThisNow));
+                    System.out.println("checkup mat col: " + GridPane.getColumnIndex(useThisNow));
+                    useThisNow.setStyle("-fx-background-color: orange");
+                    setUpNumeration(useThisNow);
                 });
                 if (check)
                     menuItems.put(i, menuItem);
             }
             contextMenu.getItems().addAll(menuItems.values().
                     stream().collect(Collectors.toList()));
-            contextMenu.show(node, event.getScreenX(), event.getScreenY());
+            contextMenu.show(usedNode, event.getScreenX(), event.getScreenY());
         }
     }
-
-    private void setUpNumeration(Node node) {
-        for (int j = GridPane.getRowIndex(node); j < GridPane.getRowIndex(node) +
-                GridPane.getRowSpan(node); j++) {
-            System.out.println("marking up idex: " + j);
-            array[j][GridPane.getColumnIndex(node)] = incrementedValue;
-        }
-        incrementedValue++;
-    }
-
-    private boolean checkUpOccupied(Node node, int i) {
-        int columnSpan1 = 0;
-        if (GridPane.getColumnSpan(node) == null) columnSpan1 = 1;
-        else columnSpan1 = GridPane.getColumnSpan(node);
-
-        for (int k = GridPane.getRowIndex(node) - i; k <= GridPane.getRowIndex(node); k++) {
-            for (int l = GridPane.getColumnIndex(node); l <= GridPane.getColumnIndex(node) + columnSpan1 - 1; l++) {
-                if (array[k][l] != 0 && array[k][l]
-                        != array[GridPane.getRowIndex(node)][GridPane.getColumnIndex(node)]) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
+    
     private void checkDown(Node node, MouseEvent event) {
-        if (GridPane.getRowIndex(node) != gridPane.getRowCount() - 1) {
+        Node parentNode = getNodeToUse(node);
+        if (GridPane.getRowIndex(parentNode) != gridPane.getRowCount() - 1) {
             List<MenuItem> menuItems = new ArrayList<>();
-            int noToConnect = gridPane.getRowCount() - 1 - GridPane.getRowIndex(node);
+            int noToConnect = gridPane.getRowCount() - 1 - GridPane.getRowIndex(parentNode) - getRowSpan(parentNode) + 1;
             for (int i = 1; i <= noToConnect; i++) {
-                int columnSpan = getColSpan(node);
-                boolean check = checkDownIsOccupied(node, i, columnSpan);
+                int columnSpan = getColSpan(parentNode);
+                boolean check = checkDownIsOccupied(parentNode, i, columnSpan);
+                if (check == false)
+                    System.out.println("bottom is occupied");
+                else System.out.println("bottom isnt occupied");
                 MenuItem menuItem = new MenuItem("connect with: " + i + " bottom");
-                setDownOnAction(node, i, columnSpan, menuItem);
+                setDownOnAction(parentNode, i, columnSpan, menuItem);
                 if (check)
                     menuItems.add(menuItem);
             }
             contextMenu.getItems().addAll(menuItems);
-            contextMenu.show(node, event.getScreenX(), event.getScreenY());
+            contextMenu.show(parentNode, event.getScreenX(), event.getScreenY());
         }
     }
 
@@ -487,6 +461,74 @@ public class CreateNewScreenController implements Initializable {
         });
     }
 
+    /**
+     * if it sends false it is occupied
+     *
+     * @param node
+     * @param i
+     * @param columnSpan
+     * @return
+     */
+    private boolean checkDownIsOccupied(Node node, int i, int columnSpan) {
+        for (int k = GridPane.getRowIndex(node); k <= GridPane.getRowIndex(node) + i; k++) {
+            for (int l = GridPane.getColumnIndex(node); l <= GridPane.getColumnIndex(node) + columnSpan - 1; l++) {
+                if (array[k][l] != 0 && array[k][l] != array[GridPane.getRowIndex(node)][GridPane.getColumnIndex(node)])
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean checkUpOccupied(Node node, int i) {
+        for (int k = GridPane.getRowIndex(node) - i; k <= GridPane.getRowIndex(node); k++) {
+            for (int l = GridPane.getColumnIndex(node); l <= GridPane.getColumnIndex(node) + getColSpan(node) - 1; l++) {
+                if (array[k][l] != 0 && array[k][l] != array[GridPane.getRowIndex(node)][GridPane.getColumnIndex(node)]) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+
+    /**
+     * method checks if on the right from the created box / empty node
+     * there is anything along its row span. If yes we shouldn't
+     * enable functionality to connect from that point.
+     *
+     * @param node
+     * @param i
+     * @return
+     */
+    private boolean checkRightIsOccupied(Node node, int i) {
+        for (int k = GridPane.getColumnIndex(node); k <= GridPane.getColumnIndex(node) + i; k++) {
+            for (int j = GridPane.getRowIndex(node); j < GridPane.getRowIndex(node) + getRowSpan(node); j++)
+                if (array[j][k] != 0 && array[j][k] != array[GridPane.getRowIndex(node)][GridPane.getColumnIndex(node)])
+                    return false;
+        }
+        return true;
+    }
+
+    /**
+     * if we return false it is occupied.
+     * we check along the way if there is an item somewhere where we could add need one
+     * we want to exclude that items. We need to check in two dimensions:
+     * - along the row span + in depth in the direction in which move will be done
+     *
+     * @param node
+     * @param i
+     * @return
+     */
+    private boolean getLeftOccupiedCheck(Node node, int i) {
+        for (int k = GridPane.getColumnIndex(node) - i; k <= GridPane.getColumnIndex(node); k++) {
+            for (int j = GridPane.getRowIndex(node); j < GridPane.getRowIndex(node) + getRowSpan(node); j++){
+                if (array[j][k] != 0 && array[j][k] != array[GridPane.getRowIndex(node)][GridPane.getColumnIndex(node)])
+                    return false;
+            }
+        }
+        return true;
+    }
+
     private void setDownNumeration(Node node, int finalI, int span,
                                    int finalColumnSpan, int columnIndex) {
         for (int j = GridPane.getRowIndex(node); j < GridPane.getRowIndex(node) +
@@ -495,9 +537,61 @@ public class CreateNewScreenController implements Initializable {
                 System.out.println("marked row: " + j + " and column: " + k +
                         " with value " + incrementedValue);
                 array[j][k] = incrementedValue;
+                //if (j != GridPane.getRowIndex(node) && k != GridPane.getColumnIndex(node))
+                    setParentNode(j, k, node);
             }
         }
         incrementedValue++;
+    }
+
+    private void setUpNumeration(Node node) {
+        for (int j = GridPane.getRowIndex(node); j < GridPane.getRowIndex(node) + getRowSpan(node); j++) {
+            for (int l = GridPane.getColumnIndex(node); l < GridPane.getColumnIndex(node) + getColSpan(node); l++) {
+                array[j][l] = incrementedValue;
+                //if (j != GridPane.getRowIndex(node) && l != GridPane.getColumnIndex(node))
+                setParentNode(j, l, node);
+            }
+        }
+        incrementedValue++;
+    }
+
+    /**
+     * it has to be improved
+     *
+     * @param node
+     * @param finalI
+     * @param span
+     */
+    private void setRightNumeration(Node node, int finalI, int span) {
+        for (int j = GridPane.getColumnIndex(node); j < GridPane.getColumnIndex(node) + span + finalI; j++) {
+            for (int k = GridPane.getRowIndex(node); k < GridPane.getRowIndex(node) + span; k++) {
+                System.out.println("we marked col: " + j + "with " + incrementedValue);
+                array[k][j] = incrementedValue;
+                //here we forgot about something
+                //if (k != GridPane.getRowIndex(node) && j != GridPane.getColumnIndex(node))
+                    setParentNode(k, j, node);
+            }
+        }
+        incrementedValue++;
+    }
+
+    /**
+     * Numeration will be needed when checking if field is occupied
+     *
+     * @param node
+     */
+    private void numerateLeft(Node node) {
+        for (int j = GridPane.getColumnIndex(node); j < GridPane.getColumnIndex(node) + GridPane.getColumnSpan(node); j++) {
+            for (int k = GridPane.getRowIndex(node); k < GridPane.getRowIndex(node) + getRowSpan(node); k++){
+             array[GridPane.getRowIndex(node)][j] = incrementedValue;
+             setParentNode(k, j, node);
+            }
+        }
+        incrementedValue++;
+    }
+
+    private void setParentNode(int row, int column, Node parentNode) {
+        getNodeByCoordinate(row, column).setUserData(parentNode);
     }
 
     private int getRowSpan(Node node) {
@@ -507,17 +601,6 @@ public class CreateNewScreenController implements Initializable {
         return span;
     }
 
-
-    private boolean checkDownIsOccupied(Node node, int i, int columnSpan) {
-        for (int k = GridPane.getRowIndex(node); k <= GridPane.getRowIndex(node) + i; k++) {
-            for (int l = GridPane.getColumnIndex(node); l <= GridPane.getColumnIndex(node) + columnSpan - 1; l++) {
-                if (array[k][l] != 0 && array[k][l] != array[GridPane.getRowIndex(node)][GridPane.getColumnIndex(node)]) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
 
     private int getColSpan(Node node) {
         int columnSpan1 = 0;
@@ -534,6 +617,7 @@ public class CreateNewScreenController implements Initializable {
     /**
      * check if any of the nodes is not filled in
      * We need to implement it after meeting with jeppe
+     *
      * @return
      */
     private boolean checkIfAnyEmpty() {
