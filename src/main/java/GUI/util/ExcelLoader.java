@@ -56,7 +56,7 @@ public class ExcelLoader {
             for(String s : columnNames) s="";
 
             int row = 0;
-            int col = 0;
+            int col;
             tableModel = new DefaultTableModel(columnNames, firstSheet.getPhysicalNumberOfRows());
             while (iterator.hasNext()) {
                 Row nextRow = iterator.next();
@@ -92,7 +92,7 @@ public class ExcelLoader {
 
         SwingNode sn = new SwingNode();
         sn.setContent(myJTable);
-        javafx.scene.control.ScrollPane scrollPane = new ScrollPane();
+        ScrollPane scrollPane = new ScrollPane();
         scrollPane.setPrefSize(anchorPane.getWidth(), anchorPane.getHeight());
         scrollPane.setContent(sn);
         anchorPane.getChildren().add(scrollPane);

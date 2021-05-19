@@ -252,21 +252,18 @@ public class CSVLoader {
             CSVFileReader = new CSVReader(new FileReader(destinationPathCSV.toString()));
             List myEntries = CSVFileReader.readAll();
             columnNames = (String[]) myEntries.get(0);
-            if(!isHeader) for(String s : columnNames) s="";
-            tableModel = new DefaultTableModel(columnNames, myEntries.size()-1);
+            tableModel = new DefaultTableModel(columnNames, myEntries.size());
             int rowcount = tableModel.getRowCount();
-            for (int x = 0; x<rowcount+1; x++)
+            for (int x = 0; x<rowcount; x++)
             {
                 int columnnumber = 0;
 
-                if (x>0)
-                {
                     for (String thiscellvalue : (String[])myEntries.get(x))
                     {
-                        tableModel.setValueAt(thiscellvalue, x-1, columnnumber);
+                        tableModel.setValueAt(thiscellvalue, x, columnnumber);
                         columnnumber++;
                     }
-                }
+
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -280,15 +277,12 @@ public class CSVLoader {
         myJTable.setShowGrid(true);
         myJTable.setGridColor(Color.LIGHT_GRAY);
 
-        JTableHeader header = myJTable.getTableHeader();
-        header.setBackground(Color.LIGHT_GRAY);
-
         SwingNode sn = new SwingNode();
         sn.setContent(myJTable);
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setPrefSize(pane.getWidth(), pane.getHeight());
-        sn.minWidth(scrollPane.getWidth());
-        scrollPane.setContent(sn);
+        sn.minWidth(pane.getWidth());
+        sn.prefWidth(pane.getWidth());
         pane.getChildren().add(scrollPane);
     }
 
