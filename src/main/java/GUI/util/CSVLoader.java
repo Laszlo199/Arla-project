@@ -6,6 +6,7 @@ import GUI.util.charts.CreateHistogramChart;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 import javafx.collections.FXCollections;
+import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -14,6 +15,7 @@ import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -281,14 +283,13 @@ public class CSVLoader {
         JTableHeader header = myJTable.getTableHeader();
         header.setBackground(Color.LIGHT_GRAY);
 
-        //pane.getChildren().add(myJTable);
-        //myJTable.setSize(pane.getWidth(), pane.getHeight());
-
-        JFrame frame = new JFrame("table");
-        frame.add(new JScrollPane(myJTable));
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        SwingNode sn = new SwingNode();
+        sn.setContent(myJTable);
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setPrefSize(pane.getWidth(), pane.getHeight());
+        sn.minWidth(scrollPane.getWidth());
+        scrollPane.setContent(sn);
+        pane.getChildren().add(scrollPane);
     }
 
 

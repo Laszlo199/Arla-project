@@ -1,5 +1,7 @@
 package GUI.util;
 
+import javafx.embed.swing.SwingNode;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -9,13 +11,19 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
 
 public class ExcelLoader {
     private final static String DESTINATION_PATH_XLSX = "src/../Data/XLSXData/";
@@ -36,6 +44,7 @@ public class ExcelLoader {
     }
 
     private static void showExcel(AnchorPane anchorPane) {
+        DefaultTableModel tableModel = null;
         try {
             FileInputStream inputStream = new FileInputStream(destinationPathXLSX.toString());
 
@@ -43,27 +52,29 @@ public class ExcelLoader {
             Sheet firstSheet = workbook.getSheetAt(0);
             Iterator<Row> iterator = firstSheet.iterator();
 
+            String[] columnNames = new String[firstSheet.getRow(0).getPhysicalNumberOfCells()];
+            for(String s : columnNames) s="";
+
+            int row = 0;
+            int col = 0;
+            tableModel = new DefaultTableModel(columnNames, firstSheet.getPhysicalNumberOfRows());
             while (iterator.hasNext()) {
                 Row nextRow = iterator.next();
                 Iterator<Cell> cellIterator = nextRow.cellIterator();
-
+                col=0;
                 while (cellIterator.hasNext()) {
                     Cell cell = cellIterator.next();
-
                     switch (cell.getCellType()) {
                         case Cell.CELL_TYPE_STRING:
-                            System.out.print(cell.getStringCellValue());
+                            tableModel.setValueAt(cell.getStringCellValue(), row, col);
                             break;
-                        case Cell.CELL_TYPE_BOOLEAN:
-                            System.out.print(cell.getBooleanCellValue());
-                            break;
-                        case Cell.CELL_TYPE_NUMERIC:
-                            System.out.print(cell.getNumericCellValue());
-                            break;
+                            case Cell.CELL_TYPE_NUMERIC:
+                                tableModel.setValueAt(cell.getNumericCellValue(), row, col);
+                                break;
                     }
-                    System.out.print(" - ");
+                    col++;
                 }
-                System.out.println();
+                row++;
             }
 
             workbook.close();
@@ -74,5 +85,16 @@ public class ExcelLoader {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        JTable myJTable = new JTable(tableModel);
+        myJTable.setShowGrid(true);
+        myJTable.setGridColor(Color.LIGHT_GRAY);
+
+        SwingNode sn = new SwingNode();
+        sn.setContent(myJTable);
+        javafx.scene.control.ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setPrefSize(anchorPane.getWidth(), anchorPane.getHeight());
+        scrollPane.setContent(sn);
+        anchorPane.getChildren().add(scrollPane);
     }
 }
