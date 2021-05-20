@@ -4,6 +4,7 @@ import gui.Model.UserModel;
 import gui.util.*;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,9 +18,7 @@ import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.web.WebEngine;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -195,12 +194,14 @@ public class CreateNewScreenController implements Initializable {
     private void setConstraints(int rows, int cols) {
         for (int i = 0; i < rows; i++) {
             RowConstraints rowConst = new RowConstraints();
+            rowConst.setVgrow(Priority.NEVER);
             rowConst.setPercentHeight(100.0 / rows);
             gridPane.getRowConstraints().add(rowConst);
 
         }
         for (int i = 0; i < cols; i++) {
             ColumnConstraints colConst = new ColumnConstraints();
+            colConst.setHgrow(Priority.NEVER);
             colConst.setPercentWidth(100.0 / cols);
             gridPane.getColumnConstraints().add(colConst);
 
@@ -272,10 +273,24 @@ public class CreateNewScreenController implements Initializable {
             AnchorPane view = (AnchorPane) loader.load();
             MoviePlayerController controller = loader.getController();
             controller.passFileChooser(fileChooser);
-            //MoviePlayerController controller = new MoviePlayerController(fileChooser);
+            view.setPrefSize(Control.USE_PREF_SIZE, Control.USE_PREF_SIZE);
             anchorPane.getChildren().add(view);
             view.prefHeightProperty().bind(anchorPane.heightProperty());
             view.prefWidthProperty().bind(anchorPane.widthProperty());
+            view.maxWidthProperty().bind(anchorPane.widthProperty());
+            view.maxHeightProperty().bind(anchorPane.heightProperty());
+
+            /*
+            anchorPane.setPrefSize(Control.USE_PREF_SIZE, Control.USE_PREF_SIZE);
+            ChangeListener<Number> updater = (o, ov, now) -> {
+                view.setPrefWidth(anchorPane.getWidth());
+                view.setPrefHeight(anchorPane.getHeight());
+            };
+            anchorPane.prefWidthProperty().addListener(updater);
+            anchorPane.prefHeightProperty().addListener(updater);
+
+             */
+
         } catch (IOException e) {
             e.printStackTrace();
         }

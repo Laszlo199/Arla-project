@@ -1,31 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.media.MediaView?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="467.0" prefWidth="739.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Controller.MoviePlayerController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="446.0" prefWidth="777.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Controller.MoviePlayerController">
    <children>
       <Label fx:id="titleL" layoutX="14.0" layoutY="14.0" text="Title" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <StackPane fx:id="stackPane" layoutX="12.0" layoutY="50.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="50.0">
+      <StackPane fx:id="stackPane" layoutX="12.0" layoutY="50.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="402.0" prefWidth="843.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="67.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="18.0" AnchorPane.topAnchor="50.0">
          <children>
-            <MediaView fx:id="mediaView" fitHeight="200.0" fitWidth="200.0" />
+            <MediaView fx:id="mediaView" fitHeight="200.0" fitWidth="200.0" StackPane.alignment="CENTER">
+               <StackPane.margin>
+                  <Insets />
+               </StackPane.margin></MediaView>
          </children>
       </StackPane>
-      <HBox alignment="CENTER" layoutX="290.0" layoutY="428.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="290.0" AnchorPane.rightAnchor="260.0">
+      <HBox alignment="CENTER" layoutX="176.0" layoutY="394.0" prefHeight="52.0" prefWidth="535.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="176.0" AnchorPane.rightAnchor="66.0">
          <children>
+            <ToggleButton fx:id="loopButton" mnemonicParsing="false" onAction="#setLooping" />
             <JFXButton onAction="#backButtonAction" prefHeight="25.0" prefWidth="58.0" text="BACK" />
-            <JFXButton onAction="#playButtonAction" prefHeight="25.0" prefWidth="58.0" text="PLAY" />
+            <JFXButton fx:id="playButton" onAction="#playButtonAction" prefHeight="25.0" prefWidth="58.0" />
             <JFXButton onAction="#forwardButtonAction" text="FORWARD" />
+            <HBox alignment="CENTER_LEFT" prefHeight="36.0" prefWidth="255.0" spacing="10.0">
+               <children>
+                  <ImageView fitHeight="28.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Icons/speaker.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="40.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <Slider fx:id="volumeSlider" prefHeight="14.0" prefWidth="202.0" />
+               </children>
+            </HBox>
          </children>
       </HBox>
       <Slider fx:id="progressSlider" layoutX="14.0" layoutY="414.0" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />

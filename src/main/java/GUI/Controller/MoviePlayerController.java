@@ -1,8 +1,11 @@
 package gui.Controller;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSlider;
 import gui.util.FileSaver;
 import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.value.ChangeListener;
@@ -10,8 +13,12 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -35,6 +42,12 @@ import java.util.TimerTask;
 public class MoviePlayerController implements Initializable {
     private final static String DESTINATION_PATH_VIDEO = "src/../Data/VideoData/";
     @FXML
+    private ToggleButton loopButton;
+    @FXML
+    private JFXButton playButton;
+    @FXML
+    private Slider volumeSlider;
+    @FXML
     private StackPane stackPane;
     @FXML
     private Label titleL;
@@ -45,7 +58,7 @@ public class MoviePlayerController implements Initializable {
 
     private Media media;
     private MediaPlayer mediaPlayer;
-    private Boolean isLooping;
+    private Boolean isLooping=false;
     private Path path;
 
     public void passFileChooser(FileChooser fileChooser) {
@@ -65,6 +78,7 @@ public class MoviePlayerController implements Initializable {
         mediaView.setMediaPlayer(mediaPlayer);
         titleL.setText(path.toString().substring(path.toString().lastIndexOf("/")+1));
         setTimeProgressListener();
+        setVolumeSlider();
     }
 
     /**
@@ -72,12 +86,30 @@ public class MoviePlayerController implements Initializable {
      * @param actionEvent
      */
     public void playButtonAction(ActionEvent actionEvent) {
-        //setTimeProgressListener();
-        if(mediaPlayer.getStatus().equals(MediaPlayer.Status.PLAYING))
+        if(mediaPlayer.getStatus().equals(MediaPlayer.Status.PLAYING)){
             mediaPlayer.pause();
-        else
+            setPlayImage();
+        }
+        else {
             mediaPlayer.play();
+            setPauseImage();
+        }
     }
+
+    private void setPlayImage() {
+        ImageView imageView = new ImageView("/Icons/play.png");
+        imageView.setFitHeight(25);
+        imageView.setFitWidth(25);
+        playButton.setGraphic(imageView);
+    }
+
+    private void setPauseImage(){
+        ImageView imageView = new ImageView("/Icons/pause1.png");
+        imageView.setFitHeight(25);
+        imageView.setFitWidth(25);
+        playButton.setGraphic(imageView);
+    }
+
 
     public void backButtonAction(ActionEvent actionEvent) {
         mediaPlayer.seek(Duration.ZERO);
@@ -90,6 +122,16 @@ public class MoviePlayerController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setProperties();
+        setPlayImage();
+        setLoopButton();
+    }
+
+    private void setLoopButton() {
+      ImageView imageView = new ImageView("/Icons/loop.png");
+      imageView.setFitWidth(25);
+      imageView.setFitHeight(25);
+      imageView.setPreserveRatio(true);
+      loopButton.setGraphic(imageView);
     }
 
     private void setTimeProgressListener() {
@@ -103,17 +145,44 @@ public class MoviePlayerController implements Initializable {
             public void run() {
                 Platform.runLater(() -> progressSlider.setValue(mediaPlayer.getCurrentTime().toSeconds()));
             }
-        }, 0, 10);
+        }, 0, 3);
         progressSlider.setOnMousePressed(event -> mediaPlayer.seek(javafx.util.Duration.
                 seconds(progressSlider.getValue())));
         progressSlider.setOnMouseDragged(event ->  mediaPlayer.seek(javafx.util.Duration.
                 seconds(progressSlider.getValue())));
     }
 
+    private void setVolumeSlider()
+    {
+        volumeSlider.setValue(mediaPlayer.getVolume()*100);
+        volumeSlider.valueProperty().addListener(observable ->
+                mediaPlayer.setVolume(volumeSlider.getValue()/100));
+
+    }
+
     private void setProperties() {
       mediaView.fitHeightProperty().bind(stackPane.heightProperty());
       mediaView.fitWidthProperty().bind(stackPane.widthProperty());
-      mediaView.setPreserveRatio(true);
+      mediaView.setPreserveRatio(true); //later check what it does
     }
 
+    /**
+     * if it was already selected undo.
+     * if not set video to be looping
+     * @param actionEvent
+     */
+    public void setLooping(ActionEvent actionEvent) {
+        if(!isLooping){
+           mediaPlayer.setOnEndOfMedia(() -> {
+               mediaPlayer.seek(Duration.ZERO);
+               mediaPlayer.play();
+           });
+            mediaPlayer.setAutoPlay(true);
+            isLooping=true;
+        }
+        else{
+            mediaPlayer.setOnEndOfMedia(()->{});
+            isLooping=false;
+        }
+    }
 }
