@@ -5,18 +5,24 @@ import gui.util.*;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.web.WebEngine;
+import javafx.scene.transform.Scale;
 import javafx.stage.FileChooser;
 
 import java.io.IOException;
@@ -180,8 +186,48 @@ public class CreateNewScreenController implements Initializable {
     private void setOnActions() {
         for (Node node : gridPane.getChildren()) {
             node.setOnMousePressed(event -> showContextMenu(event, node));
+            node.setOnScroll(event -> zoomAction(event, node));
+            node.layoutBoundsProperty().addListener(new ChangeListener<Bounds>() {
+                @Override public void changed(ObservableValue<? extends Bounds> observable, Bounds oldBounds, Bounds bounds) {
+                    node.setClip(new Rectangle(bounds.getMinX(), bounds.getMinY(), bounds.getWidth(), bounds.getHeight()));
+                }
+            });
         }
     }
+
+    private void zoomAction(ScrollEvent event, Node node) {
+        final double SCALE_DELTA = 1.1;
+        AnchorPane anchorPane = (AnchorPane) node;
+        Node child = anchorPane.getChildren().get(0);
+        event.consume();
+
+        if (event.getDeltaY() == 0) {
+            return;
+        }
+
+        double scaleFactor =
+                (event.getDeltaY() > 0)
+                        ? SCALE_DELTA
+                        : 1/SCALE_DELTA;
+
+
+        /*
+        if((child.getScaleX() * scaleFactor) >=1.0 ) {
+            child.setScaleX(child.getScaleX() * scaleFactor);
+            child.setScaleY(child.getScaleY() * scaleFactor);
+        }
+
+         */
+
+        Scale newScale = new Scale();
+        newScale.setPivotX(event.getX());
+        newScale.setPivotY(event.getY());
+        newScale.setX(child.getScaleX() * scaleFactor);
+        newScale.setY(child.getScaleY() * scaleFactor);
+        child.getTransforms().add(newScale);
+
+    }
+
 
     private void initGrid(int rows, int cols) {
         for (int i = 0; i < rows; i++) {
