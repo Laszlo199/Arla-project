@@ -6,6 +6,7 @@ import be.ScreenElement;
 import be.User;
 import bll.exception.BLLException;
 import dal.exception.DALexception;
+import javafx.collections.ObservableList;
 
 import java.nio.file.Path;
 import java.util.List;
@@ -29,4 +30,10 @@ public interface IScreen {
 
     List<Screen> getMainScreens() throws BLLException;
     Screen getScreenByID(int id) throws BLLException;
+
+    List<Screen> getModifiedScreens(List<Screen> newScreens, ObservableList<Screen> mainScreens);
+
+    List<Screen> getDeletedScreens(List<Screen> newScreens, ObservableList<Screen> mainScreens);
+
+    List<Screen> getNewScreens(List<Screen> newScreens, ObservableList<Screen> mainScreens);
 }
