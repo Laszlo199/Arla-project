@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
+import static com.google.common.io.Files.getFileExtension;
 import static java.nio.file.StandardWatchEventKinds.*;
 
 /**
@@ -25,7 +26,7 @@ public class FileWatcher {
 
 
     {
-        directory = Path.of("src/../Data/");
+        directory = Path.of("src/../Data/CSVData/");
         try {
             watchService = FileSystems.getDefault().newWatchService();
             watchKey = directory.register(watchService,
@@ -49,15 +50,22 @@ public class FileWatcher {
      * method is adding added or deleted files to the lists
      */
     private void startWatching() {
-        for(;;){
-            for (WatchEvent<?> event : watchKey.pollEvents()) {
-                Path filePath = directory.resolve((Path) event.context());
-                if(event == ENTRY_DELETE)
-                    deletedFiles.add(filePath.toString());
-               if(event ==ENTRY_MODIFY)
-                   changedFiles.add(filePath.toString());
+        Runnable runnable = () ->{
+            while (true){
+                for (WatchEvent<?> event : watchKey.pollEvents()) {
+                    Path filePath = directory.resolve((Path) event.context());
+                    if(event.kind() == ENTRY_DELETE)
+                        deletedFiles.add(filePath.toString());
+                    if(event.kind() == ENTRY_MODIFY) {
+                        changedFiles.add(filePath.toString());
+                        System.out.println(filePath.toString());
+                        System.out.println("entry modified");
+                    }
+                }
             }
-        }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
     }
 
     private HashSet<String> getChangedFiles() {
@@ -69,10 +77,11 @@ public class FileWatcher {
     }
 
     public ChangesFiles getChanges(){
-        ChangesFiles changesFiles = new ChangesFiles(getChangedFiles(),
-                getDeletedFiles());
-        getChangedFiles().clear();
-        getDeletedFiles().clear();
+        HashSet<String> changedF = getChangedFiles();
+        HashSet<String> deletedF = getDeletedFiles();
+        ChangesFiles changesFiles = new ChangesFiles(changedF,
+              deletedF);
+        //later write another method to clear that
         return changesFiles;
     }
 }
