@@ -1,17 +1,11 @@
 package dal.File.WatchFiles;
 
 import dal.exception.DALexception;
-import gui.util.Observator.IFileListener;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 
-import static com.google.common.io.Files.getFileExtension;
 import static java.nio.file.StandardWatchEventKinds.*;
 
 /**
