@@ -1,8 +1,7 @@
 package gui.Model;
 
+import gui.Controller.ClientViewController;
 import gui.Model.exception.ModelException;
-import gui.util.Observator.IObserver;
-import gui.util.Observator.Observable;
 import be.DefaultScreen;
 import be.Screen;
 import be.ScreenElement;
@@ -10,47 +9,89 @@ import be.User;
 import bll.Facade;
 import bll.IFacade;
 import bll.exception.BLLException;
+import gui.util.Observator.IObservable;
+import gui.util.Observator.Observer;
+import gui.util.Observator.ObserverMany;
+
+import gui.util.Observator.ObserverSingle;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
+import javafx.concurrent.Task;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
  */
-public class ScreenModel extends Observable<DefaultScreen> {
-    private IFacade logic = new Facade();
+public class ScreenModel implements IObservable {
+    private IFacade logic;
+
+
     private static ScreenModel screenModel;
     private ObservableList<DefaultScreen> defaultScreens;
     private ObservableList<Screen> mainScreens;
+    private ScheduledExecutorService executorService;
 
     public ObservableList<Screen> getMainScreens() {
         return mainScreens;
     }
 
+    {
+        try {
+            logic = Facade.getInstance();
+        } catch (BLLException e) {
+            e.printStackTrace();
+        }
+    }
 
     private ScreenModel() {
         defaultScreens = FXCollections.observableArrayList();
         mainScreens = FXCollections.observableArrayList();
         loadDefaultScreens();
         loadMainScreens();
+        StartObservatorThread();
     }
 
+    private void StartObservatorThread() {
+        executorService = Executors.newSingleThreadScheduledExecutor();
+        executorService.scheduleWithFixedDelay(runnable, 10, 10, TimeUnit.SECONDS);
+    }
+
+        Runnable runnable = () -> {
+            try {
+                List<Screen> newScreens = logic.getMainScreens();
+                List<Screen> modifiedScreens = logic.getModifiedScreens(newScreens, mainScreens);
+                List<Screen> deletedScreens = logic.getDeletedScreens(newScreens, mainScreens);
+                List<Screen> addedScreens = logic.getNewScreens(newScreens, mainScreens);
+                notifySingleObservers(modifiedScreens);
+                notifyManyObservers(addedScreens, deletedScreens, modifiedScreens);
+            } catch (BLLException e) {
+                e.printStackTrace();
+            }
+        };
+    
     public ObservableList<DefaultScreen> getDefaultScreens() {
         return defaultScreens;
     }
 
     private void loadMainScreens() {
         try {
-            mainScreens.addAll(logic.getMainScreens());
+            List<Screen> screens = logic.getMainScreens();
+            mainScreens.addAll(screens);
         } catch (BLLException e) {
             e.printStackTrace();
         }
     }
 
-    public static ScreenModel getInstance(){
-        if(screenModel==null)
+    public static ScreenModel getInstance() {
+        if (screenModel == null)
             screenModel = new ScreenModel();
         return screenModel;
     }
@@ -107,10 +148,10 @@ public class ScreenModel extends Observable<DefaultScreen> {
     }
 
     public List<DefaultScreen> getAllDefaultScreens() throws ModelException {
-       return defaultScreens;
+        return defaultScreens;
     }
 
-    public void loadDefaultScreens(){
+    public void loadDefaultScreens() {
         try {
             List<DefaultScreen> list = logic.getAllDefaultScreens();
             defaultScreens.addAll(list);
@@ -119,23 +160,10 @@ public class ScreenModel extends Observable<DefaultScreen> {
         }
     }
 
-    public void deleteDefaultScreen(DefaultScreen defaultScreen) {
-        notifyObservers(null, defaultScreen, null);
-        observersDefault.remove(defaultScreen);
-        logic.deleteDefaultScreen(defaultScreen);
-        //notifyObservers(null, defaultScreen, null);
-    }
-
-    @Override
-    public void notifyObservers(DefaultScreen added, DefaultScreen deleted, DefaultScreen modified) {
-        for(IObserver o: super.observersDefault){
-            o.update(added, deleted, modified);
-        }
-    }
-
     /**
      * method passes the data needed to save screen there are encapsulated daata for each section and
      * general info about screen
+     *
      * @param screen
      * @param screenElements
      */
@@ -150,13 +178,13 @@ public class ScreenModel extends Observable<DefaultScreen> {
     /**
      * this method is not called now cause we have two this same methods and
      * other one is called
+     *
      * @param currentScreen
      */
     public void deleteScreen(DefaultScreen currentScreen) {
         try {
             defaultScreens.remove(currentScreen);
             logic.deleteScreen(currentScreen);
-            notifyObservers(null, currentScreen, null);
         } catch (BLLException e) {
             e.printStackTrace();
         }
@@ -171,7 +199,22 @@ public class ScreenModel extends Observable<DefaultScreen> {
     }
 
     @Override
-    public void notifyObservers(Screen added, Screen deleted, Screen modified) {
-
+    public void notifyManyObservers(List<Screen> added, List<Screen> deleted, List<Screen> modified) {
+        for (ObserverMany observerMany : observersMany)
+            observerMany.update(added, deleted, modified);
     }
+
+    @Override
+    public void notifySingleObservers(List<Screen> modified) {
+        if(observersSingle.isEmpty())
+            System.out.println("they are empty");
+
+        for (Screen screen : modified)
+            for (ObserverSingle observerSingle : observersSingle)
+                if (screen.getId() == observerSingle.getScreen().getId()){
+                    observerSingle.update();
+                    System.out.println("we hit there");
+                }
+    }
+
 }
