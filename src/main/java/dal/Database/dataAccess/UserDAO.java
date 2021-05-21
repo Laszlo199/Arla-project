@@ -85,13 +85,13 @@ public class UserDAO {
     }
 
 
-    // WE HAVE TO Update.
+    // I updated: laszlo
     public List<ScreenElement> getScreenForUser(int userId) throws DALexception {
         List<ScreenElement> sections = new ArrayList<>();
         try (Connection connection = dbConnector.getConnection()) {
             String sql = "SELECT s.* " +
-                    "FROM Sections s, Users u " +
-                    "WHERE s.screenID = u.screenID AND u.ID = ?";
+                    "FROM Sections s, UsersAndScreens u " +
+                    "WHERE s.screenID = u.ScreenID AND u.UserID = ?";
             PreparedStatement pstat = connection.prepareStatement(sql);
             pstat.setInt(1, userId);
             ResultSet resultSet = pstat.executeQuery();
