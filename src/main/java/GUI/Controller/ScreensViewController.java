@@ -3,7 +3,7 @@ package gui.Controller;
 import gui.Model.ScreenModel;
 import gui.Model.exception.ModelException;
 import gui.util.AlertDisplayer;
-import gui.util.Observator.IObserver;
+import gui.util.Observator.ObserverMany;
 import be.DefaultScreen;
 import be.Screen;
 import javafx.fxml.FXML;
@@ -23,16 +23,15 @@ import java.util.ResourceBundle;
  * class should listen for changes and if there are new screens
  * it should show them too!
  */
-public class ScreensViewController implements Initializable, IObserver<DefaultScreen> {
+public class ScreensViewController extends ObserverMany implements Initializable {
     //private final static String HTML_DIRECTORY = "src/../Data/HTMLData/";
     private final static String PDF_DIRECTORY = "src/../Data/PDFData/";
     private final static String CVS_DIRECTORY = "src/../Data/CSVData/";
     @FXML private VBox vBox;
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ScreenModel.getInstance().attachObserverDefault(this);
+        ScreenModel.getInstance().attachManyObserver(this);
         loadAllScreens();
     }
 
@@ -93,12 +92,6 @@ public class ScreensViewController implements Initializable, IObserver<DefaultSc
         return null;
     }
 
-    @Override
-    public void update(DefaultScreen added, DefaultScreen deleted, DefaultScreen modified) {
-       if(added!=null) addElements(added);
-       if(deleted!=null) removeElements(deleted);
-       if(modified!=null) modifyElements(modified);
-    }
 
     private void modifyElements(DefaultScreen... modified) {
             for (DefaultScreen ds : modified) {
@@ -128,4 +121,8 @@ public class ScreensViewController implements Initializable, IObserver<DefaultSc
             }
     }
 
+    @Override
+    public void update(List<Screen> addedScreens, List<Screen> deletedScreens, List<Screen> modifiedScreens) {
+        System.out.println("something happened");
+    }
 }

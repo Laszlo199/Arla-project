@@ -19,7 +19,7 @@ public class DBConnector {
         dataSource = new SQLServerDataSource();
         dataSource.setServerName("10.176.111.31");
         dataSource.setUser("CSe20B_8");
-        dataSource.setPassword("potatoe2021");
+        dataSource.setPassword("soma2000");
         dataSource.setDatabaseName("ArlaProject");
     }
 

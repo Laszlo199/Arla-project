@@ -3,8 +3,10 @@ package dal;
 import be.Screen;
 import be.ScreenElement;
 import be.User;
+import dal.File.WatchFiles.ChangesFiles;
 import dal.exception.DALexception;
 
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -15,4 +17,6 @@ public interface IScreen {
 
     List<Screen> getMainScreens() throws DALexception;
     Screen getScreenByID(int id) throws DALexception;
+
+    ChangesFiles getModifiedFilePaths();
 }

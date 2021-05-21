@@ -14,7 +14,11 @@ public class LoginModel {
 
 
     public LoginModel() {
-        this.iFacade = Facade.getInstance();
+        try {
+            this.iFacade = Facade.getInstance();
+        } catch (BLLException e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean validate(String password){

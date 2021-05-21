@@ -9,7 +9,16 @@ import java.util.List;
 
 public class ClientModel {
 
-    private IFacade logic = new Facade();
+    private IFacade logic;
+
+    {
+        try {
+            logic = Facade.getInstance();
+        } catch (BLLException e) {
+            e.printStackTrace();
+        }
+    }
+
     private static ClientModel instance;
 
     private ClientModel() {

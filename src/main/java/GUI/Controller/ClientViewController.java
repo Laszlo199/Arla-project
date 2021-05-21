@@ -1,11 +1,15 @@
 package gui.Controller;
 
+import be.Screen;
 import gui.Model.ClientModel;
+import gui.Model.ScreenModel;
 import gui.util.CSVLoader;
+import gui.util.Observator.ObserverSingle;
 import gui.util.PDFLoader;
 import gui.util.WebsiteLoader;
 import be.ScreenElement;
 import be.User;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,11 +17,13 @@ import javafx.scene.layout.*;
 import javafx.scene.web.WebEngine;
 import javafx.stage.Stage;
 
+import java.net.URL;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class ClientViewController {
+public class ClientViewController extends ObserverSingle implements Initializable{
 
     public AnchorPane pane;
     private List<ScreenElement> sections;
@@ -124,4 +130,18 @@ public class ClientViewController {
         return anchorPane;
     }
 
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        ScreenModel.observersSingle.add(this);
+    }
+
+    public void setScreenObs(Screen screen){
+        setScreen(screen);
+    }
+
+    @Override
+    public void update() {
+
+    }
 }

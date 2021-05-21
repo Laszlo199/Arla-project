@@ -15,7 +15,11 @@ public class UserModel {
 
     public UserModel() {
        this.obsUsers = FXCollections.observableArrayList();
-       this.iFacade = Facade.getInstance();
+        try {
+            this.iFacade = Facade.getInstance();
+        } catch (BLLException e) {
+            e.printStackTrace();
+        }
     }
 
     public ObservableList<User> getAllUser(){

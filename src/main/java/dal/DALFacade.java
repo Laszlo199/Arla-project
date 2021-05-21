@@ -10,9 +10,12 @@ import dal.Database.dataAccess.ScreenDAO;
 import dal.Database.dataAccess.UserDAO;
 import dal.File.PDFOperations;
 import dal.File.ScreenOperations;
+import dal.File.WatchFiles.ChangesFiles;
+import dal.File.WatchFiles.FileWatcher;
 import dal.exception.DALexception;
 
 import java.nio.file.Path;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -27,9 +30,20 @@ public class DALFacade implements IDALFacade{
     private ScreenOperations screenOperations = new ScreenOperations();
     private PDFOperations pdfOperations = new PDFOperations();
     private ScreenDAO screenDAO = new ScreenDAO();
+    private FileWatcher fileWatcher;
 
+    {
+        try {
+            fileWatcher = new FileWatcher();
+        } catch (DALexception daLexception) {
+            throw new DALexception("Couldnt create an instance of filewatcher", daLexception);
+        }
+    }
 
-    public static DALFacade getInstance(){
+    private DALFacade() throws DALexception {
+    }
+
+    public static DALFacade getInstance() throws DALexception {
         if(dalFacade==null)
             dalFacade = new DALFacade();
         return dalFacade;
@@ -146,6 +160,11 @@ public class DALFacade implements IDALFacade{
     @Override
     public Screen getScreenByID(int id) throws DALexception {
         return screenDAO.getScreenByID(id);
+    }
+
+    @Override
+    public ChangesFiles getModifiedFilePaths() {
+        return fileWatcher.getChanges();
     }
 
     @Override

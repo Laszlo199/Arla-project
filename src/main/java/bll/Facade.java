@@ -5,29 +5,45 @@ import be.Screen;
 import be.ScreenElement;
 import be.User;
 import bll.exception.BLLException;
+import bll.util.DetectOtherScreens;
 import dal.DALFacade;
+import dal.File.WatchFiles.ChangesFiles;
 import dal.IDALFacade;
 import dal.exception.DALexception;
+import javafx.collections.ObservableList;
 
 import java.nio.file.Path;
+import java.util.HashSet;
 import java.util.List;
 
 /**
  *
  */
 public class Facade implements IFacade{
-    private IDALFacade facade = new DALFacade();
-    private DiagramOperations diagramOperations = new DiagramOperations();
+    private IDALFacade facade;
+    private DiagramOperations diagramOperations;
     private static Facade facadeBLL;
+    private DetectOtherScreens detectOtherScreens;
 
 
 
-    public static IFacade getInstance(){
+    public static IFacade getInstance() throws BLLException {
         if(facadeBLL==null)
             facadeBLL = new Facade();
         return facadeBLL;
     }
-    
+
+
+
+    private Facade() throws BLLException {
+        try {
+            facade = DALFacade.getInstance();
+        } catch (DALexception daLexception) {
+            throw new BLLException("Couldnt get Dal facade instance", daLexception);
+        }
+        diagramOperations =new DiagramOperations();
+        detectOtherScreens = new DetectOtherScreens();
+    }
 
     @Override
     public void saveFile(Path originPath, Path destinationPath) throws BLLException {
@@ -111,6 +127,22 @@ public class Facade implements IFacade{
         } catch (DALexception daLexception) {
             throw new BLLException("Couldn't get all screens by ID", daLexception);
         }
+    }
+
+    @Override
+    public List<Screen> getModifiedScreens(List<Screen> newScreens, ObservableList<Screen> mainScreens) {
+        ChangesFiles modifiedFilepaths = facade.getModifiedFilePaths();
+        return detectOtherScreens.getModifiedScreens(newScreens, mainScreens, modifiedFilepaths.getChangedFiles());
+    }
+
+    @Override
+    public List<Screen> getDeletedScreens(List<Screen> newScreens, ObservableList<Screen> mainScreens) {
+        return detectOtherScreens.getDeletedScreens(newScreens, mainScreens);
+    }
+
+    @Override
+    public List<Screen> getNewScreens(List<Screen> newScreens, ObservableList<Screen> mainScreens) {
+        return detectOtherScreens.getNewScreens(newScreens, mainScreens);
     }
 
     @Override
