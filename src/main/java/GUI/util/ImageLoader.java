@@ -15,7 +15,7 @@ public class ImageLoader {
     private static Path destinationPath;
     private final static String DESTINATION_PATH_Image = "src/../Data/ImageData/";
 
-    public static void loadImage(AnchorPane anchorPane) {
+    public static Path loadImage(AnchorPane anchorPane) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select image files");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Images",
@@ -37,6 +37,7 @@ public class ImageLoader {
             destinationPath = Path.of(DESTINATION_PATH_Image + files.get(0).getName());
             FileSaver.saveFile(files.get(0), destinationPath);
         }
+        return destinationPath;
     }
 
     public static Path getDestinationPath() {

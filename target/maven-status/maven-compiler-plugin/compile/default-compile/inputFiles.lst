@@ -65,7 +65,6 @@ D:\onedrive2\github\Arla-project\src\main\java\gui\util\CSVLoader.java
 D:\onedrive2\github\Arla-project\src\main\java\bll\DiagramOperations.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\Controller\ScreenPreview.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\Controller\ClientViewController.java
-D:\onedrive2\github\Arla-project\src\main\java\gui\util\Observator\IFileListener.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\Main.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\util\AlertDisplayer.java
 D:\onedrive2\github\Arla-project\src\main\java\dal\File\WatchFiles\FileWatcher.java
@@ -77,4 +76,3 @@ D:\onedrive2\github\Arla-project\src\main\java\gui\util\Command\LoadTemplates.ja
 D:\onedrive2\github\Arla-project\src\main\java\be\Admin.java
 D:\onedrive2\github\Arla-project\src\main\java\be\Screen.java
 D:\onedrive2\github\Arla-project\src\main\java\be\ScreenFile.java
-D:\onedrive2\github\Arla-project\src\main\java\dal\File\WatchFiles\FileEvent.java

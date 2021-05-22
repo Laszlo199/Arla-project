@@ -89,6 +89,9 @@ public class ScreenPreview {
         stage.show();
     }
 
+    public Screen getScreen() {
+        return screen;
+    }
 
     public Label getScreenNameLbl() {
         return ScreenName;
@@ -110,7 +113,7 @@ public class ScreenPreview {
         initMainFields();
     }
 
-    private void initMainFields() {
+    public void initMainFields() {
         ScreenName.setText(screen.getName());
         Label[] array =  {attachment1, attachment2, attachment3, attachment4};
         for (int i = 0; i < 3; i++) {

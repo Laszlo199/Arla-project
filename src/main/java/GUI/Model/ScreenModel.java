@@ -76,7 +76,7 @@ public class ScreenModel implements IObservable {
                 e.printStackTrace();
             }
         };
-    
+
     public ObservableList<DefaultScreen> getDefaultScreens() {
         return defaultScreens;
     }

@@ -120,7 +120,7 @@ public class CreateDefaultTemplateController implements Initializable {
 
 
     public void loadPDF(ActionEvent actionEvent) {
-       attachment3.setText(PDFLoader.loadPDF(fileChooser));
+       //attachment3.setText(PDFLoader.loadPDF(fileChooser));
        PDFLoader.loadPDFViewer(spacePDF);
        destinationPathPDF = PDFLoader.getDestinationPathPDF();
     }
@@ -135,7 +135,7 @@ public class CreateDefaultTemplateController implements Initializable {
      */
 
     public void loadCSV(ActionEvent actionEvent) {
-        attachment1.setText( CSVLoader.loadCSV(fileChooser, csvChart));
+       // attachment1.setText( CSVLoader.loadCSV(fileChooser, csvChart));
         destinationPathCSV = CSVLoader.getDestinationPathCSV();
     }
 

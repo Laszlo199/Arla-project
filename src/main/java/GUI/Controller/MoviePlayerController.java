@@ -61,13 +61,14 @@ public class MoviePlayerController implements Initializable {
     private Boolean isLooping=false;
     private Path path;
 
-    public void passFileChooser(FileChooser fileChooser) {
+    public Path passFileChooser(FileChooser fileChooser) {
         List<File> files = fileChooser.showOpenMultipleDialog(new Stage());
         Path destinationPathVideo = Path.of(DESTINATION_PATH_VIDEO +
                 files.get(0).getName());
         FileSaver.saveFile(files.get(0), destinationPathVideo);
         path = destinationPathVideo;
         initMovie();
+        return destinationPathVideo;
     }
 
 

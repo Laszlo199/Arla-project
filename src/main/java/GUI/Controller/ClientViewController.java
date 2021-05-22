@@ -31,8 +31,10 @@ public class ClientViewController extends ObserverSingle implements Initializabl
     private User user;
     private GridPane gridPane = new GridPane();
     private WebEngine webEngine;
+    private Stage stageToSet;
 
     public void setUser(User user, Stage stage) {
+        this.stageToSet =stage;
         this.user = user;
         model = ClientModel.getInstance();
         //sections = model.getSections(user.getID());
@@ -140,8 +142,12 @@ public class ClientViewController extends ObserverSingle implements Initializabl
         setScreen(screen);
     }
 
+    /**
+     * if update reload all screen
+     */
     @Override
     public void update() {
-
+        pane.getChildren().clear();
+        loadScreen(stageToSet);
     }
 }

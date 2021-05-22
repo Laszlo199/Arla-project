@@ -47,7 +47,7 @@ public class CSVLoader {
      * we can use CreateHistogramChart
      *
      */
-    public static String loadCSV(FileChooser fileChooser, Pane pane) {
+    public static Path loadCSV(FileChooser fileChooser, Pane pane) {
 
         List<File> files = fileChooser.showOpenMultipleDialog(new Stage());
         if (ValidateExtension.validateCSV(files.get(0))) {
@@ -56,11 +56,11 @@ public class CSVLoader {
             FileSaver.saveFile(files.get(0), destinationPathCSV);
             getInfo(pane);
             //drawCanvas(destinationPathCSV, csvChart);
-            return files.get(0).getName();
+           // return files.get(0).getName();
         } else {
             //repeat operation
         }
-        return new String("");
+        return destinationPathCSV;
     }
 
     private static void getInfo(Pane pane) {

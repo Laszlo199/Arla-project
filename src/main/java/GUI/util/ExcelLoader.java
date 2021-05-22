@@ -29,7 +29,7 @@ public class ExcelLoader {
     private final static String DESTINATION_PATH_XLSX = "src/../Data/XLSXData/";
     private static Path destinationPathXLSX;
 
-    public static void loadXLSX(FileChooser fileChooser, AnchorPane anchorPane) {
+    public static Path loadXLSX(FileChooser fileChooser, AnchorPane anchorPane) {
 
         List<File> files = fileChooser.showOpenMultipleDialog(new Stage());
         if (ValidateExtension.validateXLSX(files.get(0))) {
@@ -40,7 +40,7 @@ public class ExcelLoader {
             showExcel(anchorPane);
 
         }
-
+        return destinationPathXLSX;
     }
 
     private static void showExcel(AnchorPane anchorPane) {

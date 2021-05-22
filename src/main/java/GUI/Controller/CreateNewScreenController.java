@@ -1,5 +1,8 @@
 package gui.Controller;
 
+import be.Screen;
+import be.ScreenElement;
+import gui.Model.ScreenModel;
 import gui.Model.UserModel;
 import gui.util.*;
 import com.jfoenix.controls.JFXButton;
@@ -8,14 +11,12 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.*;
@@ -68,6 +69,7 @@ public class CreateNewScreenController implements Initializable {
     Map<Node, String> nodeMap;
     private UserModel userModel;
     WebEngine webEngine;
+    private List<Node> n = new ArrayList<>(); // delete that later
 
     public CreateNewScreenController() {
         gridPane = new GridPane();
@@ -185,10 +187,12 @@ public class CreateNewScreenController implements Initializable {
 
     private void setOnActions() {
         for (Node node : gridPane.getChildren()) {
+            node.setUserData(new Information());
             node.setOnMousePressed(event -> showContextMenu(event, node));
             node.setOnScroll(event -> zoomAction(event, node));
             node.layoutBoundsProperty().addListener(new ChangeListener<Bounds>() {
-                @Override public void changed(ObservableValue<? extends Bounds> observable, Bounds oldBounds, Bounds bounds) {
+                @Override
+                public void changed(ObservableValue<? extends Bounds> observable, Bounds oldBounds, Bounds bounds) {
                     node.setClip(new Rectangle(bounds.getMinX(), bounds.getMinY(), bounds.getWidth(), bounds.getHeight()));
                 }
             });
@@ -208,7 +212,7 @@ public class CreateNewScreenController implements Initializable {
         double scaleFactor =
                 (event.getDeltaY() > 0)
                         ? SCALE_DELTA
-                        : 1/SCALE_DELTA;
+                        : 1 / SCALE_DELTA;
 
 
         /*
@@ -273,14 +277,14 @@ public class CreateNewScreenController implements Initializable {
 
     private void dragDropped(DragEvent event) {
         Dragboard db = event.getDragboard();
-        boolean success = false;
+        //boolean success = false;
         Node node = event.getPickResult().getIntersectedNode();
         if (db.hasString()) {
             switch (db.getString()) {
                 case "HTTP" -> loadHTTP(node);
-                case "PNG" ->  loadImage(node, event);
+                case "PNG" -> loadImage(node, event);
                 case "JPG" -> loadImage(node, event);
-                case "PDF" ->  loadPDF(node);
+                case "PDF" -> loadPDF(node);
                 case "CSV" -> loadCSV(node);
                 case "XLSX" -> loadExcel(node);
                 case "VIDEO" -> loadVideo(node);
@@ -291,7 +295,6 @@ public class CreateNewScreenController implements Initializable {
     }
 
 
-
     private Node getNodeByCoordinate(Integer row, Integer column) {
         ObservableList<Node> childrens = gridPane.getChildren();
         for (Node node : childrens) {
@@ -300,43 +303,32 @@ public class CreateNewScreenController implements Initializable {
             }
         }
         return null;
-	}
+    }
 
     /**
      * at first we need to select video then copy it
      * and run inside a program
+     *
      * @param node
      */
     private void loadVideo(Node node) {
         AnchorPane anchorPane = (AnchorPane) node;
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Select XLSX file");
+        fileChooser.setTitle("Select Video file");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Video files",
                 "*.mp4", "*.WEBM"));
         FXMLLoader loader = new FXMLLoader(getClass().
-                getResource("/"+ "MoviePlayer" +".fxml"));
+                getResource("/" + "MoviePlayer" + ".fxml"));
         try {
             AnchorPane view = (AnchorPane) loader.load();
             MoviePlayerController controller = loader.getController();
-            controller.passFileChooser(fileChooser);
+            getInformation(node).setFilepath(controller.passFileChooser(fileChooser).toString());
+            getInformation(node).setFilled(true);
+            //nodeMap.put(node, controller.passFileChooser(fileChooser).toString()); //check if video will be working
             view.setPrefSize(Control.USE_PREF_SIZE, Control.USE_PREF_SIZE);
             anchorPane.getChildren().add(view);
             view.prefHeightProperty().bind(anchorPane.heightProperty());
             view.prefWidthProperty().bind(anchorPane.widthProperty());
-            view.maxWidthProperty().bind(anchorPane.widthProperty());
-            view.maxHeightProperty().bind(anchorPane.heightProperty());
-
-            /*
-            anchorPane.setPrefSize(Control.USE_PREF_SIZE, Control.USE_PREF_SIZE);
-            ChangeListener<Number> updater = (o, ov, now) -> {
-                view.setPrefWidth(anchorPane.getWidth());
-                view.setPrefHeight(anchorPane.getHeight());
-            };
-            anchorPane.prefWidthProperty().addListener(updater);
-            anchorPane.prefHeightProperty().addListener(updater);
-
-             */
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -348,7 +340,10 @@ public class CreateNewScreenController implements Initializable {
         fileChooser.setTitle("Select XLSX file");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel files (.xlsx)",
                 "*.xlsx"));
-        ExcelLoader.loadXLSX(fileChooser, anchorPane);
+        String destPath = ExcelLoader.loadXLSX(fileChooser, anchorPane).toString();
+        //nodeMap.put(node, destPath);
+        getInformation(node).setFilepath(destPath);
+        getInformation(node).setFilled(true);
     }
 
     private void loadCSV(Node node) {
@@ -357,10 +352,12 @@ public class CreateNewScreenController implements Initializable {
         fileChooser.setTitle("Select CSV file");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV files (.csv)",
                 "*.csv"));
-        CSVLoader.loadCSV(fileChooser, anchorPane);
+        String destPath = CSVLoader.loadCSV(fileChooser, anchorPane).toString();
+       //nodeMap.put(node, destPath);
+        getInformation(node).setFilepath(destPath);
+        getInformation(node).setFilled(true);
+    }
 
-	}
-    
 
     private void loadPDF(Node node) {
         AnchorPane anchorPane = (AnchorPane) node;
@@ -368,17 +365,22 @@ public class CreateNewScreenController implements Initializable {
         fileChooser.setTitle("Select PDF file");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF files (.pdf)",
                 "*.pdf"));
-        PDFLoader.loadPDF(fileChooser);
+        String destPath = PDFLoader.loadPDF(fileChooser).toString();
         PDFLoader.loadPDFViewer(anchorPane);
-        nodeMap.put(node, PDFLoader.getDestinationPathPDF().toString());
+        //nodeMap.put(node, destPath);
+        getInformation(node).setFilepath(destPath);
+        getInformation(node).setFilled(true);
     }
 
     private void loadImage(Node node, DragEvent dragEvent) {
         dragEvent.setDropCompleted(true);
         dragEvent.consume();
         AnchorPane anchorPane = (AnchorPane) node;
-        ImageLoader.loadImage(anchorPane);
-        nodeMap.put(node, ImageLoader.getDestinationPath().toString());
+        String destPath = ImageLoader.loadImage(anchorPane).toString();
+       // nodeMap.put(node, destPath);
+      // n.add(node);
+        getInformation(node).setFilepath(destPath);
+        getInformation(node).setFilled(true);
     }
 
     /**
@@ -434,28 +436,27 @@ public class CreateNewScreenController implements Initializable {
     private void setLeftMenuItemOnAction(Node node, final int finalI, MenuItem menuItem) {
         menuItem.setOnAction(actionEvent -> {
             int goalCol = GridPane.getColumnIndex(node) - finalI;
-           // int span = 0;
-           // if (GridPane.getColumnSpan(node) == null) span = 1 + finalI;
-          //  else span = GridPane.getColumnSpan(node) + finalI;
-           // GridPane.setColumnIndex(node, goalCol);
-          //  GridPane.setColumnSpan(node, span);
             Node useThisNode = getNodeByCoordinate(GridPane.getRowIndex(node), goalCol);
             gridPane.getChildren().remove(node);
-            for(int m  = GridPane.getRowIndex(node); m < GridPane.getRowIndex(node) + getRowSpan(node); m++)
-                for (int n = GridPane.getColumnIndex(node); n<GridPane.getColumnIndex(node) + getColSpan(node); n++ ){
+            for (int m = GridPane.getRowIndex(node); m < GridPane.getRowIndex(node) + getRowSpan(node); m++)
+                for (int n = GridPane.getColumnIndex(node); n < GridPane.getColumnIndex(node) + getColSpan(node); n++) {
                     Node node1 = new AnchorPane();
                     node1.setOnMousePressed(event1 -> showContextMenu(event1, node1));
-                    node1.setUserData(useThisNode);
+                    //node1.setUserData(useThisNode);
+                    getInformation(node1).setNode(useThisNode);
                     gridPane.add(node1, n, m);
                 }
             GridPane.setRowSpan(useThisNode, getRowSpan(node));
-            GridPane.setColumnSpan(useThisNode, getColSpan(node)+ finalI);
-
-
+            GridPane.setColumnSpan(useThisNode, getColSpan(node) + finalI);
             numerateLeft(useThisNode);
             useThisNode.setStyle("-fx-background-color: #e01c81");
         });
     }
+
+    private Information getInformation(Node node){
+        return (Information) node.getUserData();
+    }
+
 
 
     private void checkRight(Node node, MouseEvent event) {
@@ -489,10 +490,16 @@ public class CreateNewScreenController implements Initializable {
 
 
     private Node getNodeToUse(Node node) {
-       if (node.getUserData() != null )
-           return (Node) node.getUserData();
+        if(getInformation(node).getNode()==null)
+            return node;
+        else
+            return getInformation(node).getNode();
+        /*if (node.getUserData() != null)
+            return (Node) node.getUserData();
         else
             return node;
+         */
+
     }
 
     private void checkUp(final Node node, MouseEvent event) {
@@ -507,20 +514,16 @@ public class CreateNewScreenController implements Initializable {
                     int goalRow = GridPane.getRowIndex(usedNode) - finalI;
                     Node useThisNow = getNodeByCoordinate(goalRow, GridPane.getColumnIndex(usedNode));
                     gridPane.getChildren().remove(usedNode);
-                    for(int m  = GridPane.getRowIndex(usedNode); m < GridPane.getRowIndex(usedNode) + getRowSpan(usedNode); m++)
-                        for (int n = GridPane.getColumnIndex(usedNode); n<GridPane.getColumnIndex(usedNode) + getColSpan(usedNode); n++ ){
+                    for (int m = GridPane.getRowIndex(usedNode); m < GridPane.getRowIndex(usedNode) + getRowSpan(usedNode); m++)
+                        for (int n = GridPane.getColumnIndex(usedNode); n < GridPane.getColumnIndex(usedNode) + getColSpan(usedNode); n++) {
                             Node node1 = new AnchorPane();
                             node1.setOnMousePressed(event1 -> showContextMenu(event1, node1));
-                            node1.setUserData(useThisNow);
+                           // node1.setUserData(useThisNow);
+                            getInformation(node1).setNode(useThisNow);
                             gridPane.add(node1, n, m);
                         }
-
                     GridPane.setColumnSpan(useThisNow, getColSpan(usedNode));
                     GridPane.setRowSpan(useThisNow, getRowSpan(usedNode) + finalI); // it shoudlt work but who knows haah
-
-                    //souty
-                    System.out.println("Checkup mat row:" + GridPane.getRowIndex(useThisNow));
-                    System.out.println("checkup mat col: " + GridPane.getColumnIndex(useThisNow));
                     useThisNow.setStyle("-fx-background-color: orange");
                     setUpNumeration(useThisNow);
                 });
@@ -532,7 +535,7 @@ public class CreateNewScreenController implements Initializable {
             contextMenu.show(usedNode, event.getScreenX(), event.getScreenY());
         }
     }
-    
+
     private void checkDown(Node node, MouseEvent event) {
         Node parentNode = getNodeToUse(node);
         if (GridPane.getRowIndex(parentNode) != gridPane.getRowCount() - 1) {
@@ -541,9 +544,6 @@ public class CreateNewScreenController implements Initializable {
             for (int i = 1; i <= noToConnect; i++) {
                 int columnSpan = getColSpan(parentNode);
                 boolean check = checkDownIsOccupied(parentNode, i, columnSpan);
-                if (check == false)
-                    System.out.println("bottom is occupied");
-                else System.out.println("bottom isnt occupied");
                 MenuItem menuItem = new MenuItem("connect with: " + i + " bottom");
                 setDownOnAction(parentNode, i, columnSpan, menuItem);
                 if (check)
@@ -624,7 +624,7 @@ public class CreateNewScreenController implements Initializable {
      */
     private boolean getLeftOccupiedCheck(Node node, int i) {
         for (int k = GridPane.getColumnIndex(node) - i; k <= GridPane.getColumnIndex(node); k++) {
-            for (int j = GridPane.getRowIndex(node); j < GridPane.getRowIndex(node) + getRowSpan(node); j++){
+            for (int j = GridPane.getRowIndex(node); j < GridPane.getRowIndex(node) + getRowSpan(node); j++) {
                 if (array[j][k] != 0 && array[j][k] != array[GridPane.getRowIndex(node)][GridPane.getColumnIndex(node)])
                     return false;
             }
@@ -637,11 +637,8 @@ public class CreateNewScreenController implements Initializable {
         for (int j = GridPane.getRowIndex(node); j < GridPane.getRowIndex(node) +
                 span + finalI; j++) {
             for (int k = columnIndex; k <= columnIndex + finalColumnSpan - 1; k++) {
-                System.out.println("marked row: " + j + " and column: " + k +
-                        " with value " + incrementedValue);
                 array[j][k] = incrementedValue;
-                //if (j != GridPane.getRowIndex(node) && k != GridPane.getColumnIndex(node))
-                    setParentNode(j, k, node);
+                setParentNode(j, k, node);
             }
         }
         incrementedValue++;
@@ -651,7 +648,6 @@ public class CreateNewScreenController implements Initializable {
         for (int j = GridPane.getRowIndex(node); j < GridPane.getRowIndex(node) + getRowSpan(node); j++) {
             for (int l = GridPane.getColumnIndex(node); l < GridPane.getColumnIndex(node) + getColSpan(node); l++) {
                 array[j][l] = incrementedValue;
-                //if (j != GridPane.getRowIndex(node) && l != GridPane.getColumnIndex(node))
                 setParentNode(j, l, node);
             }
         }
@@ -670,9 +666,7 @@ public class CreateNewScreenController implements Initializable {
             for (int k = GridPane.getRowIndex(node); k < GridPane.getRowIndex(node) + span; k++) {
                 System.out.println("we marked col: " + j + "with " + incrementedValue);
                 array[k][j] = incrementedValue;
-                //here we forgot about something
-                //if (k != GridPane.getRowIndex(node) && j != GridPane.getColumnIndex(node))
-                    setParentNode(k, j, node);
+                setParentNode(k, j, node);
             }
         }
         incrementedValue++;
@@ -685,16 +679,17 @@ public class CreateNewScreenController implements Initializable {
      */
     private void numerateLeft(Node node) {
         for (int j = GridPane.getColumnIndex(node); j < GridPane.getColumnIndex(node) + GridPane.getColumnSpan(node); j++) {
-            for (int k = GridPane.getRowIndex(node); k < GridPane.getRowIndex(node) + getRowSpan(node); k++){
-             array[GridPane.getRowIndex(node)][j] = incrementedValue;
-             setParentNode(k, j, node);
+            for (int k = GridPane.getRowIndex(node); k < GridPane.getRowIndex(node) + getRowSpan(node); k++) {
+                array[GridPane.getRowIndex(node)][j] = incrementedValue;
+                setParentNode(k, j, node);
             }
         }
         incrementedValue++;
     }
 
     private void setParentNode(int row, int column, Node parentNode) {
-        getNodeByCoordinate(row, column).setUserData(parentNode);
+       // getNodeByCoordinate(row, column).setUserData(parentNode);
+        getInformation(getNodeByCoordinate(row, column)).setNode(parentNode);
     }
 
     private int getRowSpan(Node node) {
@@ -713,17 +708,109 @@ public class CreateNewScreenController implements Initializable {
     }
 
 
+    /**
+     * save to the database
+     *  now we forgot about refresh rate <-
+     *  cause we didnt set it anywhere
+     * @param actionEvent
+     */
     public void saveButton(ActionEvent actionEvent) {
+      //  if (!checkIfAnyEmpty()) {
+            System.out.println("test passed");
+            List<Node> nodes = gridPane.getChildren();
+            nodes.remove(0);
+            String name = nameField.getText();
+            Screen screen = new Screen(name);
+            List<ScreenElement> screenElements = new ArrayList<>();
+            //List<User> usersList = userTableView.getSelectionModel().getSelectedItems();
+            System.out.println("number of nodes: "+ nodes.size());
+            for (Node node : nodes)
+                if (node == null)
+                    System.out.println("node is null");
+            boolean fine = true;
+            for (Node node : nodes) {
+                if (node != null) {
+                    Integer colIndex = GridPane.getColumnIndex(node);
+                    Integer rowIndex = GridPane.getRowIndex(node);
+                    Integer columnSpan = getColSpan(node);
+                    Integer rowSpan = getRowSpan(node);
+                    if (colIndex == null) colIndex = 0;
+                    if (rowIndex == null) rowIndex = 0;
+                    if(getInformation(node).getFilepath()==null){
+                        System.out.println("not filled");
+                        fine=false;
+                        break;
+                    }
+                    else
+                        System.out.println("filled");
+                    screenElements.add(new ScreenElement(colIndex, rowIndex,
+                            columnSpan, rowSpan, getInformation(node).filepath));
+                }
+            }
 
+            if(fine){
+                ScreenModel.getInstance().save(screen, screenElements, new ArrayList<>());
+            }
     }
+
+    private int getRowIndex(Node node){
+        if(GridPane.getRowIndex(node)==null)
+            return 0;
+        else
+            return GridPane.getRowIndex(node);
+    }
+
+    private int getColIndex(Node node){
+        if(GridPane.getColumnIndex(node)==null)
+            return 0;
+        else
+            return GridPane.getColumnIndex(node);
+    }
+
 
     /**
      * check if any of the nodes is not filled in
-     * We need to implement it after meeting with jeppe
-     *
+     * we will check it in the helper two dimensional array
      * @return
      */
     private boolean checkIfAnyEmpty() {
-        return false;
+        List<Node> nodes = gridPane.getChildren();
+       for(Node n: nodes) {
+           if (nodeMap.get(n) == null && n!= null) {
+               System.out.println("what the fuck");
+               return true;
+           }
+       }
+           return false;
+    }
+
+    public class Information {
+        private Node node;
+        private boolean filled;
+        private String filepath;
+
+        public String getFilepath() {
+            return filepath;
+        }
+
+        public void setFilepath(String filepath) {
+            this.filepath = filepath;
+        }
+
+        public Node getNode() {
+            return node;
+        }
+
+        public void setNode(Node node) {
+            this.node = node;
+        }
+
+        public boolean isFilled() {
+            return filled;
+        }
+
+        public void setFilled(boolean filled) {
+            this.filled = filled;
+        }
     }
 }

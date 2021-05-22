@@ -15,8 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static java.sql.Connection.TRANSACTION_NONE;
-import static java.sql.Connection.TRANSACTION_REPEATABLE_READ;
+import static java.sql.Connection.*;
 
 /**
  *
@@ -168,32 +167,28 @@ public class ScreenDAO {
      * @param screenElements
      */
 
-    // WE HAVE TO UPDATE!!!!
     public void save(Screen screen, List<ScreenElement> screenElements, List<User> usersList) throws DALexception {
         int screenID = -1;
         String query1 = "INSERT INTO Screens([name], refreshTime) Values(?, ?);";
-        String query2 = "INSERT INTO Sections(screenID, colIndex, rowIndex" +
+        String query2 = "INSERT INTO Sections(screenID, colIndex, rowIndex " +
                 " , columnSpan, rowSpan, filepath) Values(?, ?, ?, ?, ?, ?);";
         String query3 = "UPDATE Users SET screenID = ? WHERE ID = ?";
 
         try(Connection connection = dbConnector.getConnection();
             PreparedStatement preparedStat1 = connection.prepareStatement(query1,
                     Statement.RETURN_GENERATED_KEYS);
-            PreparedStatement preparedStatement = connection.prepareStatement(query2,
-                    Statement.RETURN_GENERATED_KEYS);
-            PreparedStatement preparedStatement2 = connection.prepareStatement(query3,
-                    Statement.RETURN_GENERATED_KEYS)
+            PreparedStatement preparedStatement = connection.prepareStatement(query2)
+           // PreparedStatement preparedStatement2 = connection.prepareStatement(query3)
         )
         {
             connection.setAutoCommit(false);
-            connection.setTransactionIsolation(TRANSACTION_REPEATABLE_READ);
+            connection.setTransactionIsolation(TRANSACTION_SERIALIZABLE);
             preparedStat1.setString(1, screen.getName());
-            //change that
             preparedStat1.setInt(2, 5);
             preparedStat1.executeUpdate();
             //connection.commit();
 
-            //set proper id for that movie
+            //set proper id for that screen
             try(ResultSet generatedKey = preparedStat1.getGeneratedKeys()) {
                 if(generatedKey.next())
                     screenID = generatedKey.getInt(1);
@@ -210,12 +205,14 @@ public class ScreenDAO {
                 preparedStatement.setString(6, element.getFilepath());
                 preparedStatement.executeUpdate();
             }
-
+        /*
             for (User user : usersList) {
                 preparedStatement2.setInt(1, screenID);
                 preparedStatement2.setInt(2, user.getID());
                 preparedStatement2.executeUpdate();
             }
+
+            */
             connection.commit();
             connection.setAutoCommit(true);
             connection.setTransactionIsolation(TRANSACTION_NONE);
