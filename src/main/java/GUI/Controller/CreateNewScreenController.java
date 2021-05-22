@@ -25,7 +25,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.web.WebEngine;
 import javafx.scene.transform.Scale;
 import javafx.stage.FileChooser;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -66,15 +65,14 @@ public class CreateNewScreenController implements Initializable {
     private int[][] array;
     private int incrementedValue = 1;
 
-    Map<Node, String> nodeMap;
+
     private UserModel userModel;
     WebEngine webEngine;
-    private List<Node> n = new ArrayList<>(); // delete that later
+
 
     public CreateNewScreenController() {
         gridPane = new GridPane();
         contextMenu = new ContextMenu();
-        nodeMap = new HashMap<>();
         webEngine = new WebEngine();
         this.userModel = new UserModel();
     }
@@ -187,7 +185,9 @@ public class CreateNewScreenController implements Initializable {
 
     private void setOnActions() {
         for (Node node : gridPane.getChildren()) {
-            node.setUserData(new Information());
+            Information information = new Information();
+            information.setNode(node);
+            node.setUserData(information);
             node.setOnMousePressed(event -> showContextMenu(event, node));
             node.setOnScroll(event -> zoomAction(event, node));
             node.layoutBoundsProperty().addListener(new ChangeListener<Bounds>() {
@@ -369,10 +369,11 @@ public class CreateNewScreenController implements Initializable {
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF files (.pdf)",
                 "*.pdf"));
         String destPath = PDFLoader.loadPDF(fileChooser).toString();
-        PDFLoader.loadPDFViewer(anchorPane);
-        //nodeMap.put(node, destPath);
         getInformation(node).setFilepath(destPath);
         getInformation(node).setFilled(true);
+        PDFLoader.loadPDFViewer(anchorPane);
+        //nodeMap.put(node, destPath);
+
     }
 
     private void loadImage(Node node, DragEvent dragEvent) {
@@ -396,7 +397,9 @@ public class CreateNewScreenController implements Initializable {
         Button btn = new Button("load");
         btn.setOnAction(actionEvent -> {
             String que = field.getText();
-            nodeMap.put(node, que);
+            //nodeMap.put(node, que);
+            getInformation(node).setFilepath(que);
+            getInformation(node).setFilled(true);
             loadWebsite(anchorPane, que);
         });
         loadNodes(anchorPane, lbl, field, btn);
@@ -445,7 +448,6 @@ public class CreateNewScreenController implements Initializable {
                 for (int n = GridPane.getColumnIndex(node); n < GridPane.getColumnIndex(node) + getColSpan(node); n++) {
                     Node node1 = new AnchorPane();
                     node1.setOnMousePressed(event1 -> showContextMenu(event1, node1));
-                    //node1.setUserData(useThisNode);
                     getInformation(node1).setNode(useThisNode);
                     gridPane.add(node1, n, m);
                 }
@@ -521,7 +523,6 @@ public class CreateNewScreenController implements Initializable {
                         for (int n = GridPane.getColumnIndex(usedNode); n < GridPane.getColumnIndex(usedNode) + getColSpan(usedNode); n++) {
                             Node node1 = new AnchorPane();
                             node1.setOnMousePressed(event1 -> showContextMenu(event1, node1));
-                           // node1.setUserData(useThisNow);
                             getInformation(node1).setNode(useThisNow);
                             gridPane.add(node1, n, m);
                         }
@@ -739,18 +740,18 @@ public class CreateNewScreenController implements Initializable {
                     Integer rowSpan = getRowSpan(node);
                     if (colIndex == null) colIndex = 0;
                     if (rowIndex == null) rowIndex = 0;
-                    if(getInformation(node).getFilepath()==null){
+                    if(!getInformation(getInformation(node).getNode()).isFilled()){
                         System.out.println("not filled");
                         fine=false;
                         break;
                     }
                     else
                         System.out.println("filled");
-                    screenElements.add(new ScreenElement(colIndex, rowIndex,
-                            columnSpan, rowSpan, getInformation(node).filepath));
+
+                   screenElements.add(new ScreenElement(colIndex, rowIndex, columnSpan, rowSpan, getInformation(node).filepath));
                 }
             }
-
+            System.out.println(screenElements);
             if(fine){
                 ScreenModel.getInstance().save(screen, screenElements, new ArrayList<>());
             }
@@ -771,26 +772,11 @@ public class CreateNewScreenController implements Initializable {
     }
 
 
-    /**
-     * check if any of the nodes is not filled in
-     * we will check it in the helper two dimensional array
-     * @return
-     */
-    private boolean checkIfAnyEmpty() {
-        List<Node> nodes = gridPane.getChildren();
-       for(Node n: nodes) {
-           if (nodeMap.get(n) == null && n!= null) {
-               System.out.println("what the fuck");
-               return true;
-           }
-       }
-           return false;
-    }
 
     public class Information {
         private Node node;
         private boolean filled;
-        private String filepath;
+        private String filepath; // or query. later url
 
         public String getFilepath() {
             return filepath;

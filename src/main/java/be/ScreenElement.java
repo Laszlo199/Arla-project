@@ -38,4 +38,14 @@ public class ScreenElement {
         return filepath;
     }
 
+    @Override
+    public String toString() {
+        return "ScreenElement{" +
+                "colIndex=" + colIndex +
+                ", rowIndex=" + rowIndex +
+                ", colSpan=" + colSpan +
+                ", rowSpan=" + rowSpan +
+                ", filepath='" + filepath + '\'' +
+                '}';
+    }
 }
