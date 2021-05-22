@@ -9,11 +9,18 @@ import gui.util.PDFLoader;
 import gui.util.WebsiteLoader;
 import be.ScreenElement;
 import be.User;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.Initializable;
+import javafx.geometry.Bounds;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Scale;
 import javafx.scene.web.WebEngine;
 import javafx.stage.Stage;
 
@@ -55,7 +62,7 @@ public class ClientViewController extends ObserverSingle implements Initializabl
             AnchorPane anchorPane = null;
             if(filePath!=null) {
                 String fileType = "";
-                if(filePath.length() > 4) fileType = filePath.substring(filePath.length() - 4);
+                if (filePath.length() > 4) fileType = filePath.substring(filePath.length() - 4);
                 else fileType = filePath;
                 switch (fileType) {
                     case ".png", ".jpg":
@@ -79,12 +86,23 @@ public class ClientViewController extends ObserverSingle implements Initializabl
             GridPane.setVgrow(anchorPane, Priority.SOMETIMES);
         }
 
-        gridPane.setGridLinesVisible(true);
+        loadZoomable();
 
         Scene scene = new Scene(gridPane);
         stage.setScene(scene);
         stage.show();
 
+    }
+
+    private void loadZoomable() {
+        for(Node node : gridPane.getChildren()) {
+            node.setOnScroll(event -> zoomAction(event, node));
+            node.layoutBoundsProperty().addListener(new ChangeListener<Bounds>() {
+                @Override public void changed(ObservableValue<? extends Bounds> observable, Bounds oldBounds, Bounds bounds) {
+                    node.setClip(new Rectangle(bounds.getMinX(), bounds.getMinY(), bounds.getWidth(), bounds.getHeight()));
+                }
+            });
+        }
     }
 
 
@@ -128,6 +146,39 @@ public class ClientViewController extends ObserverSingle implements Initializabl
         imageView.setFitWidth(anchorPane.getWidth());
         System.out.println("loaded image");
         return anchorPane;
+    }
+
+    private void zoomAction(ScrollEvent event, Node node) {
+        final double SCALE_DELTA = 1.1;
+        AnchorPane anchorPane = (AnchorPane) node;
+        Node child = anchorPane.getChildren().get(0);
+        event.consume();
+
+        if (event.getDeltaY() == 0) {
+            return;
+        }
+
+        double scaleFactor =
+                (event.getDeltaY() > 0)
+                        ? SCALE_DELTA
+                        : 1/SCALE_DELTA;
+
+
+        /*
+        if((child.getScaleX() * scaleFactor) >=1.0 ) {
+            child.setScaleX(child.getScaleX() * scaleFactor);
+            child.setScaleY(child.getScaleY() * scaleFactor);
+        }
+
+         */
+
+        Scale newScale = new Scale();
+        newScale.setPivotX(event.getX());
+        newScale.setPivotY(event.getY());
+        newScale.setX(child.getScaleX() * scaleFactor);
+        newScale.setY(child.getScaleY() * scaleFactor);
+        child.getTransforms().add(newScale);
+
     }
 
 

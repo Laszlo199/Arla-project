@@ -310,7 +310,7 @@ public class CreateNewScreenController implements Initializable {
     private void loadVideo(Node node) {
         AnchorPane anchorPane = (AnchorPane) node;
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Select XLSX file");
+        fileChooser.setTitle("Select video file");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Video files",
                 "*.mp4", "*.WEBM"));
         FXMLLoader loader = new FXMLLoader(getClass().
@@ -358,7 +358,7 @@ public class CreateNewScreenController implements Initializable {
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV files (.csv)",
                 "*.csv"));
         CSVLoader.loadCSV(fileChooser, anchorPane);
-
+        nodeMap.put(node, CSVLoader.getDestinationPathCSV().toString());
 	}
     
 
