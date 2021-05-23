@@ -9,6 +9,7 @@ public class ScreenElement {
     private int colSpan;
     private int rowSpan;
     private String filepath;
+    private CSVInfo csvInfo;
 
     public ScreenElement(int colIndex, int rowIndex, int colSpan, int rowSpan, String filepath) {
         this.colIndex = colIndex;
@@ -16,6 +17,15 @@ public class ScreenElement {
         this.colSpan = colSpan;
         this.rowSpan = rowSpan;
         this.filepath = filepath;
+    }
+
+    public ScreenElement(int colIndex, int rowIndex, int colSpan, int rowSpan, String filepath, CSVInfo csvInfo) {
+        this.colIndex = colIndex;
+        this.rowIndex = rowIndex;
+        this.colSpan = colSpan;
+        this.rowSpan = rowSpan;
+        this.filepath = filepath;
+        this.csvInfo = csvInfo;
     }
 
     public int getColIndex() {
@@ -36,6 +46,14 @@ public class ScreenElement {
 
     public String getFilepath() {
         return filepath;
+    }
+
+    public CSVInfo getCsvInfo() {
+        return csvInfo;
+    }
+
+    public void setCsvInfo(CSVInfo csvInfo) {
+        this.csvInfo = csvInfo;
     }
 
     @Override

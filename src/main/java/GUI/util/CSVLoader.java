@@ -1,5 +1,6 @@
 package gui.util;
 
+import be.CSVInfo;
 import gui.Model.ScreenModel;
 import gui.Model.exception.ModelException;
 import gui.util.charts.CreateHistogramChart;
@@ -7,8 +8,8 @@ import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 import javafx.collections.FXCollections;
 import javafx.embed.swing.SwingNode;
-import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
 import javafx.scene.control.*;
@@ -16,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -24,7 +26,6 @@ import javafx.stage.Stage;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -32,7 +33,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -40,21 +43,16 @@ import java.util.List;
 public class CSVLoader {
     private final static String DESTINATION_PATH_CSV = "src/../Data/CSVData/";
     private static Path destinationPathCSV;
+    private static Map<Node, CSVInfo> nodes = new HashMap<>();
 
-    /**
-     * we need file chooser, maybe i should save that file
-     * then we need double[] and then
-     * we can use CreateHistogramChart
-     *
-     */
-    public static Path loadCSV(FileChooser fileChooser, Pane pane) {
+    public static Path loadCSV(FileChooser fileChooser, Node node) {
 
         List<File> files = fileChooser.showOpenMultipleDialog(new Stage());
         if (ValidateExtension.validateCSV(files.get(0))) {
             destinationPathCSV = Path.of(DESTINATION_PATH_CSV + files.get(0).
                     getName());
             FileSaver.saveFile(files.get(0), destinationPathCSV);
-            getInfo(pane);
+            getInfo(node);
             //drawCanvas(destinationPathCSV, csvChart);
            // return files.get(0).getName();
         } else {
@@ -63,7 +61,7 @@ public class CSVLoader {
         return destinationPathCSV;
     }
 
-    private static void getInfo(Pane pane) {
+    private static void getInfo(Node node) {
         VBox vBox = new VBox();
         HBox hBox = new HBox();
         vBox.setPadding(new Insets(20, 20, 20, 20));
@@ -80,7 +78,7 @@ public class CSVLoader {
         comboBox.setItems(FXCollections.observableList(options));
         TextField textField = new TextField("chart title");
         Button button = new Button("load");
-        button.setOnAction(event -> createChart(radioButton, comboBox, textField, pane));
+        button.setOnAction(event -> createChart(radioButton, comboBox, textField, node));
         vBox.getChildren().addAll(hBox, comboBox, textField, button);
         Stage stage = new Stage();
         stage.setScene(new Scene(vBox));
@@ -88,17 +86,27 @@ public class CSVLoader {
 
     }
 
-    private static void createChart(RadioButton radioButton, ComboBox<String> comboBox, TextField textField, Pane pane) {
+    private static void createChart(RadioButton radioButton, ComboBox<String> comboBox, TextField textField, Node node) {
         boolean isHeader = false;
         if(radioButton.isSelected()) isHeader = true;
         String title;
         if(textField.getText().equals(null) || textField.getText().equals("chart title")) title = "";
         else title = textField.getText();
         String chartType = comboBox.getSelectionModel().getSelectedItem();
+        AnchorPane pane = (AnchorPane) node;
         switch (chartType) {
-            case "linechart" -> createLinechart(isHeader, title, pane);
-            case "table" -> createTable(isHeader, pane);
-            case "barchart" -> createBarchart(isHeader, title, pane);
+            case "linechart" -> {
+                createLinechart(isHeader, title, pane);
+                nodes.put(node, new CSVInfo(isHeader, title, CSVInfo.CSVType.LINECHART));
+            }
+            case "table" -> {
+                createTable(isHeader, pane);
+                nodes.put(node, new CSVInfo(isHeader, title, CSVInfo.CSVType.TABLE));
+            }
+            case "barchart" -> {
+                createBarchart(isHeader, title, pane);
+                nodes.put(node, new CSVInfo(isHeader, title, CSVInfo.CSVType.BARCHART));
+            }
         }
     }
 
@@ -319,4 +327,11 @@ public class CSVLoader {
         destinationPathCSV = path;
     }
 
+    public static void clearMap() {
+        nodes.clear();
+    }
+
+    public static Map<Node, CSVInfo> getMap() {
+        return nodes;
+    }
 }

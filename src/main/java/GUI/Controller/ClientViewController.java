@@ -1,5 +1,6 @@
 package gui.Controller;
 
+import be.CSVInfo;
 import be.Screen;
 import gui.Model.ClientModel;
 import gui.Model.ScreenModel;
@@ -49,7 +50,7 @@ public class ClientViewController extends ObserverSingle implements Initializabl
         sections = new ArrayList<>();
         ScreenElement s1 = new ScreenElement(0, 0, 1, 1, "dog");
         ScreenElement s2 = new ScreenElement(0, 1, 1, 1, "src/../Data/PDFData/Assignment 1 - Consultative Solutions.pdf");
-        ScreenElement s3 = new ScreenElement(1, 0, 1, 2, "src/../Data/CSVData/test.csv");
+        ScreenElement s3 = new ScreenElement(1, 0, 1, 2, "src/../Data/CSVData/kilograms.csv", new CSVInfo(true, "TITLE", CSVInfo.CSVType.LINECHART));
         sections.add(s1);
         sections.add(s2);
         sections.add(s3);
@@ -74,7 +75,7 @@ public class ClientViewController extends ObserverSingle implements Initializabl
                         anchorPane = loadPDF(filePath);
                         break;
                     case ".csv":
-                        anchorPane = loadCSV(filePath);
+                        anchorPane = loadCSV(filePath, section.getCsvInfo());
                         break;
                     default:
                         anchorPane = loadWebsite(filePath);
@@ -128,11 +129,15 @@ public class ClientViewController extends ObserverSingle implements Initializabl
         return anchorPane;
     }
 
-    private AnchorPane loadCSV(String filepath) {
+    private AnchorPane loadCSV(String filepath, CSVInfo csvInfo) {
         AnchorPane anchorPane = new AnchorPane();
         anchorPane.setPrefSize(300, 300);
         CSVLoader.setDestinationPathCsv(Path.of(filepath));
-        CSVLoader.createTable(false, anchorPane);
+        switch (csvInfo.getType()) {
+            case TABLE -> CSVLoader.createTable(csvInfo.isHeader(), anchorPane);
+            case BARCHART -> CSVLoader.createBarchart(csvInfo.isHeader(), csvInfo.getTitle(), anchorPane);
+            case LINECHART -> CSVLoader.createLinechart(csvInfo.isHeader(), csvInfo.getTitle(), anchorPane);
+        }
         System.out.println("loaded csv");
         return anchorPane;
     }
