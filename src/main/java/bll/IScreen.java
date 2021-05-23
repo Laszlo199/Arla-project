@@ -36,4 +36,6 @@ public interface IScreen {
     List<Screen> getDeletedScreens(List<Screen> newScreens, ObservableList<Screen> mainScreens);
 
     List<Screen> getNewScreens(List<Screen> newScreens, ObservableList<Screen> mainScreens);
+
+    void deletePuzzleScreen(Screen screen) throws BLLException;
 }

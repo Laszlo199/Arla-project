@@ -168,6 +168,11 @@ public class DALFacade implements IDALFacade{
     }
 
     @Override
+    public void deletePuzzleScreen(Screen screen) throws DALexception {
+        screenDAO.deletePuzzleScreen(screen);
+    }
+
+    @Override
     public User getUser(String username) throws DALexception {
         return userDAO.getUser(username);
     }

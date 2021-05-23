@@ -143,6 +143,16 @@ public class Facade implements IFacade{
     @Override
     public List<Screen> getNewScreens(List<Screen> newScreens, ObservableList<Screen> mainScreens) {
         return detectOtherScreens.getNewScreens(newScreens, mainScreens);
+
+    }
+
+    @Override
+    public void deletePuzzleScreen(Screen screen) throws BLLException {
+        try {
+            facade.deletePuzzleScreen(screen);
+        } catch (DALexception daLexception) {
+            throw new BLLException("Couldnt delete puzzle screen", daLexception);
+        }
     }
 
     @Override

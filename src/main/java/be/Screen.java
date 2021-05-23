@@ -87,7 +87,7 @@ public class Screen {
     public void setRefreshTime(int refreshTime) {
         this.refreshTime = refreshTime;
     }
-
+/*
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -113,4 +113,18 @@ public class Screen {
         result = 31 * result + (refreshNow ? 1 : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Screen{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", refreshTime=" + refreshTime +
+                ", userIDs=" + userIDs +
+                ", screenElementList=" + screenElementList +
+                ", refreshNow=" + refreshNow +
+                '}';
+    }
+
+ */
 }

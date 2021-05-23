@@ -253,4 +253,21 @@ public class ScreenDAO {
             throw new DALexception("Whoops...Couldn't update screen");
         }
     }
+
+    /**
+     * we need to delete this and all associcated rows
+     * @param screen
+     */
+    public void deletePuzzleScreen(Screen screen) throws DALexception {
+        String sql = "DELETE FROM Screens WHERE id=?";
+        try(Connection con = dbConnector.getConnection()) {
+            PreparedStatement pstat = con.prepareStatement(sql);
+            pstat.setInt(1, screen.getId());
+            pstat.executeUpdate();
+        } catch (SQLServerException throwables) {
+            throw new DALexception("Whoops...Couldn't delete screen");
+        } catch (SQLException throwables) {
+            throw new DALexception("Whoops...Couldn't delete screen");
+        }
+    }
 }

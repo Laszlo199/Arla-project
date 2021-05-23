@@ -19,4 +19,6 @@ public interface IScreen {
     Screen getScreenByID(int id) throws DALexception;
 
     ChangesFiles getModifiedFilePaths();
+
+    void deletePuzzleScreen(Screen screen) throws DALexception;
 }
