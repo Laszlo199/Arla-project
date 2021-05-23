@@ -61,29 +61,36 @@ public class ScreenModel implements IObservable {
 
     private void StartObservatorThread() {
         executorService = Executors.newSingleThreadScheduledExecutor();
-        executorService.scheduleWithFixedDelay(runnable, 10, 10, TimeUnit.SECONDS);
+        executorService.scheduleWithFixedDelay(runnable, 1, 1, TimeUnit.SECONDS);
     }
 
         Runnable runnable = () -> {
             try {
-                List<Screen> newScreens = logic.getMainScreens();
+                List<Screen> newScreens = logic.getMainScreens(); //it can be changed so that we wont ask db all the time
                 List<Screen> modifiedScreens = logic.getModifiedScreens(newScreens, mainScreens);
                 List<Screen> deletedScreens = logic.getDeletedScreens(newScreens, mainScreens);
+                mainScreens.removeAll(deletedScreens);
                 List<Screen> addedScreens = logic.getNewScreens(newScreens, mainScreens);
-                notifySingleObservers(modifiedScreens);
+                mainScreens.addAll(addedScreens);
+                System.out.println("Deleted screens 1: "+deletedScreens);
+                System.out.println("Added screens 1: "+ addedScreens);
                 notifyManyObservers(addedScreens, deletedScreens, modifiedScreens);
+                notifySingleObservers(modifiedScreens);
             } catch (BLLException e) {
                 e.printStackTrace();
             }
         };
 
+
+
     public ObservableList<DefaultScreen> getDefaultScreens() {
         return defaultScreens;
     }
 
-    private void loadMainScreens() {
+    public void loadMainScreens() {
         try {
             List<Screen> screens = logic.getMainScreens();
+            mainScreens.clear();
             mainScreens.addAll(screens);
         } catch (BLLException e) {
             e.printStackTrace();
@@ -198,11 +205,19 @@ public class ScreenModel implements IObservable {
         }
     }
 
+
+
+
     @Override
     public void notifyManyObservers(List<Screen> added, List<Screen> deleted, List<Screen> modified) {
-        for (ObserverMany observerMany : observersMany)
+        System.out.println(" Added in notify:"+ added);
+        System.out.println(" Deleted in notify:"+ deleted);
+        for (ObserverMany observerMany : observersMany) {
             observerMany.update(added, deleted, modified);
+        }
     }
+
+
 
     @Override
     public void notifySingleObservers(List<Screen> modified) {
@@ -217,4 +232,28 @@ public class ScreenModel implements IObservable {
                 }
     }
 
+    public void deletePuzzleScreen(Screen screen) {
+        try {
+            logic.deletePuzzleScreen(screen);
+        } catch (BLLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    List<ObserverMany> observersMany = new ArrayList<>();
+    List<ObserverSingle> observersSingle= new ArrayList<>();
+
+     public void attachManyObserver( ObserverMany observer) {
+        observersMany.add(observer);
+    }
+     void detachManyObserver(ObserverMany observer) {
+        observersMany.remove(observer);
+    }
+
+    public void attachSingleObserver( ObserverSingle observer) {
+        observersSingle.add(observer);
+    }
+     void detachSingleObserver(ObserverSingle observer) {
+        observersSingle.remove(observer);
+    }
 }
