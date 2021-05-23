@@ -35,8 +35,6 @@ public class DetectOtherScreens {
                         System.out.println("added element to modified ... BLL");
                         modifiedElements.add(scr);
                     }
-        //this method works perfectly
-
 
         for(Screen newSc: newScreens)
             if(!mainScreens.contains(newSc) && mainScreens.contains(newSc.getId()) &&
@@ -47,19 +45,34 @@ public class DetectOtherScreens {
     }
 
     public List<Screen> getDeletedScreens(List<Screen> newScreens, ObservableList<Screen> mainScreens) {
-        List<Screen> notPresent = new ArrayList<>();
-        for (Screen screen : mainScreens)
-            if (!newScreens.contains(screen.getId()))
-                notPresent.add(screen);
-
-        return notPresent;
+        List<Screen> helper  = new ArrayList<>();
+        for(Screen oldSc: mainScreens){
+            boolean add  = true;
+            for(Screen newSc: newScreens){
+                if(oldSc.getId() == newSc.getId())
+                    add=false;
+            }
+            if(add)
+                helper.add(oldSc);
+        }
+        return helper;
     }
 
     public List<Screen> getNewScreens(List<Screen> newScreens, ObservableList<Screen> mainScreens) {
-        List<Screen> newElements = new ArrayList<>();
-        for (Screen screen : newScreens)
-            if (!mainScreens.contains(screen.getId()))
-                newElements.add(screen);
-        return newElements;
+        List<Screen> helper = new ArrayList<>();
+        for(Screen newSc: newScreens){
+            boolean add = true;
+            for(Screen oldSc: mainScreens){
+                if(newSc.getId() == oldSc.getId())
+                    add=false;
+            }
+            if(add)
+                helper.add(newSc);
+        }
+        return helper;
+
     }
+
+
+
 }
