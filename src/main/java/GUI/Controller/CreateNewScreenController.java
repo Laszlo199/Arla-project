@@ -1,5 +1,6 @@
 package gui.Controller;
 
+import be.CSVInfo;
 import be.Screen;
 import be.ScreenElement;
 import gui.Model.ScreenModel;
@@ -84,6 +85,7 @@ public class CreateNewScreenController implements Initializable {
         gridPane.setOnDragOver(event -> dragOver(event));
         gridPane.setOnDragDropped(event -> dragDropped(event));
         makeFieldsNumeric();
+        CSVLoader.clearMap();
     }
 
     private void disableLabels() {
@@ -348,13 +350,13 @@ public class CreateNewScreenController implements Initializable {
     }
 
     private void loadCSV(Node node) {
-        AnchorPane anchorPane = (AnchorPane) node;
+        //AnchorPane anchorPane = (AnchorPane) node;
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select CSV file");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV files (.csv)",
                 "*.csv"));
 
-        String destPath = CSVLoader.loadCSV(fileChooser, anchorPane).toString();
+        String destPath = CSVLoader.loadCSV(fileChooser, node).toString();
        //nodeMap.put(node, destPath);
         getInformation(node).setFilepath(destPath);
         getInformation(node).setFilled(true);
@@ -745,15 +747,19 @@ public class CreateNewScreenController implements Initializable {
                         fine=false;
                         break;
                     }
-                    else
-                        System.out.println("filled");
+                    else System.out.println("filled");
 
-                   screenElements.add(new ScreenElement(colIndex, rowIndex, columnSpan, rowSpan, getInformation(node).filepath));
+                    CSVInfo csv = CSVLoader.getMap().get(node);
+                    if(csv!=null) {
+                        System.out.println(csv);
+                        screenElements.add(new ScreenElement(colIndex, rowIndex, columnSpan, rowSpan, getInformation(node).filepath, csv));
+                    } else
+                    screenElements.add(new ScreenElement(colIndex, rowIndex, columnSpan, rowSpan, getInformation(node).filepath));
                 }
             }
             System.out.println(screenElements);
             if(fine){
-                ScreenModel.getInstance().save(screen, screenElements, new ArrayList<>());
+                //ScreenModel.getInstance().save(screen, screenElements, new ArrayList<>());
             }
     }
 
