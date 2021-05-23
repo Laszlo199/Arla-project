@@ -1,5 +1,6 @@
 package gui.util.Command;
 
+import gui.Controller.ScreensViewController;
 import gui.util.Animations;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;

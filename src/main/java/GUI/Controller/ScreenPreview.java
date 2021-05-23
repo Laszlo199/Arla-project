@@ -1,5 +1,6 @@
 package gui.Controller;
 
+import be.ScreenElement;
 import gui.Model.ScreenModel;
 import be.DefaultScreen;
 import be.Screen;
@@ -20,7 +21,7 @@ public class ScreenPreview {
 
     private int id;
     private ScreenModel model = ScreenModel.getInstance();
-    private DefaultScreen currentScreen;
+   // private DefaultScreen currentScreen;
     @FXML
     private Label ScreenName;
     @FXML
@@ -35,6 +36,60 @@ public class ScreenPreview {
     private Label attachment4;
     private Screen screen;
 
+    public void setMainScreen(Screen sc) {
+        this.screen = sc;
+        initMainFields();
+    }
+
+    public void initMainFields() {
+        ScreenName.setText(screen.getName());
+        Label[] array =  {attachment1, attachment2, attachment3, attachment4};
+        //for(ScreenElement se: screen.getScreenElementList())
+
+       /* for (int i = 0; i < 3; i++) {
+            if(screen.getScreenElementList().size()!=0) {
+                String str = screen.getScreenElementList().get(i).getFilepath();
+                array[i].setText(str.substring(str.lastIndexOf("/") + 1));
+            }
+        }
+
+        */
+    }
+
+    public Screen getScreen() {
+        return screen;
+    }
+
+    public Label getScreenNameLbl() {
+        return ScreenName;
+    }
+
+
+    public void refreshNow(ActionEvent actionEvent) {
+        //TO-DO
+    }
+
+    public void delete(ActionEvent actionEvent) {
+        model.deletePuzzleScreen(screen);
+    }
+
+    /**
+     *
+     * @param actionEvent
+     */
+    public void edit(ActionEvent actionEvent) {
+
+    }
+
+    /**
+     * leave preview for now
+     * @param actionEvent
+     */
+    public void openPreview(ActionEvent actionEvent) {
+
+    }
+
+/*
     public void setCurrentScreen(DefaultScreen ds) {
         this.currentScreen = ds;
         initFieldsDefault();
@@ -43,13 +98,12 @@ public class ScreenPreview {
     public DefaultScreen getCurrentScreen() {
         return currentScreen;
     }
-
-    public void refreshNow(ActionEvent actionEvent) {
-    }
+     */
 
     /*
     method deletes the screen
      */
+    /*
     public void delete(ActionEvent actionEvent) {
       //  ScreenModel.getInstance().deleteDefaultScreen(currentScreen);
         model.deleteScreen(currentScreen);
@@ -89,14 +143,9 @@ public class ScreenPreview {
         stage.show();
     }
 
-    public Screen getScreen() {
-        return screen;
-    }
+     */
 
-    public Label getScreenNameLbl() {
-        return ScreenName;
-    }
-
+    /*
     private void initFieldsDefault() {
         id = currentScreen.getId();
         String csv = currentScreen.getDestinationPathCSV().toString();
@@ -106,21 +155,6 @@ public class ScreenPreview {
         attachment3.setText(currentScreen.getInsertedWebsite());
         ScreenName.setText(currentScreen.getName());
     }
+     */
 
-
-    public void setMainScreen(Screen sc) {
-        this.screen = sc;
-        initMainFields();
-    }
-
-    public void initMainFields() {
-        ScreenName.setText(screen.getName());
-        Label[] array =  {attachment1, attachment2, attachment3, attachment4};
-        for (int i = 0; i < 3; i++) {
-            if(screen.getScreenElementList().size()!=0) {
-                String str = screen.getScreenElementList().get(i).getFilepath();
-                array[i].setText(str.substring(str.lastIndexOf("/") + 1));
-            }
-        }
-    }
 }

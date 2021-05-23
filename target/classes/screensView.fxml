@@ -27,7 +27,7 @@
             </HBox>
             <ScrollPane style="-fx-border-color: transparent;" vbarPolicy="ALWAYS" VBox.vgrow="ALWAYS">
                <content>
-                  <VBox fx:id="vBox" alignment="TOP_CENTER" />
+                  <VBox fx:id="space" alignment="TOP_CENTER" />
                </content>
             </ScrollPane>
          </children>

@@ -186,7 +186,8 @@ public class ClientViewController extends ObserverSingle implements Initializabl
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ScreenModel.observersSingle.add(this);
+        //ScreenModel.observersSingle.add(this);
+        ScreenModel.getInstance().attachSingleObserver(this);
     }
 
     public void setScreenObs(Screen screen){

@@ -22,6 +22,7 @@ dal\File\WatchFiles\ChangesFiles.class
 gui\Controller\CreateNewScreenController$Information.class
 gui\util\Command\LoadUsers.class
 gui\util\Animations.class
+gui\Controller\ClientViewController$1.class
 gui\util\Command\LoadScreens.class
 gui\util\Command\LoadCreateNew.class
 gui\Model\UserModel.class
