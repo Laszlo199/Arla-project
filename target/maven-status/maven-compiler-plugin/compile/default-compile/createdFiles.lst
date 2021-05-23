@@ -33,6 +33,7 @@ gui\util\PDFLoader.class
 be\UsersAndScreens.class
 gui\util\ChartCanvas.class
 gui\Controller\TemplateController.class
+gui\Controller\ClientViewController$2.class
 gui\Controller\CreateNewScreenController$1.class
 gui\util\charts\IHistogramDataset.class
 gui\Controller\Interfaces\ILogIn.class

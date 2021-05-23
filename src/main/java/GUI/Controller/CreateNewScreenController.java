@@ -130,7 +130,6 @@ public class CreateNewScreenController implements Initializable {
             if (text.matches("[0-9]*")) {
                 return change;
             }
-
             return null;
         };
         TextFormatter<String> textFormatter1 = new TextFormatter<>(filter);
@@ -280,7 +279,8 @@ public class CreateNewScreenController implements Initializable {
     private void dragDropped(DragEvent event) {
         Dragboard db = event.getDragboard();
         //boolean success = false;
-        Node node = event.getPickResult().getIntersectedNode();
+        Node node1 = event.getPickResult().getIntersectedNode();
+        Node node = getNodeToUse(node1);
         if (db.hasString()) {
             switch (db.getString()) {
                 case "HTTP" -> loadHTTP(node);
@@ -290,7 +290,6 @@ public class CreateNewScreenController implements Initializable {
                 case "CSV" -> loadCSV(node);
                 case "XLSX" -> loadExcel(node);
                 case "VIDEO" -> loadVideo(node);
-
             }
         }
 
