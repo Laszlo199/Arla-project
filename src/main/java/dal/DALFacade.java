@@ -92,12 +92,6 @@ public class DALFacade implements IDALFacade{
     }
 
     @Override
-    public boolean validate(String password) throws DALexception {
-        return adminsDAO.validate(password);
-    }
-
-
-    @Override
     public String getHTML(Path pdfPath) throws DALexception {
         return pdfOperations.getHTML(pdfPath);
     }

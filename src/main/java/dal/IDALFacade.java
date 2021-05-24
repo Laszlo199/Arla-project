@@ -19,7 +19,6 @@ public interface IDALFacade extends IFile , IPDF, IScreen, IDefaultScreen{
     void deleteUser(User user)throws DALexception;
     void updateUser(User oldUser, User newUser) throws DALexception;
     void createUser(User user) throws DALexception;
-    boolean validate(String password) throws DALexception;
 
     List<ScreenElement> getScreenForUser(int userId) throws DALexception;
     void resetPassword(User oldUser,User reset) throws DALexception;

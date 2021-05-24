@@ -224,16 +224,6 @@ public class Facade implements IFacade{
     }
 
     @Override
-    public boolean validate(String password) throws BLLException {
-        try {
-            return facade.validate(password);
-        }catch (DALexception daLexception){
-            daLexception.printStackTrace();
-            throw new BLLException("Whoops...");
-        }
-    }
-
-    @Override
     public List<ScreenElement> getScreenForUser(int userId) throws BLLException {
         try {
             return facade.getScreenForUser(userId);

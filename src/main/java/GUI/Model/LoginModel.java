@@ -21,15 +21,6 @@ public class LoginModel {
         }
     }
 
-    public boolean validate(String password){
-        try {
-            iFacade.validate(password);
-        }catch (BLLException e){
-            e.printStackTrace();
-        }
-        return true;
-    }
-
     public User getUser(String username) {
         try {
             return iFacade.getUser(username);
