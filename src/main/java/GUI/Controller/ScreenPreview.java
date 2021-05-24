@@ -43,7 +43,7 @@ public class ScreenPreview {
 
     public void initMainFields() {
         ScreenName.setText(screen.getName());
-        Label[] array =  {attachment1, attachment2, attachment3, attachment4};
+      //  Label[] array =  {attachment1, attachment2, attachment3, attachment4};
         //for(ScreenElement se: screen.getScreenElementList())
 
        /* for (int i = 0; i < 3; i++) {
@@ -66,7 +66,7 @@ public class ScreenPreview {
 
 
     public void refreshNow(ActionEvent actionEvent) {
-        //TO-DO
+        screen.setRefreshNow(true);
     }
 
     public void delete(ActionEvent actionEvent) {
@@ -74,7 +74,7 @@ public class ScreenPreview {
     }
 
     /**
-     *
+     * Open new FXML window in which we need to
      * @param actionEvent
      */
     public void edit(ActionEvent actionEvent) {

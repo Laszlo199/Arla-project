@@ -125,6 +125,8 @@ public class ScreenDAO {
                 }
 
             }
+
+
             return screens.values().stream().toList();
         } catch (SQLServerException throwables) {
             throw new DALexception("Couldn't get all screens", throwables);
@@ -135,7 +137,7 @@ public class ScreenDAO {
     }
 
     public Screen getScreenByID(int id) throws DALexception {
-        Screen temp = new Screen();
+       Screen temp = null;
         String sql = "SELECT * FROM Screens WHERE id=?";
 
         try (Connection connection = dbConnector.getConnection()) {
@@ -145,9 +147,13 @@ public class ScreenDAO {
             ResultSet resultSet = pstat.executeQuery();
 
             while (resultSet.next()) {
-               temp.setId(resultSet.getInt("id"));
-               temp.setName(resultSet.getString("name"));
-               temp.setRefreshTime(resultSet.getInt("refreshTime"));
+              // temp.setId(resultSet.getInt("id"));
+              // temp.setName(resultSet.getString("name"));
+               //temp.setRefreshTime(resultSet.getInt("refreshTime"));
+                int id1 = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                int refreshTime = resultSet.getInt("refreshTime");
+                temp = new Screen(id1, name, refreshTime);
 
             }
         } catch (SQLException throwables) {
@@ -254,6 +260,20 @@ public class ScreenDAO {
         }
     }
 
+    public void update(Screen screen) throws DALexception {
+        String sql = "UPDATE Screens Set [name]=?, [refreshTime]=?";
+        try(Connection con = dbConnector.getConnection()) {
+            PreparedStatement pstat = con.prepareStatement(sql);
+            pstat.setString(1, screen.getName());
+            pstat.setInt(2, screen.getRefreshTime());
+            pstat.executeUpdate();
+        } catch (SQLServerException throwables) {
+            throw new DALexception("Whoops...Couldn't update screen");
+        } catch (SQLException throwables) {
+            throw new DALexception("Whoops...Couldn't update screen");
+        }
+    }
+
     /**
      * we need to delete this and all associcated rows
      * @param screen
@@ -270,4 +290,6 @@ public class ScreenDAO {
             throw new DALexception("Whoops...Couldn't delete screen");
         }
     }
+
+
 }

@@ -11,7 +11,6 @@ D:\onedrive2\github\Arla-project\src\main\java\gui\util\Command\LoadUsers.java
 D:\onedrive2\github\Arla-project\src\main\java\be\User.java
 D:\onedrive2\github\Arla-project\src\main\java\be\Section.java
 D:\onedrive2\github\Arla-project\src\main\java\be\UsersAndScreens.java
-D:\onedrive2\github\Arla-project\src\main\java\dal\Database\dataAccess\AdminsDAO.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\Controller\LogInController.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\Controller\MoviePlayerController.java
 D:\onedrive2\github\Arla-project\src\main\java\be\ScreenElement.java
@@ -74,6 +73,5 @@ D:\onedrive2\github\Arla-project\src\main\java\gui\Controller\TemplateItemContro
 D:\onedrive2\github\Arla-project\src\main\java\testContr.java
 D:\onedrive2\github\Arla-project\src\main\java\bll\IScreen.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\util\Command\LoadTemplates.java
-D:\onedrive2\github\Arla-project\src\main\java\be\Admin.java
 D:\onedrive2\github\Arla-project\src\main\java\be\Screen.java
 D:\onedrive2\github\Arla-project\src\main\java\be\ScreenFile.java

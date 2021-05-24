@@ -278,7 +278,6 @@ public class CreateNewScreenController implements Initializable {
 
     private void dragDropped(DragEvent event) {
         Dragboard db = event.getDragboard();
-        //boolean success = false;
         Node node1 = event.getPickResult().getIntersectedNode();
         Node node = getNodeToUse(node1);
         if (db.hasString()) {
@@ -500,12 +499,6 @@ public class CreateNewScreenController implements Initializable {
             return node;
         else
             return getInformation(node).getNode();
-        /*if (node.getUserData() != null)
-            return (Node) node.getUserData();
-        else
-            return node;
-         */
-
     }
 
     private void checkUp(final Node node, MouseEvent event) {
@@ -758,7 +751,7 @@ public class CreateNewScreenController implements Initializable {
             }
             System.out.println(screenElements);
             if(fine){
-                //ScreenModel.getInstance().save(screen, screenElements, new ArrayList<>());
+                ScreenModel.getInstance().save(screen, screenElements, new ArrayList<>());
             }
     }
 

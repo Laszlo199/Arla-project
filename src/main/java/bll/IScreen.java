@@ -31,11 +31,14 @@ public interface IScreen {
     List<Screen> getMainScreens() throws BLLException;
     Screen getScreenByID(int id) throws BLLException;
 
-    List<Screen> getModifiedScreens(List<Screen> newScreens, ObservableList<Screen> mainScreens);
+    List<Screen> getModifiedScreens(List<Screen> newScreens, ObservableList<Screen> mainScreens) throws BLLException;
 
     List<Screen> getDeletedScreens(List<Screen> newScreens, ObservableList<Screen> mainScreens);
 
     List<Screen> getNewScreens(List<Screen> newScreens, ObservableList<Screen> mainScreens);
 
     void deletePuzzleScreen(Screen screen) throws BLLException;
+
+    void update(Screen screen) throws BLLException;
+
 }

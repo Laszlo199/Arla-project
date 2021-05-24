@@ -60,17 +60,28 @@ public class Screen {
         this.refreshTime = refreshTime;
     }
 
+    public Screen(int id, String name, int refreshTime, boolean refreshNow) {
+        this.id = id;
+        this.name = name;
+        this.refreshTime = refreshTime;
+        this.refreshNow = refreshNow;
+    }
 
     public Screen() {
+    }
+
+    public void setUserIDs(List<Integer> userIDs) {
+        this.userIDs = userIDs;
+    }
+
+    public void setScreenElementList(List<ScreenElement> screenElementList) {
+        this.screenElementList = screenElementList;
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -87,7 +98,7 @@ public class Screen {
     public void setRefreshTime(int refreshTime) {
         this.refreshTime = refreshTime;
     }
-/*
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -98,18 +109,18 @@ public class Screen {
         if (id != screen.id) return false;
         if (refreshTime != screen.refreshTime) return false;
         if (refreshNow != screen.refreshNow) return false;
-        if (!name.equals(screen.name)) return false;
+        if (name != null ? !name.equals(screen.name) : screen.name != null) return false;
         if (userIDs != null ? !userIDs.equals(screen.userIDs) : screen.userIDs != null) return false;
-        return screenElementList.equals(screen.screenElementList);
+        return screenElementList != null ? screenElementList.equals(screen.screenElementList) : screen.screenElementList == null;
     }
 
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + name.hashCode();
+        result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + refreshTime;
         result = 31 * result + (userIDs != null ? userIDs.hashCode() : 0);
-        result = 31 * result + screenElementList.hashCode();
+        result = 31 * result + (screenElementList != null ? screenElementList.hashCode() : 0);
         result = 31 * result + (refreshNow ? 1 : 0);
         return result;
     }
@@ -126,5 +137,6 @@ public class Screen {
                 '}';
     }
 
- */
+
+
 }

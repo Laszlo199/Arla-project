@@ -2,6 +2,9 @@ package bll.util;
 
 import be.Screen;
 import be.ScreenElement;
+import bll.Facade;
+import bll.IFacade;
+import bll.exception.BLLException;
 import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
@@ -12,6 +15,7 @@ import java.util.List;
  *
  */
 public class DetectOtherScreens {
+
 
 
     /**
@@ -25,7 +29,8 @@ public class DetectOtherScreens {
      * @param changedFiles
      * @return
      */
-    public List<Screen> getModifiedScreens(List<Screen> newScreens, ObservableList<Screen> mainScreens, HashSet<String> changedFiles) {
+    public List<Screen> getModifiedScreens(List<Screen> newScreens, ObservableList<Screen> mainScreens,
+                                           HashSet<String> changedFiles) throws BLLException {
         System.out.println(changedFiles);
         List<Screen> modifiedElements = new ArrayList<>();
         for(Screen scr: newScreens)
@@ -36,13 +41,10 @@ public class DetectOtherScreens {
                         modifiedElements.add(scr);
                     }
 
-        for(Screen newSc: newScreens)
-            if(!mainScreens.contains(newSc) && mainScreens.contains(newSc.getId()) &&
-                    !modifiedElements.contains(newSc))
-                modifiedElements.add(newSc);
-
          return modifiedElements;
     }
+
+
 
     public List<Screen> getDeletedScreens(List<Screen> newScreens, ObservableList<Screen> mainScreens) {
         List<Screen> helper  = new ArrayList<>();
@@ -72,7 +74,5 @@ public class DetectOtherScreens {
         return helper;
 
     }
-
-
 
 }

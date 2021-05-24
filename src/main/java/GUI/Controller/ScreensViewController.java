@@ -9,13 +9,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -32,7 +29,7 @@ public class ScreensViewController extends ObserverMany implements Initializable
 
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public synchronized void initialize(URL url, ResourceBundle resourceBundle) {
       loadScreens(ScreenModel.getInstance().getMainScreens());
     }
 
@@ -83,7 +80,8 @@ public class ScreensViewController extends ObserverMany implements Initializable
      *
      * @param modified
      */
-    private void modifyElements(Screen... modified) {
+    private void modifyElements(List<Screen> modified) {
+        /*
         for (Screen screen : modified) {
             List<Node> nodes = space.getChildren();
             for (Node node : nodes)
@@ -94,7 +92,11 @@ public class ScreensViewController extends ObserverMany implements Initializable
                         screenPreview.initMainFields();
                     }
                 }
+
         }
+
+         */
+        System.out.println("we are over ....");
     }
 
     /**
@@ -108,7 +110,7 @@ public class ScreensViewController extends ObserverMany implements Initializable
         System.out.println("update in ScreensViewController");
         Platform.runLater(() -> removeElements(deletedScreens));
         Platform.runLater(() -> loadScreens(addedScreens));
-        Platform.runLater(() -> modifyElements(modifiedScreens.stream().toArray(Screen[]::new)));
+        Platform.runLater(() -> modifyElements(modifiedScreens));
     }
 
 }

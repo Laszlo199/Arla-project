@@ -130,7 +130,7 @@ public class Facade implements IFacade{
     }
 
     @Override
-    public List<Screen> getModifiedScreens(List<Screen> newScreens, ObservableList<Screen> mainScreens) {
+    public List<Screen> getModifiedScreens(List<Screen> newScreens, ObservableList<Screen> mainScreens) throws BLLException {
         ChangesFiles modifiedFilepaths = facade.getModifiedFilePaths();
         return detectOtherScreens.getModifiedScreens(newScreens, mainScreens, modifiedFilepaths.getChangedFiles());
     }
@@ -154,6 +154,17 @@ public class Facade implements IFacade{
             throw new BLLException("Couldnt delete puzzle screen", daLexception);
         }
     }
+
+    @Override
+    public void update(Screen screen) throws BLLException {
+        try {
+            facade.update(screen);
+        } catch (DALexception daLexception) {
+            throw new BLLException("Couldn't update screen", daLexception);
+        }
+    }
+
+
 
     @Override
     public List<DefaultScreen> getAllDefaultScreens() throws BLLException {
