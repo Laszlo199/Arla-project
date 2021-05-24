@@ -1,5 +1,6 @@
 package gui.Model;
 
+import be.Screen;
 import be.ScreenElement;
 import bll.Facade;
 import bll.IFacade;
@@ -33,6 +34,15 @@ public class ClientModel {
     public List<ScreenElement> getSections(int userId) {
         try {
             return logic.getScreenForUser(userId);
+        } catch (BLLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<ScreenElement> getSections(Screen screen) {
+        try {
+            return logic.getSections(screen);
         } catch (BLLException e) {
             e.printStackTrace();
             return null;

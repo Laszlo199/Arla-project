@@ -38,4 +38,6 @@ public interface IScreen {
     List<Screen> getNewScreens(List<Screen> newScreens, ObservableList<Screen> mainScreens);
 
     void deletePuzzleScreen(Screen screen) throws BLLException;
+
+    List<ScreenElement> getSections(Screen screen) throws BLLException;
 }

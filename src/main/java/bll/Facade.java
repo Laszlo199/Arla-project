@@ -156,6 +156,16 @@ public class Facade implements IFacade{
     }
 
     @Override
+    public List<ScreenElement> getSections(Screen screen) throws BLLException {
+        try {
+            return facade.getSections(screen);
+        } catch (DALexception daLexception) {
+            daLexception.printStackTrace();
+            throw new BLLException("Couldnt get a sections for a screen");
+        }
+    }
+
+    @Override
     public List<DefaultScreen> getAllDefaultScreens() throws BLLException {
         try {
             return facade.getAllDefaultScreens();
