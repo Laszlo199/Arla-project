@@ -23,4 +23,7 @@ public interface IScreen {
     void deletePuzzleScreen(Screen screen) throws DALexception;
 
     void update(Screen screen) throws DALexception;
+
+    List<ScreenElement> getSections(Screen screen) throws DALexception;
+
 }

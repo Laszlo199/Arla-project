@@ -63,7 +63,7 @@ public class ScreenElement {
                 ", rowIndex=" + rowIndex +
                 ", colSpan=" + colSpan +
                 ", rowSpan=" + rowSpan +
-                ", filepath='" + filepath + '\'' +
+                ", filepath='" + filepath + ", " + csvInfo +
                 '}';
     }
 }

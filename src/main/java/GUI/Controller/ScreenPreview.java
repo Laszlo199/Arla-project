@@ -86,7 +86,17 @@ public class ScreenPreview {
      * @param actionEvent
      */
     public void openPreview(ActionEvent actionEvent) {
-
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ClientView.fxml"));
+        Stage stage = new Stage();
+        Parent root = null;
+        try {
+            root = loader.load();
+            ClientViewController controller = loader.getController();
+            controller.setScreen(screen, stage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stage.setTitle(screen.getName());
     }
 
 /*

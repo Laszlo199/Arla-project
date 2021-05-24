@@ -156,6 +156,7 @@ public class Facade implements IFacade{
     }
 
     @Override
+
     public void update(Screen screen) throws BLLException {
         try {
             facade.update(screen);
@@ -164,6 +165,17 @@ public class Facade implements IFacade{
         }
     }
 
+
+
+
+    public List<ScreenElement> getSections(Screen screen) throws BLLException {
+        try {
+            return facade.getSections(screen);
+        } catch (DALexception daLexception) {
+            daLexception.printStackTrace();
+            throw new BLLException("Couldnt get a sections for a screen");
+        }
+    }
 
 
     @Override

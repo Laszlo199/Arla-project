@@ -145,7 +145,7 @@ public class LogInController implements Initializable {
         List<Integer> screens = model.screensOfUser(user.getID());
         screensComboBox.getItems().setAll((String) null);
 
-        if(screens.size()>1){
+        if(screens.size()>0){
             for (int i = 0; i < screens.size(); i++){
 
                 screensComboBox.getItems().add(model.getScreenByID(screens.get(i)).getName());

@@ -167,6 +167,10 @@ public class DALFacade implements IDALFacade{
     @Override
     public void update(Screen screen) throws DALexception {
         screenDAO.update(screen);
+}
+    public List<ScreenElement> getSections(Screen screen) throws DALexception {
+        return screenDAO.getSections(screen);
+
     }
 
     @Override

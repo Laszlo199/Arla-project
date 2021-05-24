@@ -39,6 +39,9 @@ public interface IScreen {
 
     void deletePuzzleScreen(Screen screen) throws BLLException;
 
+
     void update(Screen screen) throws BLLException;
+
+    List<ScreenElement> getSections(Screen screen) throws BLLException;
 
 }
