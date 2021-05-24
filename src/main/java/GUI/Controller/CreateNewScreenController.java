@@ -758,7 +758,7 @@ public class CreateNewScreenController implements Initializable {
             }
             System.out.println(screenElements);
             if(fine){
-                //ScreenModel.getInstance().save(screen, screenElements, new ArrayList<>());
+                ScreenModel.getInstance().save(screen, screenElements, new ArrayList<>());
             }
     }
 

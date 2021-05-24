@@ -1,9 +1,6 @@
 package dal.Database.dataAccess;
 
-import be.DefaultScreen;
-import be.Screen;
-import be.ScreenElement;
-import be.User;
+import be.*;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dal.Database.DBConnector;
 import dal.exception.DALexception;
@@ -93,7 +90,7 @@ public class ScreenDAO {
         Map<Integer, Screen> screens = new HashMap<>();
         String queScreens  ="SELECT * from Screens;";
         String queSections = "SELECT screenID, colIndex, rowIndex, columnSpan," +
-                " rowSpan, filepath from Sections;";
+                " rowSpan, filepath, isHeader, title, CSVType from Sections;";
 
         try(Connection connection = dbConnector.getConnection()) {
             Statement statement = connection.createStatement();
@@ -116,12 +113,28 @@ public class ScreenDAO {
                 int columnSpan = resultSet.getInt(4);
                 int rowSpan = resultSet.getInt(5);
                 String filepath = resultSet.getString(6);
+                Boolean isHeader = resultSet.getBoolean(7);
+                String title = resultSet.getString(8);
+                String type = resultSet.getString(9);
                 if(resultSet.wasNull()) {
                     //do nothing
                 }
                 else {
-                    screens.get(screenID).addListElement(new ScreenElement(
+                    if(isHeader==null && title==null && type==null) screens.get(screenID).addListElement(new ScreenElement(
                             colIndex, rowIndex, columnSpan, rowSpan, filepath));
+                    else {
+                        switch (type) {
+                            case "LINECHART" -> screens.get(screenID).addListElement(
+                                    new ScreenElement(colIndex, rowIndex, columnSpan, rowSpan, filepath,
+                                            new CSVInfo(isHeader, title, CSVInfo.CSVType.LINECHART)));
+                            case "BARCHART" ->  screens.get(screenID).addListElement(
+                                    new ScreenElement(colIndex, rowIndex, columnSpan, rowSpan, filepath,
+                                            new CSVInfo(isHeader, title, CSVInfo.CSVType.BARCHART)));
+                            case "TABLE" -> screens.get(screenID).addListElement(
+                                    new ScreenElement(colIndex, rowIndex, columnSpan, rowSpan, filepath,
+                                            new CSVInfo(isHeader, title, CSVInfo.CSVType.TABLE)));
+                        }
+                    }
                 }
 
             }
@@ -171,7 +184,7 @@ public class ScreenDAO {
         int screenID = -1;
         String query1 = "INSERT INTO Screens([name], refreshTime) Values(?, ?);";
         String query2 = "INSERT INTO Sections(screenID, colIndex, rowIndex " +
-                " , columnSpan, rowSpan, filepath) Values(?, ?, ?, ?, ?, ?);";
+                " , columnSpan, rowSpan, filepath, isHeader, title, CSVType) Values(?, ?, ?, ?, ?, ?, ?, ?, ?);";
         String query3 = "UPDATE Users SET screenID = ? WHERE ID = ?";
 
         try(Connection connection = dbConnector.getConnection();
@@ -203,6 +216,15 @@ public class ScreenDAO {
                 preparedStatement.setInt(4, element.getColSpan());
                 preparedStatement.setInt(5, element.getRowSpan());
                 preparedStatement.setString(6, element.getFilepath());
+                if(element.getCsvInfo()==null) {
+                    preparedStatement.setString(7, null);
+                    preparedStatement.setString(8, null);
+                    preparedStatement.setString(9, null);
+                } else {
+                    preparedStatement.setBoolean(7, element.getCsvInfo().isHeader());
+                    preparedStatement.setString(8, element.getCsvInfo().getTitle());
+                    preparedStatement.setString(9, element.getCsvInfo().getType().toString());
+                }
                 preparedStatement.executeUpdate();
             }
         /*
