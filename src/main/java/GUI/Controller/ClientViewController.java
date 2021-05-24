@@ -5,6 +5,7 @@ import be.Screen;
 import gui.Model.ClientModel;
 import gui.Model.ScreenModel;
 import gui.util.CSVLoader;
+import gui.util.ExcelLoader;
 import gui.util.Observator.ObserverSingle;
 import gui.util.PDFLoader;
 import gui.util.WebsiteLoader;
@@ -46,15 +47,7 @@ public class ClientViewController extends ObserverSingle implements Initializabl
         this.stageToSet =stage;
         this.user = user;
         model = ClientModel.getInstance();
-        //sections = model.getSections(user.getID());
-
-        sections = new ArrayList<>();
-        ScreenElement s1 = new ScreenElement(0, 0, 1, 1, "dog");
-        ScreenElement s2 = new ScreenElement(0, 1, 1, 1, "src/../Data/PDFData/Assignment 1 - Consultative Solutions.pdf");
-        ScreenElement s3 = new ScreenElement(1, 0, 1, 2, "src/../Data/CSVData/kilograms.csv", new CSVInfo(true, "TITLE", CSVInfo.CSVType.LINECHART));
-        sections.add(s1);
-        sections.add(s2);
-        sections.add(s3);
+        sections = model.getSections(user.getID());
 
         loadScreen(stage);
     }
@@ -65,16 +58,6 @@ public class ClientViewController extends ObserverSingle implements Initializabl
         sections = model.getSections(screen);
 
         for(ScreenElement s : sections) System.out.println(s);
-        /*
-        sections = new ArrayList<>();
-        ScreenElement s1 = new ScreenElement(0, 0, 1, 1, "dog");
-        ScreenElement s2 = new ScreenElement(0, 1, 1, 1, "src/../Data/PDFData/Assignment 1 - Consultative Solutions.pdf");
-        ScreenElement s3 = new ScreenElement(1, 0, 1, 2, "src/../Data/CSVData/kilograms.csv", new CSVInfo(true, "TITLE", CSVInfo.CSVType.LINECHART));
-        sections.add(s1);
-        sections.add(s2);
-        sections.add(s3);
-
-         */
 
         loadScreen(stage);
     }
@@ -98,6 +81,9 @@ public class ClientViewController extends ObserverSingle implements Initializabl
                         break;
                     case ".csv":
                         anchorPane = loadCSV(filePath, section.getCsvInfo());
+                        break;
+                    case "xlsx":
+                        anchorPane = loadExcel(filePath);
                         break;
                     default:
                         anchorPane = loadWebsite(filePath);
@@ -164,6 +150,14 @@ public class ClientViewController extends ObserverSingle implements Initializabl
         return anchorPane;
     }
 
+    private AnchorPane loadExcel(String filePath) {
+        AnchorPane anchorPane = new AnchorPane();
+        anchorPane.setPrefSize(300, 300);
+        ExcelLoader.setDestinationPathXLSX(Path.of(filePath));
+        ExcelLoader.showExcel(anchorPane);
+        return anchorPane;
+    }
+
     private AnchorPane loadImage(String filepath) {
         AnchorPane anchorPane = new AnchorPane();
         anchorPane.setPrefSize(300, 300);
@@ -192,15 +186,13 @@ public class ClientViewController extends ObserverSingle implements Initializabl
                         ? SCALE_DELTA
                         : 1/SCALE_DELTA;
 
-
-        /*
         if((child.getScaleX() * scaleFactor) >=1.0 ) {
             child.setScaleX(child.getScaleX() * scaleFactor);
             child.setScaleY(child.getScaleY() * scaleFactor);
         }
 
-         */
 
+        /*
         Scale newScale = new Scale();
         newScale.setPivotX(event.getX());
         newScale.setPivotY(event.getY());
@@ -208,6 +200,8 @@ public class ClientViewController extends ObserverSingle implements Initializabl
         newScale.setY(child.getScaleY() * scaleFactor);
         child.getTransforms().add(newScale);
 
+
+         */
     }
 
 
