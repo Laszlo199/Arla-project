@@ -174,6 +174,11 @@ public class DALFacade implements IDALFacade{
     }
 
     @Override
+    public void clearChangedFiles() {
+        fileWatcher.clear();
+    }
+
+    @Override
     public User getUser(String username) throws DALexception {
         return userDAO.getUser(username);
     }

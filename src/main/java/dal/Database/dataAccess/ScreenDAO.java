@@ -91,6 +91,7 @@ public class ScreenDAO {
         String queScreens  ="SELECT * from Screens;";
         String queSections = "SELECT screenID, colIndex, rowIndex, columnSpan," +
                 " rowSpan, filepath, isHeader, title, CSVType from Sections;";
+        String clean  = "UPDATE Screens Set refreshNow=0;";
 
         try(Connection connection = dbConnector.getConnection()) {
             Statement statement = connection.createStatement();
@@ -100,9 +101,10 @@ public class ScreenDAO {
                 int id = resultSet.getInt(1);
                 String name = resultSet.getString(2);
                 int refreshTime = resultSet.getInt(3);
+                boolean refreshNow = resultSet.getBoolean(4);
                 if(refreshTime==0)
                     refreshTime = 5;
-                    screens.put(id, new Screen(id, name, refreshTime));
+                    screens.put(id, new Screen(id, name, refreshTime, refreshNow));
             }
 
             resultSet = statement.executeQuery(queSections);
@@ -138,7 +140,7 @@ public class ScreenDAO {
                 }
 
             }
-
+            statement.executeUpdate(clean);
 
             return screens.values().stream().toList();
         } catch (SQLServerException throwables) {
@@ -283,11 +285,14 @@ public class ScreenDAO {
     }
 
     public void update(Screen screen) throws DALexception {
-        String sql = "UPDATE Screens Set [name]=?, [refreshTime]=?";
+        String sql = "UPDATE Screens Set [name]=?, [refreshTime]=?, [refreshNow]=? " +
+                "Where id = ?";
         try(Connection con = dbConnector.getConnection()) {
             PreparedStatement pstat = con.prepareStatement(sql);
             pstat.setString(1, screen.getName());
             pstat.setInt(2, screen.getRefreshTime());
+            pstat.setBoolean(3, screen.isRefreshNow());
+            pstat.setInt(4, screen.getId());
             pstat.executeUpdate();
         } catch (SQLServerException throwables) {
             throw new DALexception("Whoops...Couldn't update screen");

@@ -14,10 +14,10 @@ import java.io.IOException;
  */
 public class LoadLogIn extends Command{
     public LoadLogIn(JFXButton screensB, JFXButton usersB, JFXButton createNewB, JFXButton logOutB) {
-        screensB.setDisable(true);
+       screensB.setDisable(true);
         usersB.setDisable(true);
         createNewB.setDisable(true);
-        logOutB.setDisable(true);
+       logOutB.setDisable(true);
     }
 
     @Override

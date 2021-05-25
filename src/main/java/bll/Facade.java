@@ -132,6 +132,7 @@ public class Facade implements IFacade{
     @Override
     public List<Screen> getModifiedScreens(List<Screen> newScreens, ObservableList<Screen> mainScreens) throws BLLException {
         ChangesFiles modifiedFilepaths = facade.getModifiedFilePaths();
+        facade.clearChangedFiles();
         return detectOtherScreens.getModifiedScreens(newScreens, mainScreens, modifiedFilepaths.getChangedFiles());
     }
 

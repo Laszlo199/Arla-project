@@ -2,8 +2,6 @@ package bll.util;
 
 import be.Screen;
 import be.ScreenElement;
-import bll.Facade;
-import bll.IFacade;
 import bll.exception.BLLException;
 import javafx.collections.ObservableList;
 
@@ -31,17 +29,26 @@ public class DetectOtherScreens {
      */
     public List<Screen> getModifiedScreens(List<Screen> newScreens, ObservableList<Screen> mainScreens,
                                            HashSet<String> changedFiles) throws BLLException {
-        System.out.println(changedFiles);
-        List<Screen> modifiedElements = new ArrayList<>();
-        for(Screen scr: newScreens)
-            for(ScreenElement se: scr.getScreenElementList())
-                for(String path: changedFiles)
-                    if(se.getFilepath().equals(path)){
-                        System.out.println("added element to modified ... BLL");
-                        modifiedElements.add(scr);
+        for(Screen screen: mainScreens){
+            for(String file: changedFiles){
+                for(ScreenElement se: screen.getScreenElementList()){
+                    String one  = se.getFilepath().replaceAll("\\\\","/");
+                    String two = file.replaceAll("\\\\","/");
+                    if(one.equals(two)){
+                        screen.setRefreshNow(true);
                     }
+                }
+            }
+        }
 
-         return modifiedElements;
+        List<Screen> helper = new ArrayList<>();
+        for(Screen m: mainScreens){
+            if(m.isRefreshNow()){
+                helper.add(m);
+                System.out.println("screen to modifyyyy");
+            }
+        }
+         return helper;
     }
 
 

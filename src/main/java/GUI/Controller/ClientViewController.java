@@ -66,6 +66,7 @@ public class ClientViewController extends ObserverSingle implements Initializabl
 
     //when showing a preview
     public void setScreen(Screen screen, Stage stage) {
+        setScreenObs(screen);
         model = ClientModel.getInstance();
         sections = model.getSections(screen);
 
@@ -173,6 +174,7 @@ public class ClientViewController extends ObserverSingle implements Initializabl
     private AnchorPane loadImage(String filepath) {
         AnchorPane anchorPane = new AnchorPane();
         anchorPane.setPrefSize(300, 300);
+        System.out.println("filePath is: "+ filepath);
         Image image = new Image(filepath);
         ImageView imageView = new ImageView();
         imageView.setImage(image);

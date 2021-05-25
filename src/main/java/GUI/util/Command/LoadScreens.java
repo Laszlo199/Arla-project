@@ -47,7 +47,8 @@ public class LoadScreens extends Command{
 
     @Override
     public void load(BorderPane borderPane) {
-        action();
+        if(a!=null)
+            action();
         setChosenPath();
         loadW(borderPane);
     }

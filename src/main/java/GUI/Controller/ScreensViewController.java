@@ -40,7 +40,7 @@ public class ScreensViewController extends ObserverMany implements Initializable
 
     private void loadScreens(List<Screen> screens) {
         try {
-        System.out.println("we are in load screens");
+       // System.out.println("we are in load screens");
         for (Screen sc : screens) {
                 FXMLLoader loader = new FXMLLoader(getClass().
                         getResource("/ScreenPreview" + ".fxml"));
@@ -96,7 +96,7 @@ public class ScreensViewController extends ObserverMany implements Initializable
         }
 
          */
-        System.out.println("we are over ....");
+       // System.out.println("we are over ....");
     }
 
     /**

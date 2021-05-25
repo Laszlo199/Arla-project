@@ -52,8 +52,6 @@ public class FileWatcher {
                         deletedFiles.add(filePath.toString());
                     if(event.kind() == ENTRY_MODIFY) {
                         changedFiles.add(filePath.toString());
-                        System.out.println(filePath.toString());
-                        System.out.println("entry modified");
                     }
                 }
             }
@@ -75,7 +73,10 @@ public class FileWatcher {
         HashSet<String> deletedF = getDeletedFiles();
         ChangesFiles changesFiles = new ChangesFiles(changedF,
               deletedF);
-        //later write another method to clear that
         return changesFiles;
+    }
+
+    public void clear() {
+        changedFiles = new HashSet<>();
     }
 }

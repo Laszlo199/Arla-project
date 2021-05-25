@@ -34,7 +34,6 @@ public class ScreenModel implements IObservable {
     private IFacade logic;
     List<ObserverMany> observersMany = new ArrayList<>();
     List<ObserverSingle> observersSingle= new ArrayList<>();
-
     private static ScreenModel screenModel;
     private ObservableList<DefaultScreen> defaultScreens;
     private ObservableList<Screen> mainScreens;
@@ -73,29 +72,29 @@ public class ScreenModel implements IObservable {
                 List<Screen> addedScreens = logic.getNewScreens(newScreens, mainScreens);
                 mainScreens.addAll(addedScreens);
                 mainScreens.removeAll(deletedScreens);
-                //System.out.println("Deleted screens 1: "+deletedScreens);
-               // System.out.println("Added screens 1: "+ addedScreens);
-              //  System.out.println("Mofified screens 1: " + modifiedScreens);
                 notifyManyObservers(addedScreens, deletedScreens, modifiedScreens);
-                notifySingleObservers(modifiedScreens);
-                listenRefreshNow();
+                //notifySingleObservers(modifiedScreens);
+                listenRefreshNow(modifiedScreens);
 
             } catch (BLLException e) {
                 e.printStackTrace();
             }
         };
 
-    private void listenRefreshNow(){
+
+    private void listenRefreshNow(List<Screen> modifiedScreens){
         List<Screen> helper = new ArrayList<>();
         for(Screen m: mainScreens){
             if(m.isRefreshNow()){
                 helper.add(m);
-               // System.out.println("hahahahhahahaahahhahahahhahahah xddddd");
+                update(m);
                 m.setRefreshNow(false);
             }
         }
-        notifySingleObservers(helper);
+       notifySingleObservers(helper);
     }
+
+
 
 
 
@@ -225,8 +224,6 @@ public class ScreenModel implements IObservable {
 
     @Override
     public void notifyManyObservers(List<Screen> added, List<Screen> deleted, List<Screen> modified) {
-       // System.out.println(" Added in notify:"+ added);
-       // System.out.println(" Deleted in notify:"+ deleted);
         for (ObserverMany observerMany : observersMany) {
             observerMany.update(added, deleted, modified);
         }
@@ -236,16 +233,14 @@ public class ScreenModel implements IObservable {
 
     @Override
     public void notifySingleObservers(List<Screen> modified) {
-      //  for (Screen screen : modified)
-          //  for (ObserverSingle observerSingle : observersSingle)
-            //    if (screen.getId() == observerSingle.getScreen().getId()){
-               //     observerSingle.update();
-             //       System.out.println("we hit there");
-               // }
-                for(ObserverSingle os: observersSingle){
-                    os.update();
-                    System.out.println("we made update !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+       for (Screen screen : modified){
+           for (ObserverSingle observerSingle : observersSingle){
+                if (screen.getId() == observerSingle.getScreen().getId()) {
+                    observerSingle.update();
+                    System.out.println("we hit there");
                 }
+           }
+       }
     }
 
     public void deletePuzzleScreen(Screen screen) {
@@ -271,7 +266,7 @@ public class ScreenModel implements IObservable {
         observersSingle.remove(observer);
     }
 
-    public void update(Screen screen) {
+    private void update(Screen screen) {
         try {
             logic.update(screen);
         } catch (BLLException e) {
