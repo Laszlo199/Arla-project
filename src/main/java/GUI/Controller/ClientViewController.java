@@ -233,7 +233,7 @@ public class ClientViewController extends ObserverSingle implements Initializabl
     @Override
     public void update() {
         pane.getChildren().clear();
-        loadScreen(stageToSet);
+       // loadScreen(stageToSet);
     }
 
     @Override
