@@ -13,6 +13,8 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *   controller for the screen preview that will be shown in the screens
@@ -26,14 +28,22 @@ public class ScreenPreview {
     private Label ScreenName;
     @FXML
     private Label refreshTime;
+    /*
     @FXML
     private Label attachment1;
     @FXML
     private Label attachment2;
+
+     */
     @FXML
     private Label attachment3;
+    /*
     @FXML
     private Label attachment4;
+
+     */
+
+
     private Screen screen;
 
     public void setMainScreen(Screen sc) {
@@ -43,17 +53,31 @@ public class ScreenPreview {
 
     public void initMainFields() {
         ScreenName.setText(screen.getName());
-      //  Label[] array =  {attachment1, attachment2, attachment3, attachment4};
+
+        List<ScreenElement> elements = model.getSections(screen);
+
+        String attachments = "Attachment 1: "+elements.get(0).getFilepath();
+        for (int i = 1; i<elements.size();i++){
+            attachments=attachments+"\n"+"Attachment "+(i+1)+": "+elements.get(i).getFilepath();
+        }
+        attachment3.setText(attachments);
+
+        /*
+        Label[] array =  {attachment1, attachment2, attachment3, attachment4};
         //for(ScreenElement se: screen.getScreenElementList())
 
-       /* for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i++) {
             if(screen.getScreenElementList().size()!=0) {
                 String str = screen.getScreenElementList().get(i).getFilepath();
                 array[i].setText(str.substring(str.lastIndexOf("/") + 1));
             }
         }
 
-        */
+         */
+
+
+
+
     }
 
     public Screen getScreen() {

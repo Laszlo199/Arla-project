@@ -273,4 +273,13 @@ public class ScreenModel implements IObservable {
             e.printStackTrace();
         }
     }
+
+    public List<ScreenElement> getSections(Screen screen){
+        try {
+           return logic.getSections(screen);
+        }catch (BLLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
