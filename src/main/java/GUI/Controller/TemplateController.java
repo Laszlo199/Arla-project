@@ -58,6 +58,7 @@ public class TemplateController implements Initializable {
     }
 
     public void logOut(ActionEvent actionEvent) {
-
+        Command command = new LoadLogIn(screensB, usersB, createNewB, logOutB);
+        command.load(borderPane);
     }
 }
