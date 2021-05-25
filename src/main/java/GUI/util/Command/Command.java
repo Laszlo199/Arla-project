@@ -20,7 +20,7 @@ public abstract class Command {
      final static String FILE_PATH_CREATE_NEW = "CreateNewScreen";
 
     public void rollback(BorderPane borderPane){
-       CommandManager.getInstance().getPrevious().load(borderPane);
+        CommandManager.getInstance().getPrevious().load(borderPane);
     }
 
     public static String getFilePathUser() {

@@ -1,17 +1,25 @@
 package gui.util.Command;
 
+
+import com.jfoenix.controls.JFXButton;
 import gui.Controller.LogInController;
 import gui.util.Animations;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-
 import java.io.IOException;
 
 /**
  *
  */
 public class LoadLogIn extends Command{
+    public LoadLogIn(JFXButton screensB, JFXButton usersB, JFXButton createNewB, JFXButton logOutB) {
+        screensB.setDisable(true);
+        usersB.setDisable(true);
+        createNewB.setDisable(true);
+        logOutB.setDisable(true);
+    }
+
     @Override
     protected void setChosenPath() {
         chosenPath = FILE_PATH_LOG_IN;
@@ -37,6 +45,7 @@ public class LoadLogIn extends Command{
 
     @Override
     public void load(BorderPane borderPane) {
+
         setChosenPath();
         loadWindow(borderPane);
     }

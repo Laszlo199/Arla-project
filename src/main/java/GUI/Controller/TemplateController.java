@@ -1,4 +1,5 @@
 package gui.Controller;
+import com.jfoenix.controls.JFXButton;
 import gui.util.Command.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,6 +15,14 @@ import java.util.ResourceBundle;
  */
 public class TemplateController implements Initializable {
     @FXML
+    private JFXButton screensB;
+    @FXML
+    private JFXButton usersB;
+    @FXML
+    private JFXButton createNewB;
+    @FXML
+    private JFXButton logOutB;
+    @FXML
     private BorderPane borderPane;
 
     public TemplateController() {
@@ -22,8 +31,9 @@ public class TemplateController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        CommandManager.getInstance().addCommand(new LoadScreens());
-        Command command = new LoadLogIn();
+        Command commandO = new LoadScreens(screensB, usersB, createNewB, logOutB);
+        CommandManager.getInstance().addCommand(commandO);
+        Command command = new LoadLogIn(screensB, usersB, createNewB, logOutB);
         command.load(borderPane);
     }
 

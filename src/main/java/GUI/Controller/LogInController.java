@@ -2,6 +2,7 @@ package gui.Controller;
 
 
 import gui.Model.LoginModel;
+import gui.util.AlertDisplayer;
 import gui.util.Command.CommandManager;
 import be.User;
 import com.jfoenix.controls.JFXButton;
@@ -90,13 +91,15 @@ public class LogInController implements Initializable {
                 }
                 else
                 {
-                    JOptionPane.showMessageDialog(null,"Wrong password");
+                    AlertDisplayer.displayInformationAlert("Wrong password",
+                            "Please insert  correct password password ", "");
                 }
             }
         }
         else
         {
-            JOptionPane.showMessageDialog(null,"Wrong username");
+            AlertDisplayer.displayInformationAlert("Wrong username",
+                    "Please insert  correct username ", "");
         }
 
 
@@ -166,8 +169,6 @@ public class LogInController implements Initializable {
        if (screensComboBox.getSelectionModel().getSelectedItem() != null){
             openClient(user);
        }
-
-
     }
 }
 
