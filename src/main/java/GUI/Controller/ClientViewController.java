@@ -42,27 +42,19 @@ public class ClientViewController extends ObserverSingle implements Initializabl
     private WebEngine webEngine;
     private Stage stageToSet;
 
+    /*
     //when logging as a client
     public void setUser(User user, Stage stage) {
         this.stageToSet =stage;
         this.user = user;
         model = ClientModel.getInstance();
-
-        //sections = model.getSections(user.getID());
-
-      //  sections = new ArrayList<>();
-      //  ScreenElement s1 = new ScreenElement(0, 0, 1, 1, "dog");
-      //  ScreenElement s2 = new ScreenElement(0, 1, 1, 1, "src/../Data/PDFData/Assignment 1 - Consultative Solutions.pdf");
-      //  ScreenElement s3 = new ScreenElement(1, 0, 1, 2, "src/../Data/CSVData/kilograms.csv", new CSVInfo(true, "TITLE", CSVInfo.CSVType.LINECHART));
-      //  sections.add(s1);
-       // sections.add(s2);
-       // sections.add(s3);
-
         sections = model.getSections(user.getID());
 
 
         loadScreen(stage);
     }
+
+     */
 
     //when showing a preview
     public void setScreen(Screen screen, Stage stage) {

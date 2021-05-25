@@ -1,6 +1,7 @@
 package gui.Controller;
 
 
+import be.Screen;
 import gui.Model.LoginModel;
 import gui.util.AlertDisplayer;
 import gui.util.Command.CommandManager;
@@ -28,6 +29,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -39,39 +41,21 @@ public class LogInController implements Initializable {
     @FXML private JFXTextField usernameField;
     @FXML private JFXPasswordField passwordField;
     @FXML private JFXComboBox<String> screensComboBox;
+    List<Integer> screens = new ArrayList<>();
+    LoginModel model = new LoginModel();
+    User user = null;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        screensComboBox.setVisible(false);
+    }
 
     public void setBorderPane(BorderPane borderPane) {
         this.borderPane = borderPane;
     }
 
-   /* @Override
-    public boolean passwordIsCorrect() {
-        return true;
-    }
-
-    */
-
-    /**
-     * when button is invoked
-     * @param
-     */
-    /*
-    public void confirm() {
-        String pw = passwordField.getText();
-        LoginModel loginModel = new LoginModel();
-        boolean flag = loginModel.validate(pw);
-        if(!flag)
-            JOptionPane.showMessageDialog(null,"Wrong Password");
-        else
-            CommandManager.getInstance().getPrevious().rollback(borderPane);
-
-    }
-
-     */
-
     public void confirm() throws DALexception {
-        LoginModel model = new LoginModel();
-        User user = model.getUser(usernameField.getText());
+        user = model.getUser(usernameField.getText());
 
         if (user !=null){
             if (user.isReset()){
@@ -102,9 +86,6 @@ public class LogInController implements Initializable {
                     "Please insert  correct username ", "");
         }
 
-
-
-
         /*
        //System.out.println(user.getUserName() + user.getPassword());
         if(user ==null)
@@ -117,46 +98,18 @@ public class LogInController implements Initializable {
             openClient(user);
 
          */
-
-
-
-
     }
-
-    private void openClient(User user) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ClientView.fxml"));
-        Stage stage = new Stage();
-        Parent root = null;
-        try {
-            root = loader.load();
-            ClientViewController controller = loader.getController();
-            controller.setUser(user, stage);
-            controller.setAsObserver();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        stage.setTitle(user.getUserName());
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        screensComboBox.setVisible(false);
-    }
-
 
     private void selectScreen(User user) throws DALexception {
-        LoginModel model = new LoginModel();
-        List<Integer> screens = model.screensOfUser(user.getID());
         screensComboBox.getItems().setAll((String) null);
+        screens = model.screensOfUser(user.getID());
 
         if(screens.size()>0){
             for (int i = 0; i < screens.size(); i++){
-
                 screensComboBox.getItems().add(model.getScreenByID(screens.get(i)).getName());
             }
 
             screensComboBox.setVisible(true);
-
         }
         else
         {
@@ -165,11 +118,50 @@ public class LogInController implements Initializable {
     }
 
     public void loginWithComboBox(ActionEvent actionEvent) {
-        LoginModel model = new LoginModel();
-        User user = model.getUser(usernameField.getText());
        if (screensComboBox.getSelectionModel().getSelectedItem() != null){
-            openClient(user);
+           Screen screen = model.getScreenByID( screens.get(screensComboBox.getSelectionModel().getSelectedIndex()-1) );
+           openClient(screen);
        }
     }
+
+    private void openClient(Screen screen) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ClientView.fxml"));
+        Stage stage = new Stage();
+        Parent root = null;
+        try {
+            root = loader.load();
+            ClientViewController controller = loader.getController();
+            controller.setScreen(screen, stage);
+            controller.setAsObserver();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stage.setTitle(screen.getName() + ", " + user.getUserName());
+    }
+
+    /* @Override
+    public boolean passwordIsCorrect() {
+        return true;
+    }
+
+    */
+
+    /**
+     * when button is invoked
+     * @param
+     */
+    /*
+    public void confirm() {
+        String pw = passwordField.getText();
+        LoginModel loginModel = new LoginModel();
+        boolean flag = loginModel.validate(pw);
+        if(!flag)
+            JOptionPane.showMessageDialog(null,"Wrong Password");
+        else
+            CommandManager.getInstance().getPrevious().rollback(borderPane);
+
+    }
+
+     */
 }
 
