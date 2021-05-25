@@ -220,7 +220,7 @@ public class ClientViewController extends ObserverSingle implements Initializabl
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //ScreenModel.observersSingle.add(this);
-        ScreenModel.getInstance().attachSingleObserver(this);
+
     }
 
     public void setScreenObs(Screen screen){
@@ -234,5 +234,10 @@ public class ClientViewController extends ObserverSingle implements Initializabl
     public void update() {
         pane.getChildren().clear();
         loadScreen(stageToSet);
+    }
+
+    @Override
+    public void setAsObserver() {
+        ScreenModel.getInstance().attachSingleObserver(this);
     }
 }

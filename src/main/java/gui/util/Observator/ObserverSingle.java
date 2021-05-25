@@ -17,4 +17,6 @@ public abstract class ObserverSingle extends Observer {
     }
 
     public abstract void update();
+
+    public abstract void setAsObserver();
 }

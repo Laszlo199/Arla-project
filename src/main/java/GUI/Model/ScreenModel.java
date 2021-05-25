@@ -236,14 +236,15 @@ public class ScreenModel implements IObservable {
 
     @Override
     public void notifySingleObservers(List<Screen> modified) {
-       // if(observersSingle.isEmpty())
-           // System.out.println("they are empty");
-
-        for (Screen screen : modified)
-            for (ObserverSingle observerSingle : observersSingle)
-                if (screen.getId() == observerSingle.getScreen().getId()){
-                    observerSingle.update();
-                    System.out.println("we hit there");
+      //  for (Screen screen : modified)
+          //  for (ObserverSingle observerSingle : observersSingle)
+            //    if (screen.getId() == observerSingle.getScreen().getId()){
+               //     observerSingle.update();
+             //       System.out.println("we hit there");
+               // }
+                for(ObserverSingle os: observersSingle){
+                    os.update();
+                    System.out.println("we made update !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 }
     }
 
