@@ -49,7 +49,7 @@ public class ScreensViewController extends ObserverMany implements Initializable
                 ScreenPreview screenPreview = loader.getController();
                 screenPreview.setMainScreen(sc);
                 space.getChildren().add(screen);
-                System.out.println("we got over here.pddd..");
+               // System.out.println("we got over here.pddd..");
         }
         } catch (IOException e) {
             e.printStackTrace();
@@ -69,7 +69,7 @@ public class ScreensViewController extends ObserverMany implements Initializable
             Node node = nodes.get(screen.getId());
             space.getChildren().remove(node);
             nodes.remove(screen.getId());
-            System.out.println("we get over here and nothing happens ....");
+            //System.out.println("we get over here and nothing happens ....");
         }
     }
 
@@ -107,7 +107,7 @@ public class ScreensViewController extends ObserverMany implements Initializable
      */
     @Override
     public void update(List<Screen> addedScreens, List<Screen> deletedScreens, List<Screen> modifiedScreens) {
-        System.out.println("update in ScreensViewController");
+       // System.out.println("update in ScreensViewController");
         Platform.runLater(() -> removeElements(deletedScreens));
         Platform.runLater(() -> loadScreens(addedScreens));
         Platform.runLater(() -> modifyElements(modifiedScreens));

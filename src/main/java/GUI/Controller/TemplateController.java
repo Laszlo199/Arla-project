@@ -58,5 +58,6 @@ public class TemplateController implements Initializable {
     }
 
     public void logOut(ActionEvent actionEvent) {
+
     }
 }

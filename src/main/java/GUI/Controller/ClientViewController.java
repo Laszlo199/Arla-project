@@ -48,13 +48,13 @@ public class ClientViewController extends ObserverSingle implements Initializabl
         model = ClientModel.getInstance();
         //sections = model.getSections(user.getID());
 
-        sections = new ArrayList<>();
-        ScreenElement s1 = new ScreenElement(0, 0, 1, 1, "dog");
-        ScreenElement s2 = new ScreenElement(0, 1, 1, 1, "src/../Data/PDFData/Assignment 1 - Consultative Solutions.pdf");
-        ScreenElement s3 = new ScreenElement(1, 0, 1, 2, "src/../Data/CSVData/kilograms.csv", new CSVInfo(true, "TITLE", CSVInfo.CSVType.LINECHART));
-        sections.add(s1);
-        sections.add(s2);
-        sections.add(s3);
+      //  sections = new ArrayList<>();
+      //  ScreenElement s1 = new ScreenElement(0, 0, 1, 1, "dog");
+      //  ScreenElement s2 = new ScreenElement(0, 1, 1, 1, "src/../Data/PDFData/Assignment 1 - Consultative Solutions.pdf");
+      //  ScreenElement s3 = new ScreenElement(1, 0, 1, 2, "src/../Data/CSVData/kilograms.csv", new CSVInfo(true, "TITLE", CSVInfo.CSVType.LINECHART));
+      //  sections.add(s1);
+       // sections.add(s2);
+       // sections.add(s3);
 
         loadScreen(stage);
     }

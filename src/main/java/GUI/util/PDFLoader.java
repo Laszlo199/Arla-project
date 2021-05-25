@@ -25,7 +25,7 @@ public class PDFLoader {
      *
      * @param
      */
-    public static Path loadPDF(FileChooser fileChooser){
+    public static  Path loadPDF(FileChooser fileChooser){
       //  File selectedFile = ChooseFile.getSelectedFile(actionEvent, "Choose PDF file",
            //     fileChooser);
         List<File> files = fileChooser.showOpenMultipleDialog(new Stage());
@@ -45,7 +45,7 @@ public class PDFLoader {
         File selectedFile ;
 
     }
-    public static void loadPDFViewer(Pane spacePDF){
+    public static  void loadPDFViewer(Pane spacePDF){
         String htmlPath = ScreenModel.getInstance().getHTML(destinationPathPDF);
         WebView webView = new WebView();
         WebEngine pdfViewerEngine = webView.getEngine();
