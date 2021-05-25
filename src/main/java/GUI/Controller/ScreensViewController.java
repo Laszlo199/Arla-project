@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.net.URL;
@@ -24,8 +25,9 @@ public class ScreensViewController extends ObserverMany implements Initializable
     private final static String PDF_DIRECTORY = "src/../Data/PDFData/";
     private final static String CVS_DIRECTORY = "src/../Data/CSVData/";
     private static HashMap<Integer, Node> nodes = new HashMap<>();
+
     @FXML
-    private VBox space;
+    private TilePane space;
 
 
     @Override
