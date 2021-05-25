@@ -1,5 +1,6 @@
 package dal.Database.dataAccess;
 
+import be.CSVInfo;
 import be.ScreenElement;
 import be.User;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
@@ -99,10 +100,29 @@ public class UserDAO {
             while (resultSet.next()) {
                 int colIndex = resultSet.getInt("colIndex");
                 int rowIndex = resultSet.getInt("rowIndex");
-                int colSpan = resultSet.getInt("columnSpan");
+                int columnSpan = resultSet.getInt("columnSpan");
                 int rowSpan = resultSet.getInt("rowSpan");
                 String filepath = resultSet.getString("filepath");
-                sections.add(new ScreenElement(colIndex, rowIndex, colSpan, rowSpan, filepath));
+                boolean isHeader = resultSet.getBoolean("isHeader");
+                String title = resultSet.getString("title");
+                String type = resultSet.getString("CSVType");
+
+                if(title==null || type==null)
+                    sections.add(
+                            new ScreenElement(colIndex, rowIndex, columnSpan, rowSpan, filepath));
+                else {
+                    switch (type) {
+                        case "LINECHART" -> sections.add(
+                                new ScreenElement(colIndex, rowIndex, columnSpan, rowSpan, filepath,
+                                        new CSVInfo(isHeader, title, CSVInfo.CSVType.LINECHART)));
+                        case "BARCHART" ->  sections.add(
+                                new ScreenElement(colIndex, rowIndex, columnSpan, rowSpan, filepath,
+                                        new CSVInfo(isHeader, title, CSVInfo.CSVType.BARCHART)));
+                        case "TABLE" -> sections.add(
+                                new ScreenElement(colIndex, rowIndex, columnSpan, rowSpan, filepath,
+                                        new CSVInfo(isHeader, title, CSVInfo.CSVType.TABLE)));
+                    }
+                }
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();

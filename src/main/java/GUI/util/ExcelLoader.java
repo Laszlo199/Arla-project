@@ -43,7 +43,7 @@ public class ExcelLoader {
         return destinationPathXLSX;
     }
 
-    private static void showExcel(AnchorPane anchorPane) {
+    public static void showExcel(AnchorPane anchorPane) {
         DefaultTableModel tableModel = null;
         try {
             FileInputStream inputStream = new FileInputStream(destinationPathXLSX.toString());
@@ -95,6 +95,15 @@ public class ExcelLoader {
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setPrefSize(anchorPane.getWidth(), anchorPane.getHeight());
         scrollPane.setContent(sn);
+        anchorPane.getChildren().clear();
         anchorPane.getChildren().add(scrollPane);
+    }
+
+    public static Path getDestinationPathXLSX() {
+        return destinationPathXLSX;
+    }
+
+    public static void setDestinationPathXLSX(Path destinationPathXLSX) {
+        ExcelLoader.destinationPathXLSX = destinationPathXLSX;
     }
 }

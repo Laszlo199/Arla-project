@@ -216,20 +216,20 @@ public class ScreenDAO {
             }
 
             for(ScreenElement element: screenElements){
-                preparedStatement.setInt(2, screenID);
-                preparedStatement.setInt(3, element.getColIndex());
-                preparedStatement.setInt(4, element.getRowIndex());
-                preparedStatement.setInt(5, element.getColSpan());
-                preparedStatement.setInt(6, element.getRowSpan());
-                preparedStatement.setString(7, element.getFilepath());
+                preparedStatement.setInt(1, screenID);
+                preparedStatement.setInt(2, element.getColIndex());
+                preparedStatement.setInt(3, element.getRowIndex());
+                preparedStatement.setInt(4, element.getColSpan());
+                preparedStatement.setInt(5, element.getRowSpan());
+                preparedStatement.setString(6, element.getFilepath());
                 if(element.getCsvInfo()==null) {
+                    preparedStatement.setString(7, null);
                     preparedStatement.setString(8, null);
                     preparedStatement.setString(9, null);
-                    preparedStatement.setString(10, null);
                 } else {
-                    preparedStatement.setBoolean(8, element.getCsvInfo().isHeader());
-                    preparedStatement.setString(9, element.getCsvInfo().getTitle());
-                    preparedStatement.setString(10, element.getCsvInfo().getType().toString());
+                    preparedStatement.setBoolean(7, element.getCsvInfo().isHeader());
+                    preparedStatement.setString(8, element.getCsvInfo().getTitle());
+                    preparedStatement.setString(9, element.getCsvInfo().getType().toString());
                 }
                 preparedStatement.executeUpdate();
             }
@@ -333,7 +333,6 @@ public class ScreenDAO {
                 String title = resultSet.getString(9);
                 String type = resultSet.getString(10);
 
-                System.out.println(isHeader + ", " + title + ", " + type);
                 if(title==null || type==null)
                     sections.add(
                             new ScreenElement(colIndex, rowIndex, columnSpan, rowSpan, filepath));
@@ -353,11 +352,10 @@ public class ScreenDAO {
 
             }
         } catch (SQLServerException throwables) {
-            throw new DALexception("Couldn't get all screens", throwables);
+            throw new DALexception("Couldn't get sections for screen", throwables);
         } catch (SQLException throwables) {
-            throw new DALexception("Couldn't get all screens", throwables);
+            throw new DALexception("Couldn't get sections for screen", throwables);
         }
-        System.out.println("SECTIONS: " + sections.size());
         return sections;
     }
 
