@@ -13,10 +13,13 @@ import be.ScreenElement;
 import be.User;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Control;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ScrollEvent;
@@ -26,6 +29,7 @@ import javafx.scene.transform.Scale;
 import javafx.scene.web.WebEngine;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -56,6 +60,7 @@ public class ClientViewController extends ObserverSingle implements Initializabl
      */
 
     public void setScreen(Screen screen, Stage stage) {
+        ScreenModel.getInstance().attachSingleObserver(this);
         setScreenObs(screen);
         model = ClientModel.getInstance();
         sections = model.getSections(screen);
@@ -67,38 +72,43 @@ public class ClientViewController extends ObserverSingle implements Initializabl
 
     private void loadScreen(Stage stage) {
         for(ScreenElement section : sections) {
-
-            String filePath = section.getFilepath();
-            AnchorPane anchorPane = null;
-            if(filePath!=null) {
-                String fileType = "";
-                if (filePath.length() > 4) fileType = filePath.substring(filePath.length() - 4);
-                else fileType = filePath;
-                System.out.println(filePath);
-                switch (fileType) {
-                    case ".png", ".jpg":
-                        anchorPane = loadImage(filePath);
-                        break;
-                    case ".pdf":
-                        anchorPane = loadPDF(filePath);
-                        break;
-                    case ".csv":
-                        anchorPane = loadCSV(filePath, section.getCsvInfo());
-                        break;
-                    case "xlsx":
-                        anchorPane = loadExcel(filePath);
-                        break;
-                    default:
-                        anchorPane = loadWebsite(filePath);
-                        break;
+            if (section.getFilepath() != null) {
+                String filePath = section.getFilepath();
+                AnchorPane anchorPane = null;
+                if (filePath != null) {
+                    String fileType = "";
+                    if (filePath.length() > 4) fileType = filePath.substring(filePath.length() - 4);
+                    else fileType = filePath;
+                    System.out.println(filePath);
+                    switch (fileType) {
+                        case ".png", ".jpg":
+                            anchorPane = loadImage(filePath);
+                            break;
+                        case ".pdf":
+                            anchorPane = loadPDF(filePath);
+                            break;
+                        case ".csv":
+                            anchorPane = loadCSV(filePath, section.getCsvInfo());
+                            break;
+                        case "xlsx":
+                            anchorPane = loadExcel(filePath);
+                            break;
+                        case ".mp4", "WEBM":
+                            anchorPane = loadVideo(filePath);
+                            break;
+                        default:
+                            anchorPane = loadWebsite(filePath);
+                            break;
+                    }
                 }
-            }
 
-            gridPane.add(anchorPane, section.getColIndex(),
-                    section.getRowIndex(), section.getColSpan(), section.getRowSpan());
-            GridPane.setHgrow(anchorPane, Priority.SOMETIMES);
-            GridPane.setVgrow(anchorPane, Priority.SOMETIMES);
+                gridPane.add(anchorPane, section.getColIndex(),
+                        section.getRowIndex(), section.getColSpan(), section.getRowSpan());
+                GridPane.setHgrow(anchorPane, Priority.SOMETIMES);
+                GridPane.setVgrow(anchorPane, Priority.SOMETIMES);
+            }
         }
+        gridPane.setGridLinesVisible(true);
 
         loadZoomable();
 
@@ -156,6 +166,7 @@ public class ClientViewController extends ObserverSingle implements Initializabl
     private AnchorPane loadExcel(String filePath) {
         AnchorPane anchorPane = new AnchorPane();
         anchorPane.setPrefSize(300, 300);
+        anchorPane.setStyle("-fx-background-color: green");
         ExcelLoader.setDestinationPathXLSX(Path.of(filePath));
         ExcelLoader.showExcel(anchorPane);
         return anchorPane;
@@ -169,9 +180,32 @@ public class ClientViewController extends ObserverSingle implements Initializabl
         URL url = getClass().getClassLoader().getResource(filepath);
         ImageView imageView = new ImageView(url.toExternalForm());
         anchorPane.getChildren().add(imageView);
-        imageView.setFitHeight(anchorPane.getHeight());
-        imageView.setFitWidth(anchorPane.getWidth());
+        //imageView.setFitHeight(anchorPane.getHeight());
+        //imageView.setFitWidth(anchorPane.getWidth());
+        imageView.fitHeightProperty().bind(anchorPane.heightProperty());
+        imageView.fitWidthProperty().bind(anchorPane.widthProperty());
         System.out.println("loaded image");
+        return anchorPane;
+    }
+
+    private AnchorPane loadVideo(String filePath) {
+        AnchorPane anchorPane = new AnchorPane();
+        anchorPane.setPrefSize(300, 300);
+
+        FXMLLoader loader = new FXMLLoader(getClass().
+                getResource("/" + "MoviePlayer" + ".fxml"));
+        try {
+            AnchorPane view = (AnchorPane) loader.load();
+            MoviePlayerController controller = loader.getController();
+            controller.setPath(Path.of(filePath));
+            controller.initMovie();
+            view.setPrefSize(Control.USE_PREF_SIZE, Control.USE_PREF_SIZE);
+            anchorPane.getChildren().add(view);
+            view.prefHeightProperty().bind(anchorPane.heightProperty());
+            view.prefWidthProperty().bind(anchorPane.widthProperty());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return anchorPane;
     }
 
@@ -216,7 +250,8 @@ public class ClientViewController extends ObserverSingle implements Initializabl
     }
 
     public void setScreenObs(Screen screen){
-        setScreen(screen);
+        //System.out.println("were at set screen obs");
+        //setScreen(screen);
     }
 
     /**
@@ -224,12 +259,16 @@ public class ClientViewController extends ObserverSingle implements Initializabl
      */
     @Override
     public void update() {
-        pane.getChildren().clear();
+        System.out.println("we updateeeeeee");
+        gridPane.getChildren().clear();
        // loadScreen(stageToSet);
     }
 
     @Override
-    public void setAsObserver() {
+    public void setAsObserver(Screen screen) {
+        System.out.println("we start set as observer");
+        setScreen(screen);
         ScreenModel.getInstance().attachSingleObserver(this);
+        System.out.println("we end set as obs");
     }
 }

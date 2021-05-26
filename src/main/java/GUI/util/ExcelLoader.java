@@ -93,7 +93,9 @@ public class ExcelLoader {
         SwingNode sn = new SwingNode();
         sn.setContent(myJTable);
         ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setPrefSize(anchorPane.getWidth(), anchorPane.getHeight());
+        //scrollPane.setPrefSize(anchorPane.getWidth(), anchorPane.getHeight());
+        scrollPane.prefHeightProperty().bind(anchorPane.heightProperty());
+        scrollPane.prefWidthProperty().bind(anchorPane.widthProperty());
         scrollPane.setContent(sn);
         anchorPane.getChildren().clear();
         anchorPane.getChildren().add(scrollPane);

@@ -72,7 +72,7 @@ public class MoviePlayerController implements Initializable {
     }
 
 
-    private void initMovie() {
+    public void initMovie() {
         media = new Media(path.toUri().toString());
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setAutoPlay(false);
@@ -185,5 +185,13 @@ public class MoviePlayerController implements Initializable {
             mediaPlayer.setOnEndOfMedia(()->{});
             isLooping=false;
         }
+    }
+
+    public Path getPath() {
+        return path;
+    }
+
+    public void setPath(Path path) {
+        this.path = path;
     }
 }

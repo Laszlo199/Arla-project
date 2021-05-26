@@ -57,8 +57,12 @@ public class ScreenPreview {
         List<ScreenElement> elements = model.getSections(screen);
 
         String attachments = "Attachment 1: "+elements.get(0).getFilepath();
+        int x = 2;
         for (int i = 1; i<elements.size();i++){
-            attachments=attachments+"\n"+"Attachment "+(i+1)+": "+elements.get(i).getFilepath();
+            if(elements.get(i).getFilepath()!=null) {
+                attachments=attachments+"\n"+"Attachment "+(x)+": "+elements.get(i).getFilepath();
+                x++;
+            }
         }
         attachment3.setText(attachments);
 

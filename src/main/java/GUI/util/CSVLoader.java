@@ -176,9 +176,11 @@ public class CSVLoader {
         }
 
         for(XYChart.Series s : series) barChart.getData().add(s);
+        barChart.prefHeightProperty().bind(pane.heightProperty());
+        barChart.prefWidthProperty().bind(pane.widthProperty());
         pane.getChildren().clear();
         pane.getChildren().add(barChart);
-        barChart.setPrefSize(pane.getWidth(), pane.getHeight());
+        //barChart.setPrefSize(pane.getWidth(), pane.getHeight());
     }
 
     public static void createLinechart(boolean isHeader, String title, Pane pane) {
@@ -248,7 +250,10 @@ public class CSVLoader {
         for(XYChart.Series s : series) lineChart.getData().add(s);
         pane.getChildren().clear();
         pane.getChildren().add(lineChart);
-        lineChart.setPrefSize(pane.getWidth(), pane.getHeight());
+        //lineChart.setPrefSize(pane.getWidth(), pane.getHeight());
+
+        lineChart.prefHeightProperty().bind(pane.heightProperty());
+        lineChart.prefWidthProperty().bind(pane.widthProperty());
     }
 
     public static void createTable(boolean isHeader, Pane pane) {
@@ -287,9 +292,12 @@ public class CSVLoader {
         SwingNode sn = new SwingNode();
         sn.setContent(myJTable);
         ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setPrefSize(pane.getWidth(), pane.getHeight());
-        sn.minWidth(pane.getWidth());
-        sn.prefWidth(pane.getWidth());
+        //scrollPane.setPrefSize(pane.getWidth(), pane.getHeight());
+        scrollPane.prefHeightProperty().bind(pane.heightProperty());
+        scrollPane.prefWidthProperty().bind(pane.widthProperty());
+        scrollPane.setContent(sn);
+        //sn.minWidth(pane.getWidth());
+        //sn.prefWidth(pane.getWidth());
         pane.getChildren().add(scrollPane);
     }
 

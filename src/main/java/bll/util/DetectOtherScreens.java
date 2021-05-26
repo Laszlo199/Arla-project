@@ -29,7 +29,7 @@ public class DetectOtherScreens {
      */
     public List<Screen> getModifiedScreens(List<Screen> newScreens, ObservableList<Screen> mainScreens,
                                            HashSet<String> changedFiles) throws BLLException {
-        for(Screen screen: mainScreens){
+        for(Screen screen: newScreens){
             for(String file: changedFiles){
                 for(ScreenElement se: screen.getScreenElementList()){
                     String one  = se.getFilepath().replaceAll("\\\\","/");
@@ -42,7 +42,7 @@ public class DetectOtherScreens {
         }
 
         List<Screen> helper = new ArrayList<>();
-        for(Screen m: mainScreens){
+        for(Screen m: newScreens){
             if(m.isRefreshNow()){
                 helper.add(m);
                 System.out.println("screen to modifyyyy");

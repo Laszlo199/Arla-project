@@ -132,7 +132,7 @@ public class LogInController implements Initializable {
             root = loader.load();
             ClientViewController controller = loader.getController();
             controller.setScreen(screen, stage);
-            controller.setAsObserver();
+            controller.setAsObserver(screen);
         } catch (IOException e) {
             e.printStackTrace();
         }

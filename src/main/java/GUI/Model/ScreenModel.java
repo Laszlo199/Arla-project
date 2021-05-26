@@ -91,7 +91,7 @@ public class ScreenModel implements IObservable {
                 m.setRefreshNow(false);
             }
         }
-       notifySingleObservers(helper);
+       notifySingleObservers(modifiedScreens);
     }
 
 
@@ -233,7 +233,7 @@ public class ScreenModel implements IObservable {
 
     @Override
     public void notifySingleObservers(List<Screen> modified) {
-       for (Screen screen : modified){
+       /*for (Screen screen : modified){
            for (ObserverSingle observerSingle : observersSingle){
                 if (screen.getId() == observerSingle.getScreen().getId()) {
                     observerSingle.update();
@@ -241,6 +241,30 @@ public class ScreenModel implements IObservable {
                 }
            }
        }
+
+        */
+
+        /*
+        for(ObserverSingle observerSingle: observersSingle) {
+            System.out.println("id: " + observerSingle.getScreen().getId());
+        }
+
+        System.out.println("end.");
+
+        for (Screen screen : modified) {
+            System.out.println("id mod:" + screen.getId());
+        }
+
+        for (Screen screen : modified){
+            for (ObserverSingle observerSingle : observersSingle){
+                if (screen.getId() == observerSingle.getScreen().getId()) {
+                    observerSingle.update();
+                    System.out.println("we hit there");
+                }
+            }
+        }
+
+         */
     }
 
     public void deletePuzzleScreen(Screen screen) {
