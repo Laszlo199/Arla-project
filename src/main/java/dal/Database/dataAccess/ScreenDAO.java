@@ -91,7 +91,7 @@ public class ScreenDAO {
         String queScreens  ="SELECT * from Screens;";
         String queSections = "SELECT screenID, colIndex, rowIndex, columnSpan," +
                 " rowSpan, filepath, isHeader, title, CSVType from Sections;";
-        String clean  = "UPDATE Screens Set refreshNow=0;";
+
 
         try(Connection connection = dbConnector.getConnection()) {
             Statement statement = connection.createStatement();
@@ -140,7 +140,7 @@ public class ScreenDAO {
                 }
 
             }
-            statement.executeUpdate(clean);
+           // statement.executeUpdate(clean);
 
             return screens.values().stream().toList();
         } catch (SQLServerException throwables) {
@@ -194,7 +194,6 @@ public class ScreenDAO {
         String query2 = "INSERT INTO Sections(screenID, colIndex, rowIndex " +
                 " , columnSpan, rowSpan, filepath, isHeader, title, CSVType) Values(?, ?, ?, ?, ?, ?, ?, ?, ?);";
         String query3 = "UPDATE Users SET screenID = ? WHERE ID = ?";
-
         try(Connection connection = dbConnector.getConnection();
             PreparedStatement preparedStat1 = connection.prepareStatement(query1,
                     Statement.RETURN_GENERATED_KEYS);
@@ -364,4 +363,15 @@ public class ScreenDAO {
         return sections;
     }
 
+    public void setRefreshes() throws DALexception {
+        String clean  = "UPDATE Screens Set refreshNow=0;";
+        try(Connection connection = dbConnector.getConnection()) {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(clean);
+        } catch (SQLServerException throwables) {
+            throw new DALexception("Couldn't set refreshes", throwables);
+        } catch (SQLException throwables) {
+            throw new DALexception("Couldn't set refreshes", throwables);
+        }
+    }
 }

@@ -178,6 +178,15 @@ public class Facade implements IFacade{
         }
     }
 
+    @Override
+    public void setRefreshes() throws BLLException {
+        try {
+            facade.setRefreshes();
+        } catch (DALexception daLexception) {
+            throw new BLLException("Couldn't set refreshes", daLexception);
+        }
+    }
+
 
     @Override
     public List<DefaultScreen> getAllDefaultScreens() throws BLLException {

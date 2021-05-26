@@ -91,6 +91,8 @@ public class ScreenPreview {
 
     public void refreshNow(ActionEvent actionEvent) {
         screen.setRefreshNow(true);
+        model.update(screen);
+        screen.setRefreshNow(false); //it shouldn't change anything.
     }
 
     public void delete(ActionEvent actionEvent) {

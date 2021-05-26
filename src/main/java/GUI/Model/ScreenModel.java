@@ -38,6 +38,7 @@ public class ScreenModel implements IObservable {
     private ObservableList<DefaultScreen> defaultScreens;
     private ObservableList<Screen> mainScreens;
     private ScheduledExecutorService executorService;
+    private ScheduledExecutorService ex2;
 
     public ObservableList<Screen> getMainScreens() {
         return mainScreens;
@@ -58,10 +59,13 @@ public class ScreenModel implements IObservable {
         loadMainScreens();
         StartObservatorThread();
     }
+    List<Screen> forgetAbout = new ArrayList<>();
 
     private void StartObservatorThread() {
         executorService = Executors.newSingleThreadScheduledExecutor();
+        ex2 = Executors.newSingleThreadScheduledExecutor();
         executorService.scheduleWithFixedDelay(runnable, 1, 1, TimeUnit.SECONDS);
+        ex2.scheduleWithFixedDelay(runnable2, 6, 6, TimeUnit.SECONDS);
     }
 
         Runnable runnable = () -> {
@@ -72,8 +76,8 @@ public class ScreenModel implements IObservable {
                 List<Screen> addedScreens = logic.getNewScreens(newScreens, mainScreens);
                 mainScreens.addAll(addedScreens);
                 mainScreens.removeAll(deletedScreens);
+                modifiedScreens.removeAll(forgetAbout);
                 notifyManyObservers(addedScreens, deletedScreens, modifiedScreens);
-                //notifySingleObservers(modifiedScreens);
                 listenRefreshNow(modifiedScreens);
 
             } catch (BLLException e) {
@@ -81,24 +85,26 @@ public class ScreenModel implements IObservable {
             }
         };
 
+    Runnable runnable2 = () ->{
+        try {
+            logic.setRefreshes();
+        } catch (BLLException e) {
+            e.printStackTrace();
+        }
+        forgetAbout.clear();
+    };
+
 
     private void listenRefreshNow(List<Screen> modifiedScreens){
-        List<Screen> helper = new ArrayList<>();
-        for(Screen m: mainScreens){
+        //List<Screen> helper = new ArrayList<>();
+        for(Screen m: modifiedScreens){
             if(m.isRefreshNow()){
-                helper.add(m);
                 update(m);
                 m.setRefreshNow(false);
             }
         }
-       notifySingleObservers(helper);
+       notifySingleObservers(modifiedScreens);
     }
-
-
-
-
-
-
 
     public ObservableList<DefaultScreen> getDefaultScreens() {
         return defaultScreens;
@@ -233,14 +239,46 @@ public class ScreenModel implements IObservable {
 
     @Override
     public void notifySingleObservers(List<Screen> modified) {
-       for (Screen screen : modified){
-           for (ObserverSingle observerSingle : observersSingle){
-                if (screen.getId() == observerSingle.getScreen().getId()) {
-                    observerSingle.update();
-                    System.out.println("we hit there");
-                }
+        forgetAbout.addAll(modified);
+
+       if(!modified.isEmpty()) {
+           for (ObserverSingle observerSingle : observersSingle) {
+               System.out.println("I love sushii");
+               observerSingle.update();
            }
        }
+
+        for(ObserverSingle observerSingle: observersSingle){
+            System.out.println("ids for observers: "+ observerSingle.
+                    getScreen().getId());
+        }
+        System.out.println("slut --------------------");
+
+        for(Screen screen: modified){
+            System.out.println(" ids for screns: "+ screen.getId());
+        }
+
+        for(ObserverSingle observerSingle : observersSingle){
+            System.out.println("size of modified: "+ modified.size());
+            for(Screen mofidScreen: modified){
+                if(observerSingle.getScreen().getId() == mofidScreen.getId()){
+                    System.out.println("fuck yeahhhh");
+                    observerSingle.update();
+                }
+            }
+        }
+
+       /*
+       for (Screen screen : modified) {
+           for (ObserverSingle observerSingle : observersSingle) {
+               if (screen.getId() == observerSingle.getScreen().getId()) {
+                   observerSingle.update();
+                   System.out.println("we hit there");
+               }
+           }
+       }
+
+        */
     }
 
     public void deletePuzzleScreen(Screen screen) {
@@ -266,7 +304,7 @@ public class ScreenModel implements IObservable {
         observersSingle.remove(observer);
     }
 
-    private void update(Screen screen) {
+    public void update(Screen screen) {
         try {
             logic.update(screen);
         } catch (BLLException e) {

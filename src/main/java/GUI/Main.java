@@ -7,6 +7,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
@@ -20,6 +22,21 @@ public class Main extends Application {
         //FXMLLoader loader = new FXMLLoader(getClass().getResource("/CreateNewScreen.fxml"));
         //FXMLLoader loader = new FXMLLoader(getClass().getResource("/Templates/CreateDefaultTemplate.fxml"));
         Parent root = loader.load();
+        stage.setTitle("Production");
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+
+        openOther();
+
+    }
+
+    private void openOther() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main.fxml"));
+        //FXMLLoader loader = new FXMLLoader(getClass().getResource("/CreateNewScreen.fxml"));
+        //FXMLLoader loader = new FXMLLoader(getClass().getResource("/Templates/CreateDefaultTemplate.fxml"));
+        Parent root = loader.load();
+        Stage stage = new Stage();
         stage.setTitle("Production");
         Scene scene = new Scene(root);
         stage.setScene(scene);

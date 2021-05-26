@@ -106,6 +106,22 @@ public class Screen {
 
         Screen screen = (Screen) o;
 
+        return id == screen.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
+
+    /*
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Screen screen = (Screen) o;
+
         if (id != screen.id) return false;
         if (refreshTime != screen.refreshTime) return false;
         if (refreshNow != screen.refreshNow) return false;
@@ -124,6 +140,8 @@ public class Screen {
         result = 31 * result + (refreshNow ? 1 : 0);
         return result;
     }
+
+     */
 
     @Override
     public String toString() {

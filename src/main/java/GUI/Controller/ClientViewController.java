@@ -56,6 +56,7 @@ public class ClientViewController extends ObserverSingle implements Initializabl
      */
 
     public void setScreen(Screen screen, Stage stage) {
+        //ScreenModel.getInstance().attachSingleObserver(this);
         setScreenObs(screen);
         model = ClientModel.getInstance();
         sections = model.getSections(screen);
@@ -211,12 +212,12 @@ public class ClientViewController extends ObserverSingle implements Initializabl
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //ScreenModel.observersSingle.add(this);
-
+       // ScreenModel.getInstance().attachSingleObserver(this);
     }
 
     public void setScreenObs(Screen screen){
-        setScreen(screen);
+       // System.out.println("we set screen");
+       // setScreen(screen);
     }
 
     /**
@@ -224,12 +225,16 @@ public class ClientViewController extends ObserverSingle implements Initializabl
      */
     @Override
     public void update() {
-        pane.getChildren().clear();
+        System.out.println(" we update but nothing happens");
+        //gridPane.getChildren().clear();
        // loadScreen(stageToSet);
     }
 
     @Override
-    public void setAsObserver() {
+    public void setAsObserver(Screen screen) {
+        System.out.println("---------- start");
         ScreenModel.getInstance().attachSingleObserver(this);
+        setScreen(screen);
+        System.out.println("---------------------- end ");
     }
 }

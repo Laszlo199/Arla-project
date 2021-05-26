@@ -179,6 +179,11 @@ public class DALFacade implements IDALFacade{
     }
 
     @Override
+    public void setRefreshes() throws DALexception {
+        screenDAO.setRefreshes();
+    }
+
+    @Override
     public User getUser(String username) throws DALexception {
         return userDAO.getUser(username);
     }
