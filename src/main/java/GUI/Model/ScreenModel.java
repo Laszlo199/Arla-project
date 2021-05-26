@@ -262,9 +262,9 @@ public class ScreenModel implements IObservable {
         for(ObserverSingle observerSingle : observersSingle){
             System.out.println("size of modified: "+ modified.size());
             for(Screen mofidScreen: modified){
-                if(observerSingle.getScreen().getId() == mofidScreen.getId()){
+                if(observerSingle.getScreen().getId() == mofidScreen.getId()) {
                     System.out.println("fuck yeahhhh");
-
+                }}}
        /*for (Screen screen : modified){
            for (ObserverSingle observerSingle : observersSingle){
                 if (screen.getId() == observerSingle.getScreen().getId()) {
@@ -310,6 +310,7 @@ public class ScreenModel implements IObservable {
          */
 
     }
+
 
     public void deletePuzzleScreen(Screen screen) {
         try {
