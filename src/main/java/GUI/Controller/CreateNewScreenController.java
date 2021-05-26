@@ -19,6 +19,8 @@ import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
@@ -26,6 +28,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.web.WebEngine;
 import javafx.scene.transform.Scale;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -68,6 +72,7 @@ public class CreateNewScreenController implements Initializable {
 
 
     private UserModel userModel;
+    private ScreenModel screenModel;
     WebEngine webEngine;
 
 
@@ -76,6 +81,7 @@ public class CreateNewScreenController implements Initializable {
         contextMenu = new ContextMenu();
         webEngine = new WebEngine();
         this.userModel = new UserModel();
+        this.screenModel = new ScreenModel();
     }
 
     @Override
@@ -752,6 +758,20 @@ public class CreateNewScreenController implements Initializable {
             System.out.println(screenElements);
             if(fine){
                 ScreenModel.getInstance().save(screen, screenElements, new ArrayList<>());
+                int screenID = screenModel.getScreenIDByName(screen.getName());
+                try {
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/AssignUser.fxml"));
+                    Parent root1 = fxmlLoader.load();
+                    Stage stage = new Stage();
+                    AssignUserController controller = fxmlLoader.getController();
+                    controller.setScreenName(screenID);
+                    //stage = (Stage) ((Node) actionEvent.getSource()).getSta.getWindow();
+                    stage.setTitle("Assign User");
+                    stage.setScene(new Scene(root1));
+                    stage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
     }
 

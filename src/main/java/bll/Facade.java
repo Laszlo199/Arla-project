@@ -322,4 +322,23 @@ public class Facade implements IFacade{
     }
 
 
+    @Override
+    public void saveToUsersAndScreens(int screenID, int userID) throws BLLException {
+        try {
+            facade.saveToUsersAndScreens(screenID,userID);
+        } catch (DALexception daLexception) {
+            throw new BLLException("Couldn't save screenAndUser", daLexception);
+        }
+    }
+
+    @Override
+    public int getScreenIDByName(String screenName) throws BLLException {
+        try {
+            return facade.getScreenIDByName(screenName);
+        } catch (DALexception daLexception) {
+            throw new BLLException("Couldn't get all  screenName", daLexception);
+        }
+    }
+
+
 }

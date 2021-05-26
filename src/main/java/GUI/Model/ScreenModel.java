@@ -52,7 +52,7 @@ public class ScreenModel implements IObservable {
         }
     }
 
-    private ScreenModel() {
+    public ScreenModel() {
         defaultScreens = FXCollections.observableArrayList();
         mainScreens = FXCollections.observableArrayList();
         loadDefaultScreens();
@@ -359,5 +359,22 @@ public class ScreenModel implements IObservable {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void saveToUsersAndScreens(int screenID, int userID) {
+        try {
+            logic.saveToUsersAndScreens(screenID,userID);
+        } catch (BLLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int getScreenIDByName(String screenName){
+        try {
+            return logic.getScreenIDByName(screenName);
+        }catch (BLLException e){
+            e.printStackTrace();
+        }
+        return -1;
     }
 }

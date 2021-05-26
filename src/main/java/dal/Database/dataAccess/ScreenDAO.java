@@ -374,4 +374,37 @@ public class ScreenDAO {
             throw new DALexception("Couldn't set refreshes", throwables);
         }
     }
+
+    public void saveToUsersAndScreens(int screenID, int userID) throws DALexception {
+        try (Connection connection = dbConnector.getConnection()) {
+            String sql = "INSERT INTO UsersAndScreens(UserID,ScreenID) Values(?, ?)";
+            PreparedStatement pStatement = connection.prepareStatement(sql);
+            pStatement.setInt(1, userID);
+            pStatement.setInt(2, screenID);
+            pStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            throw new DALexception("Whoops...2");
+        }
+    }
+
+    public int getScreenIDByName(String screenName) throws DALexception {
+        int id= -1;
+        try (Connection connection = dbConnector.getConnection()) {
+            String sql = "SELECT id FROM Screens WHERE name=?";
+            PreparedStatement pstat = connection.prepareStatement(sql);
+            pstat.setString(1, screenName);
+            ResultSet resultSet = pstat.executeQuery();
+
+            while (resultSet.next()) {
+                id = resultSet.getInt("id");
+
+            }
+        } catch (SQLServerException throwables) {
+            throwables.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return id;
+    }
 }
