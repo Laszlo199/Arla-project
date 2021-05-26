@@ -43,7 +43,6 @@ public class ClientViewController extends ObserverSingle implements Initializabl
     private Stage stageToSet;
 
     /*
-    //when logging as a client
     public void setUser(User user, Stage stage) {
         this.stageToSet =stage;
         this.user = user;
@@ -56,7 +55,6 @@ public class ClientViewController extends ObserverSingle implements Initializabl
 
      */
 
-    //when showing a preview
     public void setScreen(Screen screen, Stage stage) {
         setScreenObs(screen);
         model = ClientModel.getInstance();
@@ -166,10 +164,10 @@ public class ClientViewController extends ObserverSingle implements Initializabl
     private AnchorPane loadImage(String filepath) {
         AnchorPane anchorPane = new AnchorPane();
         anchorPane.setPrefSize(300, 300);
-        System.out.println("filePath is: "+ filepath);
-        Image image = new Image(filepath);
-        ImageView imageView = new ImageView();
-        imageView.setImage(image);
+        filepath = filepath.replace("\\", "/");
+        filepath = filepath.replace("src/../Data/", "");
+        URL url = getClass().getClassLoader().getResource(filepath);
+        ImageView imageView = new ImageView(url.toExternalForm());
         anchorPane.getChildren().add(imageView);
         imageView.setFitHeight(anchorPane.getHeight());
         imageView.setFitWidth(anchorPane.getWidth());
