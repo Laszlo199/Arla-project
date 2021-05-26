@@ -11,6 +11,7 @@ import gui.util.PDFLoader;
 import gui.util.WebsiteLoader;
 import be.ScreenElement;
 import be.User;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
@@ -60,12 +61,10 @@ public class ClientViewController extends ObserverSingle implements Initializabl
      */
 
     public void setScreen(Screen screen, Stage stage) {
-        setScreenObs(screen);
+        //setScreenObs(screen);
         model = ClientModel.getInstance();
         sections = model.getSections(screen);
-
         for(ScreenElement s : sections) System.out.println(s);
-
         loadScreen(stage);
     }
 
@@ -103,8 +102,8 @@ public class ClientViewController extends ObserverSingle implements Initializabl
 
                 gridPane.add(anchorPane, section.getColIndex(),
                         section.getRowIndex(), section.getColSpan(), section.getRowSpan());
-                GridPane.setHgrow(anchorPane, Priority.SOMETIMES);
-                GridPane.setVgrow(anchorPane, Priority.SOMETIMES);
+                GridPane.setHgrow(anchorPane, Priority.ALWAYS);
+                GridPane.setVgrow(anchorPane, Priority.ALWAYS); // experiment instead of sometimes.
             }
         }
         gridPane.setGridLinesVisible(true);
@@ -257,12 +256,17 @@ public class ClientViewController extends ObserverSingle implements Initializabl
     }
 
     /**
-     * if update reload all screen
+     * we will delete stage and reload it.
      */
     @Override
     public void update() {
         System.out.println(" we update but nothing happens");
-        //gridPane.getChildren().clear();
+        Platform.runLater(() -> {
+            loadScreen(new Stage());
+        });
+       // stageToSet.close();
+        //loadScreen(stageToSet);
+
     }
 
     @Override

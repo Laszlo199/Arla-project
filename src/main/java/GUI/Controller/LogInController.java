@@ -134,7 +134,7 @@ public class LogInController implements Initializable {
             controller.setAsObserver(screen);
             controller.setScreen(screen, stage);
 
-            controller.setAsObserver(screen);
+            //controller.setAsObserver(screen);
         } catch (IOException e) {
             e.printStackTrace();
         }
