@@ -27,4 +27,6 @@ public interface IScreen {
     List<ScreenElement> getSections(Screen screen) throws DALexception;
 
     void clearChangedFiles();
+
+    List<String> getUsersForScreen(int id) throws DALexception;
 }

@@ -306,4 +306,13 @@ public class ScreenModel implements IObservable {
         }
         return null;
     }
+
+    public List<String> getUsersForScreen(int id) {
+        try {
+            return logic.getUsersForScreen(id);
+        }catch (BLLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

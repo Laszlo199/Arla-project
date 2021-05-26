@@ -178,6 +178,16 @@ public class Facade implements IFacade{
         }
     }
 
+    @Override
+    public List<String> getUsersForScreen(int id) throws BLLException {
+        try {
+            return facade.getUsersForScreen(id);
+        } catch (DALexception daLexception) {
+            daLexception.printStackTrace();
+            throw new BLLException("Couldnt get a users for a screen");
+        }
+    }
+
 
     @Override
     public List<DefaultScreen> getAllDefaultScreens() throws BLLException {

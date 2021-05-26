@@ -208,4 +208,26 @@ public class UserDAO {
             throw new DALexception("Whoops..Couldn't reset an User");
         }
     }
+
+    public List<String> getUsersForScreen(int screenId) throws DALexception {
+        String sql = "SELECT u.userName " +
+                "FROM Users u, UsersAndScreens s " +
+                "WHERE s.UserID = u.ID AND s.ScreenID = ?";
+        List<String> usernames = new ArrayList<>();
+        try(Connection con = dbConnector.getConnection()){
+            PreparedStatement pstat = con.prepareStatement(sql);
+            pstat.setInt(1, screenId);
+            ResultSet rs = pstat.executeQuery();
+            while(rs.next()) {
+                String username = rs.getString(1);
+                usernames.add(username);
+            }
+        } catch (SQLServerException throwables) {
+            throwables.printStackTrace();
+            throw new DALexception("couldn't get users for screen");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return usernames;
+    }
 }

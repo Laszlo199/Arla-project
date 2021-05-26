@@ -32,6 +32,11 @@
                   <Font size="24.0" />
                </font>
             </Label>
+            <Label fx:id="usernamesLbl" layoutX="510.0" layoutY="10.0" text="Assigned users: ">
+                   <font>
+                      <Font size="14" />
+                   </font>
+            </Label>
             <Separator layoutX="17.0" layoutY="80.0" prefHeight="6.0" prefWidth="611.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" />
             <HBox alignment="BOTTOM_CENTER" layoutY="252.0" prefHeight="69.0" prefWidth="645.0" spacing="15.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
