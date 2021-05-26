@@ -239,6 +239,7 @@ public class ScreenModel implements IObservable {
 
     @Override
     public void notifySingleObservers(List<Screen> modified) {
+
         forgetAbout.addAll(modified);
 
        if(!modified.isEmpty()) {
@@ -263,6 +264,11 @@ public class ScreenModel implements IObservable {
             for(Screen mofidScreen: modified){
                 if(observerSingle.getScreen().getId() == mofidScreen.getId()){
                     System.out.println("fuck yeahhhh");
+
+       /*for (Screen screen : modified){
+           for (ObserverSingle observerSingle : observersSingle){
+                if (screen.getId() == observerSingle.getScreen().getId()) {
+
                     observerSingle.update();
                 }
             }
@@ -279,6 +285,30 @@ public class ScreenModel implements IObservable {
        }
 
         */
+
+
+        /*
+        for(ObserverSingle observerSingle: observersSingle) {
+            System.out.println("id: " + observerSingle.getScreen().getId());
+        }
+
+        System.out.println("end.");
+
+        for (Screen screen : modified) {
+            System.out.println("id mod:" + screen.getId());
+        }
+
+        for (Screen screen : modified){
+            for (ObserverSingle observerSingle : observersSingle){
+                if (screen.getId() == observerSingle.getScreen().getId()) {
+                    observerSingle.update();
+                    System.out.println("we hit there");
+                }
+            }
+        }
+
+         */
+
     }
 
     public void deletePuzzleScreen(Screen screen) {
@@ -315,6 +345,15 @@ public class ScreenModel implements IObservable {
     public List<ScreenElement> getSections(Screen screen){
         try {
            return logic.getSections(screen);
+        }catch (BLLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<String> getUsersForScreen(int id) {
+        try {
+            return logic.getUsersForScreen(id);
         }catch (BLLException e){
             e.printStackTrace();
         }

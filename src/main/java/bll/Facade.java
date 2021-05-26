@@ -179,11 +179,21 @@ public class Facade implements IFacade{
     }
 
     @Override
+
     public void setRefreshes() throws BLLException {
         try {
             facade.setRefreshes();
         } catch (DALexception daLexception) {
             throw new BLLException("Couldn't set refreshes", daLexception);
+}
+}
+
+    public List<String> getUsersForScreen(int id) throws BLLException {
+        try {
+            return facade.getUsersForScreen(id);
+        } catch (DALexception daLexception) {
+            daLexception.printStackTrace();
+            throw new BLLException("Couldnt get a users for a screen");
         }
     }
 

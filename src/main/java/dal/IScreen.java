@@ -28,5 +28,9 @@ public interface IScreen {
 
     void clearChangedFiles();
 
+
     void setRefreshes() throws DALexception;
+
+    List<String> getUsersForScreen(int id) throws DALexception;
+
 }

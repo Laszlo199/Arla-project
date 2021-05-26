@@ -21,9 +21,10 @@ import java.util.List;
  */
 public class ScreenPreview {
 
-    private int id;
     private ScreenModel model = ScreenModel.getInstance();
-   // private DefaultScreen currentScreen;
+    private Screen screen;
+
+    @FXML private Label usernamesLbl;
     @FXML
     private Label ScreenName;
     @FXML
@@ -43,9 +44,6 @@ public class ScreenPreview {
 
      */
 
-
-    private Screen screen;
-
     public void setMainScreen(Screen sc) {
         this.screen = sc;
         initMainFields();
@@ -57,10 +55,21 @@ public class ScreenPreview {
         List<ScreenElement> elements = model.getSections(screen);
 
         String attachments = "Attachment 1: "+elements.get(0).getFilepath();
+        int x = 2;
         for (int i = 1; i<elements.size();i++){
-            attachments=attachments+"\n"+"Attachment "+(i+1)+": "+elements.get(i).getFilepath();
+            if(elements.get(i).getFilepath()!=null) {
+                attachments=attachments+"\n"+"Attachment "+(x)+": "+elements.get(i).getFilepath();
+                x++;
+            }
         }
         attachment3.setText(attachments);
+
+        String users = usernamesLbl.getText();
+        List<String> usernames = model.getUsersForScreen(screen.getId());
+        if(!usernames.isEmpty()) for(String u : usernames) users += "\n"+u;
+        else users += "\n-";
+        usernamesLbl.setText(users);
+
 
         /*
         Label[] array =  {attachment1, attachment2, attachment3, attachment4};

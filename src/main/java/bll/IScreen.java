@@ -44,5 +44,9 @@ public interface IScreen {
 
     List<ScreenElement> getSections(Screen screen) throws BLLException;
 
+
     void setRefreshes() throws BLLException;
+
+    List<String> getUsersForScreen(int id) throws BLLException;
+
 }
