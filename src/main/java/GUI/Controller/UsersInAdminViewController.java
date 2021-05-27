@@ -29,7 +29,7 @@ public class UsersInAdminViewController implements Initializable {
     @FXML private TableView<User> userTableView;
     @FXML private TextField searchField;
     @FXML private TableColumn<User, String> userColumn;
-    @FXML private TableColumn<User, String> passwordColumn;
+    //@FXML private TableColumn<User, String> passwordColumn;
     @FXML private JFXButton edit;
     @FXML private AnchorPane editTable;
     @FXML private AnchorPane addNewUser;
@@ -61,7 +61,7 @@ public class UsersInAdminViewController implements Initializable {
 
     private void initUserTableView(){
         userColumn.setCellValueFactory(new PropertyValueFactory<User, String>("userName"));
-        passwordColumn.setCellValueFactory(new PropertyValueFactory<User, String>("Password"));
+        //passwordColumn.setCellValueFactory(new PropertyValueFactory<User, String>("Password"));
 
         userModel.loadUsers();
         userTableView.setItems(userModel.getAllUser());
@@ -202,21 +202,22 @@ public class UsersInAdminViewController implements Initializable {
        setCreateAdmin(isAdmin);
     }
 
-    public void setCreateAdminOrUser(boolean isAdmin) {
+    public void setCreateAdminOrUser(boolean isAdmin,boolean isReset) {
         User newUser = new User(-1,
                 newNameField.getText(),
                 newPasswordField.getText(),
                 isAdmin,
-                true);
+                isReset);
         userModel.saveUser(newUser);
     }
 
 
     public void btnCreate(ActionEvent actionEvent) {
        boolean isAdmin = false;
+       boolean isReset = false;
        if (createAdmin.isSelected())
            isAdmin = true;
-       setCreateAdminOrUser(isAdmin);
+       setCreateAdminOrUser(isAdmin,isReset);
 
     }
 

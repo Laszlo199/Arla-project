@@ -32,10 +32,11 @@
                            <children>
                               <TableView fx:id="userTableView" layoutX="105.0" layoutY="62.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#readUser" prefHeight="364.0" prefWidth="415.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
-                                  <TableColumn fx:id="columnImages" prefWidth="35.33334469795227" />
                                     <TableColumn fx:id="userColumn" prefWidth="295.0" text="Users" />
-                                    <TableColumn fx:id="passwordColumn" prefWidth="340.0" text="Passwords" />
                                 </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
                               </TableView>
                            </children>
                         </AnchorPane>

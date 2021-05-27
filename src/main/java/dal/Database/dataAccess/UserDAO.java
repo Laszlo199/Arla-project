@@ -72,12 +72,13 @@ public class UserDAO {
 
     public void create(User user) throws DALexception {
         try (Connection connection = dbConnector.getConnection()) {
-            String sql = "INSERT INTO Users(userName, isAdmin, isReset) VALUES(?,?,?)";
+            String sql = "INSERT INTO Users(userName, Password, isAdmin, isReset) VALUES(?,?,?,?)";
             PreparedStatement pStatement = connection.prepareStatement(sql);
             pStatement.setString(1, user.getUserName());
-            //pStatement.setString(2, user.getPassword());
-            pStatement.setBoolean(2, user.isAdmin());
-            pStatement.setBoolean(3,user.isReset());
+            pStatement.setString(2, user.getPassword());
+            pStatement.setBoolean(3, user.isAdmin());
+            pStatement.setBoolean(4, user.isReset());
+            //pStatement.setString(4, user.getPassword());
             pStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
