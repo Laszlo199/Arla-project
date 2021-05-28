@@ -21,6 +21,7 @@ import javafx.util.Duration;
 
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static java.sql.Types.NULL;
@@ -222,8 +223,19 @@ public class UsersInAdminViewController implements Initializable {
     }
 
     public void btnDeleteUser(ActionEvent actionEvent) {
-        User selectedUser = userTableView.getSelectionModel().getSelectedItem();
-        userModel.delete(selectedUser);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Dialog");
+        alert.setHeaderText("Are you sure about deleting this user?");
+
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.YES){
+            // ... user chose OK
+            User selectedUser = userTableView.getSelectionModel().getSelectedItem();
+            userModel.delete(selectedUser);
+        } else {
+           alert.close();
+        }
         userModel.loadUsers();
 
     }
