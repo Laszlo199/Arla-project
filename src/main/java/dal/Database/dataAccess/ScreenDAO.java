@@ -284,8 +284,8 @@ public class ScreenDAO {
     }
 
     public void update(Screen screen) throws DALexception {
-        String sql = "UPDATE Screens Set [name]=?, [refreshTime]=?, [refreshNow]=? " +
-                "Where id = ?";
+        String sql = "UPDATE Screens SET [name]=?, [refreshTime]=?, [refreshNow]=? " +
+                "WHERE id = ?";
         try(Connection con = dbConnector.getConnection()) {
             PreparedStatement pstat = con.prepareStatement(sql);
             pstat.setString(1, screen.getName());
@@ -328,6 +328,7 @@ public class ScreenDAO {
             System.out.println("SCREEN ID: " + screen.getId());
             ResultSet resultSet = pstat.executeQuery();
             while(resultSet.next()){
+                int id = resultSet.getInt("id");
                 int colIndex = resultSet.getInt(3);
                 int rowIndex = resultSet.getInt(4);
                 int columnSpan = resultSet.getInt(5);
@@ -339,17 +340,17 @@ public class ScreenDAO {
 
                 if(title==null || type==null)
                     sections.add(
-                            new ScreenElement(colIndex, rowIndex, columnSpan, rowSpan, filepath));
+                            new ScreenElement(id, colIndex, rowIndex, columnSpan, rowSpan, filepath));
                 else {
                     switch (type) {
                         case "LINECHART" -> sections.add(
-                                new ScreenElement(colIndex, rowIndex, columnSpan, rowSpan, filepath,
+                                new ScreenElement(id, colIndex, rowIndex, columnSpan, rowSpan, filepath,
                                         new CSVInfo(isHeader, title, CSVInfo.CSVType.LINECHART)));
                         case "BARCHART" ->  sections.add(
-                                new ScreenElement(colIndex, rowIndex, columnSpan, rowSpan, filepath,
+                                new ScreenElement(id, colIndex, rowIndex, columnSpan, rowSpan, filepath,
                                         new CSVInfo(isHeader, title, CSVInfo.CSVType.BARCHART)));
                         case "TABLE" -> sections.add(
-                                new ScreenElement(colIndex, rowIndex, columnSpan, rowSpan, filepath,
+                                new ScreenElement(id, colIndex, rowIndex, columnSpan, rowSpan, filepath,
                                         new CSVInfo(isHeader, title, CSVInfo.CSVType.TABLE)));
                     }
                 }
@@ -406,5 +407,30 @@ public class ScreenDAO {
             throwables.printStackTrace();
         }
         return id;
+    }
+
+    public void updateSections(List<ScreenElement> sections) {
+        try (Connection con = dbConnector.getConnection()) {
+            String sql = "UPDATE Sections SET filepath=?, isHeader=?, title=?, CSVType=? WHERE id=?";
+            PreparedStatement pstat = con.prepareStatement(sql);
+            for(ScreenElement section : sections) {
+                pstat.setString(1, section.getFilepath());
+                if(section.getCsvInfo()!=null) {
+                    pstat.setBoolean(2, section.getCsvInfo().isHeader());
+                    pstat.setString(3, section.getCsvInfo().getTitle());
+                    pstat.setString(4, section.getCsvInfo().getType().toString());
+                } else {
+                    pstat.setString(2, null);
+                    pstat.setString(3, null);
+                    pstat.setString(4, null);
+                }
+                pstat.setInt(5, section.getId());
+                pstat.executeUpdate();
+            }
+        } catch (SQLServerException throwables) {
+            throwables.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 }

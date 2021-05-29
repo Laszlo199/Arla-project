@@ -113,7 +113,20 @@ public class ScreenPreview {
      * @param actionEvent
      */
     public void edit(ActionEvent actionEvent) {
-
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/EditView.fxml"));
+        Stage stage = new Stage();
+        Parent root = null;
+        try {
+            root = loader.load();
+            EditViewController controller = loader.getController();
+            controller.setScreen(screen);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Scene scene = new Scene(root);
+        stage.setTitle("modifying screen: " + screen.getName());
+        stage.setScene(scene);
+        stage.show();
     }
 
     /**

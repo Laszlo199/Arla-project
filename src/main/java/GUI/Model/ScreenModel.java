@@ -1,6 +1,5 @@
 package gui.Model;
 
-import gui.Controller.ClientViewController;
 import gui.Model.exception.ModelException;
 import be.DefaultScreen;
 import be.Screen;
@@ -10,15 +9,11 @@ import bll.Facade;
 import bll.IFacade;
 import bll.exception.BLLException;
 import gui.util.Observator.IObservable;
-import gui.util.Observator.Observer;
 import gui.util.Observator.ObserverMany;
 
 import gui.util.Observator.ObserverSingle;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
-import javafx.concurrent.Task;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -376,5 +371,21 @@ public class ScreenModel implements IObservable {
             e.printStackTrace();
         }
         return -1;
+    }
+
+    public void updateSections(List<ScreenElement> sections) {
+        try {
+            logic.updateSections(sections);
+        } catch (BLLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateAssignedUsers(int screenID, List<User> selectedUsers) {
+        try {
+            logic.updateAssignedUsers(screenID, selectedUsers);
+        } catch (BLLException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -36,4 +36,5 @@ public interface IScreen {
     void saveToUsersAndScreens(int screenID, int userID)throws DALexception;
     int getScreenIDByName(String screenName) throws DALexception;
 
+    void updateSections(List<ScreenElement> sections) throws DALexception;
 }

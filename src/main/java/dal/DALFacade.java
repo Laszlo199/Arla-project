@@ -193,6 +193,11 @@ public class DALFacade implements IDALFacade{
         return userDAO.getUser(username);
     }
 
+    @Override
+    public void updateAssignedUsers(int screenID, List<User> selectedUsers) throws DALexception {
+        userDAO.updateAssignedUsers(screenID, selectedUsers);
+    }
+
 
     @Override
     public void saveToUsersAndScreens(int screenID, int userID) throws DALexception {
@@ -202,6 +207,11 @@ public class DALFacade implements IDALFacade{
     @Override
     public int getScreenIDByName(String screenName) throws DALexception {
         return screenDAO.getScreenIDByName(screenName);
+    }
+
+    @Override
+    public void updateSections(List<ScreenElement> sections) throws DALexception {
+        screenDAO.updateSections(sections);
     }
 
 }

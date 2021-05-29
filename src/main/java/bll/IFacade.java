@@ -23,4 +23,6 @@ public interface IFacade extends IScreen, IDefaultScreen{
 
 
     User getUser(String username) throws BLLException;
+
+    void updateAssignedUsers(int screenID, List<User> selectedUsers) throws BLLException;
 }

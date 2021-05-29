@@ -53,4 +53,5 @@ public interface IScreen {
     void saveToUsersAndScreens(int screenID, int userID) throws BLLException;
     int getScreenIDByName(String screenName) throws BLLException;
 
+    void updateSections(List<ScreenElement> sections) throws BLLException;
 }

@@ -321,7 +321,6 @@ public class CreateNewScreenController implements Initializable {
         AnchorPane anchorPane = (AnchorPane) node;
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Video file");
-
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Video files",
                 "*.mp4", "*.WEBM"));
         FXMLLoader loader = new FXMLLoader(getClass().
@@ -387,8 +386,6 @@ public class CreateNewScreenController implements Initializable {
         dragEvent.consume();
         AnchorPane anchorPane = (AnchorPane) node;
         String destPath = ImageLoader.loadImage(anchorPane).toString();
-       // nodeMap.put(node, destPath);
-      // n.add(node);
         getInformation(node).setFilepath(destPath);
         getInformation(node).setFilled(true);
     }

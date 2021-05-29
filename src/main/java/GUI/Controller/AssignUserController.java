@@ -33,6 +33,7 @@ public class AssignUserController implements Initializable {
     private UserModel userModel;
     private ScreenModel screenModel;
     private int screenID;
+    private boolean isEdit = false;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -50,6 +51,11 @@ public class AssignUserController implements Initializable {
 
     public void setScreenName(int screenName) {
         this.screenID = screenName;
+
+    }
+
+    public void setEdit(boolean isEdit) {
+        this.isEdit = isEdit;
     }
 
     private void initUserTableView(){
@@ -68,10 +74,11 @@ public class AssignUserController implements Initializable {
     public void btnAssign(javafx.event.ActionEvent actionEvent) {
         List<User> selectedUsers = userTableView.getSelectionModel().getSelectedItems();
 
-
-        for (int i = 0; i<selectedUsers.size();i++){
-            screenModel.saveToUsersAndScreens(screenID,selectedUsers.get(i).getID());
-        }
+        if(!isEdit) {
+            for (int i = 0; i < selectedUsers.size(); i++) {
+                screenModel.saveToUsersAndScreens(screenID, selectedUsers.get(i).getID());
+            }
+        } else screenModel.updateAssignedUsers(screenID, selectedUsers);
 
     }
 

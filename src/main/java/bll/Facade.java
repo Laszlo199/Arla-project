@@ -13,13 +13,12 @@ import dal.exception.DALexception;
 import javafx.collections.ObservableList;
 
 import java.nio.file.Path;
-import java.util.HashSet;
 import java.util.List;
 
 /**
  *
  */
-public class Facade implements IFacade{
+public class Facade implements IFacade {
     private IDALFacade facade;
     private DiagramOperations diagramOperations;
     private static Facade facadeBLL;
@@ -317,6 +316,15 @@ public class Facade implements IFacade{
     }
 
     @Override
+    public void updateAssignedUsers(int screenID, List<User> selectedUsers) throws BLLException {
+        try {
+            facade.updateAssignedUsers(screenID, selectedUsers);
+        } catch (DALexception daLexception) {
+            throw new BLLException("Couldn't update assigned users", daLexception);
+        }
+    }
+
+    @Override
     public void deleteDefaultScreen(DefaultScreen defaultScreen) {
         facade.deleteDefaultScreen(defaultScreen);
     }
@@ -337,6 +345,15 @@ public class Facade implements IFacade{
             return facade.getScreenIDByName(screenName);
         } catch (DALexception daLexception) {
             throw new BLLException("Couldn't get all  screenName", daLexception);
+        }
+    }
+
+    @Override
+    public void updateSections(List<ScreenElement> sections) throws BLLException {
+        try {
+            facade.updateSections(sections);
+        } catch (DALexception daLexception) {
+            throw new BLLException("Couldn't update sections", daLexception);
         }
     }
 
