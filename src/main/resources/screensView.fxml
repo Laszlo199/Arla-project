@@ -14,12 +14,12 @@
          <children>
             <HBox prefHeight="63.0" prefWidth="896.0" spacing="25.0" VBox.vgrow="NEVER">
                <children>
-                  <ToggleButton mnemonicParsing="false" prefHeight="25.0" prefWidth="71.0" text="All">
+                  <ToggleButton fx:id="allBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="71.0" text="All">
                      <HBox.margin>
                         <Insets left="30.0" top="25.0" />
                      </HBox.margin>
                   </ToggleButton>
-                  <ToggleButton mnemonicParsing="false" prefHeight="25.0" prefWidth="82.0" text="Active">
+                  <ToggleButton fx:id="activeBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="82.0" text="Active">
                      <HBox.margin>
                         <Insets top="25.0" />
                      </HBox.margin>
