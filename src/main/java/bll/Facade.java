@@ -6,6 +6,7 @@ import be.ScreenElement;
 import be.User;
 import bll.exception.BLLException;
 import bll.util.DetectOtherScreens;
+import bll.util.UserViewUtils;
 import dal.DALFacade;
 import dal.File.WatchFiles.ChangesFiles;
 import dal.IDALFacade;
@@ -14,6 +15,7 @@ import javafx.collections.ObservableList;
 
 import java.nio.file.Path;
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  *
@@ -23,6 +25,7 @@ public class Facade implements IFacade {
     private DiagramOperations diagramOperations;
     private static Facade facadeBLL;
     private DetectOtherScreens detectOtherScreens;
+    private UserViewUtils userViewUtils;
 
 
 
@@ -42,6 +45,7 @@ public class Facade implements IFacade {
         }
         diagramOperations =new DiagramOperations();
         detectOtherScreens = new DetectOtherScreens();
+        userViewUtils = new UserViewUtils();
     }
 
     @Override
@@ -323,6 +327,12 @@ public class Facade implements IFacade {
             throw new BLLException("Couldn't update assigned users", daLexception);
         }
     }
+
+    @Override
+    public Predicate<User> createSearch(String searchText) throws BLLException {
+        return userViewUtils.createSearch(searchText);
+    }
+
 
     @Override
     public void deleteDefaultScreen(DefaultScreen defaultScreen) {

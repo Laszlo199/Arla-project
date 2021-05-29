@@ -6,6 +6,8 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import javafx.animation.TranslateTransition;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -248,7 +250,12 @@ public class UsersInAdminViewController implements Initializable {
     }
 
     public void search(){
-
+        FilteredList<User> filteredData = new FilteredList<>(FXCollections.observableList(userModel.getAllUser()));
+        userTableView.setItems(filteredData);
+        searchField.textProperty().addListener((observableValue, oldValue, newValue) ->
+                filteredData.setPredicate(userModel.createSearch(newValue))
+        );
+        /*
         FilteredList<User> filteredList = new FilteredList<>(userModel.getAllUser(), b->true);
         searchField.textProperty().addListener((observableValue, oldValue, newValue) -> {
             filteredList.setPredicate(users -> {
@@ -266,6 +273,7 @@ public class UsersInAdminViewController implements Initializable {
         sortedList.comparatorProperty().bind(userTableView.comparatorProperty());
         userTableView.setItems(sortedList);
 
+         */
     }
 
     public void comboBoxSelect(ActionEvent actionEvent) {

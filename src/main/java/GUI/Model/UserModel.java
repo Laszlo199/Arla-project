@@ -6,6 +6,10 @@ import bll.IFacade;
 import bll.exception.BLLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
+
+import java.util.function.Predicate;
 
 public class UserModel {
 
@@ -15,6 +19,7 @@ public class UserModel {
 
     public UserModel() {
        this.obsUsers = FXCollections.observableArrayList();
+
         try {
             this.iFacade = Facade.getInstance();
         } catch (BLLException e) {
@@ -71,6 +76,14 @@ public class UserModel {
         }
         obsUsers.clear();
         obsUsers.addAll();
+    }
+    public Predicate<User> createSearch(String searchText) {
+        try {
+            return iFacade.createSearch(searchText);
+        } catch (BLLException blLexception) {
+            blLexception.printStackTrace();
+        }
+        return null;
     }
 
 

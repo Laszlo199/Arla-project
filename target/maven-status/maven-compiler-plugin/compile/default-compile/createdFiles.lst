@@ -1,2 +1,3 @@
-GUI/Controller/EditViewController.class
+gui\Controller\EditViewController.class
 testContr.class
+bll\util\UserViewUtils.class
