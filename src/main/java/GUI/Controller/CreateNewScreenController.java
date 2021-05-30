@@ -69,8 +69,6 @@ public class CreateNewScreenController implements Initializable {
     ContextMenu contextMenu;
     private int[][] array;
     private int incrementedValue = 1;
-
-
     private UserModel userModel;
     private ScreenModel screenModel;
     WebEngine webEngine;
@@ -453,8 +451,11 @@ public class CreateNewScreenController implements Initializable {
             for (int m = GridPane.getRowIndex(node); m < GridPane.getRowIndex(node) + getRowSpan(node); m++)
                 for (int n = GridPane.getColumnIndex(node); n < GridPane.getColumnIndex(node) + getColSpan(node); n++) {
                     Node node1 = new AnchorPane();
+                    Information information = new Information();
+                    information.setNode(useThisNode);
+                    node1.setUserData(information);
                     node1.setOnMousePressed(event1 -> showContextMenu(event1, node1));
-                    getInformation(node1).setNode(useThisNode);
+                    //getInformation(node1).setNode(useThisNode);
                     gridPane.add(node1, n, m);
                 }
             GridPane.setRowSpan(useThisNode, getRowSpan(node));
@@ -522,8 +523,11 @@ public class CreateNewScreenController implements Initializable {
                     for (int m = GridPane.getRowIndex(usedNode); m < GridPane.getRowIndex(usedNode) + getRowSpan(usedNode); m++)
                         for (int n = GridPane.getColumnIndex(usedNode); n < GridPane.getColumnIndex(usedNode) + getColSpan(usedNode); n++) {
                             Node node1 = new AnchorPane();
+                            Information information = new Information();
+                            information.setNode(useThisNow);
+                            node1.setUserData(information);
                             node1.setOnMousePressed(event1 -> showContextMenu(event1, node1));
-                            getInformation(node1).setNode(useThisNow);
+                            //getInformation(node1).setNode(useThisNow);
                             gridPane.add(node1, n, m);
                         }
                     GridPane.setColumnSpan(useThisNow, getColSpan(usedNode));
@@ -790,7 +794,9 @@ public class CreateNewScreenController implements Initializable {
     }
 
 
-
+    /**
+     * improve set filled part
+     */
     public class Information {
         private Node node;
         private boolean filled;
@@ -819,5 +825,6 @@ public class CreateNewScreenController implements Initializable {
         public void setFilled(boolean filled) {
             this.filled = filled;
         }
+
     }
 }
