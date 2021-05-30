@@ -3,6 +3,7 @@ D:\onedrive2\github\Arla-project\src\main\java\gui\util\charts\ICreateChart.java
 D:\onedrive2\github\Arla-project\src\main\java\dal\IPDF.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\util\ChooseFile.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\util\PDFLoader.java
+D:\onedrive2\github\Arla-project\src\main\java\bll\util\UserViewUtils.java
 D:\onedrive2\github\Arla-project\src\main\java\dal\IScreen.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\util\Command\LoadCreateNew.java
 D:\onedrive2\github\Arla-project\src\main\java\dal\IDefaultScreen.java
@@ -51,6 +52,7 @@ D:\onedrive2\github\Arla-project\src\main\java\gui\util\ExcelLoader.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\util\Command\CommandManager.java
 D:\onedrive2\github\Arla-project\src\main\java\dal\Database\ObjectPool\IPool.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\Controller\PreviewController.java
+D:\onedrive2\github\Arla-project\src\main\java\gui\Controller\EditViewController.java
 D:\onedrive2\github\Arla-project\src\main\java\dal\File\PDFOperations.java
 D:\onedrive2\github\Arla-project\src\main\java\be\CSVInfo.java
 D:\onedrive2\github\Arla-project\src\main\java\dal\IFile.java

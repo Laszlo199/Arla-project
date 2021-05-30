@@ -14,6 +14,7 @@ import be.User;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
@@ -45,12 +46,25 @@ public class ClientViewController extends ObserverSingle implements Initializabl
     private GridPane gridPane = new GridPane();
     private WebEngine webEngine;
     private Stage stageToSet;
+    int rowsNo;
+    int colsNo;
+
 
     public void setScreen(Screen screen, Stage stage) {
         //setScreenObs(screen);
         model = ScreenModel.getInstance();
         sections = model.getSections(screen);
-        for(ScreenElement s : sections) System.out.println(s);
+        rowsNo = sections.get(0).getRowIndex();
+        colsNo = sections.get(0).getColIndex();
+        for(ScreenElement s : sections){
+            if(s.getRowIndex()> rowsNo)
+                rowsNo = s.getRowIndex();
+            if(s.getColIndex() >colsNo)
+                colsNo = s.getColIndex();
+            System.out.println(s);
+
+        }
+        setConstraints(rowsNo, colsNo);
         loadScreen(stage);
     }
 
@@ -84,11 +98,14 @@ public class ClientViewController extends ObserverSingle implements Initializabl
                             break;
                     }
                 }
-
+                anchorPane.setMinSize(0, 0);
                 gridPane.add(anchorPane, section.getColIndex(),
                         section.getRowIndex(), section.getColSpan(), section.getRowSpan());
-                GridPane.setHgrow(anchorPane, Priority.ALWAYS);
-                GridPane.setVgrow(anchorPane, Priority.ALWAYS); // experiment instead of sometimes.
+
+                GridPane.setHgrow(anchorPane, Priority.SOMETIMES);
+                GridPane.setVgrow(anchorPane, Priority.SOMETIMES);
+
+                // experiment instead of sometimes.
             }
         }
         gridPane.setGridLinesVisible(true);
@@ -99,6 +116,23 @@ public class ClientViewController extends ObserverSingle implements Initializabl
         stage.setScene(scene);
         stage.show();
 
+    }
+
+    private void setConstraints(int rows, int cols) {
+        for (int i = 0; i <= rows; i++) {
+            RowConstraints rowConst = new RowConstraints();
+            rowConst.setVgrow(Priority.NEVER);
+            rowConst.setPercentHeight(100.0 / rows);
+            gridPane.getRowConstraints().add(rowConst);
+
+        }
+        for (int i = 0; i <= cols; i++) {
+            ColumnConstraints colConst = new ColumnConstraints();
+            colConst.setHgrow(Priority.NEVER);
+            colConst.setPercentWidth(100.0 / cols);
+            gridPane.getColumnConstraints().add(colConst);
+
+        }
     }
 
     private void loadZoomable() {
@@ -115,13 +149,23 @@ public class ClientViewController extends ObserverSingle implements Initializabl
 
     private AnchorPane loadWebsite(String filepath) {
         AnchorPane anchorPane = new AnchorPane();
-        anchorPane.setPrefSize(300, 300);
+       // setConstraints(anchorPane);
+        //anchorPane.setPrefSize(300, 300);
         WebsiteLoader websiteLoader = new WebsiteLoader(webEngine);
         websiteLoader.addWebView(anchorPane);
         websiteLoader.executeQuery(filepath);
         System.out.println("loaded website");
         return anchorPane;
     }
+/*
+    public static void setConstraints(Node node){
+        AnchorPane.setTopAnchor(node, 0.0);
+        AnchorPane.setLeftAnchor(node, 0.0);
+        AnchorPane.setRightAnchor(node, 0.0);
+        AnchorPane.setBottomAnchor(node, 0.0);
+    }
+
+ */
 
 
     private AnchorPane loadPDF(String filepath) {
@@ -163,8 +207,6 @@ public class ClientViewController extends ObserverSingle implements Initializabl
         URL url = getClass().getClassLoader().getResource(filepath);
         ImageView imageView = new ImageView(url.toExternalForm());
         anchorPane.getChildren().add(imageView);
-        //imageView.setFitHeight(anchorPane.getHeight());
-        //imageView.setFitWidth(anchorPane.getWidth());
         imageView.fitHeightProperty().bind(anchorPane.heightProperty());
         imageView.fitWidthProperty().bind(anchorPane.widthProperty());
         System.out.println("loaded image");
@@ -249,9 +291,6 @@ public class ClientViewController extends ObserverSingle implements Initializabl
         Platform.runLater(() -> {
             loadScreen(new Stage());
         });
-       // stageToSet.close();
-        //loadScreen(stageToSet);
-
     }
 
     @Override

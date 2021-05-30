@@ -1,5 +1,6 @@
 package gui.util;
 
+import gui.Controller.ClientViewController;
 import javafx.scene.layout.Pane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -17,6 +18,7 @@ public class WebsiteLoader {
 
     public void addWebView(Pane websiteSpace){
         WebView webView = new WebView();
+       // ClientViewController.setConstraints(webView);
         webEngine = webView.getEngine();
         webView.setZoom(0.6);
         webView.prefHeightProperty().bind(websiteSpace.heightProperty());
