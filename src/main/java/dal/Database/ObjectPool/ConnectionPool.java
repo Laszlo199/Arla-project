@@ -28,7 +28,7 @@ public class ConnectionPool implements  IPool,IPool.Validator{
         initDataSource();
         locked = new Hashtable<Connection, Long>();
         unlocked = new Hashtable<Connection, Long>();
-        expirationTime = 30000;
+        expirationTime = 30_000;
 
     }
 
@@ -91,20 +91,14 @@ public class ConnectionPool implements  IPool,IPool.Validator{
 
     @Override
     public boolean isValid(Connection connection)  {
-        if(connection == null)
-        {
+        if(connection == null) {
             return false;
         }
-
-        try
-        {
+        try {
             return !connection.isClosed();
         }
-        catch(SQLException se)
-        {
+        catch(SQLException se) {
             return false;
-            //later outcomment that one below
-
         }
     }
 

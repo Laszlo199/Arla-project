@@ -150,7 +150,6 @@ public class DALFacade implements IDALFacade{
 
     @Override
     public void save(Screen screen, List<ScreenElement> screenElements, List<User> usersList) throws DALexception {
-       // screenDAO.save(screen, screenElements,usersList);
         Connection connection = null;
         try {
             connection = connectionPool.getConnection();
