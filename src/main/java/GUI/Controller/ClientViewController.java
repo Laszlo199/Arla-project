@@ -64,7 +64,8 @@ public class ClientViewController extends ObserverSingle implements Initializabl
             System.out.println(s);
 
         }
-        setConstraints(rowsNo, colsNo);
+        if(rowsNo>0 && colsNo>0)
+            setConstraints(rowsNo, colsNo);
         loadScreen(stage);
     }
 
