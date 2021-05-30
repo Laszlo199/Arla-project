@@ -127,17 +127,39 @@ public class CreateNewScreenController implements Initializable {
         event.consume();
     }
 
-    private void makeFieldsNumeric() {
-        UnaryOperator<TextFormatter.Change> filter = change -> {
+    private UnaryOperator<TextFormatter.Change> getFilter1(){
+        UnaryOperator<TextFormatter.Change> filter1 = change -> {
             String text = change.getText();
+            int lengR = rowsFiled.getText().length();
+            if(text.equals(""))
+                return change;
 
-            if (text.matches("[0-9]*")) {
+            if (text.matches("[1-9]") && lengR<1 ) {
                 return change;
             }
             return null;
         };
-        TextFormatter<String> textFormatter1 = new TextFormatter<>(filter);
-        TextFormatter<String> textFormatter2 = new TextFormatter<>(filter);
+        return filter1;
+    }
+
+    private UnaryOperator<TextFormatter.Change> getFilter2(){
+        UnaryOperator<TextFormatter.Change> filter2 = change -> {
+            String text = change.getText();
+            int lengC = colsField.getText().length();
+            if(text.equals(""))
+                return change;
+
+            if (text.matches("[1-9]") && lengC<1 ) {
+                return change;
+            }
+            return null;
+        };
+        return filter2;
+    }
+
+    private void makeFieldsNumeric() {
+        TextFormatter<String> textFormatter1 = new TextFormatter<>(getFilter1());
+        TextFormatter<String> textFormatter2 = new TextFormatter<>(getFilter2());
         rowsFiled.setTextFormatter(textFormatter1);
         colsField.setTextFormatter(textFormatter2);
     }
