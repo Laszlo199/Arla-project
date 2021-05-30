@@ -1,10 +1,12 @@
 package dal.Database.ObjectPool;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
+
 import java.sql.Connection;
 
 /**
  *
  */
 public interface ObjectFactory {
-    public abstract Connection createNew();
+     Connection createNew() throws SQLServerException;
 }

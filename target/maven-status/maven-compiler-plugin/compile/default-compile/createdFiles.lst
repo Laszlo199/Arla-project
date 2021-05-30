@@ -23,6 +23,7 @@ gui\util\ChooseFile.class
 gui\Controller\CreateNewScreenController$Information.class
 gui\util\Command\LoadUsers.class
 gui\util\Animations.class
+dal\Database\ObjectPool\ConnectionPool.class
 gui\Controller\ClientViewController$1.class
 gui\util\Command\LoadScreens.class
 gui\util\Command\LoadCreateNew.class

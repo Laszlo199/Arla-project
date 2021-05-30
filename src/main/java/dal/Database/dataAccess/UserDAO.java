@@ -20,11 +20,11 @@ public class UserDAO {
     }
 
 
-    public List<User> getAll() throws DALexception {
+    public List<User> getAll(Connection connection) throws DALexception {
         List<User> users = new ArrayList<>();
-        try (Connection connection = dbConnector.getConnection()) {
+        try ( Statement statement = connection.createStatement()) {
             String sql = "SELECT * FROM Users";
-            Statement statement = connection.createStatement();
+
             ResultSet resultSet = statement.executeQuery(sql);
 
             while (resultSet.next()) {
@@ -42,10 +42,9 @@ public class UserDAO {
         return users;
     }
 
-    public void delete(User user) throws DALexception {
-        try (Connection connection = dbConnector.getConnection()) {
-            String sql = "DELETE FROM Users WHERE ID=?";
-            PreparedStatement pStatement = connection.prepareStatement(sql);
+    public void delete(User user, Connection connection) throws DALexception {
+        String sql = "DELETE FROM Users WHERE ID=?";
+        try (PreparedStatement pStatement = connection.prepareStatement(sql)) {
             pStatement.setInt(1, user.getID());
             pStatement.executeUpdate();
 
@@ -55,10 +54,9 @@ public class UserDAO {
         }
     }
 
-    public void update(User oldUser, User newUser) throws DALexception {
-        try (Connection connection = dbConnector.getConnection()) {
-            String sql = "UPDATE Users SET userName=?, isAdmin=? WHERE ID=?";
-            PreparedStatement pStatement = connection.prepareStatement(sql);
+    public void update(User oldUser, User newUser, Connection connection) throws DALexception {
+        String sql = "UPDATE Users SET userName=?, isAdmin=? WHERE ID=?";
+        try (PreparedStatement pStatement = connection.prepareStatement(sql)) {
             pStatement.setString(1, newUser.getUserName());
             //pStatement.setString(2, newUser.getPassword());
             pStatement.setBoolean(2, newUser.isAdmin());
@@ -70,10 +68,9 @@ public class UserDAO {
         }
     }
 
-    public void create(User user) throws DALexception {
-        try (Connection connection = dbConnector.getConnection()) {
-            String sql = "INSERT INTO Users(userName, Password, isAdmin, isReset) VALUES(?,?,?,?)";
-            PreparedStatement pStatement = connection.prepareStatement(sql);
+    public void create(User user, Connection connection) throws DALexception {
+        String sql = "INSERT INTO Users(userName, Password, isAdmin, isReset) VALUES(?,?,?,?)";
+        try ( PreparedStatement pStatement = connection.prepareStatement(sql);) {
             pStatement.setString(1, user.getUserName());
             pStatement.setString(2, user.getPassword());
             pStatement.setBoolean(3, user.isAdmin());
@@ -88,13 +85,12 @@ public class UserDAO {
 
 
     // I updated: laszlo
-    public List<ScreenElement> getScreenForUser(int userId) throws DALexception {
+    public List<ScreenElement> getScreenForUser(int userId, Connection connection) throws DALexception {
         List<ScreenElement> sections = new ArrayList<>();
-        try (Connection connection = dbConnector.getConnection()) {
-            String sql = "SELECT s.* " +
-                    "FROM Sections s, UsersAndScreens u " +
-                    "WHERE s.screenID = u.ScreenID AND u.UserID = ?";
-            PreparedStatement pstat = connection.prepareStatement(sql);
+        String sql = "SELECT s.* " +
+                "FROM Sections s, UsersAndScreens u " +
+                "WHERE s.screenID = u.ScreenID AND u.UserID = ?";
+        try ( PreparedStatement pstat = connection.prepareStatement(sql)) {
             pstat.setInt(1, userId);
             ResultSet resultSet = pstat.executeQuery();
 
@@ -135,11 +131,10 @@ public class UserDAO {
 
     //Had to update, database has changed
     //updated: removed screenID and added a method to get all screens for userID. getUSer works the same.
-    public User getUser(String username) throws DALexception {
+    public User getUser(String username, Connection connection) throws DALexception {
         User user = null;
-        try (Connection connection = dbConnector.getConnection()) {
-            String sql = "SELECT * FROM Users WHERE userName=?";
-            PreparedStatement pstat = connection.prepareStatement(sql);
+        String sql = "SELECT * FROM Users WHERE userName=?";
+        try (PreparedStatement pstat = connection.prepareStatement(sql)) {
             pstat.setString(1, username);
             ResultSet resultSet = pstat.executeQuery();
 
@@ -161,12 +156,11 @@ public class UserDAO {
     }
 
 
-    public List<Integer> screensOfUser(int userID) throws DALexception{
+    public List<Integer> screensOfUser(int userID, Connection connection) throws DALexception{
         List<Integer> screens = new ArrayList<Integer>();
+        String sql = "SELECT screenID FROM UsersAndScreens WHERE userID=?";
+        try (PreparedStatement pstat = connection.prepareStatement(sql)) {
 
-        try (Connection connection = dbConnector.getConnection()) {
-            String sql = "SELECT screenID FROM UsersAndScreens WHERE userID=?";
-            PreparedStatement pstat = connection.prepareStatement(sql);
             pstat.setInt(1, userID);
             ResultSet resultSet = pstat.executeQuery();
 
@@ -182,10 +176,9 @@ public class UserDAO {
     }
 
 
-    public void resetPassword(User oldUser,User reset) throws DALexception {
-        try (Connection connection = dbConnector.getConnection()) {
-            String sql = "UPDATE Users SET Password =?, isReset = ? WHERE ID=?";
-            PreparedStatement pStatement = connection.prepareStatement(sql);
+    public void resetPassword(User oldUser,User reset, Connection connection) throws DALexception {
+        String sql = "UPDATE Users SET Password =?, isReset = ? WHERE ID=?";
+        try ( PreparedStatement pStatement = connection.prepareStatement(sql)) {
             pStatement.setString(1, reset.getPassword());
             pStatement.setBoolean(2, reset.isReset());
             pStatement.setInt(3, oldUser.getID());
@@ -196,10 +189,9 @@ public class UserDAO {
         }
     }
 
-    public void updatePassword(User oldUser,String newPassword) throws DALexception{
-        try (Connection connection = dbConnector.getConnection()) {
-            String sql = "UPDATE Users SET Password=?, isReset=? WHERE ID=?";
-            PreparedStatement pStatement = connection.prepareStatement(sql);
+    public void updatePassword(User oldUser,String newPassword, Connection connection) throws DALexception{
+        String sql = "UPDATE Users SET Password=?, isReset=? WHERE ID=?";
+        try (PreparedStatement pStatement = connection.prepareStatement(sql)) {
             pStatement.setString(1, newPassword);
             pStatement.setBoolean(2, false);
             pStatement.setInt(3, oldUser.getID());
@@ -210,13 +202,13 @@ public class UserDAO {
         }
     }
 
-    public List<String> getUsersForScreen(int screenId) throws DALexception {
+    public List<String> getUsersForScreen(int screenId, Connection connection) throws DALexception {
         String sql = "SELECT u.userName " +
                 "FROM Users u, UsersAndScreens s " +
                 "WHERE s.UserID = u.ID AND s.ScreenID = ?";
         List<String> usernames = new ArrayList<>();
-        try(Connection con = dbConnector.getConnection()){
-            PreparedStatement pstat = con.prepareStatement(sql);
+        try(PreparedStatement pstat = connection.prepareStatement(sql)){
+
             pstat.setInt(1, screenId);
             ResultSet rs = pstat.executeQuery();
             while(rs.next()) {
@@ -232,10 +224,9 @@ public class UserDAO {
         return usernames;
     }
 
-    public void updateAssignedUsers(int screenID, List<User> selectedUsers) throws DALexception {
-        try (Connection connection = dbConnector.getConnection()) {
-            String sql1 = "DELETE FROM UsersAndScreens WHERE ScreenID=?";
-            PreparedStatement pstat = connection.prepareStatement(sql1);
+    public void updateAssignedUsers(int screenID, List<User> selectedUsers, Connection connection) throws DALexception {
+        String sql1 = "DELETE FROM UsersAndScreens WHERE ScreenID=?";
+        try (PreparedStatement pstat = connection.prepareStatement(sql1)) {
             pstat.setInt(1, screenID);
             pstat.executeUpdate();
 

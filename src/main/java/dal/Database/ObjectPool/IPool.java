@@ -1,5 +1,8 @@
 package dal.Database.ObjectPool;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
+import dal.exception.DALexception;
+
 import java.sql.Connection;
 
 /**
@@ -10,7 +13,7 @@ public interface IPool{
      * method is used to release object from the pool
      * @return
      */
-    Connection getConnection();
+    Connection getConnection() throws SQLServerException;
 
     /**
      * Object that is passed as a parameter is put back
@@ -27,7 +30,7 @@ public interface IPool{
         /**
          * Checks whether the object is valid.
          */
-        public boolean isValid(Connection connection);
+        public boolean isValid(Connection connection) throws DALexception;
 
         /**
          * Performs any cleanup activities

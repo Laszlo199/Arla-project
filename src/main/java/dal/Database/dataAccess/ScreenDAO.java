@@ -3,6 +3,7 @@ package dal.Database.dataAccess;
 import be.*;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dal.Database.DBConnector;
+import dal.Database.ObjectPool.ConnectionPool;
 import dal.exception.DALexception;
 
 import java.nio.file.Path;
@@ -86,15 +87,15 @@ public class ScreenDAO {
         }
     }
 
-    public List<Screen> getAllScreens() throws DALexception {
+    public List<Screen> getAllScreens(Connection connection) throws DALexception {
         Map<Integer, Screen> screens = new HashMap<>();
         String queScreens  ="SELECT * from Screens;";
         String queSections = "SELECT screenID, colIndex, rowIndex, columnSpan," +
                 " rowSpan, filepath, isHeader, title, CSVType from Sections;";
 
 
-        try(Connection connection = dbConnector.getConnection()) {
-            Statement statement = connection.createStatement();
+       try (Statement statement = connection.createStatement()){
+
 
             ResultSet resultSet = statement.executeQuery(queScreens);
             while(resultSet.next()){
@@ -149,14 +150,15 @@ public class ScreenDAO {
             throw new DALexception("Couldn't get all screens", throwables);
         }
 
+
     }
 
-    public Screen getScreenByID(int id) throws DALexception {
+    public Screen getScreenByID(int id, Connection connection) throws DALexception {
        Screen temp = null;
         String sql = "SELECT * FROM Screens WHERE id=?";
 
-        try (Connection connection = dbConnector.getConnection()) {
-            PreparedStatement pstat = connection.prepareStatement(sql);
+        try (PreparedStatement pstat = connection.prepareStatement(sql)) {
+
             pstat.setInt(1, id);
 
             ResultSet resultSet = pstat.executeQuery();
@@ -188,14 +190,13 @@ public class ScreenDAO {
      * @param screenElements
      */
 
-    public void save(Screen screen, List<ScreenElement> screenElements, List<User> usersList) throws DALexception {
+    public void save(Screen screen, List<ScreenElement> screenElements, List<User> usersList, Connection connection) throws DALexception {
         int screenID = -1;
         String query1 = "INSERT INTO Screens([name], refreshTime) Values(?, ?);";
         String query2 = "INSERT INTO Sections(screenID, colIndex, rowIndex " +
                 " , columnSpan, rowSpan, filepath, isHeader, title, CSVType) Values(?, ?, ?, ?, ?, ?, ?, ?, ?);";
         String query3 = "UPDATE Users SET screenID = ? WHERE ID = ?";
-        try(Connection connection = dbConnector.getConnection();
-            PreparedStatement preparedStat1 = connection.prepareStatement(query1,
+        try(PreparedStatement preparedStat1 = connection.prepareStatement(query1,
                     Statement.RETURN_GENERATED_KEYS);
             PreparedStatement preparedStatement = connection.prepareStatement(query2)
            // PreparedStatement preparedStatement2 = connection.prepareStatement(query3)
@@ -252,10 +253,9 @@ public class ScreenDAO {
     }
     }
     
-    public void deleteScreen(DefaultScreen screen) throws DALexception {
+    public void deleteScreen(DefaultScreen screen, Connection connection) throws DALexception {
         String sql = "DELETE FROM DefaultTemplates WHERE id=?";
-        try(Connection con = dbConnector.getConnection()) {
-            PreparedStatement pstat = con.prepareStatement(sql);
+        try(PreparedStatement pstat = connection.prepareStatement(sql)) {
             pstat.setInt(1, screen.getId());
             pstat.executeUpdate();
         } catch (SQLServerException throwables) {
@@ -265,7 +265,7 @@ public class ScreenDAO {
         }
     }
 
-    public void updateScreen(int id, DefaultScreen screen) throws DALexception {
+    public void updateScreen(int id, DefaultScreen screen, Connection connection) throws DALexception {
         String sql = "UPDATE DefaultTemplates SET [name]=?, destinationPathCSV=?, " +
                 "destinationPathPDF=?, insertedWebsite=? WHERE id=?";
         try(Connection con = dbConnector.getConnection()) {
@@ -283,11 +283,11 @@ public class ScreenDAO {
         }
     }
 
-    public void update(Screen screen) throws DALexception {
+    public void update(Screen screen, Connection connection) throws DALexception {
         String sql = "UPDATE Screens SET [name]=?, [refreshTime]=?, [refreshNow]=? " +
                 "WHERE id = ?";
-        try(Connection con = dbConnector.getConnection()) {
-            PreparedStatement pstat = con.prepareStatement(sql);
+        try(PreparedStatement pstat = connection.prepareStatement(sql)) {
+
             pstat.setString(1, screen.getName());
             pstat.setInt(2, screen.getRefreshTime());
             pstat.setBoolean(3, screen.isRefreshNow());
@@ -304,10 +304,10 @@ public class ScreenDAO {
      * we need to delete this and all associcated rows
      * @param screen
      */
-    public void deletePuzzleScreen(Screen screen) throws DALexception {
+    public void deletePuzzleScreen(Screen screen, Connection connection) throws DALexception {
         String sql = "DELETE FROM Screens WHERE id=?";
-        try(Connection con = dbConnector.getConnection()) {
-            PreparedStatement pstat = con.prepareStatement(sql);
+        try(PreparedStatement pstat = connection.prepareStatement(sql)) {
+
             pstat.setInt(1, screen.getId());
             pstat.executeUpdate();
         } catch (SQLServerException throwables) {
@@ -318,12 +318,11 @@ public class ScreenDAO {
     }
 
 
-    public List<ScreenElement> getSections(Screen screen) throws DALexception {
+    public List<ScreenElement> getSections(Screen screen, Connection connection) throws DALexception {
         String sql = "SELECT * FROM Sections WHERE screenID = ?";
         List<ScreenElement> sections = new ArrayList<>();
 
-        try(Connection connection = dbConnector.getConnection()) {
-            PreparedStatement pstat = connection.prepareStatement(sql);
+        try(PreparedStatement pstat = connection.prepareStatement(sql)) {
             pstat.setInt(1, screen.getId());
             System.out.println("SCREEN ID: " + screen.getId());
             ResultSet resultSet = pstat.executeQuery();
@@ -364,10 +363,9 @@ public class ScreenDAO {
         return sections;
     }
 
-    public void setRefreshes() throws DALexception {
+    public void setRefreshes(Connection connection) throws DALexception {
         String clean  = "UPDATE Screens Set refreshNow=0;";
-        try(Connection connection = dbConnector.getConnection()) {
-            Statement statement = connection.createStatement();
+        try( Statement statement = connection.createStatement()) {
             statement.executeUpdate(clean);
         } catch (SQLServerException throwables) {
             throw new DALexception("Couldn't set refreshes", throwables);
@@ -376,10 +374,9 @@ public class ScreenDAO {
         }
     }
 
-    public void saveToUsersAndScreens(int screenID, int userID) throws DALexception {
-        try (Connection connection = dbConnector.getConnection()) {
-            String sql = "INSERT INTO UsersAndScreens(UserID,ScreenID) Values(?, ?)";
-            PreparedStatement pStatement = connection.prepareStatement(sql);
+    public void saveToUsersAndScreens(int screenID, int userID, Connection connection) throws DALexception {
+        String sql = "INSERT INTO UsersAndScreens(UserID,ScreenID) Values(?, ?)";
+        try (PreparedStatement pStatement = connection.prepareStatement(sql)) {
             pStatement.setInt(1, userID);
             pStatement.setInt(2, screenID);
             pStatement.executeUpdate();
@@ -389,11 +386,10 @@ public class ScreenDAO {
         }
     }
 
-    public int getScreenIDByName(String screenName) throws DALexception {
+    public int getScreenIDByName(String screenName, Connection connection) throws DALexception {
         int id= -1;
-        try (Connection connection = dbConnector.getConnection()) {
-            String sql = "SELECT id FROM Screens WHERE name=?";
-            PreparedStatement pstat = connection.prepareStatement(sql);
+        String sql = "SELECT id FROM Screens WHERE name=?";
+        try (PreparedStatement pstat = connection.prepareStatement(sql)) {
             pstat.setString(1, screenName);
             ResultSet resultSet = pstat.executeQuery();
 
@@ -409,10 +405,9 @@ public class ScreenDAO {
         return id;
     }
 
-    public void updateSections(List<ScreenElement> sections) {
-        try (Connection con = dbConnector.getConnection()) {
-            String sql = "UPDATE Sections SET filepath=?, isHeader=?, title=?, CSVType=? WHERE id=?";
-            PreparedStatement pstat = con.prepareStatement(sql);
+    public void updateSections(List<ScreenElement> sections, Connection connection) {
+        String sql = "UPDATE Sections SET filepath=?, isHeader=?, title=?, CSVType=? WHERE id=?";
+        try (PreparedStatement pstat = connection.prepareStatement(sql)) {
             for(ScreenElement section : sections) {
                 pstat.setString(1, section.getFilepath());
                 if(section.getCsvInfo()!=null) {
