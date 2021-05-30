@@ -9,12 +9,14 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 
+import java.util.List;
 import java.util.function.Predicate;
 
 public class UserModel {
 
     private IFacade iFacade;
     private ObservableList<User> obsUsers;
+    private ObservableList<User> listofUsers;
 
 
     public UserModel() {
@@ -85,6 +87,29 @@ public class UserModel {
         }
         return null;
     }
+
+
+    public List<User> returnSelectedUsers(String selection){
+        try {
+            return iFacade.returnSelectedUsers(selection);
+        } catch (BLLException blLexception) {
+            blLexception.printStackTrace();
+        }
+        return null;
+    }
+
+
+    /*
+    public ObservableList<User> returnSelectedUsers(String selection){
+        try {
+            return iFacade.returnSelectedUsers(selection);
+        } catch (BLLException blLexception) {
+            blLexception.printStackTrace();
+        }
+        return obsUsers;
+    }
+
+     */
 
 
 }

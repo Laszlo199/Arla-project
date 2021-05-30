@@ -73,6 +73,7 @@ public class ClientViewController extends ObserverSingle implements Initializabl
         for(ScreenElement section : sections) {
             if (section.getFilepath() != null) {
                 String filePath = section.getFilepath();
+                filePath = filePath.replace("\\", "/");
                 AnchorPane anchorPane = null;
                 if (filePath != null) {
                     String fileType = "";
@@ -203,7 +204,6 @@ public class ClientViewController extends ObserverSingle implements Initializabl
     private AnchorPane loadImage(String filepath) {
         AnchorPane anchorPane = new AnchorPane();
         anchorPane.setPrefSize(300, 300);
-        filepath = filepath.replace("\\", "/");
         filepath = filepath.replace("src/../Data/", "");
         URL url = getClass().getClassLoader().getResource(filepath);
         ImageView imageView = new ImageView(url.toExternalForm());
@@ -250,13 +250,16 @@ public class ClientViewController extends ObserverSingle implements Initializabl
                         ? SCALE_DELTA
                         : 1/SCALE_DELTA;
 
+        /*
         if((child.getScaleX() * scaleFactor) >=1.0 ) {
             child.setScaleX(child.getScaleX() * scaleFactor);
             child.setScaleY(child.getScaleY() * scaleFactor);
         }
 
 
-        /*
+         */
+
+
         Scale newScale = new Scale();
         newScale.setPivotX(event.getX());
         newScale.setPivotY(event.getY());
@@ -265,7 +268,7 @@ public class ClientViewController extends ObserverSingle implements Initializabl
         child.getTransforms().add(newScale);
 
 
-         */
+
     }
 
 

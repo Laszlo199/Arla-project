@@ -32,13 +32,11 @@ public class UsersInAdminViewController implements Initializable {
     @FXML private TableView<User> userTableView;
     @FXML private TextField searchField;
     @FXML private TableColumn<User, String> userColumn;
-    //@FXML private TableColumn<User, String> passwordColumn;
     @FXML private JFXButton edit;
     @FXML private AnchorPane editTable;
     @FXML private AnchorPane addNewUser;
     @FXML private JFXButton add;
     @FXML private TextField editNameField;
-    @FXML private TextField editPasswordField;
     @FXML private TextField newNameField;
     @FXML private TextField newPasswordField;
     @FXML private Button editCancel;
@@ -64,39 +62,10 @@ public class UsersInAdminViewController implements Initializable {
 
     private void initUserTableView(){
         userColumn.setCellValueFactory(new PropertyValueFactory<User, String>("userName"));
-        //passwordColumn.setCellValueFactory(new PropertyValueFactory<User, String>("Password"));
 
         userModel.loadUsers();
         userTableView.setItems(userModel.getAllUser());
     }
-
-    private ObservableList<User> returnSelectedUsers(String selection) {
-        ObservableList<User> listOfUsers = userModel.getAllUser();
-
-        if (selection == "Admins"){
-            ObservableList<User> admins = FXCollections.observableArrayList();
-            for (int i = 0; i<listOfUsers.size(); i++){
-                if (listOfUsers.get(i).isAdmin()){
-                    admins.add(listOfUsers.get(i));
-                }
-            }
-            return admins;
-        }
-        else if (selection == "Users")
-        {
-            ObservableList<User> users = FXCollections.observableArrayList();
-            for (int i = 0; i<listOfUsers.size(); i++){
-                if (!listOfUsers.get(i).isAdmin()){
-                    users.add(listOfUsers.get(i));
-                }
-            }
-            return users;
-        }
-        return listOfUsers;
-    }
-
-
-
 
 
     private void initComboBox() {
@@ -191,7 +160,6 @@ public class UsersInAdminViewController implements Initializable {
     public void setCreateAdmin(boolean isAdmin) {
         User newUser = userTableView.getSelectionModel().getSelectedItem();
         newUser.setUserName(editNameField.getText());
-        //newUser.setPassword(editPasswordField.getText());
         newUser.setAdmin(isAdmin);
 
         userModel.updateUser(userTableView.getSelectionModel().getSelectedItem(),newUser);
@@ -229,7 +197,6 @@ public class UsersInAdminViewController implements Initializable {
         alert.setTitle("Confirmation Dialog");
         alert.setHeaderText("Are you sure about deleting this user?");
 
-
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.YES){
             // ... user chose OK
@@ -244,7 +211,6 @@ public class UsersInAdminViewController implements Initializable {
 
     public void readUser(MouseEvent event) {
         editNameField.setText(userTableView.getSelectionModel().getSelectedItem().getUserName());
-        //editPasswordField.setText(userTableView.getSelectionModel().getSelectedItem().getPassword());
         editAdmin.setSelected(userTableView.getSelectionModel().getSelectedItem().isAdmin());
 
     }
@@ -255,31 +221,12 @@ public class UsersInAdminViewController implements Initializable {
         searchField.textProperty().addListener((observableValue, oldValue, newValue) ->
                 filteredData.setPredicate(userModel.createSearch(newValue))
         );
-        /*
-        FilteredList<User> filteredList = new FilteredList<>(userModel.getAllUser(), b->true);
-        searchField.textProperty().addListener((observableValue, oldValue, newValue) -> {
-            filteredList.setPredicate(users -> {
-                if (newValue == null || newValue.isEmpty()){
-                return true;
-                }
-                String lowerCaseFilter = newValue.toLowerCase();
-            if (users.getUserName().toLowerCase().indexOf(lowerCaseFilter) != -1){
-                return true;
-            }else
-                return false;
-            });
-                });
-        SortedList<User> sortedList = new SortedList<>(filteredList);
-        sortedList.comparatorProperty().bind(userTableView.comparatorProperty());
-        userTableView.setItems(sortedList);
-
-         */
     }
 
     public void comboBoxSelect(ActionEvent actionEvent) {
         JFXComboBox comboBox = (JFXComboBox) actionEvent.getSource();
         String selectedItem = (String) comboBox.getSelectionModel().getSelectedItem();
-        ObservableList<User> selectedType = returnSelectedUsers(selectedItem);
+        ObservableList<User> selectedType = FXCollections.observableArrayList(userModel.returnSelectedUsers(selectedItem));
         userTableView.setItems(selectedType);
 
     }
