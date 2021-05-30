@@ -12,6 +12,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import dal.Database.dataAccess.UserDAO;
 import dal.exception.DALexception;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -54,36 +55,33 @@ public class LogInController implements Initializable {
         this.borderPane = borderPane;
     }
 
-    public void confirm() throws DALexception {
+    Runnable runnable = () -> {
         user = model.getUser(usernameField.getText());
 
-        if (user !=null){
-            if (user.isReset()){
+        if (user != null) {
+            if (user.isReset()) {
                 String newPassword = passwordField.getText();
-                model.updatePassword(user,newPassword);
-            }
-            else
-            {
-                if (user.getPassword().equals(passwordField.getText())){
-                    if (user.isAdmin()){
-                        CommandManager.getInstance().getPrevious().rollback(borderPane);
-                    }
-                    else {
+                model.updatePassword(user, newPassword);
+            } else {
+                if (user.getPassword().equals(passwordField.getText())) {
+                    if (user.isAdmin()) {
+                        Platform.runLater(()->CommandManager.getInstance().getPrevious().rollback(borderPane));
+
+                    } else {
                         //openClient(user);
-                        selectScreen(user);
+                        // selectScreen(user); //Platform.runLater(()->);
+                        Platform.runLater(()->selectScreen(user));
+
                     }
-                }
-                else
-                {
-                    AlertDisplayer.displayInformationAlert("Wrong password",
-                            "Please insert  correct password password ", "");
+                } else {
+                    Platform.runLater(()->AlertDisplayer.displayInformationAlert("Wrong password",
+                            "Please insert  correct password password ", ""));
+
                 }
             }
-        }
-        else
-        {
-            AlertDisplayer.displayInformationAlert("Wrong username",
-                    "Please insert  correct username ", "");
+        } else {
+            Platform.runLater(()->AlertDisplayer.displayInformationAlert("Wrong username",
+                    "Please insert  correct username ", ""));
         }
 
         /*
@@ -98,9 +96,14 @@ public class LogInController implements Initializable {
             openClient(user);
 
          */
+    };
+
+    public void confirm() {
+      Thread thread = new Thread(runnable);
+      thread.start();
     }
 
-    private void selectScreen(User user) throws DALexception {
+    private void selectScreen(User user){
         screensComboBox.getItems().setAll((String) null);
         screens = model.screensOfUser(user.getID());
 
