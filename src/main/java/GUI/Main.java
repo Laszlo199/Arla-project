@@ -27,10 +27,10 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
 
-        openOther();
+      //  openOther();
 
     }
-
+/*
     private void openOther() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main.fxml"));
         //FXMLLoader loader = new FXMLLoader(getClass().getResource("/CreateNewScreen.fxml"));
@@ -42,6 +42,8 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
     }
+
+ */
 
 
 

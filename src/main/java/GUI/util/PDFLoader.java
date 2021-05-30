@@ -43,8 +43,8 @@ public class PDFLoader {
 
     public static void loadPDFPreview() {
         File selectedFile ;
-
     }
+
     public static  void loadPDFViewer(Pane spacePDF){
         String htmlPath = ScreenModel.getInstance().getHTML(destinationPathPDF);
         WebView webView = new WebView();

@@ -271,9 +271,7 @@ public class ClientViewController extends ObserverSingle implements Initializabl
 
     @Override
     public void setAsObserver(Screen screen) {
-        System.out.println("---------- start");
         ScreenModel.getInstance().attachSingleObserver(this);
         setScreen(screen);
-        System.out.println("---------------------- end ");
     }
 }

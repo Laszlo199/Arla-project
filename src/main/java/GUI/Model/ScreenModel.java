@@ -87,7 +87,7 @@ public class ScreenModel implements IObservable {
 
     Runnable runnable2 = () ->{
         try {
-            logic.setRefreshes();
+            logic.setRefreshes(); //sets to 0
         } catch (BLLException e) {
             e.printStackTrace();
         }
