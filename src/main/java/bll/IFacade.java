@@ -12,7 +12,7 @@ import java.util.function.Predicate;
  *
  */
 // Users add, delete and all
-public interface IFacade extends IScreen, IDefaultScreen{
+public interface IFacade extends IScreen{
     List<User> getAllUser()throws BLLException;
     void deleteUser(User user)throws BLLException;
     void updateUser(User oldUser, User newUser) throws BLLException;

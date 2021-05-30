@@ -147,20 +147,6 @@ public class DALFacade implements IDALFacade{
         return pdfOperations.getHTML(pdfPath);
     }
 
-    @Override
-    public void saveDefaultTemplate(DefaultScreen defaultTemplate) throws DALexception {
-        screenDAO.saveDefaultTemplate(defaultTemplate);
-    }
-
-    @Override
-    public List<DefaultScreen> getAllDefaultScreens() throws DALexception {
-        return screenDAO.getAllDefaultScreens();
-    }
-
-    @Override
-    public void deleteDefaultScreen(DefaultScreen defaultScreen) {
-      //  screenDAO.deleteDefaultScreen
-    }
 
     @Override
     public void save(Screen screen, List<ScreenElement> screenElements, List<User> usersList) throws DALexception {
@@ -194,37 +180,9 @@ public class DALFacade implements IDALFacade{
         }
     }
 
-    public void deleteScreen(DefaultScreen screen) throws DALexception {
-        Connection connection = null;
-        try {
-            connection = connectionPool.getConnection();
-            screenDAO.deleteScreen(screen, connection);
-        }catch (SQLServerException throwables) {
-            throw new DALexception("Couldn't establish connection");
-        }
-        finally {
-            if(connectionPool.isValid(connection))
-                connectionPool.releaseConnection(connection);
-        }
-
-    }
-
-    @Override
-    public void updateScreen(int id, DefaultScreen screen) throws DALexception {
-        Connection connection = null;
-        try {
-            connection = connectionPool.getConnection();
-            screenDAO.updateScreen(id, screen, connection);
-        }catch (SQLServerException throwables) {
-            throw new DALexception("Couldn't establish connection");
-        }
-        finally {
-            if(connectionPool.isValid(connection))
-                connectionPool.releaseConnection(connection);
-        }
 
 
-    }
+
 
     @Override
     public List<ScreenElement> getScreenForUser(int userId) throws DALexception {

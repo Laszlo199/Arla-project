@@ -19,24 +19,17 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main.fxml"));
-        //FXMLLoader loader = new FXMLLoader(getClass().getResource("/CreateNewScreen.fxml"));
-        //FXMLLoader loader = new FXMLLoader(getClass().getResource("/Templates/CreateDefaultTemplate.fxml"));
+
         Parent root = loader.load();
         stage.setTitle("Arla");
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-
-
       //  openOther();
-
-
     }
 /*
     private void openOther() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main.fxml"));
-        //FXMLLoader loader = new FXMLLoader(getClass().getResource("/CreateNewScreen.fxml"));
-        //FXMLLoader loader = new FXMLLoader(getClass().getResource("/Templates/CreateDefaultTemplate.fxml"));
         Parent root = loader.load();
         Stage stage = new Stage();
         stage.setTitle("Production");

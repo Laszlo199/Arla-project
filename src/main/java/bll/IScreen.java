@@ -21,7 +21,6 @@ public interface IScreen {
 
     String getHTML(Path pdfPath) throws BLLException;
 
-    void saveDefaultTemplate(DefaultScreen defaultTemplate) throws BLLException;
 
     void deletePDFfiles(Path destinationPathPDF) throws BLLException;
 

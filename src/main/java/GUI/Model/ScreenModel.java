@@ -50,7 +50,6 @@ public class ScreenModel implements IObservable {
     public ScreenModel() {
         defaultScreens = FXCollections.observableArrayList();
         mainScreens = FXCollections.observableArrayList();
-        loadDefaultScreens();
         loadMainScreens();
         StartObservatorThread();
     }
@@ -147,14 +146,6 @@ public class ScreenModel implements IObservable {
         return null;
     }
 
-    public void saveDefaultTemplate(DefaultScreen defaultTemplate) {
-        defaultScreens.add(defaultTemplate);
-        try {
-            logic.saveDefaultTemplate(defaultTemplate);
-        } catch (BLLException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void deletePDFfiles(Path destinationPathPDF) {
         try {
@@ -176,14 +167,6 @@ public class ScreenModel implements IObservable {
         return defaultScreens;
     }
 
-    public void loadDefaultScreens() {
-        try {
-            List<DefaultScreen> list = logic.getAllDefaultScreens();
-            defaultScreens.addAll(list);
-        } catch (BLLException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * method passes the data needed to save screen there are encapsulated daata for each section and
@@ -200,28 +183,9 @@ public class ScreenModel implements IObservable {
         }
     }
 
-    /**
-     * this method is not called now cause we have two this same methods and
-     * other one is called
-     *
-     * @param currentScreen
-     */
-    public void deleteScreen(DefaultScreen currentScreen) {
-        try {
-            defaultScreens.remove(currentScreen);
-            logic.deleteScreen(currentScreen);
-        } catch (BLLException e) {
-            e.printStackTrace();
-        }
-    }
 
-    public void updateScreen(int id, DefaultScreen screen) {
-        try {
-            logic.updateScreen(id, screen);
-        } catch (BLLException e) {
-            e.printStackTrace();
-        }
-    }
+
+
 
     @Override
     public void notifyManyObservers(List<Screen> added, List<Screen> deleted, List<Screen> modified) {

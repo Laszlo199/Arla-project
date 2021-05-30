@@ -13,10 +13,10 @@ import java.util.List;
 
 public class UserDAO {
 
-    private DBConnector dbConnector;
+   // private DBConnector dbConnector;
 
     public UserDAO() {
-        dbConnector = new DBConnector();
+       // dbConnector = new DBConnector();
     }
 
 

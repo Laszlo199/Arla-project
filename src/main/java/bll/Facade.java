@@ -35,8 +35,6 @@ public class Facade implements IFacade {
         return facadeBLL;
     }
 
-
-
     private Facade() throws BLLException {
         try {
             facade = DALFacade.getInstance();
@@ -77,14 +75,7 @@ public class Facade implements IFacade {
         }
     }
 
-    @Override
-    public void saveDefaultTemplate(DefaultScreen defaultTemplate) throws BLLException {
-        try {
-            facade.saveDefaultTemplate(defaultTemplate);
-        } catch (DALexception daLexception) {
-            throw new BLLException("Whoops...Couldn't save new default template", daLexception);
-        }
-    }
+
 
     @Override
     public void deletePDFfiles(Path destinationPathPDF) throws BLLException {
@@ -201,32 +192,7 @@ public class Facade implements IFacade {
     }
 
 
-    @Override
-    public List<DefaultScreen> getAllDefaultScreens() throws BLLException {
-        try {
-            return facade.getAllDefaultScreens();
-        } catch (DALexception daLexception) {
-            throw new BLLException("Couldn't get all  default screens", daLexception);
-        }
-    }
 
-    @Override
-    public void deleteScreen(DefaultScreen screen) throws BLLException {
-        try {
-            facade.deleteScreen(screen);
-        } catch (DALexception daLexception) {
-            throw new BLLException("Couldn't delete screen", daLexception);
-        }
-    }
-
-    @Override
-    public void updateScreen(int id, DefaultScreen screen) throws BLLException {
-        try {
-            facade.updateScreen(id, screen);
-        } catch (DALexception daLexception) {
-            throw new BLLException("Couldn't update screen", daLexception);
-        }
-    }
 
     // Users add, delete and all
     @Override
@@ -331,12 +297,6 @@ public class Facade implements IFacade {
     @Override
     public Predicate<User> createSearch(String searchText) throws BLLException {
         return userViewUtils.createSearch(searchText);
-    }
-
-
-    @Override
-    public void deleteDefaultScreen(DefaultScreen defaultScreen) {
-        facade.deleteDefaultScreen(defaultScreen);
     }
 
 

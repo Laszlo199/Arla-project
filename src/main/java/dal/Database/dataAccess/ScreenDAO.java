@@ -19,73 +19,7 @@ import static java.sql.Connection.*;
  *
  */
 public class ScreenDAO {
-    private DBConnector dbConnector;
 
-    public ScreenDAO() {
-        dbConnector = new DBConnector();
-    }
-
-    /**
-     * method adds template to database
-     * @param defaultTemplate
-     */
-    public void saveDefaultTemplate(DefaultScreen defaultTemplate) throws DALexception {
-        String sql =  "INSERT INTO DefaultTemplates( [name], destinationPathCSV, " +
-                "destinationPathPDF, insertedWebsite) VALUES(?, ?, ?, ?);";
-        try(Connection connection = dbConnector.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql,
-                    Statement.RETURN_GENERATED_KEYS)) {
-
-            preparedStatement.setString(1, defaultTemplate.getName());
-            preparedStatement.setString(2, defaultTemplate.getDestinationPathCSV().toString());
-            preparedStatement.setString(3, defaultTemplate.getDestinationPathPDF().toString());
-            preparedStatement.setString(4, defaultTemplate.getInsertedWebsite());
-            preparedStatement.executeUpdate();
-
-            //set proper id for that movie
-            try(ResultSet generatedKey = preparedStatement.getGeneratedKeys()) {
-                if(generatedKey.next())
-                {
-                    defaultTemplate.setId(generatedKey.getInt(1));
-                }
-                else{
-                    throw new DALexception("Couldn't get generated key");
-                }
-            }
-
-        } catch (SQLServerException throwables) {
-            throw new DALexception("Whoops...Couldn't save new default template");
-        } catch (SQLException throwables) {
-            throw new DALexception("Whoops...Couldn't save new default template");
-        }
-    }
-
-    /**
-     * method retrieves all screens from Default templates table
-     * @return
-     */
-    public List<DefaultScreen> getAllDefaultScreens() throws DALexception {
-        List<DefaultScreen> defaultScreens= new ArrayList<>();
-        String sql = "SELECT * FROM DefaultTemplates";
-        try(Connection connection = dbConnector.getConnection()) {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
-            while (resultSet.next()){
-                int id = resultSet.getInt(1);
-                String name = resultSet.getString(2);
-                String destinationPathCSV = resultSet.getString(3);
-                String destinationPathPDF = resultSet.getString(4);
-                String insertedWebsite = resultSet.getString(5);
-                defaultScreens.add(new DefaultScreen(id, name, Path.of(destinationPathCSV),
-                        Path.of(destinationPathPDF), insertedWebsite));
-            }
-            return defaultScreens;
-        } catch (SQLServerException throwables) {
-            throw new DALexception("Whoops...Couldn't get all screens");
-        } catch (SQLException throwables) {
-            throw new DALexception("Whoops...Couldn't get all screens");
-        }
-    }
 
     public List<Screen> getAllScreens(Connection connection) throws DALexception {
         Map<Integer, Screen> screens = new HashMap<>();
@@ -253,35 +187,9 @@ public class ScreenDAO {
     }
     }
     
-    public void deleteScreen(DefaultScreen screen, Connection connection) throws DALexception {
-        String sql = "DELETE FROM DefaultTemplates WHERE id=?";
-        try(PreparedStatement pstat = connection.prepareStatement(sql)) {
-            pstat.setInt(1, screen.getId());
-            pstat.executeUpdate();
-        } catch (SQLServerException throwables) {
-            throw new DALexception("Whoops...Couldn't delete screen");
-        } catch (SQLException throwables) {
-            throw new DALexception("Whoops...Couldn't delete screen");
-        }
-    }
 
-    public void updateScreen(int id, DefaultScreen screen, Connection connection) throws DALexception {
-        String sql = "UPDATE DefaultTemplates SET [name]=?, destinationPathCSV=?, " +
-                "destinationPathPDF=?, insertedWebsite=? WHERE id=?";
-        try(Connection con = dbConnector.getConnection()) {
-            PreparedStatement pstat = con.prepareStatement(sql);
-            pstat.setString(1, screen.getName());
-            pstat.setString(2, screen.getDestinationPathCSV().toString());
-            pstat.setString(3, screen.getDestinationPathPDF().toString());
-            pstat.setString(4, screen.getInsertedWebsite());
-            pstat.setInt(5, id);
-            pstat.executeUpdate();
-        } catch (SQLServerException throwables) {
-            throw new DALexception("Whoops...Couldn't update screen");
-        } catch (SQLException throwables) {
-            throw new DALexception("Whoops...Couldn't update screen");
-        }
-    }
+
+
 
     public void update(Screen screen, Connection connection) throws DALexception {
         String sql = "UPDATE Screens SET [name]=?, [refreshTime]=?, [refreshNow]=? " +

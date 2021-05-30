@@ -47,10 +47,6 @@ public class TemplateController implements Initializable {
         command.load(borderPane);
     }
 
-    public void loadTemplates(ActionEvent actionEvent) {
-        Command command = new LoadTemplates();
-        command.load(borderPane);
-    }
 
     public void loadCreateNew(ActionEvent actionEvent) {
         Command command = new LoadCreateNew();
