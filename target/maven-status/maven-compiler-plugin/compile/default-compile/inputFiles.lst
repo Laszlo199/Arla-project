@@ -35,14 +35,13 @@ D:\onedrive2\github\Arla-project\src\main\java\gui\util\Command\LoadScreens.java
 D:\onedrive2\github\Arla-project\src\main\java\dal\DALFacade.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\Controller\CreateNewController.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\util\ImageLoader.java
-D:\onedrive2\github\Arla-project\src\main\java\gui\Controller\CreateDefaultTemplateController.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\util\ValidateExtension.java
+D:\onedrive2\github\Arla-project\src\main\java\dal\Database\ObjectPool\ConnectionPool.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\util\WebsiteLoader.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\util\Observator\Observer.java
 D:\onedrive2\github\Arla-project\src\main\java\dal\exception\DALexception.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\Controller\CreateNewScreenController.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\util\Observator\ObserverMany.java
-D:\onedrive2\github\Arla-project\src\main\java\bll\IDefaultScreen.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\util\charts\CreateHistogramChart.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\Controller\TemplatesViewController.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\util\Command\LoadLogIn.java
@@ -75,6 +74,5 @@ D:\onedrive2\github\Arla-project\src\main\java\dal\Database\dataAccess\UserDAO.j
 D:\onedrive2\github\Arla-project\src\main\java\gui\Controller\TemplateItemController.java
 D:\onedrive2\github\Arla-project\src\main\java\testContr.java
 D:\onedrive2\github\Arla-project\src\main\java\bll\IScreen.java
-D:\onedrive2\github\Arla-project\src\main\java\gui\util\Command\LoadTemplates.java
 D:\onedrive2\github\Arla-project\src\main\java\be\Screen.java
 D:\onedrive2\github\Arla-project\src\main\java\be\ScreenFile.java

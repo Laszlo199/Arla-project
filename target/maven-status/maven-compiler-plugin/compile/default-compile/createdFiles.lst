@@ -15,6 +15,7 @@ gui\util\FileSaver.class
 gui\Controller\TemplatesViewController.class
 dal\Database\ObjectPool\IPool.class
 gui\util\Command\Command.class
+dal\Database\DBConnector.class
 gui\Model\LoginModel.class
 gui\util\Observator\ObserverMany.class
 gui\Controller\TemplateItemController.class
@@ -52,6 +53,7 @@ bll\util\UserViewUtils.class
 gui\util\AlertDisplayer.class
 gui\Controller\ScreensViewController.class
 dal\File\WatchFiles\FileWatcher.class
+dal\IDefaultScreen.class
 gui\util\Command\LoadLogIn.class
 gui\Controller\LogInController.class
 gui\Main.class
