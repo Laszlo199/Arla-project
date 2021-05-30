@@ -29,4 +29,6 @@ public interface IFacade extends IScreen{
 
     //search function
     Predicate<User> createSearch(String searchText) throws BLLException;
+
+    List<User> returnSelectedUsers(String selection) throws BLLException;
 }

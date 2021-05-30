@@ -25,7 +25,7 @@ public class Facade implements IFacade {
     private DiagramOperations diagramOperations;
     private static Facade facadeBLL;
     private DetectOtherScreens detectOtherScreens;
-    private UserViewUtils userViewUtils;
+    private UserViewUtils userViewUtils = new UserViewUtils();
 
 
 
@@ -43,7 +43,6 @@ public class Facade implements IFacade {
         }
         diagramOperations =new DiagramOperations();
         detectOtherScreens = new DetectOtherScreens();
-        userViewUtils = new UserViewUtils();
     }
 
     @Override
@@ -297,6 +296,11 @@ public class Facade implements IFacade {
     @Override
     public Predicate<User> createSearch(String searchText) throws BLLException {
         return userViewUtils.createSearch(searchText);
+    }
+
+    @Override
+    public List<User> returnSelectedUsers(String selection) throws BLLException {
+        return userViewUtils.returnSelectedUsers(selection);
     }
 
 
