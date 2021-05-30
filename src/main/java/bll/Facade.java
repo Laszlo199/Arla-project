@@ -6,6 +6,7 @@ import be.ScreenElement;
 import be.User;
 import bll.exception.BLLException;
 import bll.util.DetectOtherScreens;
+import bll.util.UserViewUtils;
 import dal.DALFacade;
 import dal.File.WatchFiles.ChangesFiles;
 import dal.IDALFacade;
@@ -13,17 +14,18 @@ import dal.exception.DALexception;
 import javafx.collections.ObservableList;
 
 import java.nio.file.Path;
-import java.util.HashSet;
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  *
  */
-public class Facade implements IFacade{
+public class Facade implements IFacade {
     private IDALFacade facade;
     private DiagramOperations diagramOperations;
     private static Facade facadeBLL;
     private DetectOtherScreens detectOtherScreens;
+    private UserViewUtils userViewUtils;
 
 
 
@@ -43,6 +45,7 @@ public class Facade implements IFacade{
         }
         diagramOperations =new DiagramOperations();
         detectOtherScreens = new DetectOtherScreens();
+        userViewUtils = new UserViewUtils();
     }
 
     @Override
@@ -317,6 +320,21 @@ public class Facade implements IFacade{
     }
 
     @Override
+    public void updateAssignedUsers(int screenID, List<User> selectedUsers) throws BLLException {
+        try {
+            facade.updateAssignedUsers(screenID, selectedUsers);
+        } catch (DALexception daLexception) {
+            throw new BLLException("Couldn't update assigned users", daLexception);
+        }
+    }
+
+    @Override
+    public Predicate<User> createSearch(String searchText) throws BLLException {
+        return userViewUtils.createSearch(searchText);
+    }
+
+
+    @Override
     public void deleteDefaultScreen(DefaultScreen defaultScreen) {
         facade.deleteDefaultScreen(defaultScreen);
     }
@@ -337,6 +355,15 @@ public class Facade implements IFacade{
             return facade.getScreenIDByName(screenName);
         } catch (DALexception daLexception) {
             throw new BLLException("Couldn't get all  screenName", daLexception);
+        }
+    }
+
+    @Override
+    public void updateSections(List<ScreenElement> sections) throws BLLException {
+        try {
+            facade.updateSections(sections);
+        } catch (DALexception daLexception) {
+            throw new BLLException("Couldn't update sections", daLexception);
         }
     }
 

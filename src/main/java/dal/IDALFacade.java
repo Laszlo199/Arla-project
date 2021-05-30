@@ -26,4 +26,6 @@ public interface IDALFacade extends IFile , IPDF, IScreen, IDefaultScreen{
     List<Integer> screensOfUser(int userID) throws DALexception;
 
     User getUser(String username) throws DALexception;
+
+    void updateAssignedUsers(int screenID, List<User> selectedUsers) throws DALexception;
 }

@@ -41,28 +41,14 @@ public class ClientViewController extends ObserverSingle implements Initializabl
 
     public AnchorPane pane;
     private List<ScreenElement> sections;
-    private ClientModel model;
-    private User user;
+    private ScreenModel model;
     private GridPane gridPane = new GridPane();
     private WebEngine webEngine;
     private Stage stageToSet;
 
-    /*
-    public void setUser(User user, Stage stage) {
-        this.stageToSet =stage;
-        this.user = user;
-        model = ClientModel.getInstance();
-        sections = model.getSections(user.getID());
-
-
-        loadScreen(stage);
-    }
-
-     */
-
     public void setScreen(Screen screen, Stage stage) {
         //setScreenObs(screen);
-        model = ClientModel.getInstance();
+        model = ScreenModel.getInstance();
         sections = model.getSections(screen);
         for(ScreenElement s : sections) System.out.println(s);
         loadScreen(stage);
@@ -77,7 +63,6 @@ public class ClientViewController extends ObserverSingle implements Initializabl
                     String fileType = "";
                     if (filePath.length() > 4) fileType = filePath.substring(filePath.length() - 4);
                     else fileType = filePath;
-                    System.out.println(filePath);
                     switch (fileType) {
                         case ".png", ".jpg":
                             anchorPane = loadImage(filePath);

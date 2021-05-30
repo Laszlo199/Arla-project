@@ -4,6 +4,7 @@ package be;
  *
  */
 public class ScreenElement {
+    private int id;
     private int colIndex;
     private int rowIndex;
     private int colSpan;
@@ -28,6 +29,27 @@ public class ScreenElement {
         this.csvInfo = csvInfo;
     }
 
+    public ScreenElement(int id, int colIndex, int rowIndex, int colSpan, int rowSpan, String filepath) {
+        this.id = id;
+        this.colIndex = colIndex;
+        this.rowIndex = rowIndex;
+        this.colSpan = colSpan;
+        this.rowSpan = rowSpan;
+        this.filepath = filepath;
+    }
+
+    public ScreenElement(int id, int colIndex, int rowIndex, int colSpan, int rowSpan, String filepath, CSVInfo csvInfo) {
+        this.id = id;
+        this.colIndex = colIndex;
+        this.rowIndex = rowIndex;
+        this.colSpan = colSpan;
+        this.rowSpan = rowSpan;
+        this.filepath = filepath;
+        this.csvInfo = csvInfo;
+    }
+
+    public int getId() {return id;}
+
     public int getColIndex() {
         return colIndex;
     }
@@ -50,6 +72,10 @@ public class ScreenElement {
 
     public CSVInfo getCsvInfo() {
         return csvInfo;
+    }
+
+    public void setFilepath(String filepath) {
+        this.filepath = filepath;
     }
 
     public void setCsvInfo(CSVInfo csvInfo) {

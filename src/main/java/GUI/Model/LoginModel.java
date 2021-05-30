@@ -5,7 +5,6 @@ import be.User;
 import bll.Facade;
 import bll.IFacade;
 import bll.exception.BLLException;
-import dal.exception.DALexception;
 
 import java.util.List;
 

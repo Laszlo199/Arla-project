@@ -4,15 +4,19 @@ import gui.Model.ScreenModel;
 import gui.util.Observator.ObserverMany;
 import be.Screen;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -26,13 +30,38 @@ public class ScreensViewController extends ObserverMany implements Initializable
     private final static String CVS_DIRECTORY = "src/../Data/CSVData/";
     private static HashMap<Integer, Node> nodes = new HashMap<>();
 
+    private List<Screen> allScreens = new ArrayList<>();
+    private List<Screen> activeScreens = new ArrayList<>();
+
+    @FXML private ToggleButton activeBtn;
+    @FXML private ToggleButton allBtn;
+
     @FXML
     private TilePane space;
 
 
     @Override
     public synchronized void initialize(URL url, ResourceBundle resourceBundle) {
-      loadScreens(ScreenModel.getInstance().getMainScreens());
+        allScreens = ScreenModel.getInstance().getMainScreens();
+        loadScreens(allScreens);
+        for(Screen screen : allScreens) {
+            if(!ScreenModel.getInstance().getUsersForScreen(screen.getId()).isEmpty()) activeScreens.add(screen);
+        }
+        ToggleGroup toggleGroup = new ToggleGroup();
+        toggleGroup.getToggles().addAll(activeBtn, allBtn);
+        activeBtn.setOnAction(event -> showActive(event));
+        allBtn.setOnAction(event -> showAll(event));
+
+    }
+
+    private void showAll(ActionEvent event) {
+        space.getChildren().clear();
+        loadScreens(allScreens);
+    }
+
+    private void showActive(ActionEvent event) {
+        space.getChildren().clear();
+        loadScreens(activeScreens);
     }
 
     public void attachToObservers(){

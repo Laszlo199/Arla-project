@@ -22,12 +22,14 @@ public class Main extends Application {
         //FXMLLoader loader = new FXMLLoader(getClass().getResource("/CreateNewScreen.fxml"));
         //FXMLLoader loader = new FXMLLoader(getClass().getResource("/Templates/CreateDefaultTemplate.fxml"));
         Parent root = loader.load();
-        stage.setTitle("Production");
+        stage.setTitle("Arla");
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
 
+
       //  openOther();
+
 
     }
 /*

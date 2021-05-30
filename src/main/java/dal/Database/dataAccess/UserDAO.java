@@ -231,4 +231,24 @@ public class UserDAO {
         }
         return usernames;
     }
+
+    public void updateAssignedUsers(int screenID, List<User> selectedUsers) throws DALexception {
+        try (Connection connection = dbConnector.getConnection()) {
+            String sql1 = "DELETE FROM UsersAndScreens WHERE ScreenID=?";
+            PreparedStatement pstat = connection.prepareStatement(sql1);
+            pstat.setInt(1, screenID);
+            pstat.executeUpdate();
+
+            String sql = "INSERT INTO UsersAndScreens(UserID,ScreenID) Values(?, ?)";
+            PreparedStatement pStatement = connection.prepareStatement(sql);
+            for(User user : selectedUsers) {
+                pStatement.setInt(1, user.getID());
+                pStatement.setInt(2, screenID);
+                pStatement.executeUpdate();
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            throw new DALexception("could not update assigned users");
+        }
+    }
 }
