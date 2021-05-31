@@ -71,8 +71,6 @@ public class LogInController implements Initializable {
                         Platform.runLater(()->CommandManager.getInstance().getPrevious().rollback(borderPane));
 
                     } else {
-                        //openClient(user);
-                        // selectScreen(user); //Platform.runLater(()->);
                         Platform.runLater(()->selectScreen(user));
 
                     }
@@ -88,19 +86,6 @@ public class LogInController implements Initializable {
                 Animations.shakeNodeAnimation(usernameField);
             });
         }
-
-        /*
-       //System.out.println(user.getUserName() + user.getPassword());
-        if(user ==null)
-            JOptionPane.showMessageDialog(null,"Wrong username");
-        else if(!user.getPassword().equals(passwordField.getText()))
-            JOptionPane.showMessageDialog(null,"Wrong Password");
-        else if(user.isAdmin())
-            CommandManager.getInstance().getPrevious().rollback(borderPane);
-        else
-            openClient(user);
-
-         */
     };
 
     public void confirm() {

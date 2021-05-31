@@ -9,6 +9,7 @@ import gui.util.*;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import gui.util.Command.Command;
+import gui.util.Command.CommandManager;
 import gui.util.Command.LoadCreateNew;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -68,6 +69,7 @@ public class CreateNewScreenController implements Initializable {
     private TextField colsField;
     @FXML
     private AnchorPane space;
+    private BorderPane borderPane;
 
     private GridPane gridPane;
     ContextMenu contextMenu;
@@ -89,6 +91,10 @@ public class CreateNewScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initLay();
+    }
+
+    public void setBorderPane(BorderPane borderPane) {
+        this.borderPane = borderPane;
     }
 
     private void initLay() {
@@ -802,6 +808,10 @@ public class CreateNewScreenController implements Initializable {
     private void enableFields() {
         colsField.setDisable(false);
         rowsFiled.setDisable(false);
+    }
+
+    public void discardButton(ActionEvent actionEvent) {
+        CommandManager.getInstance().getPrevious().rollback(borderPane);
     }
 
 

@@ -193,25 +193,6 @@ public class ScreenModel implements IObservable {
     public void notifySingleObservers(List<Screen> modified) {
 
         forgetAbout.addAll(modified);
-/*
-       if(!modified.isEmpty()) {
-           for (ObserverSingle observerSingle : observersSingle) {
-               System.out.println("I love sushii");
-               observerSingle.update();
-           }
-       }
-
-        for(ObserverSingle observerSingle: observersSingle){
-            System.out.println("ids for observers: "+ observerSingle.
-                    getScreen().getId());
-        }
-        System.out.println("slut --------------------");
-
-        for(Screen screen: modified){
-            System.out.println(" ids for screns: "+ screen.getId());
-        }
-
- */
 
         for(ObserverSingle observerSingle : observersSingle){
             System.out.println("size of modified: "+ modified.size());
@@ -219,49 +200,6 @@ public class ScreenModel implements IObservable {
                 if(observerSingle.getScreen().getId() == mofidScreen.getId()) {
                     System.out.println("fuck yeahhhh");
                 }}}
-       /*for (Screen screen : modified){
-           for (ObserverSingle observerSingle : observersSingle){
-                if (screen.getId() == observerSingle.getScreen().getId()) {
-
-                    observerSingle.update();
-                }
-            }
-        }
-
-       /*
-       for (Screen screen : modified) {
-           for (ObserverSingle observerSingle : observersSingle) {
-               if (screen.getId() == observerSingle.getScreen().getId()) {
-                   observerSingle.update();
-                   System.out.println("we hit there");
-               }
-           }
-       }
-
-        */
-
-
-        /*
-        for(ObserverSingle observerSingle: observersSingle) {
-            System.out.println("id: " + observerSingle.getScreen().getId());
-        }
-
-        System.out.println("end.");
-
-        for (Screen screen : modified) {
-            System.out.println("id mod:" + screen.getId());
-        }
-
-        for (Screen screen : modified){
-            for (ObserverSingle observerSingle : observersSingle){
-                if (screen.getId() == observerSingle.getScreen().getId()) {
-                    observerSingle.update();
-                    System.out.println("we hit there");
-                }
-            }
-        }
-
-         */
 
     }
 
