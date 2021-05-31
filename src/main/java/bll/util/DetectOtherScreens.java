@@ -23,11 +23,10 @@ public class DetectOtherScreens {
      * also screen should be marked as modified if one of the files it contained was changed.
      * How we can detect that
      * @param newScreens
-     * @param mainScreens
      * @param changedFiles
      * @return
      */
-    public List<Screen> getModifiedScreens(List<Screen> newScreens, ObservableList<Screen> mainScreens,
+    public List<Screen> getModifiedScreens(List<Screen> newScreens,
                                            HashSet<String> changedFiles) throws BLLException {
         for(Screen screen: newScreens){
             for(String file: changedFiles){

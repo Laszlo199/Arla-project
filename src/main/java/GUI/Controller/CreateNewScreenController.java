@@ -166,6 +166,7 @@ public class CreateNewScreenController implements Initializable {
         return filter2;
     }
 
+
     private void makeFieldsNumeric() {
         TextFormatter<String> textFormatter1 = new TextFormatter<>(getFilter1());
         TextFormatter<String> textFormatter2 = new TextFormatter<>(getFilter2());

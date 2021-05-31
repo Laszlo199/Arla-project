@@ -2,21 +2,15 @@ package gui.Controller;
 
 
 import be.Screen;
-import com.jfoenix.validation.RequiredFieldValidator;
-import gui.Model.LoginModel;
-import gui.util.AlertDisplayer;
-import gui.util.Animations;
-import gui.util.Command.CommandManager;
-import be.User;
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
-import dal.Database.dataAccess.UserDAO;
-import dal.exception.DALexception;
+import com.jfoenix.validation.RequiredFieldValidator;
+import gui.Model.LoginModel;
+import gui.util.Animations;
+import gui.util.Command.CommandManager;
+import be.User;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,14 +18,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-
-import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -69,7 +58,6 @@ public class LogInController implements Initializable {
                 if (user.getPassword().equals(passwordField.getText())) {
                     if (user.isAdmin()) {
                         Platform.runLater(()->CommandManager.getInstance().getPrevious().rollback(borderPane));
-
                     } else {
                         //openClient(user);
                         // selectScreen(user); //Platform.runLater(()->);

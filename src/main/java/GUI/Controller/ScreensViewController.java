@@ -105,43 +105,16 @@ public class ScreensViewController extends ObserverMany implements Initializable
     }
 
 
-
-    /**
-     * just reload data in elements
-     *
-     * @param modified
-     */
-    private void modifyElements(List<Screen> modified) {
-        /*
-        for (Screen screen : modified) {
-            List<Node> nodes = space.getChildren();
-            for (Node node : nodes)
-                if (node != null) {
-                    ScreenPreview screenPreview = (ScreenPreview) node.getUserData();
-                    if (screenPreview.getScreen().getId() == screen.getId()) {
-                        screenPreview.setMainScreen(screen);
-                        screenPreview.initMainFields();
-                    }
-                }
-
-        }
-
-         */
-       // System.out.println("we are over ....");
-    }
-
     /**
      * //this method may be useful if we have more than one screens opened
      * @param addedScreens
      * @param deletedScreens
-     * @param modifiedScreens
      */
     @Override
-    public void update(List<Screen> addedScreens, List<Screen> deletedScreens, List<Screen> modifiedScreens) {
+    public void update(List<Screen> addedScreens, List<Screen> deletedScreens) {
        // System.out.println("update in ScreensViewController");
         Platform.runLater(() -> removeElements(deletedScreens));
         Platform.runLater(() -> loadScreens(addedScreens));
-        Platform.runLater(() -> modifyElements(modifiedScreens));
     }
 
 }

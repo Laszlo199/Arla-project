@@ -62,13 +62,13 @@ public class ScreenModel implements IObservable {
         Runnable runnable = () -> {
             try {
                 List<Screen> newScreens = logic.getMainScreens(); //it can be changed so that we wont ask db all the time
-                List<Screen> modifiedScreens = logic.getModifiedScreens(newScreens, mainScreens);
+                List<Screen> modifiedScreens = logic.getModifiedScreens(newScreens);
                 List<Screen> deletedScreens = logic.getDeletedScreens(newScreens, mainScreens);
                 List<Screen> addedScreens = logic.getNewScreens(newScreens, mainScreens);
                 mainScreens.addAll(addedScreens);
                 mainScreens.removeAll(deletedScreens);
                 modifiedScreens.removeAll(forgetAbout);
-                notifyManyObservers(addedScreens, deletedScreens, modifiedScreens);
+                notifyManyObservers(addedScreens, deletedScreens);
                 listenRefreshNow(modifiedScreens);
 
             } catch (BLLException e) {
@@ -179,90 +179,25 @@ public class ScreenModel implements IObservable {
      * Screen Views are notified that a screen was deleted / added
      * @param added
      * @param deleted
-     * @param modified
      */
     @Override
-    public void notifyManyObservers(List<Screen> added, List<Screen> deleted, List<Screen> modified) {
+    public void notifyManyObservers(List<Screen> added, List<Screen> deleted) {
         for (ObserverMany observerMany : observersMany) {
-            observerMany.update(added, deleted, modified);
+            observerMany.update(added, deleted);
         }
     }
 
 
     @Override
     public void notifySingleObservers(List<Screen> modified) {
-
         forgetAbout.addAll(modified);
-/*
-       if(!modified.isEmpty()) {
-           for (ObserverSingle observerSingle : observersSingle) {
-               System.out.println("I love sushii");
-               observerSingle.update();
-           }
-       }
-
-        for(ObserverSingle observerSingle: observersSingle){
-            System.out.println("ids for observers: "+ observerSingle.
-                    getScreen().getId());
-        }
-        System.out.println("slut --------------------");
-
-        for(Screen screen: modified){
-            System.out.println(" ids for screns: "+ screen.getId());
-        }
-
- */
-
         for(ObserverSingle observerSingle : observersSingle){
             System.out.println("size of modified: "+ modified.size());
             for(Screen mofidScreen: modified){
                 if(observerSingle.getScreen().getId() == mofidScreen.getId()) {
+                    observerSingle.update();
                     System.out.println("fuck yeahhhh");
                 }}}
-       /*for (Screen screen : modified){
-           for (ObserverSingle observerSingle : observersSingle){
-                if (screen.getId() == observerSingle.getScreen().getId()) {
-
-                    observerSingle.update();
-                }
-            }
-        }
-
-       /*
-       for (Screen screen : modified) {
-           for (ObserverSingle observerSingle : observersSingle) {
-               if (screen.getId() == observerSingle.getScreen().getId()) {
-                   observerSingle.update();
-                   System.out.println("we hit there");
-               }
-           }
-       }
-
-        */
-
-
-        /*
-        for(ObserverSingle observerSingle: observersSingle) {
-            System.out.println("id: " + observerSingle.getScreen().getId());
-        }
-
-        System.out.println("end.");
-
-        for (Screen screen : modified) {
-            System.out.println("id mod:" + screen.getId());
-        }
-
-        for (Screen screen : modified){
-            for (ObserverSingle observerSingle : observersSingle){
-                if (screen.getId() == observerSingle.getScreen().getId()) {
-                    observerSingle.update();
-                    System.out.println("we hit there");
-                }
-            }
-        }
-
-         */
-
     }
 
 
