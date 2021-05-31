@@ -263,7 +263,9 @@ public class CreateNewScreenController implements Initializable {
     private void initGrid(int rows, int cols) {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                gridPane.add(new AnchorPane(), j, i);
+                AnchorPane anchorPane = new AnchorPane();
+                anchorPane.setMinSize(0, 0);
+                gridPane.add(anchorPane, j, i);
             }
         }
     }
@@ -469,7 +471,8 @@ public class CreateNewScreenController implements Initializable {
             gridPane.getChildren().remove(node);
             for (int m = GridPane.getRowIndex(node); m < GridPane.getRowIndex(node) + getRowSpan(node); m++)
                 for (int n = GridPane.getColumnIndex(node); n < GridPane.getColumnIndex(node) + getColSpan(node); n++) {
-                    Node node1 = new AnchorPane();
+                    AnchorPane node1 = new AnchorPane();
+                    node1.setMinSize(0, 0);
                     Information information = new Information();
                     information.setNode(useThisNode);
                     node1.setUserData(information);
@@ -541,7 +544,8 @@ public class CreateNewScreenController implements Initializable {
                     gridPane.getChildren().remove(usedNode);
                     for (int m = GridPane.getRowIndex(usedNode); m < GridPane.getRowIndex(usedNode) + getRowSpan(usedNode); m++)
                         for (int n = GridPane.getColumnIndex(usedNode); n < GridPane.getColumnIndex(usedNode) + getColSpan(usedNode); n++) {
-                            Node node1 = new AnchorPane();
+                            AnchorPane node1 = new AnchorPane();
+                            node1.setMinSize(0, 0); //
                             Information information = new Information();
                             information.setNode(useThisNow);
                             node1.setUserData(information);

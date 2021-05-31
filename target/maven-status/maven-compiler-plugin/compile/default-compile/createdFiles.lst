@@ -6,7 +6,6 @@ gui\Controller\CreateNewScreenController.class
 gui\Controller\EditViewController.class
 gui\util\WebsiteLoader.class
 gui\Controller\AssignUserController.class
-gui\Controller\PreviewController.class
 gui\Controller\ScreenPreview.class
 gui\Model\ClientModel.class
 gui\Controller\ClientViewController.class
@@ -53,7 +52,6 @@ bll\util\UserViewUtils.class
 gui\util\AlertDisplayer.class
 gui\Controller\ScreensViewController.class
 dal\File\WatchFiles\FileWatcher.class
-dal\IDefaultScreen.class
 gui\util\Command\LoadLogIn.class
 gui\Controller\LogInController.class
 gui\Main.class
