@@ -2,8 +2,10 @@ package gui.Controller;
 
 
 import be.Screen;
+import com.jfoenix.validation.RequiredFieldValidator;
 import gui.Model.LoginModel;
 import gui.util.AlertDisplayer;
+import gui.util.Animations;
 import gui.util.Command.CommandManager;
 import be.User;
 import com.jfoenix.controls.JFXButton;
@@ -49,6 +51,7 @@ public class LogInController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         screensComboBox.setVisible(false);
+        checkIfEmpty(usernameField, passwordField);
     }
 
     public void setBorderPane(BorderPane borderPane) {
@@ -74,14 +77,16 @@ public class LogInController implements Initializable {
 
                     }
                 } else {
-                    Platform.runLater(()->AlertDisplayer.displayInformationAlert("Wrong password",
-                            "Please insert  correct password password ", ""));
-
+                    Platform.runLater(()-> {
+                        Animations.shakeNodeAnimation(passwordField);
+                        Animations.shakeNodeAnimation(usernameField);
+                    });
                 }
             }
         } else {
-            Platform.runLater(()->AlertDisplayer.displayInformationAlert("Wrong username",
-                    "Please insert  correct username ", ""));
+            Platform.runLater(()-> {
+                Animations.shakeNodeAnimation(usernameField);
+            });
         }
 
         /*
@@ -101,6 +106,31 @@ public class LogInController implements Initializable {
     public void confirm() {
       Thread thread = new Thread(runnable);
       thread.start();
+    }
+
+    /**
+     * If one of the fields is empty user is notified
+     * @param emailField
+     * @param passwordField
+     */
+    private void checkIfEmpty(JFXTextField emailField, JFXPasswordField passwordField) {
+        RequiredFieldValidator noInputVal = new RequiredFieldValidator();
+        noInputVal.setMessage("Input Required");
+        RequiredFieldValidator noInputVal1 = new RequiredFieldValidator();
+        noInputVal1.setMessage("Input Required");
+        emailField.focusedProperty().addListener((observableValue, aBoolean, newVal) -> {
+            if (!newVal) {
+                emailField.getValidators().add(noInputVal);
+                emailField.validate();
+            }
+        });
+
+        passwordField.focusedProperty().addListener((observableValue, aBoolean, newVal) -> {
+            if (!newVal) {
+                passwordField.getValidators().add(noInputVal1);
+                passwordField.validate();
+            }
+        });
     }
 
     private void selectScreen(User user){

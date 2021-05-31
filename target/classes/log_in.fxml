@@ -31,7 +31,10 @@
                               <Font size="27.0" />
                            </font>
                         </Label>
-                        <JFXTextField fx:id="usernameField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="226.0" promptText="Username: " />
+                        <JFXTextField fx:id="usernameField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="226.0" promptText="Username: ">
+                           <VBox.margin>
+                              <Insets bottom="6.0" />
+                           </VBox.margin></JFXTextField>
                         <JFXPasswordField fx:id="passwordField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="226.0" promptText="Password: " />
                         <JFXButton onAction="#confirm" prefHeight="28.0" prefWidth="229.0" style="-fx-background-color: #5ade0d;" text="Confirm">
                            <VBox.margin>
