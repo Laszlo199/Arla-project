@@ -16,7 +16,6 @@ public class UserModel {
 
     private IFacade iFacade;
     private ObservableList<User> obsUsers;
-    private ObservableList<User> listofUsers;
 
 
     public UserModel() {
@@ -97,19 +96,5 @@ public class UserModel {
         }
         return null;
     }
-
-
-    /*
-    public ObservableList<User> returnSelectedUsers(String selection){
-        try {
-            return iFacade.returnSelectedUsers(selection);
-        } catch (BLLException blLexception) {
-            blLexception.printStackTrace();
-        }
-        return obsUsers;
-    }
-
-     */
-
 
 }

@@ -1,19 +1,17 @@
 package gui.Controller;
 
 import be.User;
-import com.jfoenix.controls.JFXButton;
 import gui.Model.ScreenModel;
 import gui.Model.UserModel;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.awt.event.MouseEvent;
+
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -25,15 +23,12 @@ public class AssignUserController implements Initializable {
     @FXML
     private TableColumn<User,String> userNameColumn;
 
-    @FXML
-    private JFXButton assignUsers;
-
-
 
     private UserModel userModel;
     private ScreenModel screenModel;
     private int screenID;
     private boolean isEdit = false;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -42,12 +37,6 @@ public class AssignUserController implements Initializable {
         initUserTableView();
 
     }
-    /*
-    public UsersAssignController(String name){
-        this.screenName = name;
-    }
-
-     */
 
     public void setScreenName(int screenName) {
         this.screenID = screenName;
