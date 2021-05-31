@@ -7,6 +7,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1043.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Controller.CreateNewScreenController">
@@ -18,32 +19,45 @@
       </AnchorPane>
       <JFXTextField fx:id="nameField" layoutX="95.0" layoutY="23.0" prefHeight="25.0" prefWidth="181.0" />
       <Label layoutX="52.0" layoutY="35.0" prefHeight="16.0" prefWidth="68.0" text="Name:" />
-      <JFXButton layoutX="936.0" layoutY="25.0" style="-fx-background-color: #4287f5;" text="Select user" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="25.0" />
-      <Label fx:id="csvL" layoutX="973.0" layoutY="73.0" prefHeight="38.0" prefWidth="47.0" text="CSV" textFill="#4287f5" AnchorPane.rightAnchor="23.0" AnchorPane.topAnchor="73.0">
-         <font>
-            <Font size="26.0" />
-         </font>
-      </Label>
-      <Label fx:id="pdfL" layoutX="973.0" layoutY="111.0" prefHeight="38.0" prefWidth="47.0" text="PDF" textFill="#4287f5" AnchorPane.rightAnchor="23.0" AnchorPane.topAnchor="111.0">
-         <font>
-            <Font size="26.0" />
-         </font>
-      </Label>
-      <Label fx:id="pngL" layoutX="963.0" layoutY="149.0" prefHeight="38.0" prefWidth="58.0" text="PNG" textFill="#4287f5" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="149.0">
-         <font>
-            <Font size="26.0" />
-         </font>
-      </Label>
-      <Label fx:id="jpgL" layoutX="968.0" layoutY="187.0" prefHeight="38.0" prefWidth="47.0" text="JPG" textFill="#4287f5" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="187.0">
-         <font>
-            <Font size="26.0" />
-         </font>
-      </Label>
-      <Label fx:id="httpL" layoutX="963.0" layoutY="225.0" prefHeight="38.0" prefWidth="68.0" text="HTTP" textFill="#4287f5" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="225.0">
-         <font>
-            <Font size="26.0" />
-         </font>
-      </Label>
+      <VBox layoutX="961.0" layoutY="73.0" prefHeight="284.0" prefWidth="79.0" spacing="6.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="73.0">
+         <children>
+            <Label fx:id="csvL" prefHeight="38.0" prefWidth="47.0" text="CSV" textFill="#4287f5">
+               <font>
+                  <Font size="26.0" />
+               </font>
+            </Label>
+            <Label fx:id="pdfL" prefHeight="38.0" prefWidth="47.0" text="PDF" textFill="#4287f5">
+               <font>
+                  <Font size="26.0" />
+               </font>
+            </Label>
+            <Label fx:id="pngL" prefHeight="38.0" prefWidth="58.0" text="PNG" textFill="#4287f5">
+               <font>
+                  <Font size="26.0" />
+               </font>
+            </Label>
+            <Label fx:id="jpgL" prefHeight="38.0" prefWidth="47.0" text="JPG" textFill="#4287f5">
+               <font>
+                  <Font size="26.0" />
+               </font>
+            </Label>
+            <Label fx:id="httpL" prefHeight="38.0" prefWidth="68.0" text="HTTP" textFill="#4287f5">
+               <font>
+                  <Font size="26.0" />
+               </font>
+            </Label>
+            <Label prefHeight="38.0" prefWidth="68.0" text="XLSX" textFill="#4287f5" fx:id="xlxsL">
+               <font>
+                  <Font size="26.0" />
+               </font>
+            </Label>
+            <Label fx:id="videoL" prefHeight="38.0" prefWidth="80.0" text="VIDEO" textFill="#4287f5">
+               <font>
+                  <Font size="26.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
       <HBox alignment="CENTER" layoutX="26.0" layoutY="631.0" spacing="15.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
          <children>
             <JFXButton maxWidth="1.7976931348623157E308" prefHeight="31.0" prefWidth="501.0" style="-fx-background-color: #3d424a;" text="DISCARD" textFill="WHITE" HBox.hgrow="ALWAYS" />
@@ -54,18 +68,9 @@
             </JFXButton>
          </children>
       </HBox>
-      <TextField fx:id="rowsFiled" layoutX="738.0" layoutY="25.0" prefHeight="25.0" prefWidth="58.0" promptText="rows" />
-      <TextField fx:id="colsField" layoutX="810.0" layoutY="25.0" prefHeight="25.0" prefWidth="58.0" promptText="cols" />
-      <JFXButton fx:id="setButton" layoutX="878.0" layoutY="25.0" onAction="#setGrid" prefHeight="25.0" prefWidth="47.0" style="-fx-background-color: #4287f5;" text="SET" />
-      <Label layoutX="963.0" layoutY="270.0" prefHeight="38.0" prefWidth="68.0" text="XLSX" textFill="#4287f5" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="270.0" fx:id="xlxsL">
-         <font>
-            <Font size="26.0" />
-         </font>
-      </Label>
-      <Label fx:id="videoL" layoutX="957.0" layoutY="316.0" prefHeight="38.0" prefWidth="80.0" text="VIDEO" textFill="#4287f5" AnchorPane.bottomAnchor="316.0" AnchorPane.rightAnchor="6.0">
-         <font>
-            <Font size="26.0" />
-         </font>
-      </Label>
+      <TextField fx:id="rowsFiled" layoutX="823.0" layoutY="23.0" prefHeight="25.0" prefWidth="58.0" promptText="rows" AnchorPane.rightAnchor="162.0" AnchorPane.topAnchor="23.0" />
+      <TextField fx:id="colsField" layoutX="755.0" layoutY="23.0" prefHeight="25.0" prefWidth="58.0" promptText="cols" AnchorPane.rightAnchor="230.0" AnchorPane.topAnchor="23.0" />
+      <JFXButton fx:id="setButton" layoutX="896.0" layoutY="23.0" onAction="#setGrid" prefHeight="25.0" prefWidth="47.0" style="-fx-background-color: #4287f5;" text="SET" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="23.0" />
+      <JFXButton fx:id="resetButton" layoutX="652.0" layoutY="23.0" onAction="#resetAction" prefHeight="25.0" prefWidth="88.0" style="-fx-background-color: #4287f5;" text="Reset" AnchorPane.rightAnchor="303.0" AnchorPane.topAnchor="23.0" />
    </children>
 </AnchorPane>
