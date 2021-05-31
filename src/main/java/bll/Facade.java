@@ -1,6 +1,5 @@
 package bll;
 
-import be.DefaultScreen;
 import be.Screen;
 import be.ScreenElement;
 import be.User;

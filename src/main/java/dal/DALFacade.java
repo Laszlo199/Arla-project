@@ -1,11 +1,9 @@
 package dal;
 
-import be.DefaultScreen;
 import be.Screen;
 import be.ScreenElement;
 import be.User;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
-import dal.Database.DBConnector;
 import dal.Database.ObjectPool.ConnectionPool;
 import dal.Database.dataAccess.ScreenDAO;
 import dal.Database.dataAccess.UserDAO;
@@ -17,7 +15,6 @@ import dal.exception.DALexception;
 
 import java.nio.file.Path;
 import java.sql.Connection;
-import java.util.HashSet;
 import java.util.List;
 
 /**

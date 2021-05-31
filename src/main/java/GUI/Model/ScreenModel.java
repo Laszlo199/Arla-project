@@ -1,7 +1,6 @@
 package gui.Model;
 
 import gui.Model.exception.ModelException;
-import be.DefaultScreen;
 import be.Screen;
 import be.ScreenElement;
 import be.User;

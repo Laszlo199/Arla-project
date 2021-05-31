@@ -1,11 +1,9 @@
 package bll;
 
-import be.DefaultScreen;
 import be.Screen;
 import be.ScreenElement;
 import be.User;
 import bll.exception.BLLException;
-import dal.exception.DALexception;
 import javafx.collections.ObservableList;
 
 import java.nio.file.Path;
