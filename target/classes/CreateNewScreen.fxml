@@ -18,28 +18,27 @@
       </AnchorPane>
       <JFXTextField fx:id="nameField" layoutX="95.0" layoutY="23.0" prefHeight="25.0" prefWidth="181.0" />
       <Label layoutX="52.0" layoutY="35.0" prefHeight="16.0" prefWidth="68.0" text="Name:" />
-      <JFXButton layoutX="936.0" layoutY="25.0" style="-fx-background-color: #4287f5;" text="Select user" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="25.0" />
-      <Label fx:id="csvL" layoutX="973.0" layoutY="73.0" prefHeight="38.0" prefWidth="47.0" text="CSV" textFill="#4287f5" AnchorPane.rightAnchor="23.0" AnchorPane.topAnchor="73.0">
+      <Label fx:id="csvL" textAlignment="LEFT" layoutX="973.0" layoutY="73.0" prefHeight="38.0" prefWidth="60.0" text="CSV" textFill="#4287f5" AnchorPane.rightAnchor="23.0" AnchorPane.topAnchor="73.0">
          <font>
             <Font size="26.0" />
          </font>
       </Label>
-      <Label fx:id="pdfL" layoutX="973.0" layoutY="111.0" prefHeight="38.0" prefWidth="47.0" text="PDF" textFill="#4287f5" AnchorPane.rightAnchor="23.0" AnchorPane.topAnchor="111.0">
+      <Label fx:id="pdfL" textAlignment="LEFT" layoutX="973.0" layoutY="111.0" prefHeight="38.0" prefWidth="47.0" text="PDF" textFill="#4287f5" AnchorPane.rightAnchor="23.0" AnchorPane.topAnchor="111.0">
          <font>
             <Font size="26.0" />
          </font>
       </Label>
-      <Label fx:id="pngL" layoutX="963.0" layoutY="149.0" prefHeight="38.0" prefWidth="58.0" text="PNG" textFill="#4287f5" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="149.0">
+      <Label fx:id="pngL" textAlignment="LEFT" layoutX="973.0" layoutY="149.0" prefHeight="38.0" prefWidth="58.0" text="PNG" textFill="#4287f5" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="149.0">
          <font>
             <Font size="26.0" />
          </font>
       </Label>
-      <Label fx:id="jpgL" layoutX="968.0" layoutY="187.0" prefHeight="38.0" prefWidth="47.0" text="JPG" textFill="#4287f5" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="187.0">
+      <Label fx:id="jpgL" textAlignment="LEFT" layoutX="973.0" layoutY="187.0" prefHeight="38.0" prefWidth="47.0" text="JPG" textFill="#4287f5" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="187.0">
          <font>
             <Font size="26.0" />
          </font>
       </Label>
-      <Label fx:id="httpL" layoutX="963.0" layoutY="225.0" prefHeight="38.0" prefWidth="68.0" text="HTTP" textFill="#4287f5" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="225.0">
+      <Label fx:id="httpL" textAlignment="LEFT" layoutX="973.0" layoutY="225.0" prefHeight="38.0" prefWidth="68.0" text="HTTP" textFill="#4287f5" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="225.0">
          <font>
             <Font size="26.0" />
          </font>
@@ -57,12 +56,12 @@
       <TextField fx:id="rowsFiled" layoutX="738.0" layoutY="25.0" prefHeight="25.0" prefWidth="58.0" promptText="rows" />
       <TextField fx:id="colsField" layoutX="810.0" layoutY="25.0" prefHeight="25.0" prefWidth="58.0" promptText="cols" />
       <JFXButton fx:id="setButton" layoutX="878.0" layoutY="25.0" onAction="#setGrid" prefHeight="25.0" prefWidth="47.0" style="-fx-background-color: #4287f5;" text="SET" />
-      <Label layoutX="963.0" layoutY="270.0" prefHeight="38.0" prefWidth="68.0" text="XLSX" textFill="#4287f5" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="270.0" fx:id="xlxsL">
+      <Label layoutX="973.0" layoutY="270.0" prefHeight="38.0" prefWidth="68.0" text="XLSX" textFill="#4287f5" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="270.0" fx:id="xlxsL" textAlignment="LEFT">
          <font>
             <Font size="26.0" />
          </font>
       </Label>
-      <Label fx:id="videoL" layoutX="957.0" layoutY="316.0" prefHeight="38.0" prefWidth="80.0" text="VIDEO" textFill="#4287f5" AnchorPane.bottomAnchor="316.0" AnchorPane.rightAnchor="6.0">
+      <Label fx:id="videoL" layoutX="973.0" layoutY="316.0" prefHeight="38.0" prefWidth="80.0" text="VIDEO" textFill="#4287f5" AnchorPane.bottomAnchor="316.0" AnchorPane.rightAnchor="6.0" textAlignment="LEFT">
          <font>
             <Font size="26.0" />
          </font>

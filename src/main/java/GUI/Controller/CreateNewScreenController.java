@@ -226,47 +226,7 @@ public class CreateNewScreenController implements Initializable {
             information.setNode(node);
             node.setUserData(information);
             node.setOnMousePressed(event -> showContextMenu(event, node));
-            node.setOnScroll(event -> zoomAction(event, node));
-            node.layoutBoundsProperty().addListener(new ChangeListener<Bounds>() {
-                @Override
-                public void changed(ObservableValue<? extends Bounds> observable, Bounds oldBounds, Bounds bounds) {
-                    node.setClip(new Rectangle(bounds.getMinX(), bounds.getMinY(), bounds.getWidth(), bounds.getHeight()));
-                }
-            });
         }
-    }
-
-    private void zoomAction(ScrollEvent event, Node node) {
-        final double SCALE_DELTA = 1.1;
-        AnchorPane anchorPane = (AnchorPane) node;
-        Node child = anchorPane.getChildren().get(0);
-        event.consume();
-
-        if (event.getDeltaY() == 0) {
-            return;
-        }
-
-        double scaleFactor =
-                (event.getDeltaY() > 0)
-                        ? SCALE_DELTA
-                        : 1 / SCALE_DELTA;
-
-
-        /*
-        if((child.getScaleX() * scaleFactor) >=1.0 ) {
-            child.setScaleX(child.getScaleX() * scaleFactor);
-            child.setScaleY(child.getScaleY() * scaleFactor);
-        }
-
-         */
-
-        Scale newScale = new Scale();
-        newScale.setPivotX(event.getX());
-        newScale.setPivotY(event.getY());
-        newScale.setX(child.getScaleX() * scaleFactor);
-        newScale.setY(child.getScaleY() * scaleFactor);
-        child.getTransforms().add(newScale);
-
     }
 
 
