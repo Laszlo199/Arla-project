@@ -87,7 +87,6 @@ public class ScreenModel implements IObservable {
 
 
     private void listenRefreshNow(List<Screen> modifiedScreens){
-        //List<Screen> helper = new ArrayList<>();
         for(Screen m: modifiedScreens){
             if(m.isRefreshNow()){
                 update(m);
@@ -161,8 +160,8 @@ public class ScreenModel implements IObservable {
 
 
     /**
-     * method passes the data needed to save screen there are encapsulated daata for each section and
-     * general info about screen
+     * method passes the data needed to save screen there is encapsulated data for each section and
+     * general information about screen
      *
      * @param screen
      * @param screenElements
@@ -176,9 +175,12 @@ public class ScreenModel implements IObservable {
     }
 
 
-
-
-
+    /**
+     * Screen Views are notified that a screen was deleted / added
+     * @param added
+     * @param deleted
+     * @param modified
+     */
     @Override
     public void notifyManyObservers(List<Screen> added, List<Screen> deleted, List<Screen> modified) {
         for (ObserverMany observerMany : observersMany) {
@@ -187,12 +189,11 @@ public class ScreenModel implements IObservable {
     }
 
 
-
     @Override
     public void notifySingleObservers(List<Screen> modified) {
 
         forgetAbout.addAll(modified);
-
+/*
        if(!modified.isEmpty()) {
            for (ObserverSingle observerSingle : observersSingle) {
                System.out.println("I love sushii");
@@ -209,6 +210,8 @@ public class ScreenModel implements IObservable {
         for(Screen screen: modified){
             System.out.println(" ids for screns: "+ screen.getId());
         }
+
+ */
 
         for(ObserverSingle observerSingle : observersSingle){
             System.out.println("size of modified: "+ modified.size());

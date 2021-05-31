@@ -26,18 +26,13 @@ public class PDFLoader {
      * @param
      */
     public static  Path loadPDF(FileChooser fileChooser){
-      //  File selectedFile = ChooseFile.getSelectedFile(actionEvent, "Choose PDF file",
-           //     fileChooser);
         List<File> files = fileChooser.showOpenMultipleDialog(new Stage());
         if(!files.isEmpty()) {
             if (ValidateExtension.validatePDF(files.get(0))) {
-                //attachment3.setText(selectedFile.getName());
                 destinationPathPDF = Path.of(DESTINATION_PATH_PDF + files.get(0).getName());
                 FileSaver.saveFile(files.get(0), destinationPathPDF);
-                //return files.get(0).getName();
             }
         }
-       // return new String("");
         return destinationPathPDF;
     }
 
