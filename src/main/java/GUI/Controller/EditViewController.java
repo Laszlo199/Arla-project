@@ -15,7 +15,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -208,8 +207,8 @@ public class EditViewController {
             AssignUserController controller = fxmlLoader.getController();
             controller.setScreenName(screen.getId());
             controller.setEdit(true);
-            //stage = (Stage) ((Node) actionEvent.getSource()).getSta.getWindow();
             stage.setTitle("Assign Users");
+            stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/Icons/arla.png")));
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {

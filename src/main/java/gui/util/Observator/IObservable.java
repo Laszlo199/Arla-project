@@ -11,6 +11,6 @@ import java.util.List;
  */
 public interface IObservable {
     //by default its public and abstract
-    void notifyManyObservers(List<Screen> added, List<Screen> deleted, List<Screen> modified);
+    void notifyManyObservers(List<Screen> added, List<Screen> deleted);
     void notifySingleObservers(List<Screen> modified);
 }

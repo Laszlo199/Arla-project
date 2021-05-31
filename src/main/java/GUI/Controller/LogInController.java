@@ -2,36 +2,26 @@ package gui.Controller;
 
 
 import be.Screen;
-import com.jfoenix.validation.RequiredFieldValidator;
-import gui.Model.LoginModel;
-import gui.util.AlertDisplayer;
-import gui.util.Animations;
-import gui.util.Command.CommandManager;
-import be.User;
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
-import dal.Database.dataAccess.UserDAO;
-import dal.exception.DALexception;
+import com.jfoenix.validation.RequiredFieldValidator;
+import gui.Model.LoginModel;
+import gui.util.Animations;
+import gui.util.Command.CommandManager;
+import be.User;
+
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-
-import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -69,10 +59,8 @@ public class LogInController implements Initializable {
                 if (user.getPassword().equals(passwordField.getText())) {
                     if (user.isAdmin()) {
                         Platform.runLater(()->CommandManager.getInstance().getPrevious().rollback(borderPane));
-
                     } else {
                         Platform.runLater(()->selectScreen(user));
-
                     }
                 } else {
                     Platform.runLater(()-> {
@@ -129,10 +117,6 @@ public class LogInController implements Initializable {
 
             screensComboBox.setVisible(true);
         }
-        else
-        {
-            //openClient(user,user.getScreens().get(0));
-        }
     }
 
     public void loginWithComboBox(ActionEvent actionEvent) {
@@ -145,6 +129,7 @@ public class LogInController implements Initializable {
     private void openClient(Screen screen) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ClientView.fxml"));
         Stage stage = new Stage();
+        stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/Icons/arla.png")));
         Parent root = null;
         try {
             root = loader.load();
@@ -152,36 +137,11 @@ public class LogInController implements Initializable {
             controller.setAsObserver(screen);
             controller.setScreen(screen, stage);
 
-            //controller.setAsObserver(screen);
         } catch (IOException e) {
             e.printStackTrace();
         }
         stage.setTitle(screen.getName() + ", " + user.getUserName());
     }
 
-    /* @Override
-    public boolean passwordIsCorrect() {
-        return true;
-    }
-
-    */
-
-    /**
-     * when button is invoked
-     * @param
-     */
-    /*
-    public void confirm() {
-        String pw = passwordField.getText();
-        LoginModel loginModel = new LoginModel();
-        boolean flag = loginModel.validate(pw);
-        if(!flag)
-            JOptionPane.showMessageDialog(null,"Wrong Password");
-        else
-            CommandManager.getInstance().getPrevious().rollback(borderPane);
-
-    }
-
-     */
 }
 

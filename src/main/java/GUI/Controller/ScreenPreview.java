@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -27,20 +28,9 @@ public class ScreenPreview {
     private Label ScreenName;
     @FXML
     private Label refreshTime;
-    /*
-    @FXML
-    private Label attachment1;
-    @FXML
-    private Label attachment2;
-
-     */
     @FXML
     private Label attachment3;
-    /*
-    @FXML
-    private Label attachment4;
 
-     */
 
     public void setMainScreen(Screen sc) {
         this.screen = sc;
@@ -96,6 +86,7 @@ public class ScreenPreview {
     public void edit(ActionEvent actionEvent) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/EditView.fxml"));
         Stage stage = new Stage();
+        stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/Icons/arla.png")));
         Parent root = null;
         try {
             root = loader.load();

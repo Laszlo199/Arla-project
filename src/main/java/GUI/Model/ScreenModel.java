@@ -62,13 +62,13 @@ public class ScreenModel implements IObservable {
         Runnable runnable = () -> {
             try {
                 List<Screen> newScreens = logic.getMainScreens(); //it can be changed so that we wont ask db all the time
-                List<Screen> modifiedScreens = logic.getModifiedScreens(newScreens, mainScreens);
+                List<Screen> modifiedScreens = logic.getModifiedScreens(newScreens);
                 List<Screen> deletedScreens = logic.getDeletedScreens(newScreens, mainScreens);
                 List<Screen> addedScreens = logic.getNewScreens(newScreens, mainScreens);
                 mainScreens.addAll(addedScreens);
                 mainScreens.removeAll(deletedScreens);
                 modifiedScreens.removeAll(forgetAbout);
-                notifyManyObservers(addedScreens, deletedScreens, modifiedScreens);
+                notifyManyObservers(addedScreens, deletedScreens);
                 listenRefreshNow(modifiedScreens);
 
             } catch (BLLException e) {
@@ -179,28 +179,26 @@ public class ScreenModel implements IObservable {
      * Screen Views are notified that a screen was deleted / added
      * @param added
      * @param deleted
-     * @param modified
      */
     @Override
-    public void notifyManyObservers(List<Screen> added, List<Screen> deleted, List<Screen> modified) {
+    public void notifyManyObservers(List<Screen> added, List<Screen> deleted) {
         for (ObserverMany observerMany : observersMany) {
-            observerMany.update(added, deleted, modified);
+            observerMany.update(added, deleted);
         }
     }
 
 
     @Override
     public void notifySingleObservers(List<Screen> modified) {
-
         forgetAbout.addAll(modified);
 
         for(ObserverSingle observerSingle : observersSingle){
             System.out.println("size of modified: "+ modified.size());
             for(Screen mofidScreen: modified){
                 if(observerSingle.getScreen().getId() == mofidScreen.getId()) {
+                    observerSingle.update();
                     System.out.println("fuck yeahhhh");
                 }}}
-
     }
 
 
