@@ -24,6 +24,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
@@ -758,6 +759,7 @@ public class CreateNewScreenController implements Initializable {
             AssignUserController controller = fxmlLoader.getController();
             controller.setScreenName(screenID);
             stage.setTitle("Assign User");
+            stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/Icons/arla.png")));
             stage.setScene(new Scene(root1));
             stage.show();
         } catch (IOException e) {
