@@ -2,8 +2,6 @@ package dal.Database.dataAccess;
 
 import be.*;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
-import dal.Database.DBConnector;
-import dal.Database.ObjectPool.ConnectionPool;
 import dal.exception.DALexception;
 
 import java.nio.file.Path;
