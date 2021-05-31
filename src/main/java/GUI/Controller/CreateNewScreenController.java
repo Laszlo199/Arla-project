@@ -757,7 +757,6 @@ public class CreateNewScreenController implements Initializable {
             Stage stage = new Stage();
             AssignUserController controller = fxmlLoader.getController();
             controller.setScreenName(screenID);
-            //stage = (Stage) ((Node) actionEvent.getSource()).getSta.getWindow();
             stage.setTitle("Assign User");
             stage.setScene(new Scene(root1));
             stage.show();

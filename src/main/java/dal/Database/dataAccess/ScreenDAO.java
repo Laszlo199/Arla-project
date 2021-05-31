@@ -98,9 +98,6 @@ public class ScreenDAO {
             ResultSet resultSet = pstat.executeQuery();
 
             while (resultSet.next()) {
-              // temp.setId(resultSet.getInt("id"));
-              // temp.setName(resultSet.getString("name"));
-               //temp.setRefreshTime(resultSet.getInt("refreshTime"));
                 int id1 = resultSet.getInt("id");
                 String name = resultSet.getString("name");
                 int refreshTime = resultSet.getInt("refreshTime");
@@ -129,11 +126,11 @@ public class ScreenDAO {
         String query1 = "INSERT INTO Screens([name], refreshTime) Values(?, ?);";
         String query2 = "INSERT INTO Sections(screenID, colIndex, rowIndex " +
                 " , columnSpan, rowSpan, filepath, isHeader, title, CSVType) Values(?, ?, ?, ?, ?, ?, ?, ?, ?);";
-        String query3 = "UPDATE Users SET screenID = ? WHERE ID = ?";
+
         try(PreparedStatement preparedStat1 = connection.prepareStatement(query1,
                     Statement.RETURN_GENERATED_KEYS);
             PreparedStatement preparedStatement = connection.prepareStatement(query2)
-           // PreparedStatement preparedStatement2 = connection.prepareStatement(query3)
+
         )
         {
             connection.setAutoCommit(false);
@@ -141,7 +138,7 @@ public class ScreenDAO {
             preparedStat1.setString(1, screen.getName());
             preparedStat1.setInt(2, 5);
             preparedStat1.executeUpdate();
-            //connection.commit();
+
 
             //set proper id for that screen
             try(ResultSet generatedKey = preparedStat1.getGeneratedKeys()) {
@@ -169,14 +166,7 @@ public class ScreenDAO {
                 }
                 preparedStatement.executeUpdate();
             }
-        /*
-            for (User user : usersList) {
-                preparedStatement2.setInt(1, screenID);
-                preparedStatement2.setInt(2, user.getID());
-                preparedStatement2.executeUpdate();
-            }
 
-            */
             connection.commit();
             connection.setAutoCommit(true);
             connection.setTransactionIsolation(TRANSACTION_NONE);

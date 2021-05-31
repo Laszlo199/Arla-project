@@ -27,20 +27,9 @@ public class ScreenPreview {
     private Label ScreenName;
     @FXML
     private Label refreshTime;
-    /*
-    @FXML
-    private Label attachment1;
-    @FXML
-    private Label attachment2;
-
-     */
     @FXML
     private Label attachment3;
-    /*
-    @FXML
-    private Label attachment4;
 
-     */
 
     public void setMainScreen(Screen sc) {
         this.screen = sc;

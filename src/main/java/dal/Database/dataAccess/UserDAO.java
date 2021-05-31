@@ -58,7 +58,6 @@ public class UserDAO {
         String sql = "UPDATE Users SET userName=?, isAdmin=? WHERE ID=?";
         try (PreparedStatement pStatement = connection.prepareStatement(sql)) {
             pStatement.setString(1, newUser.getUserName());
-            //pStatement.setString(2, newUser.getPassword());
             pStatement.setBoolean(2, newUser.isAdmin());
             pStatement.setInt(3, oldUser.getID());
             pStatement.executeUpdate();
@@ -75,7 +74,6 @@ public class UserDAO {
             pStatement.setString(2, user.getPassword());
             pStatement.setBoolean(3, user.isAdmin());
             pStatement.setBoolean(4, user.isReset());
-            //pStatement.setString(4, user.getPassword());
             pStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
