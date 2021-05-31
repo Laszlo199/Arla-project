@@ -69,24 +69,7 @@ public class ScreenPreview {
         if(!usernames.isEmpty()) for(String u : usernames) users += "\n"+u;
         else users += "\n-";
         usernamesLbl.setText(users);
-
-
-        /*
-        Label[] array =  {attachment1, attachment2, attachment3, attachment4};
-        //for(ScreenElement se: screen.getScreenElementList())
-
-        for (int i = 0; i < 3; i++) {
-            if(screen.getScreenElementList().size()!=0) {
-                String str = screen.getScreenElementList().get(i).getFilepath();
-                array[i].setText(str.substring(str.lastIndexOf("/") + 1));
-            }
-        }
-
-         */
-
-
-
-
+        
     }
 
     public Screen getScreen() {
@@ -147,72 +130,6 @@ public class ScreenPreview {
         stage.setTitle(screen.getName());
     }
 
-/*
-    public void setCurrentScreen(DefaultScreen ds) {
-        this.currentScreen = ds;
-        initFieldsDefault();
-    }
 
-    public DefaultScreen getCurrentScreen() {
-        return currentScreen;
-    }
-     */
-
-    /*
-    method deletes the screen
-     */
-    /*
-    public void delete(ActionEvent actionEvent) {
-      //  ScreenModel.getInstance().deleteDefaultScreen(currentScreen);
-        model.deleteScreen(currentScreen);
-    }
-
-    public void edit(ActionEvent actionEvent) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Templates/CreateDefaultTemplate.fxml"));
-        Parent root = null;
-        try {
-            root = loader.load();
-            CreateDefaultTemplateController controller = loader.getController();
-            controller.setEditMode(currentScreen);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Stage stage = new Stage();
-        stage.setTitle("Production");
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public void openPreview(ActionEvent actionEvent) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/preview.fxml"));
-        Parent root = null;
-        try {
-            root = loader.load();
-            PreviewController controller = loader.getController();
-            controller.setScreen(currentScreen);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Stage stage = new Stage();
-        stage.setTitle("Preview");
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-     */
-
-    /*
-    private void initFieldsDefault() {
-        id = currentScreen.getId();
-        String csv = currentScreen.getDestinationPathCSV().toString();
-        String pdf = currentScreen.getDestinationPathPDF().toString();
-        attachment1.setText(csv.substring(csv.lastIndexOf("/")+1));
-        attachment2.setText(pdf.substring(pdf.lastIndexOf("/")+1));
-        attachment3.setText(currentScreen.getInsertedWebsite());
-        ScreenName.setText(currentScreen.getName());
-    }
-     */
 
 }

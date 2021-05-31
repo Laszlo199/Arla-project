@@ -30,7 +30,6 @@ public class ScreenModel implements IObservable {
     List<ObserverMany> observersMany = new ArrayList<>();
     List<ObserverSingle> observersSingle= new ArrayList<>();
     private static ScreenModel screenModel;
-    private ObservableList<DefaultScreen> defaultScreens;
     private ObservableList<Screen> mainScreens;
     private ScheduledExecutorService executorService;
     private ScheduledExecutorService ex2;
@@ -48,7 +47,6 @@ public class ScreenModel implements IObservable {
     }
 
     public ScreenModel() {
-        defaultScreens = FXCollections.observableArrayList();
         mainScreens = FXCollections.observableArrayList();
         loadMainScreens();
         StartObservatorThread();
@@ -100,9 +98,7 @@ public class ScreenModel implements IObservable {
        notifySingleObservers(modifiedScreens);
     }
 
-    public ObservableList<DefaultScreen> getDefaultScreens() {
-        return defaultScreens;
-    }
+
 
     public void loadMainScreens() {
         try {
@@ -163,9 +159,6 @@ public class ScreenModel implements IObservable {
         }
     }
 
-    public List<DefaultScreen> getAllDefaultScreens() throws ModelException {
-        return defaultScreens;
-    }
 
 
     /**
