@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public class UserViewUtils {
-    private IDALFacade dal;
+   /* private IDALFacade dal;
 
     {
         try {
@@ -22,6 +22,8 @@ public class UserViewUtils {
             daLexception.printStackTrace();
         }
     }
+
+    */
 
 
     public Predicate<User> createSearch(String searchText) {
@@ -37,9 +39,7 @@ public class UserViewUtils {
 
 
 
-    public List<User> returnSelectedUsers(String selection) throws BLLException {
-        try {
-            List<User> listOfUsers = dal.getAllUser();
+    public List<User> returnSelectedUsers(String selection, List<User> listOfUsers) throws BLLException {
 
             if (selection == "Admins"){
                 ObservableList<User> admins = FXCollections.observableArrayList();
@@ -61,10 +61,6 @@ public class UserViewUtils {
                 return users;
             }
             return listOfUsers;
-        }catch (DALexception daLexception){
-            throw new BLLException("Couldnt get admins/users", daLexception);
-        }
-
     }
 
 

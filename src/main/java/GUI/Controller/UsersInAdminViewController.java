@@ -41,6 +41,7 @@ public class UsersInAdminViewController implements Initializable {
     @FXML private JFXCheckBox createAdmin;
     @FXML private JFXCheckBox editAdmin;
     @FXML private JFXComboBox<String> allTableView;
+   private FilteredList<User> filteredData;
 
     private UserModel userModel;
 
@@ -213,7 +214,7 @@ public class UsersInAdminViewController implements Initializable {
     }
 
     public void search(){
-        FilteredList<User> filteredData = new FilteredList<>(FXCollections.observableList(userModel.getAllUser()));
+        filteredData = new FilteredList<>(FXCollections.observableList(userModel.getAllUser()));
         userTableView.setItems(filteredData);
         searchField.textProperty().addListener((observableValue, oldValue, newValue) ->
                 filteredData.setPredicate(userModel.createSearch(newValue))
@@ -224,8 +225,17 @@ public class UsersInAdminViewController implements Initializable {
         JFXComboBox comboBox = (JFXComboBox) actionEvent.getSource();
         String selectedItem = (String) comboBox.getSelectionModel().getSelectedItem();
         ObservableList<User> selectedType = FXCollections.observableArrayList(userModel.returnSelectedUsers(selectedItem));
-        userTableView.setItems(selectedType);
 
+        setPredicateAgain(selectedType);
+    }
+
+    private void setPredicateAgain(ObservableList<User> selectedType) {
+        searchField.clear();
+        filteredData = new FilteredList<>(FXCollections.observableList(selectedType));
+        userTableView.setItems(filteredData);
+        searchField.textProperty().addListener((observableValue, oldValue, newValue) ->
+                filteredData.setPredicate(userModel.createSearch(newValue))
+        );
     }
 
     public void btnResetPassword(ActionEvent actionEvent) {

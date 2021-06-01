@@ -300,7 +300,12 @@ public class Facade implements IFacade {
 
     @Override
     public List<User> returnSelectedUsers(String selection) throws BLLException {
-        return userViewUtils.returnSelectedUsers(selection);
+        try {
+            List<User> listOfUsers = facade.getAllUser();
+            return userViewUtils.returnSelectedUsers(selection, listOfUsers);
+        } catch (DALexception daLexception) {
+            throw new BLLException("Coudlnt search for users", daLexception);
+        }
     }
 
 
