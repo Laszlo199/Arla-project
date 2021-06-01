@@ -52,7 +52,7 @@ public class ScreenPreview {
         }
         attachment3.setText(attachments);
 
-        String users = usernamesLbl.getText();
+        String users = "Assigned users: ";
         List<String> usernames = model.getUsersForScreen(screen.getId());
         if(!usernames.isEmpty()) for(String u : usernames) users += "\n"+u;
         else users += "\n-";
