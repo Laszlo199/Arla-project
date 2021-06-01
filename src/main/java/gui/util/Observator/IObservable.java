@@ -13,6 +13,5 @@ public interface IObservable {
     //by default its public and abstract
     void notifyManyObservers(List<Screen> added, List<Screen> deleted);
     void notifySingleObservers(List<Screen> modified);
-
     void notifyManyModified(List<Screen> modified);
 }

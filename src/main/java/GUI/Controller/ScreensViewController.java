@@ -26,9 +26,7 @@ import java.util.ResourceBundle;
  * it should show them too!
  */
 public class ScreensViewController extends ObserverMany implements Initializable {
-    private final static String PDF_DIRECTORY = "src/../Data/PDFData/";
-    private final static String CVS_DIRECTORY = "src/../Data/CSVData/";
-    private static HashMap<Integer, Node> nodes = new HashMap<>();
+    private final HashMap<Integer, Node> nodes = new HashMap<>(); // then try with static
 
     private List<Screen> allScreens = new ArrayList<>();
     private List<Screen> activeScreens = new ArrayList<>();
@@ -71,16 +69,18 @@ public class ScreensViewController extends ObserverMany implements Initializable
 
     private void loadScreens(List<Screen> screens) {
         try {
-       // System.out.println("we are in load screens");
         for (Screen sc : screens) {
                 FXMLLoader loader = new FXMLLoader(getClass().
                         getResource("/ScreenPreview" + ".fxml"));
                 Parent screen = loader.load();
-                nodes.put(sc.getId(), screen);
+
+                    int screenID = ScreenModel.getInstance().getScreenIDByName(sc.getName());
+                    nodes.put(screenID, screen);
+
                 ScreenPreview screenPreview = loader.getController();
                 screenPreview.setMainScreen(sc);
                 space.getChildren().add(screen);
-               // System.out.println("we got over here.pddd..");
+                System.out.println("we got over here.pddd..");
         }
         } catch (IOException e) {
             e.printStackTrace();
@@ -136,8 +136,6 @@ public class ScreensViewController extends ObserverMany implements Initializable
     @Override
     public void updateModified(List<Screen> modifiedScreens) {
         Platform.runLater(() -> {
-           // removeElements(modifiedScreens);
-           // loadScreens(modifiedScreens);
             modifyElements(modifiedScreens);
         });
     }
