@@ -113,7 +113,7 @@ public class ClientViewController extends ObserverSingle {
                 GridPane.setVgrow(anchorPane, Priority.SOMETIMES);
             }
         }
-        gridPane.setGridLinesVisible(true);
+        gridPane.setGridLinesVisible(false);
 
         loadZoomable();
 
