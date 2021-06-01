@@ -45,6 +45,7 @@ public class ClientViewController extends ObserverSingle implements Initializabl
     private ScreenModel model;
     private GridPane gridPane = new GridPane();
     private WebEngine webEngine;
+    private Screen screen;
     private Stage stageToSet;
     int rowsNo;
     int colsNo;
@@ -52,7 +53,15 @@ public class ClientViewController extends ObserverSingle implements Initializabl
 
     public void setScreen(Screen screen, Stage stage) {
         //setScreenObs(screen);
+        this.screen = screen;
+        stageToSet = stage;
         model = ScreenModel.getInstance();
+
+        loadScreen(stageToSet);
+    }
+
+    private void loadScreen(Stage stage) {
+        stageToSet = stage;
         sections = model.getSections(screen);
         rowsNo = sections.get(0).getRowIndex();
         colsNo = sections.get(0).getColIndex();
@@ -66,10 +75,7 @@ public class ClientViewController extends ObserverSingle implements Initializabl
         }
         if(rowsNo>0 && colsNo>0)
             setConstraints(rowsNo, colsNo);
-        loadScreen(stage);
-    }
 
-    private void loadScreen(Stage stage) {
         for(ScreenElement section : sections) {
             if (section.getFilepath() != null) {
                 String filePath = section.getFilepath();
@@ -293,6 +299,8 @@ public class ClientViewController extends ObserverSingle implements Initializabl
     public void update() {
         System.out.println(" we update but nothing happens");
         Platform.runLater(() -> {
+            stageToSet.close();
+            gridPane = new GridPane();
             loadScreen(new Stage());
         });
     }
