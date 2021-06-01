@@ -207,7 +207,9 @@ public class EditViewController {
             Parent root = fxmlLoader.load();
             Stage stage = new Stage();
             AssignUserController controller = fxmlLoader.getController();
+            controller.isInEdit();
             controller.setScreenName(screen.getId());
+            controller.setScreen(screen);
             controller.setEdit(true);
             stage.setTitle("Assign Users");
             stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/Icons/arla.png")));

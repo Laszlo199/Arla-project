@@ -1,5 +1,6 @@
 package gui.Controller;
 
+import be.Screen;
 import be.User;
 import gui.Model.ScreenModel;
 import gui.Model.UserModel;
@@ -28,6 +29,8 @@ public class AssignUserController implements Initializable {
     private ScreenModel screenModel;
     private int screenID;
     private boolean isEdit = false;
+    private boolean isInEdit = false;
+    private Screen screen;
 
 
     @Override
@@ -69,10 +72,25 @@ public class AssignUserController implements Initializable {
             }
         } else screenModel.updateAssignedUsers(screenID, selectedUsers);
 
+
+        if(isInEdit){
+            System.out.println(" is id null: "+ screenID);
+            screen.setRefreshNow(true);
+            screenModel.update(screen);
+            screen.setRefreshNow(false);
+        }
     }
 
 
     public void selectUser(javafx.scene.input.MouseEvent event) {
         userTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    }
+
+    public void isInEdit() {
+        isInEdit = true;
+    }
+
+    public void setScreen(Screen screen) {
+        this.screen = screen;
     }
 }
