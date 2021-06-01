@@ -99,49 +99,6 @@ public class Screen {
         this.refreshTime = refreshTime;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Screen screen = (Screen) o;
-
-        return id == screen.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return id;
-    }
-
-    /*
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Screen screen = (Screen) o;
-
-        if (id != screen.id) return false;
-        if (refreshTime != screen.refreshTime) return false;
-        if (refreshNow != screen.refreshNow) return false;
-        if (name != null ? !name.equals(screen.name) : screen.name != null) return false;
-        if (userIDs != null ? !userIDs.equals(screen.userIDs) : screen.userIDs != null) return false;
-        return screenElementList != null ? screenElementList.equals(screen.screenElementList) : screen.screenElementList == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + refreshTime;
-        result = 31 * result + (userIDs != null ? userIDs.hashCode() : 0);
-        result = 31 * result + (screenElementList != null ? screenElementList.hashCode() : 0);
-        result = 31 * result + (refreshNow ? 1 : 0);
-        return result;
-    }
-
-     */
 
     @Override
     public String toString() {

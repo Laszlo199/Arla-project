@@ -139,6 +139,7 @@ public class Facade implements IFacade {
 
     }
 
+
     @Override
     public void deletePuzzleScreen(Screen screen) throws BLLException {
         try {

@@ -720,6 +720,9 @@ public class CreateNewScreenController implements Initializable {
                     System.out.println("node is null");
 
             boolean fine = true;
+            if(nameField.getText().isEmpty())
+                fine = false;
+            else {
             for (Node node : nodes) {
                 if (node != null) {
                     Integer colIndex = getColIndex(node);
@@ -741,6 +744,7 @@ public class CreateNewScreenController implements Initializable {
                     } else
                     screenElements.add(new ScreenElement(colIndex, rowIndex, columnSpan, rowSpan, getInformation(node).filepath));
                 }
+            }
             }
             System.out.println(screenElements);
             if(fine){

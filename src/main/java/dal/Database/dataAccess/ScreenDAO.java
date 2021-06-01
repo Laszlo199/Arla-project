@@ -77,7 +77,7 @@ public class ScreenDAO {
             }
            // statement.executeUpdate(clean);
 
-            return screens.values().stream().toList();
+           return screens.values().stream().toList();
         } catch (SQLServerException throwables) {
             throw new DALexception("Couldn't get all screens", throwables);
         } catch (SQLException throwables) {

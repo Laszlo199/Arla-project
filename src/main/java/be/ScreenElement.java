@@ -82,6 +82,7 @@ public class ScreenElement {
         this.csvInfo = csvInfo;
     }
 
+
     @Override
     public String toString() {
         return "ScreenElement{" +

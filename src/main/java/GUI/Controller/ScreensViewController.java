@@ -87,6 +87,22 @@ public class ScreensViewController extends ObserverMany implements Initializable
         }
     }
 
+
+    /**
+     * just reload data in elements
+     *
+     * @param modified
+     */
+    private void modifyElements(List<Screen> modified) {
+        for(Screen screen: modified){
+            Node node = nodes.get(screen.getId());
+            ScreenPreview screenPreview = (ScreenPreview) node.getUserData();
+            screenPreview.setMainScreen(screen);
+
+        }
+
+    }
+
     /**
      *  we need to use iterator cause we will get CurrentModificationException
      * @param deleted
@@ -100,7 +116,7 @@ public class ScreensViewController extends ObserverMany implements Initializable
             Node node = nodes.get(screen.getId());
             space.getChildren().remove(node);
             nodes.remove(screen.getId());
-            //System.out.println("we get over here and nothing happens ....");
+            System.out.println("we get over here and nothing happens ....");
         }
     }
 
@@ -115,6 +131,16 @@ public class ScreensViewController extends ObserverMany implements Initializable
        // System.out.println("update in ScreensViewController");
         Platform.runLater(() -> removeElements(deletedScreens));
         Platform.runLater(() -> loadScreens(addedScreens));
+
+    }
+
+    @Override
+    public void updateModified(List<Screen> modifiedScreens) {
+        Platform.runLater(() -> {
+           // removeElements(modifiedScreens);
+           // loadScreens(modifiedScreens);
+            modifyElements(modifiedScreens);
+        });
     }
 
 }

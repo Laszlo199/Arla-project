@@ -194,7 +194,9 @@ public class EditViewController {
 
     public void saveButton(ActionEvent actionEvent) {
         screen.setName(nameField.getText());
+        screen.setRefreshNow(true);
         model.update(screen);
+        screen.setRefreshNow(false); //it shouldn't change anything.
         model.updateSections(sectionsToUpdate);
     }
 

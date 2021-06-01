@@ -5,6 +5,7 @@ D:\onedrive2\github\Arla-project\src\main\java\gui\util\ChooseFile.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\util\PDFLoader.java
 D:\onedrive2\github\Arla-project\src\main\java\bll\util\UserViewUtils.java
 D:\onedrive2\github\Arla-project\src\main\java\dal\IScreen.java
+D:\onedrive2\github\Arla-project\src\main\java\bll\IFiles.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\util\Command\LoadCreateNew.java
 D:\onedrive2\github\Arla-project\src\main\java\dal\File\WatchFiles\ChangesFiles.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\util\Command\LoadUsers.java
@@ -15,6 +16,7 @@ D:\onedrive2\github\Arla-project\src\main\java\gui\Controller\LogInController.ja
 D:\onedrive2\github\Arla-project\src\main\java\gui\Controller\MoviePlayerController.java
 D:\onedrive2\github\Arla-project\src\main\java\be\ScreenElement.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\util\Observator\ObserverSingle.java
+D:\onedrive2\github\Arla-project\src\main\java\bll\IUser.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\Controller\ScreensViewController.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\Model\ClientModel.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\util\FileSaver.java
@@ -32,6 +34,7 @@ D:\onedrive2\github\Arla-project\src\main\java\dal\Database\ObjectPool\ObjectFac
 D:\onedrive2\github\Arla-project\src\main\java\gui\Model\exception\ModelException.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\util\Command\LoadScreens.java
 D:\onedrive2\github\Arla-project\src\main\java\dal\DALFacade.java
+D:\onedrive2\github\Arla-project\src\main\java\bll\ISearchUser.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\util\ImageLoader.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\util\ValidateExtension.java
 D:\onedrive2\github\Arla-project\src\main\java\dal\Database\ObjectPool\ConnectionPool.java
@@ -63,6 +66,7 @@ D:\onedrive2\github\Arla-project\src\main\java\gui\util\CSVLoader.java
 D:\onedrive2\github\Arla-project\src\main\java\bll\DiagramOperations.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\Controller\ScreenPreview.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\Controller\ClientViewController.java
+D:\onedrive2\github\Arla-project\src\main\java\bll\IListener.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\Main.java
 D:\onedrive2\github\Arla-project\src\main\java\gui\util\AlertDisplayer.java
 D:\onedrive2\github\Arla-project\src\main\java\dal\File\WatchFiles\FileWatcher.java

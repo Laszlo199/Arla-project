@@ -15,4 +15,5 @@ public interface IListener {
     List<Screen> getDeletedScreens(List<Screen> newScreens, ObservableList<Screen> mainScreens);
 
     List<Screen> getNewScreens(List<Screen> newScreens, ObservableList<Screen> mainScreens);
+
 }

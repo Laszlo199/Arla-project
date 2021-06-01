@@ -62,19 +62,36 @@ public class ScreenModel implements IObservable {
         Runnable runnable = () -> {
             try {
                 List<Screen> newScreens = logic.getMainScreens(); //it can be changed so that we wont ask db all the time
-                List<Screen> modifiedScreens = logic.getModifiedScreens(newScreens);
+                List<Screen> screensToRefresh = logic.getModifiedScreens(newScreens);
                 List<Screen> deletedScreens = logic.getDeletedScreens(newScreens, mainScreens);
                 List<Screen> addedScreens = logic.getNewScreens(newScreens, mainScreens);
                 mainScreens.addAll(addedScreens);
                 mainScreens.removeAll(deletedScreens);
-                modifiedScreens.removeAll(forgetAbout);
+                screensToRefresh.removeAll(forgetAbout);
                 notifyManyObservers(addedScreens, deletedScreens);
-                listenRefreshNow(modifiedScreens);
+
+
+                listenRefreshNow(screensToRefresh);
+
 
             } catch (BLLException e) {
                 e.printStackTrace();
             }
         };
+
+    /*
+    private void listenForModified(List<Screen> toPass) {
+        for(Screen m: toPass){
+            if(m.isRefreshNow()){
+               // System.out.println("we hit thereee");
+              //  update(m);
+               // m.setRefreshNow(false);
+            }
+        }
+        notifyManyModified(toPass);
+    }
+
+     */
 
     Runnable runnable2 = () ->{
         try {
@@ -89,12 +106,15 @@ public class ScreenModel implements IObservable {
     private void listenRefreshNow(List<Screen> modifiedScreens){
         for(Screen m: modifiedScreens){
             if(m.isRefreshNow()){
+                System.out.println(" we hit there");
                 update(m);
                 m.setRefreshNow(false);
             }
         }
        notifySingleObservers(modifiedScreens);
+        notifyManyModified(modifiedScreens);
     }
+
 
 
 
@@ -198,6 +218,14 @@ public class ScreenModel implements IObservable {
                     observerSingle.update();
                     System.out.println("fuck yeahhhh");
                 }}}
+    }
+
+    @Override
+    public void notifyManyModified(List<Screen> modified) {
+        forgetAbout.addAll(modified);
+        for (ObserverMany observerMany : observersMany) {
+            observerMany.updateModified( modified);
+        }
     }
 
 

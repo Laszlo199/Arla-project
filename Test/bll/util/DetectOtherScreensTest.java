@@ -1,6 +1,7 @@
 package bll.util;
 
 import be.Screen;
+import be.ScreenElement;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import junit.framework.Assert;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
