@@ -79,20 +79,6 @@ public class ScreenModel implements IObservable {
             }
         };
 
-    /*
-    private void listenForModified(List<Screen> toPass) {
-        for(Screen m: toPass){
-            if(m.isRefreshNow()){
-               // System.out.println("we hit thereee");
-              //  update(m);
-               // m.setRefreshNow(false);
-            }
-        }
-        notifyManyModified(toPass);
-    }
-
-     */
-
     Runnable runnable2 = () ->{
         try {
             logic.setRefreshes(); //sets to 0
@@ -114,8 +100,6 @@ public class ScreenModel implements IObservable {
        notifySingleObservers(modifiedScreens);
         notifyManyModified(modifiedScreens);
     }
-
-
 
 
     public void loadMainScreens() {
@@ -213,7 +197,6 @@ public class ScreenModel implements IObservable {
         forgetAbout.addAll(modified);
 
         for(ObserverSingle observerSingle : observersSingle){
-            System.out.println("size of modified: "+ modified.size());
             for(Screen mofidScreen: modified){
                 if(observerSingle.getScreen().getId() == mofidScreen.getId()) {
                     observerSingle.update();

@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ClientViewController extends ObserverSingle implements Initializable{
+public class ClientViewController extends ObserverSingle {
 
     public AnchorPane pane;
     private List<ScreenElement> sections;
@@ -52,7 +52,6 @@ public class ClientViewController extends ObserverSingle implements Initializabl
 
 
     public void setScreen(Screen screen, Stage stage) {
-        //setScreenObs(screen);
         this.screen = screen;
         stageToSet = stage;
         model = ScreenModel.getInstance();
@@ -112,8 +111,6 @@ public class ClientViewController extends ObserverSingle implements Initializabl
 
                 GridPane.setHgrow(anchorPane, Priority.SOMETIMES);
                 GridPane.setVgrow(anchorPane, Priority.SOMETIMES);
-
-                // experiment instead of sometimes.
             }
         }
         gridPane.setGridLinesVisible(true);
@@ -165,15 +162,6 @@ public class ClientViewController extends ObserverSingle implements Initializabl
         System.out.println("loaded website");
         return anchorPane;
     }
-/*
-    public static void setConstraints(Node node){
-        AnchorPane.setTopAnchor(node, 0.0);
-        AnchorPane.setLeftAnchor(node, 0.0);
-        AnchorPane.setRightAnchor(node, 0.0);
-        AnchorPane.setBottomAnchor(node, 0.0);
-    }
-
- */
 
 
     private AnchorPane loadPDF(String filepath) {
@@ -256,41 +244,14 @@ public class ClientViewController extends ObserverSingle implements Initializabl
                         ? SCALE_DELTA
                         : 1/SCALE_DELTA;
 
-        /*
-        if((child.getScaleX() * scaleFactor) >=1.0 ) {
-            child.setScaleX(child.getScaleX() * scaleFactor);
-            child.setScaleY(child.getScaleY() * scaleFactor);
-        }
-
-
-         */
-
-
         Scale newScale = new Scale();
         newScale.setPivotX(event.getX());
         newScale.setPivotY(event.getY());
         newScale.setX(child.getScaleX() * scaleFactor);
         newScale.setY(child.getScaleY() * scaleFactor);
         child.getTransforms().add(newScale);
-
-
-
     }
 
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-       // ScreenModel.getInstance().attachSingleObserver(this);
-    }
-
-    public void setScreenObs(Screen screen){
-
-       // System.out.println("we set screen");
-       // setScreen(screen);
-
-        //System.out.println("were at set screen obs");
-        //setScreen(screen);
-    }
 
     /**
      * we will delete stage and reload it.
