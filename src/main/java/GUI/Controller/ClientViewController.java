@@ -301,7 +301,9 @@ public class ClientViewController extends ObserverSingle implements Initializabl
         Platform.runLater(() -> {
             stageToSet.close();
             gridPane = new GridPane();
-            loadScreen(new Stage());
+            Stage newStage = new Stage();
+            newStage.setTitle(screen.getName());
+            loadScreen(newStage);
         });
     }
 
