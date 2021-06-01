@@ -17,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import java.io.IOException;
@@ -73,8 +74,6 @@ public class LogInController implements Initializable {
                 Animations.shakeNodeAnimation(usernameField);
             });
         }
-
-
     };
 
     public void confirm() {
@@ -130,6 +129,7 @@ public class LogInController implements Initializable {
     private void openClient(Screen screen) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ClientView.fxml"));
         Stage stage = new Stage();
+        stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/Icons/arla.png")));
         Parent root = null;
         try {
             root = loader.load();
@@ -137,7 +137,6 @@ public class LogInController implements Initializable {
             controller.setAsObserver(screen);
             controller.setScreen(screen, stage);
 
-            //controller.setAsObserver(screen);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -211,6 +211,7 @@ public class ScreenModel implements IObservable {
     @Override
     public void notifySingleObservers(List<Screen> modified) {
         forgetAbout.addAll(modified);
+
         for(ObserverSingle observerSingle : observersSingle){
             System.out.println("size of modified: "+ modified.size());
             for(Screen mofidScreen: modified){

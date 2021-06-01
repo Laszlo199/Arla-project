@@ -9,6 +9,7 @@ import gui.util.*;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import gui.util.Command.Command;
+import gui.util.Command.CommandManager;
 import gui.util.Command.LoadCreateNew;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -17,18 +18,16 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.web.WebEngine;
-import javafx.scene.transform.Scale;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -68,6 +67,7 @@ public class CreateNewScreenController implements Initializable {
     private TextField colsField;
     @FXML
     private AnchorPane space;
+    private BorderPane borderPane;
 
     private GridPane gridPane;
     ContextMenu contextMenu;
@@ -89,6 +89,10 @@ public class CreateNewScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initLay();
+    }
+
+    public void setBorderPane(BorderPane borderPane) {
+        this.borderPane = borderPane;
     }
 
     private void initLay() {
@@ -762,6 +766,7 @@ public class CreateNewScreenController implements Initializable {
             AssignUserController controller = fxmlLoader.getController();
             controller.setScreenName(screenID);
             stage.setTitle("Assign User");
+            stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/Icons/arla.png")));
             stage.setScene(new Scene(root1));
             stage.show();
         } catch (IOException e) {
@@ -806,6 +811,10 @@ public class CreateNewScreenController implements Initializable {
     private void enableFields() {
         colsField.setDisable(false);
         rowsFiled.setDisable(false);
+    }
+
+    public void discardButton(ActionEvent actionEvent) {
+        CommandManager.getInstance().getPrevious().rollback(borderPane);
     }
 
 

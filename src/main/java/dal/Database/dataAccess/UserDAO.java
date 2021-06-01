@@ -4,19 +4,17 @@ import be.CSVInfo;
 import be.ScreenElement;
 import be.User;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
-import dal.Database.DBConnector;
 import dal.exception.DALexception;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO {
 
-   // private DBConnector dbConnector;
+
 
     public UserDAO() {
-       // dbConnector = new DBConnector();
+
     }
 
 

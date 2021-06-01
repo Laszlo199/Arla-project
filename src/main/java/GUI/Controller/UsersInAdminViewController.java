@@ -6,12 +6,9 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import javafx.animation.TranslateTransition;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -26,7 +23,7 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import static java.sql.Types.NULL;
+
 
 public class UsersInAdminViewController implements Initializable {
     @FXML private TableView<User> userTableView;

@@ -21,7 +21,7 @@
       <Label layoutX="52.0" layoutY="35.0" prefHeight="16.0" prefWidth="68.0" text="Name:" />
       <VBox layoutX="961.0" layoutY="73.0" prefHeight="284.0" prefWidth="79.0" spacing="6.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="73.0">
          <children>
-            <Label fx:id="csvL" prefHeight="38.0" prefWidth="47.0" text="CSV" textFill="#4287f5">
+            <Label fx:id="csvL" prefHeight="38.0" prefWidth="55.0" text="CSV" textFill="#4287f5">
                <font>
                   <Font size="26.0" />
                </font>
@@ -60,7 +60,7 @@
       </VBox>
       <HBox alignment="CENTER" layoutX="26.0" layoutY="631.0" spacing="15.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
          <children>
-            <JFXButton maxWidth="1.7976931348623157E308" prefHeight="31.0" prefWidth="501.0" style="-fx-background-color: #3d424a;" text="DISCARD" textFill="WHITE" HBox.hgrow="ALWAYS" />
+            <JFXButton maxWidth="1.7976931348623157E308" onAction="#discardButton" prefHeight="31.0" prefWidth="501.0" style="-fx-background-color: #3d424a;" text="DISCARD" textFill="WHITE" HBox.hgrow="ALWAYS" />
             <JFXButton maxWidth="1.7976931348623157E308" onAction="#saveButton" prefHeight="31.0" prefWidth="476.0" style="-fx-background-color: #0c63ed;" text="SAVE" textFill="WHITE" HBox.hgrow="ALWAYS">
                <HBox.margin>
                   <Insets />

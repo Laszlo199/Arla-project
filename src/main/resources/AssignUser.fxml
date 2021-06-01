@@ -20,7 +20,7 @@
    <bottom>
       <HBox alignment="CENTER" prefHeight="62.0" prefWidth="418.0" BorderPane.alignment="CENTER">
          <children>
-            <JFXButton fx:id="assignUsers" onAction="#btnAssign" prefHeight="46.0" prefWidth="115.0" style="-fx-background-color: #0c63ed;" text="Save" />
+            <JFXButton fx:id="assignUsers" onAction="#btnAssign" prefHeight="46.0" prefWidth="115.0" style="-fx-background-color: #0c63ed;" text="Save" textFill="WHITE" />
          </children>
       </HBox>
    </bottom>

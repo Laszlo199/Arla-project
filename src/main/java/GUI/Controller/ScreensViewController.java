@@ -128,7 +128,6 @@ public class ScreensViewController extends ObserverMany implements Initializable
      */
     @Override
     public void update(List<Screen> addedScreens, List<Screen> deletedScreens) {
-       // System.out.println("update in ScreensViewController");
         Platform.runLater(() -> removeElements(deletedScreens));
         Platform.runLater(() -> loadScreens(addedScreens));
 
