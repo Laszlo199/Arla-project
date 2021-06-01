@@ -3,6 +3,7 @@ package gui.Controller;
 import be.CSVInfo;
 import be.Screen;
 import be.ScreenElement;
+import be.User;
 import com.jfoenix.controls.JFXTextField;
 import gui.Model.ScreenModel;
 import gui.util.FileSaver;
@@ -211,6 +212,7 @@ public class EditViewController {
             controller.setScreenName(screen.getId());
             controller.setScreen(screen);
             controller.setEdit(true);
+            controller.injectController(this);
             stage.setTitle("Assign Users");
             stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/Icons/arla.png")));
             stage.setScene(new Scene(root));
@@ -218,5 +220,12 @@ public class EditViewController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void updateUsers(List<User> selectedUsers) {
+        String users = "USERS: ";
+        if(!selectedUsers.isEmpty()) for(User u : selectedUsers) users += "\n"+u.getUserName();
+        else users += "\n-";
+        usersLbl.setText(users);
     }
 }

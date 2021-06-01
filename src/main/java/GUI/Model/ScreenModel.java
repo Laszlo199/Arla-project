@@ -217,7 +217,6 @@ public class ScreenModel implements IObservable {
             for(Screen mofidScreen: modified){
                 if(observerSingle.getScreen().getId() == mofidScreen.getId()) {
                     observerSingle.update();
-                    System.out.println("fuck yeahhhh");
                 }}}
     }
 

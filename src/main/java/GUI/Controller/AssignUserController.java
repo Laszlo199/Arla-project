@@ -31,6 +31,7 @@ public class AssignUserController implements Initializable {
     private boolean isEdit = false;
     private boolean isInEdit = false;
     private Screen screen;
+    private EditViewController editController;
 
 
     @Override
@@ -70,7 +71,10 @@ public class AssignUserController implements Initializable {
             for (int i = 0; i < selectedUsers.size(); i++) {
                 screenModel.saveToUsersAndScreens(screenID, selectedUsers.get(i).getID());
             }
-        } else screenModel.updateAssignedUsers(screenID, selectedUsers);
+        } else {
+            screenModel.updateAssignedUsers(screenID, selectedUsers);
+            editController.updateUsers(selectedUsers);
+        }
 
 
         if(isInEdit){
@@ -92,5 +96,9 @@ public class AssignUserController implements Initializable {
 
     public void setScreen(Screen screen) {
         this.screen = screen;
+    }
+
+    public void injectController(EditViewController editViewController) {
+        this.editController = editViewController;
     }
 }
